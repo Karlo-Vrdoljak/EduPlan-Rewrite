@@ -24,7 +24,7 @@
                     </ng-template>
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th>Detaljniji prikaz</th>
+                            <th width="5%"></th>
                             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
                               {{col.header}}
                               <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -33,7 +33,7 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                            <td>
+                            <td width="5%">
                                 <a href="#" [pRowToggler]="rowData">
                                     <i [ngClass]="expanded ? 'fa fa-fw fa-2x fa-chevron-circle-down' : 'fa fa-fw fa-2x fa-chevron-circle-right'"></i>
                                 </a>
