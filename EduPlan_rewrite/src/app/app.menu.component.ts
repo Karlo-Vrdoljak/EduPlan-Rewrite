@@ -19,7 +19,11 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-            {label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/']},
+            {label: 'Osobni podaci', icon: 'fa fa-address-card', routerLink: ['/']},
+            {label: 'Podaci na studiju', icon: 'fa fa-university', routerLink: ['/']},
+            {label: 'Popis predmeta', icon: 'fa fa-book', routerLink: ['/empty']},
+            {label: 'Prosjeci', icon: 'fa fa-percent', routerLink: ['/']},
+           /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
             {
                 label: 'Menu Modes', icon: 'fa fa-fw fa-bars',
                 items: [
@@ -115,7 +119,7 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {label: 'Utils', icon: 'fa fa-fw fa-wrench', routerLink: ['/utils']},
-            {label: 'Documentation', icon: 'fa fa-fw fa-book', routerLink: ['/documentation']}
+            {label: 'Documentation', icon: 'fa fa-fw fa-book', routerLink: ['/documentation']}*/
         ];
     }
 

@@ -1,28 +1,48 @@
-<div class="layout-sidebar" [ngStyle]="{'overflow':app.sidebarActive ? 'hidden' : 'visible'}" (click)="app.onSidebarClick($event)">
+<div class="layout-sidebar" [ngStyle]="{'overflow':app.sidebarActive ? 'hidden' : 'visible'}"
+    (click)="app.onSidebarClick($event)">
     <div class="layout-tabmenu">
         <ul class="layout-tabmenu-nav">
             <li [ngClass]="{'active-item':app.activeTabIndex === 0}">
-                <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 0)"><i class="fa fa-folder-open"></i></a>
+                <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 0)"><i class="pi pi-user"
+                        style="font-size: 3em"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
-                    <div class="layout-tabmenu-tooltip-text">Features</div>
+                    <div class="layout-tabmenu-tooltip-text">Profil studenta</div>
                 </div>
             </li>
             <li [ngClass]="{'active-item':app.activeTabIndex === 1}">
+                <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 1)"><i class="pi pi-user"
+                        style="font-size: 3em"></i></a>
+                <div class="layout-tabmenu-tooltip">
+                    <div class="layout-tabmenu-tooltip-arrow"></div>
+                    <div class="layout-tabmenu-tooltip-text">Profil profesora</div>
+                </div>
+            </li>
+            <li [ngClass]="{'active-item':app.activeTabIndex === 2}">
+                <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 2)"><i
+                        class="fa fa-calendar"></i></a>
+                <div class="layout-tabmenu-tooltip">
+                    <div class="layout-tabmenu-tooltip-arrow"></div>
+                    <div class="layout-tabmenu-tooltip-text">Raspored studenta</div>
+                </div>
+            </li>
+            <li [ngClass]="{'active-item':app.activeTabIndex === 3}">
+                <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 3)"><i
+                        class="fa fa-calendar"></i></a>
+                <div class="layout-tabmenu-tooltip">
+                    <div class="layout-tabmenu-tooltip-arrow"></div>
+                    <div class="layout-tabmenu-tooltip-text">Raspored profesora</div>
+                </div>
+            </li>
+            <!--<li [ngClass]="{'active-item':app.activeTabIndex === 1}">
                 <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 1)"><i class="fa fa-calendar-o"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
                     <div class="layout-tabmenu-tooltip-text">Inbox</div>
                 </div>
-            </li>
-            <li [ngClass]="{'active-item':app.activeTabIndex === 2}">
-                <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 2)"><i class="fa fa-calendar"></i></a>
-                <div class="layout-tabmenu-tooltip">
-                    <div class="layout-tabmenu-tooltip-arrow"></div>
-                    <div class="layout-tabmenu-tooltip-text">Calendar</div>
-                </div>
-            </li>
-            <li [ngClass]="{'active-item':app.activeTabIndex === 3}">
+            </li>-->
+
+            <!-- <li [ngClass]="{'active-item':app.activeTabIndex === 3}">
                 <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 3)"><i class="fa fa-image"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
@@ -35,18 +55,35 @@
                     <div class="layout-tabmenu-tooltip-arrow"></div>
                     <div class="layout-tabmenu-tooltip-text">Updates</div>
                 </div>
-            </li>
+            </li> -->
         </ul>
+
         <div class="layout-tabmenu-contents">
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 0}">
                 <div class="layout-submenu-title clearfix">
-                    <span>FEATURES</span>
+                    <span>PROFIL STUDENTA</span>
                 </div>
                 <app-sidebarTabContent>
                     <app-menu></app-menu>
                 </app-sidebarTabContent>
             </div>
+
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 1}">
+                <div class="layout-submenu-title clearfix">
+                    <span>PROFIL PROFESORA</span>
+                </div>
+                <app-sidebarTabContent>
+                    <app-menu></app-menu>
+                </app-sidebarTabContent>
+            </div>
+
+            <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 2}">
+                <div class="layout-submenu-title clearfix">
+                    <span>RASPORED STUDENTA</span>
+                </div>
+                <app-sidebarTabContent>
+
+                    <!--<div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 1}">
                 <div class="layout-submenu-title clearfix">
                     <span>INBOX</span>
                 </div>
@@ -102,13 +139,8 @@
                         </div>
                     </div>
                 </app-sidebarTabContent>
-            </div>
-            <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 2}">
-                <div class="layout-submenu-title clearfix">
-                    <span>CALENDAR</span>
-                </div>
-                <app-sidebarTabContent>
-                    <div class="calendar-tab">
+            </div> -->
+                    <!-- <div class="calendar-tab">
                         <ul>
                             <li class="clearfix">
                                 <div class="calendar-event-date">
@@ -155,10 +187,17 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </app-sidebarTabContent>
             </div>
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 3}">
+                <div class="layout-submenu-title clearfix">
+                    <span>RASPORED PROFESORA</span>
+                </div>
+                <app-sidebarTabContent>
+                </app-sidebarTabContent>
+            </div>
+            <!--<div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 3}">
                 <div class="layout-submenu-title clearfix">
                     <span>PROJECTS</span>
                 </div>
@@ -240,5 +279,7 @@
                 </app-sidebarTabContent>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
+    </div>
+        </div>
