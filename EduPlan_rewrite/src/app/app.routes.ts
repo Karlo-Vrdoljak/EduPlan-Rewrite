@@ -14,22 +14,29 @@ import {ChartsDemoComponent} from './demo/view/chartsdemo.component';
 import {FileDemoComponent} from './demo/view/filedemo.component';
 import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
+import {StudentSviPredmetiComponent} from './student-svi-predmeti/student-svi-predmeti.component';
+import { LoginComponent } from '../assets/pages/login.component';
 
 export const routes: Routes = [
-    {path: '', component: DashboardDemoComponent},
-    {path: 'sample', component: SampleDemoComponent},
-    {path: 'forms', component: FormsDemoComponent},
-    {path: 'data', component: DataDemoComponent},
-    {path: 'panels', component: PanelsDemoComponent},
-    {path: 'overlays', component: OverlaysDemoComponent},
-    {path: 'menus', component: MenusDemoComponent},
-    {path: 'messages', component: MessagesDemoComponent},
-    {path: 'misc', component: MiscDemoComponent},
-    {path: 'empty', component: EmptyDemoComponent},
-    {path: 'charts', component: ChartsDemoComponent},
-    {path: 'file', component: FileDemoComponent},
-    {path: 'utils', component: UtilsDemoComponent},
-    {path: 'documentation', component: DocumentationComponent}
-];
+           { path: "", redirectTo: "/login", pathMatch: "full" },
+           { path: "login", component: LoginComponent },
+           { path: "sample", component: SampleDemoComponent },
+           { path: "forms", component: FormsDemoComponent },
+           { path: "data", component: DataDemoComponent },
+           { path: "panels", component: PanelsDemoComponent },
+           { path: "overlays", component: OverlaysDemoComponent },
+           { path: "menus", component: MenusDemoComponent },
+           { path: "messages", component: MessagesDemoComponent },
+           { path: "misc", component: MiscDemoComponent },
+           { path: "empty", component: EmptyDemoComponent },
+           { path: "charts", component: ChartsDemoComponent },
+           { path: "file", component: FileDemoComponent },
+           { path: "utils", component: UtilsDemoComponent },
+           { path: "documentation", component: DocumentationComponent },
+           {
+               path: "vStudentSviPredmeti",
+               component: StudentSviPredmetiComponent
+           }
+       ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});

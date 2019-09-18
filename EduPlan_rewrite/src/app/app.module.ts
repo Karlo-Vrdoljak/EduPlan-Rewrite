@@ -99,6 +99,8 @@ import {CountryService} from './demo/service/countryservice';
 import {EventService} from './demo/service/eventservice';
 import {NodeService} from './demo/service/nodeservice';
 import { SubjectService } from './demo/service/subjectService';
+import { StudentSviPredmetiComponent } from './student-svi-predmeti/student-svi-predmeti.component';
+import { LoginComponent } from '../assets/pages/login.component';
 
 @NgModule({
     imports: [
@@ -196,12 +198,18 @@ import { SubjectService } from './demo/service/subjectService';
         EmptyDemoComponent,
         FileDemoComponent,
         UtilsDemoComponent,
-        DocumentationComponent
+        DocumentationComponent,
+        StudentSviPredmetiComponent,
+        LoginComponent
     ],
     providers: [
-        {provide: LocationStrategy, useClass: HashLocationStrategy},
-        SubjectService, CarService, CountryService, EventService, NodeService
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        SubjectService,
+        CarService,
+        CountryService,
+        EventService,
+        NodeService
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

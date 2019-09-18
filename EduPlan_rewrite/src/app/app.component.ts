@@ -1,4 +1,5 @@
 import {Component, AfterViewInit, OnDestroy, Renderer2} from '@angular/core';
+import { Router } from '@angular/router';
 
 enum MenuOrientation {
     STATIC,
@@ -6,12 +7,11 @@ enum MenuOrientation {
 }
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: "app-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
-
     activeTabIndex = -1;
 
     sidebarActive = false;
@@ -38,25 +38,33 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     documentClickListener: () => void;
 
-    theme = 'green';
+    theme = "green";
 
-    constructor(public renderer: Renderer2) {}
+    constructor(public renderer: Renderer2, public router: Router) {}
 
     ngAfterViewInit() {
-        this.documentClickListener = this.renderer.listen('body', 'click', (event) => {
-            if (!this.topbarItemClick) {
-                this.activeTopbarItem = null;
-                this.topbarMenuActive = false;
-            }
+        this.documentClickListener = this.renderer.listen(
+            "body",
+            "click",
+            event => {
+                if (!this.topbarItemClick) {
+                    this.activeTopbarItem = null;
+                    this.topbarMenuActive = false;
+                }
 
-            if (!this.menuButtonClick && !this.sidebarClick && (this.overlay || !this.isDesktop())) {
-                this.sidebarActive = false;
-            }
+                if (
+                    !this.menuButtonClick &&
+                    !this.sidebarClick &&
+                    (this.overlay || !this.isDesktop())
+                ) {
+                    this.sidebarActive = false;
+                }
 
-            this.topbarItemClick = false;
-            this.sidebarClick = false;
-            this.menuButtonClick = false;
-        });
+                this.topbarItemClick = false;
+                this.sidebarClick = false;
+                this.menuButtonClick = false;
+            }
+        );
     }
 
     onTabClick(event: Event, index: number) {
@@ -96,8 +104,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             this.overlayMenuActive = !this.overlayMenuActive;
         } else {
             if (this.isDesktop()) {
-                this.staticMenuDesktopInactive = !this.staticMenuDesktopInactive; } else {
-                this.staticMenuMobileActive = !this.staticMenuMobileActive; }
+                this.staticMenuDesktopInactive = !this
+                    .staticMenuDesktopInactive;
+            } else {
+                this.staticMenuMobileActive = !this.staticMenuMobileActive;
+            }
         }
 
         if (this.activeTabIndex < 0) {
@@ -111,8 +122,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         this.topbarItemClick = true;
 
         if (this.activeTopbarItem === item) {
-            this.activeTopbarItem = null; } else {
-            this.activeTopbarItem = item; }
+            this.activeTopbarItem = null;
+        } else {
+            this.activeTopbarItem = item;
+        }
 
         event.preventDefault();
     }
@@ -148,5 +161,4 @@ export class AppComponent implements AfterViewInit, OnDestroy {
             this.documentClickListener();
         }
     }
-
 }

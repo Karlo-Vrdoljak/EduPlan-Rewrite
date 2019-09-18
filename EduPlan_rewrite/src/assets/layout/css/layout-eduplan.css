@@ -772,7 +772,14 @@
   padding: 10px;
 }
 .login-body .login-panel .logo-container .morpheus-logo {
-  vertical-align: bottom;
+  background-color: #3192e1;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.75em;
+  vertical-align: top;
   height: 28px;
 }
 .login-body .login-panel .logo-container .morpheus-logo-text {

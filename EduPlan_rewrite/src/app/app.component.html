@@ -1,14 +1,21 @@
-<div class="layout-wrapper" [ngClass]="{'layout-wrapper-menu-active':sidebarActive,
-                                        'layout-overlay-menu':overlay}">
+<div class="layout-wrapper" [ngClass]="{'layout-wrapper-menu-active': sidebarActive,'layout-overlay-menu': overlay}">
 
-    <app-topbar></app-topbar>
-    
-    <app-sidebar></app-sidebar>
-    
-    <div class="layout-content">
-        <router-outlet></router-outlet>
-        
-    <!--    <app-footer></app-footer>-->
-    </div>
+    <ng-template [ngIf]="router.url == '/login'" [ngIfElse]="render">
+        <div class="layout-content">
+            <login></login>
+            <!--
+                    <app-footer></app-footer>
+            -->
+        </div>
+    </ng-template>
 
+    <ng-template #render>
+        <app-topbar></app-topbar>
+
+        <app-sidebar></app-sidebar>
+
+        <div class="layout-content">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-template>
 </div>
