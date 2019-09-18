@@ -109,11 +109,13 @@ export class StudentSviPredmetiComponent implements OnInit {
           .getSubjects()
           .then(subjects => (this.subjects = subjects));
       this.cols = [
-          { field: "kraticaPredmeta", header: "Kratica" },
           { field: "predmet", header: "Predmet" },
+          { field: "godina", header: "Godina" },
           { field: "studij", header: "Studij" },
+          { field: "ocjena", header: "Ocjena" },
           { field: "semestar", header: "Semestar" },
           { field: "voditelj", header: "Voditelj" },
+          { field: "polozenDaNe", header: "Polozen" },
           { field: "ects", header: "ECTS" }
       ];
     }
