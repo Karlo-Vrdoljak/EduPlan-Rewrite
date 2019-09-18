@@ -1,0 +1,21 @@
+export interface Subject {
+    kraticaPredmeta;
+    predmet;
+    studij;
+    semestar;
+    voditelj;
+    ects;
+    vrstaPredmeta;
+    kraticaStudija;
+    katedra;
+    godina;
+    nacinUpisa;
+    ocjenjivac;
+    ocjena;
+    datumPrijaveIspita;
+    datumIspita;
+    datumRoka;
+    polazeSeDaNe;
+    polozenDaNe;
+    ulaziUProsjekDaNe;
+}
