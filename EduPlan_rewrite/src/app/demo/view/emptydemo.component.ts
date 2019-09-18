@@ -1,9 +1,3 @@
-import { Component, OnInit } from "@angular/core";
-
-
-@Component({
-    templateUrl: "./emptydemo.component.html",
-    
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/primeng';
 import { SubjectService } from '../service/subjectService';
@@ -103,7 +97,6 @@ import { Subject } from '../domain/subject';
 export class EmptyDemoComponent implements OnInit {
 
     
-    constructor() {}
     subjects: Subject[];
     cols: any[];
     selectedSubject: Subject;
@@ -135,6 +128,6 @@ export class EmptyDemoComponent implements OnInit {
             { field: "semestar", header: "Semestar" },
             { field: "voditelj", header: "Voditelj" },
             { field: 'ects', header: 'ECTS' }
-
-    ngOnInit() {}
+        ];
+    }
 }
