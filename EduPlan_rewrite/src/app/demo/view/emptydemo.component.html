@@ -15,8 +15,8 @@
         </div>
         <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-9">
             <div class="card">
-                <p-table [columns]="cols" [value]="subjects" selectionMode="single" dataKey="kraticaPredmeta"
-                         [paginator]="true" [rows]="6" [responsive]="true"
+                <p-table [columns]="cols" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="40em"  dataKey="kraticaPredmeta"
+                         [responsive]="true"
                          
                          >
                     <ng-template pTemplate="caption">

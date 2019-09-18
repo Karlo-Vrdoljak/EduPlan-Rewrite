@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/primeng';
 import { SubjectService } from '../service/subjectService';
 import { Subject } from '../domain/subject';
 
 @Component({
-    templateUrl: "./emptydemo.component.html",
+    templateUrl: './emptydemo.component.html',
     styles: [
         `
             .ui-dataview .filter-container {
@@ -97,7 +97,7 @@ import { Subject } from '../domain/subject';
 export class EmptyDemoComponent implements OnInit {
 
     subjects: Subject[];
-    cols:any[];
+    cols: any[];
     selectedSubject: Subject;
 
     studentNavigationModel: MenuItem[];
