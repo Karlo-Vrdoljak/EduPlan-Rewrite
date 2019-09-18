@@ -21,7 +21,7 @@ export class AppMenuComponent implements OnInit {
         this.model = [
             {label: 'Osobni podaci', icon: 'fa fa-address-card', routerLink: ['/']},
             {label: 'Podaci na studiju', icon: 'fa fa-university', routerLink: ['/']},
-            {label: 'Popis predmeta', icon: 'fa fa-book', routerLink: ['/empty']},
+            {label: 'Popis predmeta', icon: 'fa fa-book', routerLink: ['/vStudentSviPredmeti']},
             {label: 'Prosjeci', icon: 'fa fa-percent', routerLink: ['/']},
            /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
             {
