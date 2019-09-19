@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from "primeng/primeng";
 import { SubjectService } from "../demo/service/subjectService";
 import { Subject } from "../demo/domain/subject";
 
@@ -100,7 +99,6 @@ export class StudentSviPredmetiComponent implements OnInit {
     cols: any[];
     selectedSubject: Subject;
 
-    studentNavigationModel: MenuItem[];
 
     constructor(private subjectService: SubjectService) {}
 

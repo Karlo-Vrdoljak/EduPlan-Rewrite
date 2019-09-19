@@ -101,6 +101,7 @@ import {NodeService} from './demo/service/nodeservice';
 import { SubjectService } from './demo/service/subjectService';
 import { StudentSviPredmetiComponent } from './student-svi-predmeti/student-svi-predmeti.component';
 import { LoginComponent } from '../assets/pages/login.component';
+import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
 
 @NgModule({
     imports: [
@@ -200,7 +201,8 @@ import { LoginComponent } from '../assets/pages/login.component';
         UtilsDemoComponent,
         DocumentationComponent,
         StudentSviPredmetiComponent,
-        LoginComponent
+        LoginComponent,
+        StudentProsjeciComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
