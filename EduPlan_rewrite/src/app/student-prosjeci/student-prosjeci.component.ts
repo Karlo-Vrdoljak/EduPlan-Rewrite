@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { MenuItem } from "primeng/primeng";
-import { SubjectService } from "../demo/service/subjectService";
-import { Subject } from "../demo/domain/subject";
-import { ProsjekGodine } from "../demo/domain/prosjeci";
+import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/primeng';
+import { SubjectService } from '../demo/service/subjectService';
+import { Subject } from '../demo/domain/subject';
+import { ProsjekGodine } from '../demo/domain/prosjeci';
 
 @Component({
-    selector: "app-student-prosjeci",
-    templateUrl: "./student-prosjeci.component.html",
-    styleUrls: ["./student-prosjeci.component.css"]
+    selector: 'app-student-prosjeci',
+    templateUrl: './student-prosjeci.component.html',
+    styleUrls: ['./student-prosjeci.component.css']
 })
 export class StudentProsjeciComponent implements OnInit {
     subjects: Subject[];
@@ -16,23 +16,23 @@ export class StudentProsjeciComponent implements OnInit {
     godine: number[];
     rowGroupData: any;
     constructor(private subjectService: SubjectService) {}
-    //suma ECTS polozeno, Prosjek ocjene, broj upisanih ects, prosjek polozenih ects/god
+    // suma ECTS polozeno, Prosjek ocjene, broj upisanih ects, prosjek polozenih ects/god
     ngOnInit() {
         this.subjectService
             .getSubjects()
             .then(subjects => (this.subjects = subjects));
     }
 
-  
+
 
     onSort() {
         this.groupByYearForTable();
     }
 
     groupByYear() {
-      let groups = [];
+      const groups = [];
       this.subjects.forEach(function(item) {
-          var list = groups[item.godina];
+          let list = groups[item.godina];
 
           if (list) {
               list.push(item);
@@ -42,32 +42,32 @@ export class StudentProsjeciComponent implements OnInit {
       });
       return groups;
     }
-//polozenDaNe
+// polozenDaNe
 
     filterData() {
-      //var allEcts = this.subjects.map(e => e.ects);
+      // var allEcts = this.subjects.map(e => e.ects);
       this._groupSubjects = [];
-        this.groupByYear().forEach(e => {
-          if(e){
-            let result = {} as ProsjekGodine;
+      this.groupByYear().forEach(e => {
+          if (e) {
+            const result = {} as ProsjekGodine;
             let countPolozenoEcts = 0;
             let countPolozenoPredmeta = 0;
             let sumOcjena = 0;
-            
-            let sumEcts = e.map(e => e.ects).reduce((a,b) => parseInt(a) + parseInt(b),0);
-            
-            e.map(function (e) {
-              countPolozenoEcts += e.polozenDaNe == "Da" ? parseInt(e.ects) : 0 ;          
-            });
-            
+
+            const sumEcts = e.map(e => e.ects).reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
+
             e.map(function(e) {
-              sumOcjena += e.polozenDaNe == "Da" ? (parseInt(e.ocjena)) : 0;
+              countPolozenoEcts += e.polozenDaNe === 'Da' ? parseInt(e.ects, 10) : 0 ;
             });
 
             e.map(function(e) {
-              countPolozenoPredmeta += e.polozenDaNe == "Da" ? 1 : 0; 
+              sumOcjena += e.polozenDaNe === 'Da' ? (parseInt(e.ocjena, 10)) : 0;
             });
-            
+
+            e.map(function(e) {
+              countPolozenoPredmeta += e.polozenDaNe === 'Da' ? 1 : 0;
+            });
+
             result._sumEctsUpisano = sumEcts;
             result._avgECTS = (countPolozenoEcts / sumEcts) * 100;
             result._sumEctsPolozeno = countPolozenoEcts;
@@ -76,20 +76,20 @@ export class StudentProsjeciComponent implements OnInit {
 
           }
         });
-       console.log(this._groupSubjects);        
+      console.log(this._groupSubjects);
       }
 
     groupByYearForTable() {
         this.rowGroupData = {};
         if (this.subjects) {
             for (let i = 0; i < this.subjects.length; i++) {
-                let rowData = this.subjects[i];
-                let godina = rowData.godina;
-                if (i == 0) {
+                const rowData = this.subjects[i];
+                const godina = rowData.godina;
+                if (i === 0) {
                     this.rowGroupData[godina] = { index: 0, size: 1 };
                 } else {
-                    let previousRowData = this.subjects[i - 1];
-                    let previousRowGroup = previousRowData.godina;
+                    const previousRowData = this.subjects[i - 1];
+                    const previousRowGroup = previousRowData.godina;
                     if (godina === previousRowGroup) {
                         this.rowGroupData[godina].size++;
                     } else {

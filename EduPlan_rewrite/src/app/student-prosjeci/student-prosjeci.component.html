@@ -22,7 +22,7 @@
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
                     <tr *ngIf="rowGroupData[rowData.godina].index === rowIndex">
-                        <td>{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
+                          <td>{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
                           <td>{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
                           <td>{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>
                           <td>{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
