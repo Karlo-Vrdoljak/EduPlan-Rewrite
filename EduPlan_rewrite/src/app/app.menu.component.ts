@@ -34,7 +34,11 @@ export class AppMenuComponent implements OnInit {
                 icon: "fa fa-book",
                 routerLink: ["/vStudentSviPredmeti"]
             },
-            { label: "Prosjeci", icon: "fa fa-percent", routerLink: ["/vStudentProsjeci"] }
+            { 
+                label: "Prosjeci",
+                icon: "fa fa-percent", 
+                routerLink: ["/vStudentProsjeci"] 
+            }
             /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
             {label: 'Osobni podaci', icon: 'fa fa-address-card', routerLink: ['/']},
             {label: 'Podaci na studiju', icon: 'fa fa-university', routerLink: ['/']},

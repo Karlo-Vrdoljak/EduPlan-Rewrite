@@ -2789,11 +2789,7 @@ body .ui-terminal input {
   font-family: "Source Sans Pro", "Helvetica Neue", sans-serif;
   font-size: 13px;
 }
-body .morpheus-logo {
-  vertical-align: bottom;
-  height: 70em;
-  width: 15em;
-}
+
 body .morpheus-logo-text {
   font-size: 25px;
   font-weight: 700;
