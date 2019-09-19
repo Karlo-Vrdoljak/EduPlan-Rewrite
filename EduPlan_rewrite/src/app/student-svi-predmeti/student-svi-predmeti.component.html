@@ -2,15 +2,13 @@
         <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
             <div class="card">
                 <p-table [columns]="cols" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="30em"  dataKey="kraticaPredmeta"
-                         [responsive]="true"
-                         [resizableColumns]="true"
-                         >
+                         [responsive]="true" [resizableColumns]="true">  
                     <ng-template pTemplate="caption">
                         Podaci o predmetima
                     </ng-template>
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th width="7%"></th>
+                            <th style="width: 3em"></th>
                             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
                               {{col.header}}
                               <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -19,9 +17,9 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                            <td width="7%">
+                            <td style="width: 3em">
                                 <a href="#" [pRowToggler]="rowData">
-                                    <i style="float:left; margin-left:-0.5em;" [ngClass]="expanded ? 'fa fa-fw fa-2x fa-chevron-circle-down' : 'fa fa-fw fa-2x fa-chevron-circle-right'"></i>
+                                    <i [ngClass]="expanded ? 'pi pi-chevron-circle-right' : 'pi pi-chevron-circle-down'" style="font-size: 2em; margin-left: -0.2em;"></i>
                                 </a>
                             </td>
                             <td *ngFor="let col of columns">
