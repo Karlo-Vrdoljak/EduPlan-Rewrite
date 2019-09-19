@@ -4,17 +4,15 @@
               <p-table [value]="subjects" dataKey="godina" sortField="godina" sortMode="single" (onSort)="onSort()">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Predmet</th>
-                        <th>Studij</th>
-                        <th>Semestar</th>
-                        <th>Ects</th>
-                        <th>Ocjena</th>
-                        <th>Polozen</th>
+                        <th>Upisani ECTS</th>
+                        <th>Prosjek ECTS</th>
+                        <th>Položeni ECTS</th>
+                        <th>Prosjek ocjena</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded">
                     <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
-                        <td colspan="6">
+                        <td colspan="4">
                             <a href="#" [pRowToggler]="rowData">
                                 <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right' : 'pi pi-chevron-circle-down'" style="font-size:1em; margin-left:-0.2em;"></i>
                                 {{rowData.godina}}&nbsp;godina</span>
@@ -23,12 +21,11 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
-                    <tr>
+                    <tr *ngIf="rowGroupData[rowData.godina].index === rowIndex">
                         <td>{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
                           <td>{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
                           <td>{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>
                           <td>{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
-                          <td></td>
                     </tr>
                 </ng-template>
             </p-table>
