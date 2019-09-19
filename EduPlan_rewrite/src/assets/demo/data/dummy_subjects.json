@@ -18,7 +18,7 @@
             "datumIspita": "14.9.2019",
             "datumRoka": "14.9.2019",
             "polazeSeDaNe": "Da",
-            "polozenDaNe": "Ne",
+            "polozenDaNe": "Da",
             "ulaziUProsjekDaNe": "Da"
         },
         {
@@ -34,7 +34,7 @@
             "godina": "1",
             "nacinUpisa": "",
             "ocjenjivac": "Čutura Josip",
-            "ocjena": "4",
+            "ocjena": "",
             "datumPrijaveIspita": "22.9.2019",
             "datumIspita": "14.9.2019",
             "datumRoka": "14.9.2019",
@@ -52,7 +52,7 @@
             "vrstaPredmeta": "Obavezni",
             "kraticaStudija": "FARM",
             "katedra": "Embrilogija",
-            "godina": "1",
+            "godina": "2",
             "nacinUpisa": "",
             "ocjenjivac": "Čutura Josip",
             "ocjena": "4",
@@ -73,7 +73,7 @@
             "vrstaPredmeta": "Obavezni",
             "kraticaStudija": "FARM",
             "katedra": "Farmacija",
-            "godina": "1",
+            "godina": "2",
             "nacinUpisa": "",
             "ocjenjivac": "Čutura Josip",
             "ocjena": "5",
@@ -81,7 +81,7 @@
             "datumIspita": "14.9.2019",
             "datumRoka": "14.9.2019",
             "polazeSeDaNe": "Da",
-            "polozenDaNe": "Ne",
+            "polozenDaNe": "Da",
             "ulaziUProsjekDaNe": "Da"
         }     
     ]
