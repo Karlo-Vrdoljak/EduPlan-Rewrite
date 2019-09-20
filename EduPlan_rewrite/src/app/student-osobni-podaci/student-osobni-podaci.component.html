@@ -1,0 +1,128 @@
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-lg-6">
+        <!-- Left Side -->
+        <div class="card card-w-title">
+            <h1>Osobni podaci</h1>
+            <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Ime:<input type="text" pInputText placeholder="Ana" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Prezime:<input type="text" pInputText placeholder="Ćanat" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Spol:<p-dropdown [options]="spolovi" [(ngModel)]="odabraniSpol" disabled></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Datum rođenja:<p-calendar placeholder="12.07.1999" showIcon="true" disabled="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    OIB:<input type="text" pInputText placeholder="02093248028482" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    JMBG:<input type="text" pInputText placeholder="28472847274724" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    JMBAG:<input type="text" pInputText placeholder="83583578357835" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Broj mobitela:<input type="text" pInputText placeholder="0989567324" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Grad:<p-dropdown [options]="gradovi" [(ngModel)]="odabraniGrad" disabled></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Općina:<p-dropdown [options]="opcina" [(ngModel)]="odabranaOpcina" disabled></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Država:<p-dropdown [options]="drzave" [(ngModel)]="odabranaDrzava" disabled></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Nacionalnost:<input type="text" pInputText placeholder="" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Ime oca:<input type="text" pInputText placeholder="Milan" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Ime majke:<input type="text" pInputText placeholder="Marija" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="card card-w-title">
+            <h1>Podaci o školovanju</h1>
+            <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Naziv škole:<input type="text" pInputText placeholder="Srednja škola 'Jure Kaštelanin'" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Godina završetka škole:<input type="text" pInputText placeholder="2018" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Strukovno područje:<input type="text" pInputText placeholder="" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Program izobrazbe:<input type="text" pInputText placeholder="" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-lg-6">
+        <div class="card card-w-title">
+            <h1>Prava na prehranu</h1>
+            <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Razina prava na prehranu:<input type="text" pInputText placeholder="2 kompletna obroka dnevno" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Datum prava od:<p-calendar placeholder="12.07.2018" showIcon="true" disabled="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Datum prava do:<p-calendar placeholder="12.07.2018" showIcon="true" disabled="true"></p-calendar>
+                </div>
+            </div>
+        </div>
+        <div class="card card-w-title">
+            <h1>Podaci na visokom učilištu</h1>
+            <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Redni broj u matičnoj knjizi:<input type="text" pInputText placeholder="" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Lokalni matični broj:<input type="text" pInputText placeholder="2821" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Status električnog identiteta:<input type="text" pInputText placeholder="Nije kreiran" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    AAI oznaka:<input type="text" pInputText placeholder="Ana.Ćanat@faks.hr" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    AAI UID:<input type="text" pInputText placeholder="" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Datum upisa:<p-calendar placeholder="01.10.2019" showIcon="true" disabled="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Datum ispisa:<p-calendar placeholder="15.07.2020" showIcon="true" disabled="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Datum podizanja dokumenta:<p-calendar placeholder="12.07.2018" showIcon="true" disabled="true"></p-calendar>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Razlog prestanka studentskih prava:<input type="text" pInputText placeholder="" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6" >
+                    <p-checkbox  name="studentIzDijaspore"  label="Student iz dijaspore" disabled="true"></p-checkbox>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    Broj kopija indeksa:<input type="text" pInputText placeholder="" disabled>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                    <p-checkbox name="studentIzDijaspore"  label="Aktivan e-mail" disabled="true"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

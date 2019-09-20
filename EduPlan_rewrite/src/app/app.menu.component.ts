@@ -22,7 +22,7 @@ export class AppMenuComponent implements OnInit {
             {
                 label: "Osobni podaci",
                 icon: "fa fa-address-card",
-                routerLink: ["/"]
+                routerLink: ["/vStudentOsobniPodaci"]
             },
             {
                 label: "Podaci na studiju",
