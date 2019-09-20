@@ -32,7 +32,7 @@ export class StudentProsjeciComponent implements OnInit {
     groupByYear() {
       const groups = [];
       this.subjects.forEach(function(item) {
-          let list = groups[item.godina];
+          const list = groups[item.godina];
 
           if (list) {
               list.push(item);

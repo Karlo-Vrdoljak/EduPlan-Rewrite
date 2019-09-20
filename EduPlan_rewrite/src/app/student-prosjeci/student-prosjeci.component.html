@@ -2,10 +2,13 @@
         <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
             <div class="card">
               <p-table [value]="subjects" dataKey="godina" sortField="godina" sortMode="single" (onSort)="onSort()">
+                <ng-template pTemplate="caption">
+                    Prosjeci 
+                </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Upisani ECTS</th>
-                        <th>Prosjek ECTS</th>
+                        <th>Postotak položenih ECTS</th>
                         <th>Položeni ECTS</th>
                         <th>Prosjek ocjena</th>
                     </tr>
@@ -14,7 +17,7 @@
                     <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
                         <td colspan="4">
                             <a href="#" [pRowToggler]="rowData">
-                                <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right' : 'pi pi-chevron-circle-down'" style="font-size:1em; margin-left:-0.2em;"></i>
+                                <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right' : 'pi pi-chevron-circle-down'" style="font-size:1.2em; margin-left:-0.2em;"></i>
                                 {{rowData.godina}}&nbsp;godina</span>
                             </a>
                         </td>
@@ -22,10 +25,10 @@
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
                     <tr *ngIf="rowGroupData[rowData.godina].index === rowIndex">
-                          <td>{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
-                          <td>{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
-                          <td>{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>
-                          <td>{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
+                          <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
+                          <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
+                          <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>
+                          <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
                     </tr>
                 </ng-template>
             </p-table>
