@@ -106,15 +106,15 @@ export class StudentSviPredmetiComponent implements OnInit {
       this.subjectService
           .getSubjects()
           .then(subjects => (this.subjects = subjects));
-      this.cols = [
-          { field: "predmet", header: "Predmet" },
-          { field: "godina", header: "Godina" },
-          { field: "studij", header: "Studij" },
-          { field: "ocjena", header: "Ocjena" },
-          { field: "semestar", header: "Semestar" },
-          { field: "voditelj", header: "Voditelj" },
-          { field: "polozenDaNe", header: "Polozen" },
-          { field: "ects", header: "ECTS" }
+      this.cols = [// 7, 25, 8,15,8,8,16,7
+          { field: "predmet", header: "Predmet", width: '7%' },
+          { field: "godina", header: "Godina", width: '25%' },
+          { field: "studij", header: "Studij", width: '8%' },
+          { field: "ocjena", header: "Ocjena", width: '15%' },
+          { field: "semestar", header: "Semestar", width: '8%' },
+          { field: "voditelj", header: "Voditelj", width: '8%' },
+          { field: "polozenDaNe", header: "Polozen", width: '16%' },
+          { field: "ects", header: "ECTS" , width: '7%'}
       ];
     }
 }

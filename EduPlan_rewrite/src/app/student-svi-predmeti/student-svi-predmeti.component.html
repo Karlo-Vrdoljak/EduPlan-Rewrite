@@ -1,15 +1,18 @@
-<div class="ui-g dashboard">
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
-            <div class="card">
-                <p-table [columns]="cols" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="30em"  dataKey="kraticaPredmeta"
+            <div class="card" style="padding: 10px!important;">
+                <p-table [columns]="cols" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="50vh"  dataKey="kraticaPredmeta"
                          [responsive]="true" [resizableColumns]="true">  
                     <ng-template pTemplate="caption">
                         Podaci o predmetima
                     </ng-template>
+                    <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                            <col *ngFor="let col of columns" [style.width]="col.width">
+                        </colgroup>
+                    </ng-template>
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th style="width: 3em"></th>
-                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            <th width="7%" pResizableColumn></th>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn style="text-align: center;">
                               {{col.header}}
                               <p-sortIcon [field]="col.field"></p-sortIcon>
                             </th>
@@ -17,22 +20,20 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                            <td style="width: 3em">
+                            <td width="7%" class="ui-resizable-column">
                                 <a href="#" [pRowToggler]="rowData">
-                                    <i [ngClass]="expanded ? 'pi pi-chevron-circle-right' : 'pi pi-chevron-circle-down'" style="font-size: 2em; margin-left: -0.2em;"></i>
+                                    <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'" style="font-size: 2em; margin-left: -0.2em;"></i>
                                 </a>
                             </td>
-                            <td *ngFor="let col of columns">
+                            <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
                               {{rowData[col.field]}}
                             </td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
                         <tr>
-                            <td [attr.colspan]="columns.length + 1">
-                                <div class="ui-g" style="font-size:16px;">
-                                    <div class="ui-g">
-                                        <div class="card card-w-title">
+                            <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                                        <div class="card card-w-title" style="font-size:16px; padding:5px!important;">
                                             <h1>Opširnije o predmetu</h1>
                                             <div class="ui-g">
                                                 <div class="ui-lg-4 ui-md-6 ui-sm-12">
@@ -82,12 +83,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </td>
                         </tr>
                     </ng-template>
                 </p-table>
             </div>
-        </div>
-    </div>
