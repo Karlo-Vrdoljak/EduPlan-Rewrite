@@ -17,6 +17,7 @@ import {DocumentationComponent} from './demo/view/documentation.component';
 import {StudentSviPredmetiComponent} from './student-svi-predmeti/student-svi-predmeti.component';
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
+import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
 
 export const routes: Routes = [
            { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -35,7 +36,8 @@ export const routes: Routes = [
            { path: 'utils', component: UtilsDemoComponent },
            { path: 'documentation', component: DocumentationComponent },
            { path: 'vStudentProsjeci', component: StudentProsjeciComponent },
-           { path: 'vStudentSviPredmeti', component: StudentSviPredmetiComponent }
+           { path: 'vStudentSviPredmeti', component: StudentSviPredmetiComponent },
+           { path: 'vStudentOsobniPodaci', component: StudentOsobniPodaciComponent }
 
        ];
 

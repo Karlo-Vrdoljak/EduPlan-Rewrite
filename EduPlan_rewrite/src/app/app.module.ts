@@ -102,6 +102,7 @@ import { SubjectService } from './demo/service/subjectService';
 import { StudentSviPredmetiComponent } from './student-svi-predmeti/student-svi-predmeti.component';
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
+import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
 
 @NgModule({
     imports: [
@@ -202,7 +203,8 @@ import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.co
         DocumentationComponent,
         StudentSviPredmetiComponent,
         LoginComponent,
-        StudentProsjeciComponent
+        StudentProsjeciComponent,
+        StudentOsobniPodaciComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
