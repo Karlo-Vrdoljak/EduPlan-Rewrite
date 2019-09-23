@@ -1,0 +1,10 @@
+
+@media screen and (min-width: 1024px) {
+
+    .firstHalfView {
+        height:15em;
+    }
+    .secondHalfView {
+        height:36.5em;
+    }
+}

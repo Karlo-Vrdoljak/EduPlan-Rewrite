@@ -15,8 +15,8 @@
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
           <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
               <td>
-                  <a href="#" [pRowToggler]="rowData">
-                      <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right' : 'pi pi-chevron-circle-down'" style="font-size:1.2em; margin-left:-0.2em;"></i>
+                  <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
+                      <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right usesTransition fade' : 'pi pi-chevron-circle-down usesTransition fade'" style="margin-left:-0.2em;"></i>
                       {{rowData.godina}}&nbsp;godina</span>
                   </a>
               </td>
@@ -27,7 +27,7 @@
           </tr>
       </ng-template>
       <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData let-rowIndex="rowIndex">
-        <td colspan="5" class="ui-resizable-column" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+        <td  colspan="5" class="ui-resizable-column" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
           <div class="card" style="padding: 10px!important;" >
               <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="30vh" [resizableColumns]="true">
                 <ng-template pTemplate="colgroup" let-columns>
@@ -44,7 +44,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr *ngIf="rowGroupData[rowData.godina].index === rowIndex">
-                        <td *ngFor="let col of columns" class="ui-resizable-column">
+                        <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
                             {{rowData[col.field]}}
                         </td>
                     </tr>

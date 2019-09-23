@@ -25,7 +25,6 @@ export class StudentProsjeciComponent implements OnInit {
         this.cols = [
             // 7, 25, 8,15,8,8,16,7
             { field: "predmet", header: "Predmet", width: "7%" },
-            { field: "godina", header: "Godina", width: "25%" },
             { field: "studij", header: "Studij", width: "8%" },
             { field: "ocjena", header: "Ocjena", width: "15%" },
             { field: "semestar", header: "Semestar", width: "8%" },

@@ -18,6 +18,8 @@ import {StudentSviPredmetiComponent} from './student-svi-predmeti/student-svi-pr
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
 import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
+import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
+import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
 
 export const routes: Routes = [
            { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -37,7 +39,9 @@ export const routes: Routes = [
            { path: 'documentation', component: DocumentationComponent },
            { path: 'vStudentProsjeci', component: StudentProsjeciComponent },
            { path: 'vStudentSviPredmeti', component: StudentSviPredmetiComponent },
-           { path: 'vStudentOsobniPodaci', component: StudentOsobniPodaciComponent }
+           { path: 'vStudentOsobniPodaci', component: StudentOsobniPodaciComponent },
+           { path: 'vStudentAgenda', component:  StudentAgendaComponent},
+           { path: 'vStudentKalendar', component: StudentCalendarComponent }
 
        ];
 
