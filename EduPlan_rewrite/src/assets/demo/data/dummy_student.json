@@ -1,0 +1,39 @@
+{
+    "studentData": 
+        {
+            "ime": "Ana",
+            "prezime": "Ćanat",
+            "spol": "Žensko",
+            "datumRodenja": "08/12/1998",
+            "oib": "64764762746274",
+            "jmbg": "234324234324",
+            "jmbag": "3242343243",
+            "brojMobitela": "098 456 7129",
+            "grad": "Split",
+            "opcina": "Split",
+            "drzava": "Republika Hrvatska",
+            "nacionalnost": "Hrvat",
+            "imeOca": "Milan",
+            "imeMajke": "Marija",
+            "nazivSkole": "Srednja škola 'Jure Kaštelanin'",
+            "godinaZavrsetkaSkole": "2018",
+            "strukovnoPodrucje": "",
+            "programIzobrazbe": "",
+            "razinaPravaNaPrehranu": "2 kompletna obroka dnevno",
+            "datumPravaOd": "10/01/2019",
+            "datumPravaDo": "06/21/2020",
+            "redniBrojMaticnaKnjizica": "67",
+            "lokalniMaticniBroj": "218218",
+            "statusElektricnogIdentiteta": "Nije kreiran",
+            "AAIoznaka": "Ana.Canat@faks.hr",
+            "AAIUID": "",
+            "datumUpisa": "10/1/2019",
+            "datumIspisa": "05/21/2021",
+            "datumPodizanjaDokumenta": "12/07/2018",
+            "razlogPrestankaStudentskihPrava": "",
+            "studentIzDijaspore": true,
+            "brojKopijaIndeksa": "1",
+            "aktivanEmail": false
+        }
+    
+}

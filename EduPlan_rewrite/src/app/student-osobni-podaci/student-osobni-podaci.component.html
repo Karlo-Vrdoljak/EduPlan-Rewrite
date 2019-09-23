@@ -5,46 +5,46 @@
             <h1>Osobni podaci</h1>
             <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Ime:<input type="text" pInputText placeholder="Ana" disabled>
+                    Ime:<input type="text" pInputText [ngModel]="studentPodaci.ime"  disabled/>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Prezime:<input type="text" pInputText placeholder="Ćanat" disabled>
+                    Prezime:<input type="text" pInputText [ngModel]="studentPodaci.prezime"  disabled/>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Spol:<p-dropdown [options]="spolovi" [(ngModel)]="odabraniSpol" disabled></p-dropdown>
+                    Spol:<input type="text" pInputText [ngModel]="studentPodaci.spol" disabled="true">
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Datum rođenja:<p-calendar placeholder="12.07.1999" showIcon="true" disabled="true"></p-calendar>
+                    Datum rođenja:<p-calendar  showIcon="true" [ngModel]="studentPodaci.datumRodenja" disabled="true"></p-calendar> <!-- triba convertat u datum format -->
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    OIB:<input type="text" pInputText placeholder="02093248028482" disabled>
+                    OIB:<input type="text" pInputText  [ngModel]="studentPodaci.oib" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    JMBG:<input type="text" pInputText placeholder="28472847274724" disabled>
+                    JMBG:<input type="text" pInputText  [ngModel]="studentPodaci.jmbg" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    JMBAG:<input type="text" pInputText placeholder="83583578357835" disabled>
+                    JMBAG:<input type="text" pInputText  [ngModel]="studentPodaci.jmbag" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Broj mobitela:<input type="text" pInputText placeholder="0989567324" disabled>
+                    Broj mobitela:<input type="text" pInputText  [ngModel]="studentPodaci.brojMobitela" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Grad:<p-dropdown [options]="gradovi" [(ngModel)]="odabraniGrad" disabled></p-dropdown>
+                    Grad:<input type="text" pInputText  [ngModel]="studentPodaci.grad" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Općina:<p-dropdown [options]="opcina" [(ngModel)]="odabranaOpcina" disabled></p-dropdown>
+                    Općina:<input type="text" pInputText  [ngModel]="studentPodaci.opcina"  disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Država:<p-dropdown [options]="drzave" [(ngModel)]="odabranaDrzava" disabled></p-dropdown>
+                    Država:<input type="text" pInputText  [ngModel]="studentPodaci.drzava" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Nacionalnost:<input type="text" pInputText placeholder="" disabled>
+                    Nacionalnost:<input type="text" pInputText  [ngModel]="studentPodaci.nacionalnost" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Ime oca:<input type="text" pInputText placeholder="Milan" disabled>
+                    Ime oca:<input type="text" pInputText  [ngModel]="studentPodaci.imeOca" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Ime majke:<input type="text" pInputText placeholder="Marija" disabled>
+                    Ime majke:<input type="text" pInputText  [ngModel]="studentPodaci.imeMajke" disabled>
                 </div>
             </div>
         </div>
@@ -52,16 +52,16 @@
             <h1>Podaci o školovanju</h1>
             <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Naziv škole:<input type="text" pInputText placeholder="Srednja škola 'Jure Kaštelanin'" disabled>
+                    Naziv škole:<input type="text" pInputText [ngModel]="studentPodaci.nazivSkole" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Godina završetka škole:<input type="text" pInputText placeholder="2018" disabled>
+                    Godina završetka škole:<input type="text" pInputText [ngModel]="studentPodaci.godinaZavrsetkaSkole" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Strukovno područje:<input type="text" pInputText placeholder="" disabled>
+                    Strukovno područje:<input type="text" pInputText [ngModel]="studentPodaci.strukovnoPodrucje" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Program izobrazbe:<input type="text" pInputText placeholder="" disabled>
+                    Program izobrazbe:<input type="text" pInputText [ngModel]="studentPodaci.programIzobrazbe" disabled>
                 </div>
             </div>
         </div>
@@ -72,13 +72,13 @@
             <h1>Prava na prehranu</h1>
             <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Razina prava na prehranu:<input type="text" pInputText placeholder="2 kompletna obroka dnevno" disabled>
+                    Razina prava na prehranu:<input type="text" pInputText [ngModel]="studentPodaci.razinaPravaNaPrehranu" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Datum prava od:<p-calendar placeholder="12.07.2018" showIcon="true" disabled="true"></p-calendar>
+                    Datum prava od:<p-calendar  showIcon="true" disabled="true" [ngModel]="studentPodaci.datumPravaOd"></p-calendar>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Datum prava do:<p-calendar placeholder="12.07.2018" showIcon="true" disabled="true"></p-calendar>
+                    Datum prava do:<p-calendar  showIcon="true" disabled="true" [ngModel]="studentPodaci.datumPravaDo"></p-calendar>
                 </div>
             </div>
         </div>
@@ -86,40 +86,40 @@
             <h1>Podaci na visokom učilištu</h1>
             <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Redni broj u matičnoj knjizi:<input type="text" pInputText placeholder="" disabled>
+                    Redni broj u matičnoj knjizi:<input type="text" pInputText [ngModel]="studentPodaci.redniBrojMaticnaKnjizica" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Lokalni matični broj:<input type="text" pInputText placeholder="2821" disabled>
+                    Lokalni matični broj:<input type="text" pInputText [ngModel]="studentPodaci.lokalniMaticniBroj" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Status električnog identiteta:<input type="text" pInputText placeholder="Nije kreiran" disabled>
+                    Status električnog identiteta:<input type="text" pInputText [ngModel]="studentPodaci.statusElektricnogIdentiteta" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    AAI oznaka:<input type="text" pInputText placeholder="Ana.Ćanat@faks.hr" disabled>
+                    AAI oznaka:<input type="text" pInputText [ngModel]="studentPodaci.AAIoznaka" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    AAI UID:<input type="text" pInputText placeholder="" disabled>
+                    AAI UID:<input type="text" pInputText [ngModel]="studentPodaci.AAIUID" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Datum upisa:<p-calendar placeholder="01.10.2019" showIcon="true" disabled="true"></p-calendar>
+                    Datum upisa:<p-calendar [ngModel]="studentPodaci.datumUpisa" showIcon="true" disabled="true"></p-calendar>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Datum ispisa:<p-calendar placeholder="15.07.2020" showIcon="true" disabled="true"></p-calendar>
+                    Datum ispisa:<p-calendar [ngModel]="studentPodaci.datumIspisa" showIcon="true" disabled="true"></p-calendar>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Datum podizanja dokumenta:<p-calendar placeholder="12.07.2018" showIcon="true" disabled="true"></p-calendar>
+                    Datum podizanja dokumenta:<p-calendar [ngModel]="studentPodaci.datumPodizanjaDokumenta" showIcon="true" disabled="true"></p-calendar>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Razlog prestanka studentskih prava:<input type="text" pInputText placeholder="" disabled>
+                    Razlog prestanka studentskih prava:<input type="text" pInputText [ngModel]="studentPodaci.razlogPrestankaStudentskihPrava" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6" >
-                    <p-checkbox  name="studentIzDijaspore"  label="Student iz dijaspore" disabled="true"></p-checkbox>
+                    <p-checkbox  name="studentIzDijaspore" binary="true" label="Student iz dijaspore" [ngModel]="studentPodaci.studentIzDijaspore" disabled="true"></p-checkbox>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    Broj kopija indeksa:<input type="text" pInputText placeholder="" disabled>
+                    Broj kopija indeksa:<input type="text" pInputText [ngModel]="studentPodaci.brojKopijaIndeksa" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    <p-checkbox name="studentIzDijaspore"  label="Aktivan e-mail" disabled="true"></p-checkbox>
+                    <p-checkbox name="aktivanEmail"  label="Aktivan e-mail" binary="true" [ngModel]="studentPodaci.aktivanEmail" disabled="true"></p-checkbox>
                 </div>
             </div>
         </div>

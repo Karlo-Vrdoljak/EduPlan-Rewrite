@@ -99,6 +99,7 @@ import {CountryService} from './demo/service/countryservice';
 import {EventService} from './demo/service/eventservice';
 import {NodeService} from './demo/service/nodeservice';
 import { SubjectService } from './demo/service/subjectService';
+import { StudentService } from './demo/service/studentService';
 import { StudentSviPredmetiComponent } from './student-svi-predmeti/student-svi-predmeti.component';
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
@@ -213,6 +214,7 @@ import { StudentCalendarComponent } from './student-calendar/student-calendar.co
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         SubjectService,
+        StudentService,
         CarService,
         CountryService,
         EventService,

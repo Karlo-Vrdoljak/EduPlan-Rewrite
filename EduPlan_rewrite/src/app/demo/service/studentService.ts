@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from '../domain/subject';
+import { StudentPodaci } from '../domain/student';
 
 
 @Injectable()
-export class SubjectService {
+export class StudentService {
     constructor(private http: HttpClient) {}
 
-    getSubjects() {
+    getStudentData() {
         return this.http
-            .get<any>('assets/demo/data/dummy_subjects.json')
+            .get<any>('assets/demo/data/dummy_student.json')
             .toPromise()
-            .then(res => res.data as Subject[])
+            .then(res => res.studentData as StudentPodaci)
             .then(data => data);
     }
 }

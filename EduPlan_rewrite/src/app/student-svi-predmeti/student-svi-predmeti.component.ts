@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SubjectService } from "../demo/service/subjectService";
-import { Subject } from "../demo/domain/subject";
+import { SubjectService } from '../demo/service/subjectService';
+import { Subject } from '../demo/domain/subject';
+
 
 @Component({
     selector: "app-student-svi-predmeti",
