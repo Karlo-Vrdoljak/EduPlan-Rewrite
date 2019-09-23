@@ -16,11 +16,9 @@ export class StudentOsobniPodaciComponent implements OnInit {
       .getStudentData()
       .then(studentPodaci => (this.studentPodaci = studentPodaci));
 
-    this.formatAllDates();
-
   }
 
-  formatAllDates() {
+ /* formatAllDates() {
     this.studentPodaci.datumRodenja = new Date (this.studentPodaci.datumRodenja);
     this.studentPodaci.datumIspisa = new Date (this.studentPodaci.datumIspisa);
     this.studentPodaci.datumPodizanjaDokumenta = new Date (this.studentPodaci.datumPodizanjaDokumenta);
@@ -28,5 +26,5 @@ export class StudentOsobniPodaciComponent implements OnInit {
     this.studentPodaci.datumPravaOd = new Date (this.studentPodaci.datumPravaOd);
     this.studentPodaci.datumUpisa = new Date (this.studentPodaci.datumUpisa);
 
-  }
+  }*/
 }
