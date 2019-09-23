@@ -104,6 +104,8 @@ import { StudentSviPredmetiComponent } from './student-svi-predmeti/student-svi-
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
 import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
+import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
+import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
 
 @NgModule({
     imports: [
@@ -205,7 +207,9 @@ import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-os
         StudentSviPredmetiComponent,
         LoginComponent,
         StudentProsjeciComponent,
-        StudentOsobniPodaciComponent
+        StudentOsobniPodaciComponent,
+        StudentAgendaComponent,
+        StudentCalendarComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
