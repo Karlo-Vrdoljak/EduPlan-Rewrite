@@ -20,24 +20,24 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
-                label: "Osobni podaci",
-                icon: "fa fa-address-card",
-                routerLink: ["/vStudentOsobniPodaci"]
+                label: 'Osobni podaci',
+                icon: 'fa fa-address-card',
+                routerLink: ['/vStudentOsobniPodaci']
             },
             {
-                label: "Podaci na studiju",
-                icon: "fa fa-university",
-                routerLink: ["/"]
+                label: 'Podaci na studiju',
+                icon: 'fa fa-university',
+                routerLink: ['/']
             },
             {
-                label: "Popis predmeta",
-                icon: "fa fa-book",
-                routerLink: ["/vStudentSviPredmeti"]
+                label: 'Popis predmeta',
+                icon: 'fa fa-book',
+                routerLink: ['/vStudentSviPredmeti']
             },
-            { 
-                label: "Prosjeci",
-                icon: "fa fa-percent", 
-                routerLink: ["/vStudentProsjeci"] 
+            {
+                label: 'Prosjeci',
+                icon: 'fa fa-percent',
+                routerLink: ['/vStudentProsjeci']
             }
             /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
             {label: 'Osobni podaci', icon: 'fa fa-address-card', routerLink: ['/']},
