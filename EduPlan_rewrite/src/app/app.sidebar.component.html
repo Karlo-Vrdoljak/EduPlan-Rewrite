@@ -82,8 +82,19 @@
                     <span>RASPORED STUDENTA</span>
                 </div>
                 <app-sidebarTabContent>
+                    <app-menu-kalendar></app-menu-kalendar>
+                </app-sidebarTabContent>
+            </div>
+            <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 3}">
+                <div class="layout-submenu-title clearfix">
+                    <span>RASPORED PROFESORA</span>
+                </div>
+                <app-sidebarTabContent>
+                    <app-menu-kalendar></app-menu-kalendar>
+                </app-sidebarTabContent>
+            </div>
 
-                    <!--<div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 1}">
+            <!--<div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 1}">
                 <div class="layout-submenu-title clearfix">
                     <span>INBOX</span>
                 </div>
@@ -140,7 +151,7 @@
                     </div>
                 </app-sidebarTabContent>
             </div> -->
-                    <!-- <div class="calendar-tab">
+            <!-- <div class="calendar-tab">
                         <ul>
                             <li class="clearfix">
                                 <div class="calendar-event-date">
@@ -188,15 +199,8 @@
                             </li>
                         </ul>
                     </div> -->
-                </app-sidebarTabContent>
-            </div>
-            <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 3}">
-                <div class="layout-submenu-title clearfix">
-                    <span>RASPORED PROFESORA</span>
-                </div>
-                <app-sidebarTabContent>
-                </app-sidebarTabContent>
-            </div>
+
+
             <!--<div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 3}">
                 <div class="layout-submenu-title clearfix">
                     <span>PROJECTS</span>
@@ -280,6 +284,6 @@
             </div>
         </div>
     </div> -->
-</div>
-    </div>
         </div>
+    </div>
+</div>

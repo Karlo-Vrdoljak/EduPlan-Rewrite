@@ -8,3 +8,15 @@
         height:36.5em;
     }
 }
+
+:host >>>  .ui-state-disabled  {    
+    opacity: 1.0;
+}
+
+:host >>> .ui-widget:disabled {
+    opacity: 1.0;
+}
+
+
+
+
