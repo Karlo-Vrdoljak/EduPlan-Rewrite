@@ -21,12 +21,12 @@ export class AppMenuJeziciComponent implements OnInit {
         this.model = [
             {
                 label: 'Hrvatski',
-                icon: '',
+                icon: 'flag-icon flag-icon-hr',
                 routerLink: ['/translate','hr']
             },
             {
                 label: 'English',
-                icon: '',
+                icon: 'flag-icon flag-icon-gb',
                 routerLink: ['/translate','en']
             }
             /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
