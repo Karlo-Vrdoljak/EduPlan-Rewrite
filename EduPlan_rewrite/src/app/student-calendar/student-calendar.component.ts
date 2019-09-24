@@ -45,6 +45,7 @@ export class StudentCalendarComponent implements OnInit {
             defaultDate: fullDate,
             //aspectRatio: 2.8,
             locales: allLocales,
+
             locale: 'hr',
             height: 'auto',
             contentHeight: screen.height - 70 - 57.25 - 19.5 - 90,
@@ -53,9 +54,7 @@ export class StudentCalendarComponent implements OnInit {
                 center: 'prevYear,prev,today,next,nextYear',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            eventRender: function(elem) {
-                console.log(screen.height);
-            }
+            eventRender: function(elem) { }
         };
     }
 }

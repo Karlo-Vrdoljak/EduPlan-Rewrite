@@ -111,6 +111,7 @@
                                       "node_modules/@fullcalendar/timegrid/main.min.css",
                                       "node_modules/quill/dist/quill.snow.css",
                                       "node_modules/font-awesome/css/font-awesome.min.css",
+                                      "node_modules/flag-icon-css/css/flag-icon.min.css",
                                       "src/styles.scss"
                                   ],
                         "assets": [
