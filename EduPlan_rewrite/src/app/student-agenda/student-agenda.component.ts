@@ -1,14 +1,14 @@
-import { Component, OnInit, AfterViewInit, Renderer2 } from "@angular/core";
-import { Calendar } from "@fullcalendar/core";
-import listPlugin from "@fullcalendar/list";
-import allLocales from "@fullcalendar/core/locales-all";
-import interactionPlugin from "@fullcalendar/interaction";
-import { CalendarService } from "../demo/service/calendarService";
+import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
+import { Calendar } from '@fullcalendar/core';
+import listPlugin from '@fullcalendar/list';
+import allLocales from '@fullcalendar/core/locales-all';
+import interactionPlugin from '@fullcalendar/interaction';
+import { CalendarService } from '../demo/service/calendarService';
 
 @Component({
-    selector: "app-student-agenda",
-    templateUrl: "./student-agenda.component.html",
-    styleUrls: ["./student-agenda.component.css"]
+    selector: 'app-student-agenda',
+    templateUrl: './student-agenda.component.html',
+    styleUrls: ['./student-agenda.component.css']
 })
 export class StudentAgendaComponent implements OnInit, AfterViewInit {
     calendarOptions: any;
@@ -23,33 +23,33 @@ export class StudentAgendaComponent implements OnInit, AfterViewInit {
 
             let fullDate =
                 date.getFullYear() +
-                "-" +
+                '-' +
                 (date.getMonth() + 1) +
-                "-" +
+                '-' +
                 date.getDate();
 
-            var calendarEl = document.getElementById("agenda");
+            var calendarEl = document.getElementById('agenda');
 
             var calendar = new Calendar(calendarEl, {
                 plugins: [listPlugin, interactionPlugin],
-                defaultView: "listWeek",
+                defaultView: 'listWeek',
                 defaultDate: fullDate,
                 firstDay: 1,
                 locales: allLocales,
-                locale: "hr",
+                locale: 'hr',
                 // customize the button names,
                 // otherwise they'd all just say "list"
                 views: {
-                    listDay: { buttonText: "Day" },
-                    listWeek: { buttonText: "Week" },
-                    listMonth: { buttonText: "Month" }
+                    listDay: { buttonText: 'Day' },
+                    listWeek: { buttonText: 'Week' },
+                    listMonth: { buttonText: 'Month' }
                 },
-                height: screen.height - 70 - 10 ,
-                contentHeight: screen.height - 70 - 57.25 ,
+                height: 'auto' ,
+                contentHeight: screen.height - 337 - 57.25 ,
                 header: {
-                    left: "prev,next",
-                    center: "today",
-                    right: "listWeek,listMonth"
+                    left: 'prev,next',
+                    center: 'today',
+                    right: 'listWeek,listMonth'
                 },
                 events: this.events
             });
