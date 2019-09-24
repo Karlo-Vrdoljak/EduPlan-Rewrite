@@ -1,5 +1,6 @@
 import {Component, AfterViewInit, OnDestroy, Renderer2} from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from "@ngx-translate/core";
 
 enum MenuOrientation {
     STATIC,
@@ -40,7 +41,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     theme = "green";
 
-    constructor(public renderer: Renderer2, public router: Router) {}
+    constructor(
+        public renderer: Renderer2,
+        public router: Router,
+        private translate: TranslateService
+    ) {
+        translate.setDefaultLang("en");
+    }
 
     ngAfterViewInit() {
         this.documentClickListener = this.renderer.listen(

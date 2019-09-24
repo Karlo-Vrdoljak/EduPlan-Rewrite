@@ -44,7 +44,7 @@ export class StudentAgendaComponent implements OnInit, AfterViewInit {
                     listWeek: { buttonText: "Week" },
                     listMonth: { buttonText: "Month" }
                 },
-                height: screen.height - 70 - 10 ,
+                height: "auto",
                 contentHeight: screen.height - 70 - 57.25 ,
                 header: {
                     left: "prev,next",

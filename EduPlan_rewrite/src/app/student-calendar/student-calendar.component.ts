@@ -46,8 +46,8 @@ export class StudentCalendarComponent implements OnInit {
             //aspectRatio: 2.8,
             locales: allLocales,
             locale: "hr",
-            height: screen.height - 70 - 10 - 32-10,
-            contentHeight: screen.height - 70 - 57.25 - 19.5 - 32,
+            height: "auto",
+            contentHeight: screen.height - 70 - 57.25 - 19.5 - 50,
             firstDay: 1,
             header: {
                 left: "prevYear,nextYear",
