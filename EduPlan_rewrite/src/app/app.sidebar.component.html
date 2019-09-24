@@ -10,6 +10,7 @@
                     <div class="layout-tabmenu-tooltip-text">Profil studenta</div>
                 </div>
             </li>
+           
             <li [ngClass]="{'active-item':app.activeTabIndex === 1}">
                 <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 1)"><i class="pi pi-user"
                         style="font-size: 3em"></i></a>
@@ -18,6 +19,7 @@
                     <div class="layout-tabmenu-tooltip-text">Profil profesora</div>
                 </div>
             </li>
+           
             <li [ngClass]="{'active-item':app.activeTabIndex === 2}">
                 <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 2)"><i
                         class="fa fa-calendar"></i></a>
@@ -26,12 +28,21 @@
                     <div class="layout-tabmenu-tooltip-text">Raspored studenta</div>
                 </div>
             </li>
+            
             <li [ngClass]="{'active-item':app.activeTabIndex === 3}">
-                <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 3)"><i
-                        class="fa fa-calendar"></i></a>
+                <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 3)"><i class="fa fa-calendar"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
                     <div class="layout-tabmenu-tooltip-text">Raspored profesora</div>
+                </div>
+            </li>
+            
+            <li [ngClass]="{'active-item':app.activeTabIndex === 4}">
+                <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 4)"><i class="fa fa-language"
+                        style="font-size: 3em"></i></a>
+                <div class="layout-tabmenu-tooltip">
+                    <div class="layout-tabmenu-tooltip-arrow"></div>
+                    <div class="layout-tabmenu-tooltip-text">Odabir jezika</div>
                 </div>
             </li>
             <!--<li [ngClass]="{'active-item':app.activeTabIndex === 1}">
@@ -91,6 +102,24 @@
                 </div>
                 <app-sidebarTabContent>
                     <app-menu-kalendar></app-menu-kalendar>
+                </app-sidebarTabContent>
+            </div>
+           
+            <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 4}">
+                <div class="layout-submenu-title clearfix">
+                    <span>ODABIR JEZIKA</span>
+                </div>
+                <app-sidebarTabContent>
+                        <app-menu-jezici></app-menu-jezici>
+
+                       <!--<div class="inbox-tab">
+                            <ul>
+                                <li class="clearfix">                                    
+                                    <img src="../assets/layout/images/Contries icons/croatia.png" height="20" width="20">
+                                    <span class="name">Hrvatski</span>
+                                </li>
+                            </ul>
+                        </div> --> 
                 </app-sidebarTabContent>
             </div>
 
