@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import { CalendarService } from "../demo/service/calendarService";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-student-calendar",
@@ -9,22 +11,44 @@ import interactionPlugin from "@fullcalendar/interaction";
     styleUrls: ["./student-calendar.component.css"]
 })
 export class StudentCalendarComponent implements OnInit {
-    
-  calendarOptions: any;
+    calendarOptions: any;
+    events: any;
 
-  constructor() {}
+    constructor(
+        private _calendarService: CalendarService,
+        public _router: Router
+    ) {}
 
-  ngOnInit() {
-    let date = new Date();
-    let fullDate = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-    this.calendarOptions = {
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        defaultDate: fullDate,
-        header: {
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay"
+    navigateIfSmallDevice() {
+        if (screen.width <= 700) {
+            this._router.navigate(["/vStudentAgenda"]);
         }
-    };
-  }
+    }
+
+    ngOnInit() {
+        this.navigateIfSmallDevice();
+        window.addEventListener("orientationchange",this.navigateIfSmallDevice);
+
+        this._calendarService.getCalendarData().then(events => {
+            this.events = events;
+        });
+        let date = new Date();
+        let fullDate =
+            date.getFullYear() +
+            "-" +
+            (date.getMonth() + 1) +
+            "-" +
+            date.getDate();
+        this.calendarOptions = {
+            plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+            defaultDate: fullDate,
+            firstDay: 1,
+            header: {
+                left: "prevYear,nextYear",
+                center: "title,prev,today,next",
+                right: "dayGridMonth,timeGridWeek,timeGridDay"
+            },
+            eventRender: function(elem) {}
+        };
+    }
 }

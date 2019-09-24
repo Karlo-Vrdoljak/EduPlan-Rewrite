@@ -106,6 +106,7 @@ import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.co
 import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
 import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
+import { CalendarService } from './demo/service/calendarService';
 
 @NgModule({
     imports: [
@@ -215,6 +216,7 @@ import { StudentCalendarComponent } from './student-calendar/student-calendar.co
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         SubjectService,
         StudentService,
+        CalendarService,
         CarService,
         CountryService,
         EventService,
