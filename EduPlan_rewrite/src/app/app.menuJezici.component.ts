@@ -22,12 +22,12 @@ export class AppMenuJeziciComponent implements OnInit {
             {
                 label: 'Hrvatski',
                 icon: '',
-                routerLink: ['/']
+                routerLink: ['/translate','hr']
             },
             {
                 label: 'English',
                 icon: '',
-                routerLink: ['/']
+                routerLink: ['/translate','en']
             }
             /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
             {label: 'Osobni podaci', icon: 'fa fa-address-card', routerLink: ['/']},

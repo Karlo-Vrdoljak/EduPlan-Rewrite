@@ -113,6 +113,7 @@ import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-os
 import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
 import { CalendarService } from './demo/service/calendarService';
+import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 
 @NgModule({
     imports: [
@@ -225,7 +226,8 @@ import { CalendarService } from './demo/service/calendarService';
         StudentAgendaComponent,
         StudentCalendarComponent,
         AppMenuKalendarComponent,
-        AppMenuJeziciComponent
+        AppMenuJeziciComponent,
+        TranslateSidebarComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

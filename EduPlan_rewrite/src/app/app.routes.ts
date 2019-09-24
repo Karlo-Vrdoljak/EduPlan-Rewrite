@@ -20,6 +20,7 @@ import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.co
 import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
 import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
+import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 
 export const routes: Routes = [
            { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -41,7 +42,8 @@ export const routes: Routes = [
            { path: 'vStudentSviPredmeti', component: StudentSviPredmetiComponent },
            { path: 'vStudentOsobniPodaci', component: StudentOsobniPodaciComponent },
            { path: 'vStudentAgenda', component:  StudentAgendaComponent},
-           { path: 'vStudentKalendar', component: StudentCalendarComponent }
+           { path: 'vStudentKalendar', component: StudentCalendarComponent },
+           { path: 'translate/:lang', component: TranslateSidebarComponent }
 
        ];
 
