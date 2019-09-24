@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer2 } from "@angular/core";
 import { Calendar } from "@fullcalendar/core";
 import listPlugin from "@fullcalendar/list";
+import allLocales from "@fullcalendar/core/locales-all";
 import interactionPlugin from "@fullcalendar/interaction";
 import { CalendarService } from "../demo/service/calendarService";
 
@@ -34,7 +35,8 @@ export class StudentAgendaComponent implements OnInit, AfterViewInit {
                 defaultView: "listWeek",
                 defaultDate: fullDate,
                 firstDay: 1,
-
+                locales: allLocales,
+                locale: "hr",
                 // customize the button names,
                 // otherwise they'd all just say "list"
                 views: {
@@ -42,11 +44,12 @@ export class StudentAgendaComponent implements OnInit, AfterViewInit {
                     listWeek: { buttonText: "Week" },
                     listMonth: { buttonText: "Month" }
                 },
-                aspectRatio: 3.2,
+                height: screen.height - 70 - 10 ,
+                contentHeight: screen.height - 70 - 57.25 ,
                 header: {
-                    left: "prev,next today",
-                    center: "title",
-                    right: "listDay,listWeek,listMonth"
+                    left: "prev,next",
+                    center: "today",
+                    right: "listWeek,listMonth"
                 },
                 events: this.events
             });
