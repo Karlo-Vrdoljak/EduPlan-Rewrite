@@ -29,6 +29,7 @@
         "@ngx-translate/core": "^11.0.1",
         "@ngx-translate/http-loader": "^4.0.0",
         "chart.js": "2.7.3",
+        "flag-icon-css": "^3.4.0",
         "font-awesome": "4.7.0",
         "intl": "1.2.5",
         "primeicons": "1.0.0",

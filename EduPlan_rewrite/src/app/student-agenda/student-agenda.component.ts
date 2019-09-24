@@ -5,6 +5,7 @@ import allLocales from '@fullcalendar/core/locales-all';
 import interactionPlugin from '@fullcalendar/interaction';
 import { CalendarService } from '../demo/service/calendarService';
 import { TranslateService } from '@ngx-translate/core';
+import {  MenuItem } from 'primeng/api';
 
 @Component({
     selector: "app-student-agenda",
@@ -16,8 +17,6 @@ export class StudentAgendaComponent implements OnInit, AfterViewInit {
     events: any;
     locale :string;
     translate:TranslateService;
-
-
     constructor(
         private _calendarService: CalendarService,
         translate: TranslateService
@@ -28,9 +27,7 @@ export class StudentAgendaComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this._calendarService.getCalendarData().then(events => {
             this.events = events;
-
             let date = new Date();
-
             let fullDate =
                 date.getFullYear() +
                 "-" +
