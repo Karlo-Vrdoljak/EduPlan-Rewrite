@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { CalendarService } from "../demo/service/calendarService";
+import { Component, OnInit } from '@angular/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { CalendarService } from '../demo/service/calendarService';
 import allLocales from '@fullcalendar/core/locales-all';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
-    selector: "app-student-calendar",
-    templateUrl: "./student-calendar.component.html",
-    styleUrls: ["./student-calendar.component.css"]
+    selector: 'app-student-calendar',
+    templateUrl: './student-calendar.component.html',
+    styleUrls: ['./student-calendar.component.css']
 })
 export class StudentCalendarComponent implements OnInit {
     calendarOptions: any;
@@ -22,11 +22,11 @@ export class StudentCalendarComponent implements OnInit {
 
     ngOnInit() {
         if (screen.width <= 700) {
-            this._router.navigate(["/vStudentAgenda"]);
+            this._router.navigate(['/vStudentAgenda']);
         }
-        window.addEventListener("orientationchange", () => {
+        window.addEventListener('orientationchange', () => {
             if (screen.width <= 700) {
-                this._router.navigate(["/vStudentAgenda"]);
+                this._router.navigate(['/vStudentAgenda']);
             }
         });
 
@@ -36,23 +36,23 @@ export class StudentCalendarComponent implements OnInit {
         let date = new Date();
         let fullDate =
             date.getFullYear() +
-            "-" +
+            '-' +
             (date.getMonth() + 1) +
-            "-" +
+            '-' +
             date.getDate();
         this.calendarOptions = {
             plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
             defaultDate: fullDate,
             //aspectRatio: 2.8,
             locales: allLocales,
-            locale: "hr",
-            height: "auto",
-            contentHeight: screen.height - 70 - 57.25 - 19.5 - 50,
+
+            locale: 'hr',
+            height: 'auto',
+            contentHeight: screen.height - 70 - 57.25 - 19.5 - 70,
             firstDay: 1,
             header: {
-                left: "prevYear,nextYear",
-                center: "prev,today,next,title",
-                right: "dayGridMonth,timeGridWeek,timeGridDay"
+                center: 'prevYear,prev,today,next,nextYear',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             eventRender: function(elem) {
                 console.log(screen.height);
