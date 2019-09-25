@@ -46,7 +46,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
         public router: Router,
         private translate: TranslateService
     ) {
-        translate.setDefaultLang("hr");
+        this.translate.setDefaultLang("hr");
+        this.translate.use("hr");
     }
 
     ngAfterViewInit() {

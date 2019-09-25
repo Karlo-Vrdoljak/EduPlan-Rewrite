@@ -1,15 +1,16 @@
   <div class="card" style="padding: 10px!important;">
     <p-table [value]="subjects" dataKey="godina" [scrollable]="true" scrollHeight="50vh" sortField="godina" sortMode="single" (onSort)="onSort()">
       <ng-template pTemplate="caption">
-          Prosjeci 
+          <!--Prosjeci--> 
+          {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
       </ng-template>
       <ng-template pTemplate="header" let-columns>
           <tr>
               <th></th>
-              <th>Upisani ECTS</th>
-              <th>Postotak položenih ECTS</th>
-              <th>Položeni ECTS</th>
-              <th>Prosjek ocjena</th>
+              <th>{{ 'STUDENT_PROSJECI_UPISANI_ECTS' | translate }}</th> <!--Upisani ECTS-->
+              <th>{{ 'STUDENT_PROSJECI_POST_POLOZENIH_ECTS' | translate }}</th><!--Postotak položenih ECTS-->
+              <th>{{ 'STUDENT_PROSJECI_POLOZENI_ECTS' | translate }}</th> <!--Položeni ECTS-->
+              <th>{{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_PROSJEK_OCJENA' | translate }}</th> <!--Prosjek ocjena-->
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">

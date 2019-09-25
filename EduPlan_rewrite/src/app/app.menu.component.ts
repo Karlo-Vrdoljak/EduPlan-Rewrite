@@ -1,45 +1,77 @@
-import {Component, Input, OnInit, EventEmitter, ViewChild} from '@angular/core';
-import {trigger, state, style, transition, animate} from '@angular/animations';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {MenuItem} from 'primeng/primeng';
-import {AppComponent} from './app.component';
+import {
+    Component,
+    Input,
+    OnInit,
+    EventEmitter,
+    ViewChild
+} from "@angular/core";
+import {
+    trigger,
+    state,
+    style,
+    transition,
+    animate
+} from "@angular/animations";
+import { Location } from "@angular/common";
+import { Router } from "@angular/router";
+import { MenuItem } from "primeng/primeng";
+import { AppComponent } from "./app.component";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
-    selector: 'app-menu',
+    selector: "app-menu",
     template: `
-        <ul app-submenu [item]="model" root="true" class="navigation-menu" visible="true" parentActive="true"></ul>
+        <ul
+            app-submenu
+            [item]="model"
+            root="true"
+            class="navigation-menu"
+            visible="true"
+            parentActive="true"
+        ></ul>
     `
 })
 export class AppMenuComponent implements OnInit {
-
     model: any[];
+    osobniPodaci = null;
 
-    constructor(public app: AppComponent) {}
+    constructor(public app: AppComponent, private translate: TranslateService) {
+        
+    }
 
     ngOnInit() {
-        this.model = [
-            {
-                label: 'Osobni podaci',
-                icon: 'fa fa-address-card',
-                routerLink: ['/vStudentOsobniPodaci']
-            },
-            {
-                label: 'Podaci na studiju',
-                icon: 'fa fa-university',
-                routerLink: ['/']
-            },
-            {
-                label: 'Popis predmeta',
-                icon: 'fa fa-book',
-                routerLink: ['/vStudentSviPredmeti']
-            },
-            {
-                label: 'Prosjeci',
-                icon: 'fa fa-percent',
-                routerLink: ['/vStudentProsjeci']
-            }
-            /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
+        var result = this.translate
+            .get([
+                "VIEWS_APLIKACIJA_HOME_OSOBNIPODACI",
+                "STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU",
+                "STUDENT_SVI_PREDMETI_POPIS",
+                "STUDENT_PROSJECI_PROSJECI"
+            ])
+            .toPromise()
+            .then(res => {
+                this.model = [
+                    {
+                        label: res.VIEWS_APLIKACIJA_HOME_OSOBNIPODACI, //'Osobni podaci',
+                        icon: "fa fa-address-card",
+                        routerLink: ["/vStudentOsobniPodaci"]
+                    },
+                    {
+                        label:
+                            res.STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU, //"Podaci na studiju",
+                        icon: "fa fa-university",
+                        routerLink: ["/"]
+                    },
+                    {
+                        label: res.STUDENT_SVI_PREDMETI_POPIS, //"Popis predmeta",
+                        icon: "fa fa-book",
+                        routerLink: ["/vStudentSviPredmeti"]
+                    },
+                    {
+                        label: res.STUDENT_PROSJECI_PROSJECI, //"Prosjeci",
+                        icon: "fa fa-percent",
+                        routerLink: ["/vStudentProsjeci"]
+                    }
+                    /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
             {label: 'Osobni podaci', icon: 'fa fa-address-card', routerLink: ['/']},
             {label: 'Podaci na studiju', icon: 'fa fa-university', routerLink: ['/']},
             {label: 'Popis predmeta', icon: 'fa fa-book', routerLink: ['/vStudentSviPredmeti']},
@@ -141,65 +173,120 @@ export class AppMenuComponent implements OnInit {
             },
             {label: 'Utils', icon: 'fa fa-fw fa-wrench', routerLink: ['/utils']},
             {label: 'Documentation', icon: 'fa fa-fw fa-book', routerLink: ['/documentation']}*/
-        ];
+                ];
+            });
     }
 
     changeTheme(theme) {
         this.app.theme = theme;
-        const themeLink: HTMLLinkElement = document.getElementById('theme-css') as HTMLLinkElement;
-        const layoutLink: HTMLLinkElement = document.getElementById('layout-css') as HTMLLinkElement;
+        const themeLink: HTMLLinkElement = document.getElementById(
+            "theme-css"
+        ) as HTMLLinkElement;
+        const layoutLink: HTMLLinkElement = document.getElementById(
+            "layout-css"
+        ) as HTMLLinkElement;
 
-        themeLink.href = 'assets/theme/theme-' + theme + '.css';
-        layoutLink.href = 'assets/layout/css/layout-' + theme + '.css';
-
+        themeLink.href = "assets/theme/theme-" + theme + ".css";
+        layoutLink.href = "assets/layout/css/layout-" + theme + ".css";
     }
 }
 
 @Component({
     /* tslint:disable:component-selector */
-    selector: '[app-submenu]',
+    selector: "[app-submenu]",
     /* tslint:enable:component-selector */
     template: `
-        <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
-            <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass" *ngIf="child.visible === false ? false : true">
-                <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" *ngIf="!child.routerLink"
-                   [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target"
-                    (mouseenter)="hover=true" (mouseleave)="hover=false">
+        <ng-template
+            ngFor
+            let-child
+            let-i="index"
+            [ngForOf]="root ? item : item.items"
+        >
+            <li
+                [ngClass]="{ 'active-menuitem': isActive(i) }"
+                [class]="child.badgeStyleClass"
+                *ngIf="child.visible === false ? false : true"
+            >
+                <a
+                    [href]="child.url || '#'"
+                    (click)="itemClick($event, child, i)"
+                    *ngIf="!child.routerLink"
+                    [attr.tabindex]="!visible ? '-1' : null"
+                    [attr.target]="child.target"
+                    (mouseenter)="hover = true"
+                    (mouseleave)="hover = false"
+                >
                     <i [ngClass]="child.icon"></i>
-                    <span>{{child.label}}</span>
-                    <i class="fa fa-fw fa-angle-down ui-menuitem-toggler" *ngIf="child.items"></i>
-                    <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
+                    <span *ngIf="child.label | async as label">{{
+                        label
+                    }}</span>
+                    <i
+                        class="fa fa-fw fa-angle-down ui-menuitem-toggler"
+                        *ngIf="child.items"
+                    ></i>
+                    <span class="menuitem-badge" *ngIf="child.badge">{{
+                        child.badge
+                    }}</span>
                 </a>
 
-                <a (click)="itemClick($event,child,i)" *ngIf="child.routerLink"
-                    [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink"
-                   [routerLinkActiveOptions]="{exact: true}" [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target"
-                    (mouseenter)="hover=true" (mouseleave)="hover=false">
+                <a
+                    (click)="itemClick($event, child, i)"
+                    *ngIf="child.routerLink"
+                    [routerLink]="child.routerLink"
+                    routerLinkActive="active-menuitem-routerlink"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    [attr.tabindex]="!visible ? '-1' : null"
+                    [attr.target]="child.target"
+                    (mouseenter)="hover = true"
+                    (mouseleave)="hover = false"
+                >
                     <i [ngClass]="child.icon"></i>
-                    <span>{{child.label}}</span>
-                    <i class="fa fa-fw fa-angle-down ui-menuitem-toggler" *ngIf="child.items"></i>
-                    <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
+                    <span>{{ child.label }}</span>
+                    <i
+                        class="fa fa-fw fa-angle-down ui-menuitem-toggler"
+                        *ngIf="child.items"
+                    ></i>
+                    <span class="menuitem-badge" *ngIf="child.badge">{{
+                        child.badge
+                    }}</span>
                 </a>
-                <ul app-submenu [item]="child" *ngIf="child.items" [@children]="isActive(i) ?
-                'visible' : 'hidden'" [visible]="isActive(i)" [parentActive]="isActive(i)"></ul>
+                <ul
+                    app-submenu
+                    [item]="child"
+                    *ngIf="child.items"
+                    [@children]="isActive(i) ? 'visible' : 'hidden'"
+                    [visible]="isActive(i)"
+                    [parentActive]="isActive(i)"
+                ></ul>
             </li>
         </ng-template>
     `,
     animations: [
-        trigger('children', [
-            state('hidden', style({
-                height: '0px'
-            })),
-            state('visible', style({
-                height: '*'
-            })),
-            transition('visible => hidden', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')),
-            transition('hidden => visible', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+        trigger("children", [
+            state(
+                "hidden",
+                style({
+                    height: "0px"
+                })
+            ),
+            state(
+                "visible",
+                style({
+                    height: "*"
+                })
+            ),
+            transition(
+                "visible => hidden",
+                animate("400ms cubic-bezier(0.86, 0, 0.07, 1)")
+            ),
+            transition(
+                "hidden => visible",
+                animate("400ms cubic-bezier(0.86, 0, 0.07, 1)")
+            )
         ])
     ]
 })
 export class AppSubMenuComponent {
-
     @Input() item: MenuItem;
 
     @Input() root: boolean;
@@ -212,9 +299,13 @@ export class AppSubMenuComponent {
 
     _parentActive: boolean;
 
-    constructor(public app: AppComponent, public router: Router, public location: Location) {}
+    constructor(
+        public app: AppComponent,
+        public router: Router,
+        public location: Location
+    ) {}
 
-    itemClick(event: Event, item: MenuItem, index: number) {
+    itemClick(event: Event, item: MenuItem, index: number) {
         // avoid processing disabled items
         if (item.disabled) {
             event.preventDefault();
@@ -222,11 +313,11 @@ export class AppSubMenuComponent {
         }
 
         // activate current item and deactivate active sibling if any
-        this.activeIndex = (this.activeIndex === index) ? null : index;
+        this.activeIndex = this.activeIndex === index ? null : index;
 
         // execute command
         if (item.command) {
-            item.command({originalEvent: event, item});
+            item.command({ originalEvent: event, item });
         }
 
         // prevent hash change

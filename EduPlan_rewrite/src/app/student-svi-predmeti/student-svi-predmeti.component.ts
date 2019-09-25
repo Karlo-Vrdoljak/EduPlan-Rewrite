@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SubjectService } from '../demo/service/subjectService';
-import { Subject } from '../demo/domain/subject';
-
+import { Component, OnInit } from "@angular/core";
+import { SubjectService } from "../demo/service/subjectService";
+import { Subject } from "../demo/domain/subject";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: "app-student-svi-predmeti",
@@ -100,22 +100,57 @@ export class StudentSviPredmetiComponent implements OnInit {
     cols: any[];
     selectedSubject: Subject;
 
-
-    constructor(private subjectService: SubjectService) {}
+    constructor(
+        private subjectService: SubjectService,
+        private translate: TranslateService
+    ) {}
 
     ngOnInit() {
-      this.subjectService
-          .getSubjects()
-          .then(subjects => (this.subjects = subjects));
-      this.cols = [// 7, 25, 8,15,8,8,16,7
-          { field: "predmet", header: "Predmet", width: '7%' },
-          { field: "godina", header: "Godina", width: '25%' },
-          { field: "studij", header: "Studij", width: '8%' },
-          { field: "ocjena", header: "Ocjena", width: '15%' },
-          { field: "semestar", header: "Semestar", width: '8%' },
-          { field: "voditelj", header: "Voditelj", width: '8%' },
-          { field: "polozenDaNe", header: "Polozen", width: '16%' },
-          { field: "ects", header: "ECTS" , width: '7%'}
-      ];
+        this.subjectService
+            .getSubjects()
+            .then(subjects => (this.subjects = subjects));
+        this.cols = [
+            // 7, 25, 8,15,8,8,16,7
+            {
+                field: "predmet",
+                header: this.translate.instant("KATALOZI_PREDMETNASTAVNACJELINA_PREDMET"), //"Predmet",
+                width: "7%"
+            },
+            {
+                field: "godina",
+                header: this.translate.instant("KATALOZI_BDSTUDIJPREDMET_GODINA"), //"Godina",
+                width: "25%"
+            },
+            {
+                field: "studij",
+                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_STUDIJ"), //"Studij",
+                width: "8%"
+            },
+            {
+                field: "ocjena",
+                header: this.translate.instant("KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA"), //"Ocjena",
+                width: "15%"
+            },
+            {
+                field: "semestar",
+                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_SEMESTAR"), //"Semestar",
+                width: "8%"
+            },
+            {
+                field: "voditelj",
+                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA"), //"Voditelj",
+                width: "8%"
+            },
+            {
+                field: "polozenDaNe",
+                header: this.translate.instant("KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN"), //"Polozen",
+                width: "16%"
+            },
+            {
+                field: "ects",
+                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_ECTS"), //"ECTS",
+                width: "7%"
+            }
+        ];
     }
 }
