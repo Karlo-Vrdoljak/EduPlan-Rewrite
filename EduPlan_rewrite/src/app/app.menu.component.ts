@@ -1,25 +1,13 @@
-import {
-    Component,
-    Input,
-    OnInit,
-    EventEmitter,
-    ViewChild
-} from "@angular/core";
-import {
-    trigger,
-    state,
-    style,
-    transition,
-    animate
-} from "@angular/animations";
-import { Location } from "@angular/common";
-import { Router } from "@angular/router";
-import { MenuItem } from "primeng/primeng";
-import { AppComponent } from "./app.component";
-import { TranslateService } from "@ngx-translate/core";
+import { Component, Input, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/primeng';
+import { AppComponent } from './app.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: "app-menu",
+    selector: 'app-menu',
     template: `
         <ul
             app-submenu
@@ -36,40 +24,40 @@ export class AppMenuComponent implements OnInit {
     osobniPodaci = null;
 
     constructor(public app: AppComponent, private translate: TranslateService) {
-        
+
     }
 
     ngOnInit() {
-        var result = this.translate
+        const result = this.translate
             .get([
-                "VIEWS_APLIKACIJA_HOME_OSOBNIPODACI",
-                "STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU",
-                "STUDENT_SVI_PREDMETI_POPIS",
-                "STUDENT_PROSJECI_PROSJECI"
+                'VIEWS_APLIKACIJA_HOME_OSOBNIPODACI',
+                'STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU',
+                'STUDENT_SVI_PREDMETI_POPIS',
+                'STUDENT_PROSJECI_PROSJECI'
             ])
             .toPromise()
             .then(res => {
                 this.model = [
                     {
                         label: res.VIEWS_APLIKACIJA_HOME_OSOBNIPODACI, //'Osobni podaci',
-                        icon: "fa fa-address-card",
-                        routerLink: ["/vStudentOsobniPodaci"]
+                        icon: 'fa fa-address-card',
+                        routerLink: ['/vStudentOsobniPodaci']
                     },
                     {
                         label:
                             res.STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU, //"Podaci na studiju",
-                        icon: "fa fa-university",
-                        routerLink: ["/"]
+                        icon: 'fa fa-university',
+                        routerLink: ['/']
                     },
                     {
                         label: res.STUDENT_SVI_PREDMETI_POPIS, //"Popis predmeta",
-                        icon: "fa fa-book",
-                        routerLink: ["/vStudentSviPredmeti"]
+                        icon: 'fa fa-book',
+                        routerLink: ['/vStudentSviPredmeti']
                     },
                     {
                         label: res.STUDENT_PROSJECI_PROSJECI, //"Prosjeci",
-                        icon: "fa fa-percent",
-                        routerLink: ["/vStudentProsjeci"]
+                        icon: 'fa fa-percent',
+                        routerLink: ['/vStudentProsjeci']
                     }
                     /* {label: 'Raspored', icon: 'fa fa-fw fa-home', routerLink: ['/']},
             {label: 'Osobni podaci', icon: 'fa fa-address-card', routerLink: ['/']},
@@ -180,20 +168,20 @@ export class AppMenuComponent implements OnInit {
     changeTheme(theme) {
         this.app.theme = theme;
         const themeLink: HTMLLinkElement = document.getElementById(
-            "theme-css"
+            'theme-css'
         ) as HTMLLinkElement;
         const layoutLink: HTMLLinkElement = document.getElementById(
-            "layout-css"
+            'layout-css'
         ) as HTMLLinkElement;
 
-        themeLink.href = "assets/theme/theme-" + theme + ".css";
-        layoutLink.href = "assets/layout/css/layout-" + theme + ".css";
+        themeLink.href = 'assets/theme/theme-' + theme + '.css';
+        layoutLink.href = 'assets/layout/css/layout-' + theme + '.css';
     }
 }
 
 @Component({
     /* tslint:disable:component-selector */
-    selector: "[app-submenu]",
+    selector: '[app-submenu]',
     /* tslint:enable:component-selector */
     template: `
         <ng-template
@@ -262,26 +250,26 @@ export class AppMenuComponent implements OnInit {
         </ng-template>
     `,
     animations: [
-        trigger("children", [
+        trigger('children', [
             state(
-                "hidden",
+                'hidden',
                 style({
-                    height: "0px"
+                    height: '0px'
                 })
             ),
             state(
-                "visible",
+                'visible',
                 style({
-                    height: "*"
+                    height: '*'
                 })
             ),
             transition(
-                "visible => hidden",
-                animate("400ms cubic-bezier(0.86, 0, 0.07, 1)")
+                'visible => hidden',
+                animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')
             ),
             transition(
-                "hidden => visible",
-                animate("400ms cubic-bezier(0.86, 0, 0.07, 1)")
+                'hidden => visible',
+                animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')
             )
         ])
     ]
@@ -303,7 +291,7 @@ export class AppSubMenuComponent {
         public app: AppComponent,
         public router: Router,
         public location: Location
-    ) {}
+    ) { }
 
     itemClick(event: Event, item: MenuItem, index: number) {
         // avoid processing disabled items

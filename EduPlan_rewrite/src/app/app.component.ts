@@ -1,6 +1,6 @@
 import {Component, AfterViewInit, OnDestroy, Renderer2} from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateService } from '@ngx-translate/core';
 
 enum MenuOrientation {
     STATIC,
@@ -8,9 +8,9 @@ enum MenuOrientation {
 }
 
 @Component({
-    selector: "app-root",
-    templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.scss"]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
     activeTabIndex = -1;
@@ -39,21 +39,21 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     documentClickListener: () => void;
 
-    theme = "green";
+    theme = 'green';
 
     constructor(
         public renderer: Renderer2,
         public router: Router,
         private translate: TranslateService
     ) {
-        this.translate.setDefaultLang("hr");
-        this.translate.use("hr");
+        this.translate.setDefaultLang('hr');
+        this.translate.use('hr');
     }
 
     ngAfterViewInit() {
         this.documentClickListener = this.renderer.listen(
-            "body",
-            "click",
+            'body',
+            'click',
             event => {
                 if (!this.topbarItemClick) {
                     this.activeTopbarItem = null;
