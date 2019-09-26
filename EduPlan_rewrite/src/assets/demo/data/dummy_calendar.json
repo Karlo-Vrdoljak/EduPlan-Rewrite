@@ -38,6 +38,110 @@
                 "allDay" : false,
                 "color": "#0099ff"
 
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "17:00",
+                "endTime": "18:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "08:00",
+                "endTime": "11:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "08:00",
+                "endTime": "11:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "08:00",
+                "endTime": "11:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "18:00",
+                "endTime": "19:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "19:00",
+                "endTime": "20:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "20:00",
+                "endTime": "21:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
+            },
+            {
+                "title": "Eduplan Ex3",
+                "start": "2019-09-18",
+                "startTime": "21:00",
+                "endTime": "22:00",
+                "end": "2019-12-16",
+                "startRecur": "2019-09-18",
+                "endRecur": "2019-12-16",
+                "daysOfWeek": [1, 2, 3, 4, 5],
+                "allDay" : false,
+                "color": "#0099ff"
+
             }
         ]
 }

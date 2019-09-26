@@ -109,6 +109,70 @@ export class StudentSviPredmetiComponent implements OnInit {
         this.subjectService
             .getSubjects()
             .then(subjects => (this.subjects = subjects));
+        
+        this.translate.get([
+            "KATALOZI_PREDMETNASTAVNACJELINA_PREDMET",
+            "KATALOZI_BDSTUDIJPREDMET_GODINA",
+            "VIEWS_KATALOZI_PREDMET_STUDIJ",
+            "KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA",
+            "VIEWS_KATALOZI_PREDMET_SEMESTAR",
+            "VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA",
+            "KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN",
+            "VIEWS_KATALOZI_PREDMET_ECTS"
+        ]).subscribe((res) => {
+            this.cols = [
+                // 7, 25, 8,15,8,8,16,7
+                {
+                    field: "predmet",
+                    header: res.KATALOZI_PREDMETNASTAVNACJELINA_PREDMET /*"Predmet"*/,
+                    width: "7%"
+                },
+                {
+                    field: "studij",
+                    header: res.VIEWS_KATALOZI_PREDMET_STUDIJ, //"Studij",
+                    width: "8%"
+                },
+                {
+                    field: "studij",
+                    header: res.KATALOZI_BDSTUDIJPREDMET_GODINA /*"Godina"*/,
+                    width: "8%"
+                },
+                {
+                    field: "ocjena",
+                    header: res.KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA /*"Ocjena"*/,
+                    width: "15%"
+                },
+                {
+                    field: "semestar",
+                    header: res.VIEWS_KATALOZI_PREDMET_SEMESTAR /*"Semestar"*/,
+                    width: "8%"
+                },
+                {
+                    field: "voditelj",
+                    header: res.VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA /*"Voditelj"*/,
+                    width: "8%"
+                },
+                {
+                    field: "polozenDaNe",
+                    header: res.KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN /*"Polozen"*/,
+                    width: "16%"
+                },
+                {
+                    field: "ects",
+                    header: res.VIEWS_KATALOZI_PREDMET_ECTS /*"ECTS"*/,
+                    width: "7%"
+                }
+            ];
+
+        });
+
+
+    }
+    /*ngOnInit() {
+        this.subjectService
+            .getSubjects()
+            .then(subjects => (this.subjects = subjects));
+        
         this.cols = [
             // 7, 25, 8,15,8,8,16,7
             {
@@ -152,5 +216,5 @@ export class StudentSviPredmetiComponent implements OnInit {
                 width: "7%"
             }
         ];
-    }
+    }*/
 }

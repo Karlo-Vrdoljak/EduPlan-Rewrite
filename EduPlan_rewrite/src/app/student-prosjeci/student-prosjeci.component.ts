@@ -16,51 +16,63 @@ export class StudentProsjeciComponent implements OnInit {
     _groupSubjects: ProsjekGodine[];
     godine: number[];
     rowGroupData: any;
-    constructor(private subjectService: SubjectService, private translate: TranslateService) {}
+    constructor(private subjectService: SubjectService, private translate: TranslateService) { }
     // suma ECTS polozeno, Prosjek ocjene, broj upisanih ects, prosjek polozenih ects/god
     ngOnInit() {
         this.subjectService
             .getSubjects()
             .then(subjects => (this.subjects = subjects));
+        this.translate.get([
+            "KATALOZI_KORISNIK_PREDMET",
+            "VIEWS_KATALOZI_PREDMET_STUDIJ",
+            "STUDENT_BDSTUDENTPREDMETI_OCJENA",
+            "VIEWS_KATALOZI_PREDMET_SEMESTAR",
+            "VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA",
+            "KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN",
+            "VIEWS_KATALOZI_PREDMET_ECTS"
+        ]).subscribe((res) => {
+            this.cols = [
+                // 7, 25, 8,15,8,8,16,7
+                {
+                    field: "predmet",
+                    header: res.KATALOZI_KORISNIK_PREDMET /*"Predmet"*/,
+                    width: "7%"
+                },
+                {
+                    field: "studij",
+                    header: res.VIEWS_KATALOZI_PREDMET_STUDIJ /*"Studij"*/,
+                    width: "8%"
+                },
+                {
+                    field: "ocjena",
+                    header: res.STUDENT_BDSTUDENTPREDMETI_OCJENA /*"Ocjena"*/,
+                    width: "15%"
+                },
+                {
+                    field: "semestar",
+                    header: res.VIEWS_KATALOZI_PREDMET_SEMESTAR /*"Semestar"*/,
+                    width: "8%"
+                },
+                {
+                    field: "voditelj",
+                    header: res.VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA /*"Voditelj"*/,
+                    width: "8%"
+                },
+                {
+                    field: "polozenDaNe",
+                    header: res.KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN /*"Polozen"*/,
+                    width: "16%"
+                },
+                {
+                    field: "ects",
+                    header: res.VIEWS_KATALOZI_PREDMET_ECTS /*"ECTS"*/,
+                    width: "7%"
+                }
+            ];
 
-        this.cols = [
-            // 7, 25, 8,15,8,8,16,7
-            {
-                field: "predmet",
-                header: this.translate.instant( "KATALOZI_KORISNIK_PREDMET" ) /*"Predmet"*/,
-                width: "7%"
-            },
-            {
-                field: "studij",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_STUDIJ") /*"Studij"*/,
-                width: "8%"
-            },
-            {
-                field: "ocjena",
-                header: this.translate.instant("STUDENT_BDSTUDENTPREDMETI_OCJENA") /*"Ocjena"*/,
-                width: "15%"
-            },
-            {
-                field: "semestar",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_SEMESTAR") /*"Semestar"*/,
-                width: "8%"
-            },
-            {
-                field: "voditelj",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA") /*"Voditelj"*/,
-                width: "8%"
-            },
-            {
-                field: "polozenDaNe",
-                header: this.translate.instant("KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN") /*"Polozen"*/,
-                width: "16%"
-            },
-            {
-                field: "ects",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_ECTS") /*"ECTS"*/,
-                width: "7%"
-            }
-        ];
+        });
+
+
     }
 
     onSort() {
@@ -69,7 +81,7 @@ export class StudentProsjeciComponent implements OnInit {
 
     groupByYear() {
         const groups = [];
-        this.subjects.forEach(function(item) {
+        this.subjects.forEach(function (item) {
             const list = groups[item.godina];
 
             if (list) {
@@ -96,17 +108,17 @@ export class StudentProsjeciComponent implements OnInit {
                     .map(e => e.ects)
                     .reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
 
-                e.map(function(e) {
+                e.map(function (e) {
                     countPolozenoEcts +=
                         e.polozenDaNe === "Da" ? parseInt(e.ects, 10) : 0;
                 });
 
-                e.map(function(e) {
+                e.map(function (e) {
                     sumOcjena +=
                         e.polozenDaNe === "Da" ? parseInt(e.ocjena, 10) : 0;
                 });
 
-                e.map(function(e) {
+                e.map(function (e) {
                     countPolozenoPredmeta += e.polozenDaNe === "Da" ? 1 : 0;
                 });
 
