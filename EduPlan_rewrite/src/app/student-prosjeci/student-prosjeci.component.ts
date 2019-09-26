@@ -16,10 +16,8 @@ export class StudentProsjeciComponent implements OnInit {
     _groupSubjects: ProsjekGodine[];
     godine: number[];
     rowGroupData: any;
-    constructor(
-        private subjectService: SubjectService,
-        private translate: TranslateService
-    ) {}
+
+    constructor(private subjectService: SubjectService, private translate: TranslateService) { }
     // suma ECTS polozeno, Prosjek ocjene, broj upisanih ects, prosjek polozenih ects/god
     ngOnInit() {
         this.subjectService
@@ -88,7 +86,7 @@ export class StudentProsjeciComponent implements OnInit {
 
     groupByYear() {
         const groups = [];
-        this.subjects.forEach(function(item) {
+        this.subjects.forEach(function (item) {
             const list = groups[item.godina];
 
             if (list) {
@@ -115,17 +113,17 @@ export class StudentProsjeciComponent implements OnInit {
                     .map(e => e.ects)
                     .reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
 
-                e.map(function(e) {
+                e.map(function (e) {
                     countPolozenoEcts +=
                         e.polozenDaNe === "Da" ? parseInt(e.ects, 10) : 0;
                 });
 
-                e.map(function(e) {
+                e.map(function (e) {
                     sumOcjena +=
                         e.polozenDaNe === "Da" ? parseInt(e.ocjena, 10) : 0;
                 });
 
-                e.map(function(e) {
+                e.map(function (e) {
                     countPolozenoPredmeta += e.polozenDaNe === "Da" ? 1 : 0;
                 });
 
