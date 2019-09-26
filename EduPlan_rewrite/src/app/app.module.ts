@@ -114,6 +114,8 @@ import { StudentAgendaComponent } from './student-agenda/student-agenda.componen
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
 import { CalendarService } from './demo/service/calendarService';
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
+import { StorageServiceModule } from "angular-webstorage-service";
+
 
 @NgModule({
     imports: [
@@ -194,7 +196,8 @@ import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
+        StorageServiceModule
     ],
     declarations: [
         AppComponent,

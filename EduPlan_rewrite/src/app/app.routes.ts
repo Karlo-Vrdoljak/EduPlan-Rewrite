@@ -42,6 +42,7 @@ export const routes: Routes = [
            { path: 'vStudentSviPredmeti', component: StudentSviPredmetiComponent },
            { path: 'vStudentOsobniPodaci', component: StudentOsobniPodaciComponent },
            { path: 'vStudentAgenda', component:  StudentAgendaComponent},
+           { path: 'vStudentAgenda/:isRedirect', component:  StudentAgendaComponent},
            { path: 'vStudentKalendar', component: StudentCalendarComponent },
            { path: 'translate/:lang', component: TranslateSidebarComponent }
 

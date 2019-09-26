@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/primeng';
 import { AppComponent } from './app.component';
+import { TranslateService, LangChangeEvent } from "@ngx-translate/core";
 
 @Component({
     selector: 'app-menu-kalendar',
@@ -15,21 +16,46 @@ export class AppMenuKalendarComponent implements OnInit {
 
     model: any[];
 
-    constructor(public app: AppComponent) { }
+    constructor(public app: AppComponent,private translate: TranslateService) { }
 
     ngOnInit() {
-        this.model = [
-            {
-                label: 'Raspored',
-                icon: 'fa fa-calendar',
-                routerLink: ['/vStudentKalendar']
-            },
-            {
-                label: 'Agenda',
-                icon: 'fa fa-clipboard',
-                routerLink: ['/vStudentAgenda']
-            }
-        ];
+        this.onTranslateChange();
+        var result = this.translate
+            .get(["VIEWS_KATALOZI_PREDMET_RASPORED", "STUDENT_KALENDAR_AGENDA"])
+            .toPromise()
+            .then(res => {
+                this.model = [
+                    {
+                        label: res.VIEWS_KATALOZI_PREDMET_RASPORED,
+                        icon: "fa fa-calendar",
+                        routerLink: ["/vStudentKalendar"]
+                    },
+                    {
+                        label: res.STUDENT_KALENDAR_AGENDA,
+                        icon: "fa fa-clipboard",
+                        routerLink: ["/vStudentAgenda"]
+                    }
+                ];
+            });
+        
+    }
+
+    onTranslateChange() {
+        this.translate.onLangChange.subscribe((eventKalendar:LangChangeEvent)=> {
+            this.model = [
+                {
+                    label: this.translate.instant("VIEWS_KATALOZI_PREDMET_RASPORED"),
+                    icon: "fa fa-calendar",
+                    routerLink: ["/vStudentKalendar"]
+                },
+                {
+                    label: this.translate.instant("STUDENT_KALENDAR_AGENDA"),
+                    icon: "fa fa-clipboard",
+                    routerLink: ["/vStudentAgenda"]
+                }
+            ];
+            
+        });
     }
 
     changeTheme(theme) {

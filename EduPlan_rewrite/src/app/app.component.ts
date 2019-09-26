@@ -1,7 +1,7 @@
-import {Component, AfterViewInit, OnDestroy, Renderer2} from '@angular/core';
+import {Component, AfterViewInit, OnDestroy, Renderer2, Inject} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
-
+import { LOCAL_STORAGE, WebStorageService } from "angular-webstorage-service";
 enum MenuOrientation {
     STATIC,
     OVERLAY
@@ -40,16 +40,41 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     documentClickListener: () => void;
 
     theme = "green";
+    public data: any = [];
 
     constructor(
         public renderer: Renderer2,
         public router: Router,
-        private translate: TranslateService
+        private translate: TranslateService,
+        @Inject(LOCAL_STORAGE) private storage: WebStorageService
     ) {
         this.translate.setDefaultLang("hr");
         this.translate.use("hr");
+        /*
+        this.getFromLocal("lang");
+        if(this.data) {
+            this.translate.setDefaultLang(this.data["lang"]);
+            this.translate.use(this.data["lang"]);
+        } else {
+            this.saveInLocal("lang","hr");
+            this.translate.setDefaultLang("hr");
+            this.translate.use("hr");
+        }
+        */
+    }
+    /*
+    saveInLocal(key, val): void {
+        console.log("recieved= key:" + key + "value:" + val);
+        this.storage.set(key, val);
+        this.data[key] = this.storage.get(key);
     }
 
+    getFromLocal(key): void {
+        console.log("recieved= key:" + key);
+        this.data[key] = this.storage.get(key);
+        console.log(this.data);
+    }
+    */
     ngAfterViewInit() {
         this.documentClickListener = this.renderer.listen(
             "body",
