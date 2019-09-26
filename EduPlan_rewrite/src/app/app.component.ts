@@ -1,7 +1,8 @@
-import {Component, AfterViewInit, OnDestroy, Renderer2, Inject} from '@angular/core';
+import {Component, AfterViewInit, OnDestroy, Renderer2, OnInit, Inject} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
 import { LOCAL_STORAGE, WebStorageService } from "angular-webstorage-service";
+import { LanguageHandler } from './app.languageHandler';
 
 enum MenuOrientation {
     STATIC,
@@ -9,11 +10,11 @@ enum MenuOrientation {
 }
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    selector: "app-root",
+    templateUrl: "./app.component.html",
+    styleUrls: ["./app.component.scss"]
 })
-export class AppComponent implements AfterViewInit, OnDestroy {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     activeTabIndex = -1;
 
     sidebarActive = false;
@@ -41,45 +42,28 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     documentClickListener: () => void;
 
     public data: any = [];
-    theme = 'green';
+    theme = "green";
 
     constructor(
         public renderer: Renderer2,
         public router: Router,
         private translate: TranslateService,
-        //@Inject(LOCAL_STORAGE) private storage: WebStorageService
-    ) {
-        this.translate.setDefaultLang("hr");
-        this.translate.use("hr");
-        /*
-        this.getFromLocal("lang");
-        if(this.data) {
-            this.translate.setDefaultLang(this.data["lang"]);
-            this.translate.use(this.data["lang"]);
-        } else {
-            this.saveInLocal("lang","hr");
-            this.translate.setDefaultLang("hr");
-            this.translate.use("hr");
-        }
-        */
-    }
-    /*
-    saveInLocal(key, val): void {
-        console.log("recieved= key:" + key + "value:" + val);
-        this.storage.set(key, val);
-        this.data[key] = this.storage.get(key);
+        @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+        private languageHandler : LanguageHandler
+    ) { }
+
+    ngOnInit(): void {
+        const lang = this.languageHandler.setDefaultLanguage().getCurrentLanguage();
+        this.translate.use(lang);
     }
 
-    getFromLocal(key): void {
-        console.log("recieved= key:" + key);
-        this.data[key] = this.storage.get(key);
-        console.log(this.data);
-    }
-    */
+    
+
     ngAfterViewInit() {
+        
         this.documentClickListener = this.renderer.listen(
-            'body',
-            'click',
+            "body",
+            "click",
             event => {
                 if (!this.topbarItemClick) {
                     this.activeTopbarItem = null;

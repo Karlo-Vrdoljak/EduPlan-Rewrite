@@ -3,7 +3,7 @@ import { MenuItem } from "primeng/primeng";
 import { SubjectService } from "../demo/service/subjectService";
 import { Subject } from "../demo/domain/subject";
 import { ProsjekGodine } from "../demo/domain/prosjeci";
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: "app-student-prosjeci",
@@ -16,51 +16,70 @@ export class StudentProsjeciComponent implements OnInit {
     _groupSubjects: ProsjekGodine[];
     godine: number[];
     rowGroupData: any;
-    constructor(private subjectService: SubjectService, private translate: TranslateService) {}
+    constructor(
+        private subjectService: SubjectService,
+        private translate: TranslateService
+    ) {}
     // suma ECTS polozeno, Prosjek ocjene, broj upisanih ects, prosjek polozenih ects/god
     ngOnInit() {
         this.subjectService
             .getSubjects()
             .then(subjects => (this.subjects = subjects));
 
-        this.cols = [
-            // 7, 25, 8,15,8,8,16,7
-            {
-                field: "predmet",
-                header: this.translate.instant( "KATALOZI_KORISNIK_PREDMET" ) /*"Predmet"*/,
-                width: "7%"
-            },
-            {
-                field: "studij",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_STUDIJ") /*"Studij"*/,
-                width: "8%"
-            },
-            {
-                field: "ocjena",
-                header: this.translate.instant("STUDENT_BDSTUDENTPREDMETI_OCJENA") /*"Ocjena"*/,
-                width: "15%"
-            },
-            {
-                field: "semestar",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_SEMESTAR") /*"Semestar"*/,
-                width: "8%"
-            },
-            {
-                field: "voditelj",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA") /*"Voditelj"*/,
-                width: "8%"
-            },
-            {
-                field: "polozenDaNe",
-                header: this.translate.instant("KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN") /*"Polozen"*/,
-                width: "16%"
-            },
-            {
-                field: "ects",
-                header: this.translate.instant("VIEWS_KATALOZI_PREDMET_ECTS") /*"ECTS"*/,
-                width: "7%"
-            }
-        ];
+        this.translate
+            .get([
+                "KATALOZI_KORISNIK_PREDMET",
+                "VIEWS_KATALOZI_PREDMET_STUDIJ",
+                "STUDENT_BDSTUDENTPREDMETI_OCJENA",
+                "VIEWS_KATALOZI_PREDMET_SEMESTAR",
+                "VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA",
+                "KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN",
+                "VIEWS_KATALOZI_PREDMET_ECTS"
+            ])
+            .subscribe(res => {
+                this.cols = [
+                    // 7, 25, 8,15,8,8,16,7
+                    {
+                        field: "predmet",
+                        header: res.KATALOZI_KORISNIK_PREDMET /*"Predmet"*/,
+                        width: "7%"
+                    },
+                    {
+                        field: "studij",
+                        header: res.VIEWS_KATALOZI_PREDMET_STUDIJ /*"Studij"*/,
+                        width: "8%"
+                    },
+                    {
+                        field: "ocjena",
+                        header:
+                            res.STUDENT_BDSTUDENTPREDMETI_OCJENA /*"Ocjena"*/,
+                        width: "15%"
+                    },
+                    {
+                        field: "semestar",
+                        header:
+                            res.VIEWS_KATALOZI_PREDMET_SEMESTAR /*"Semestar"*/,
+                        width: "8%"
+                    },
+                    {
+                        field: "voditelj",
+                        header:
+                            res.VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA /*"Voditelj"*/,
+                        width: "8%"
+                    },
+                    {
+                        field: "polozenDaNe",
+                        header:
+                            res.KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN /*"Polozen"*/,
+                        width: "16%"
+                    },
+                    {
+                        field: "ects",
+                        header: res.VIEWS_KATALOZI_PREDMET_ECTS /*"ECTS"*/,
+                        width: "7%"
+                    }
+                ];
+            });
     }
 
     onSort() {
@@ -117,7 +136,7 @@ export class StudentProsjeciComponent implements OnInit {
                 this._groupSubjects.push(result);
             }
         });
-        console.log(this._groupSubjects);
+        //console.log(this._groupSubjects);
     }
 
     groupByYearForTable() {
@@ -138,7 +157,7 @@ export class StudentProsjeciComponent implements OnInit {
                     }
                 }
             }
-            console.log(this.rowGroupData);
+            //console.log(this.rowGroupData);
             this.filterData();
         }
     }

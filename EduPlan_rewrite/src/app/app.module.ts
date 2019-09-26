@@ -114,7 +114,7 @@ import { StudentCalendarComponent } from './student-calendar/student-calendar.co
 import { CalendarService } from './demo/service/calendarService';
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 import { StorageServiceModule } from "angular-webstorage-service";
-
+import { LanguageHandler } from  './app.languageHandler';
 
 @NgModule({
     imports: [
@@ -238,7 +238,8 @@ import { StorageServiceModule } from "angular-webstorage-service";
         CarService,
         CountryService,
         EventService,
-        NodeService
+        NodeService,
+        LanguageHandler
     ],
     bootstrap: [AppComponent]
 })
