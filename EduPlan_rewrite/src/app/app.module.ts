@@ -97,7 +97,6 @@ import {FileDemoComponent} from './demo/view/filedemo.component';
 import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
 import { AppMenuKalendarComponent } from './app.menuKalendar.component';
-import { AppMenuJeziciComponent } from './app.menuJezici.component';
 
 
 import {CarService} from './demo/service/carservice';
@@ -229,7 +228,6 @@ import { StorageServiceModule } from "angular-webstorage-service";
         StudentAgendaComponent,
         StudentCalendarComponent,
         AppMenuKalendarComponent,
-        AppMenuJeziciComponent,
         TranslateSidebarComponent
     ],
     providers: [

@@ -9,9 +9,9 @@ import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 //Ovo triba bit jedan .ts file, ne cila komponenta, to triba prominit
 @Component({
     providers: [AppMenuComponent],
-    selector: "app-translate-sidebar",
-    templateUrl: "./translate-sidebar.component.html",
-    styleUrls: ["./translate-sidebar.component.css"]
+    selector: 'app-translate-sidebar',
+    templateUrl: './translate-sidebar.component.html',
+    styleUrls: ['./translate-sidebar.component.css']
 })
 export class TranslateSidebarComponent implements OnInit {
     public data: any = [];

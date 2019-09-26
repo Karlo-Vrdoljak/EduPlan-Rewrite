@@ -2,15 +2,16 @@ import {Component, AfterViewInit, OnDestroy, Renderer2, Inject} from '@angular/c
 import { Router } from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
 import { LOCAL_STORAGE, WebStorageService } from "angular-webstorage-service";
+
 enum MenuOrientation {
     STATIC,
     OVERLAY
 }
 
 @Component({
-    selector: "app-root",
-    templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.scss"]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
     activeTabIndex = -1;
@@ -39,14 +40,14 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     documentClickListener: () => void;
 
-    theme = "green";
     public data: any = [];
+    theme = 'green';
 
     constructor(
         public renderer: Renderer2,
         public router: Router,
         private translate: TranslateService,
-        @Inject(LOCAL_STORAGE) private storage: WebStorageService
+        //@Inject(LOCAL_STORAGE) private storage: WebStorageService
     ) {
         this.translate.setDefaultLang("hr");
         this.translate.use("hr");
@@ -77,8 +78,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     */
     ngAfterViewInit() {
         this.documentClickListener = this.renderer.listen(
-            "body",
-            "click",
+            'body',
+            'click',
             event => {
                 if (!this.topbarItemClick) {
                     this.activeTopbarItem = null;

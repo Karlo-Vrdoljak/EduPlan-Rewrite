@@ -7,7 +7,7 @@
                         style="font-size: 3em"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
-                    <div class="layout-tabmenu-tooltip-text">Profil studenta</div>
+                    <div class="layout-tabmenu-tooltip-text">{{'APPSIDEBAR_PROFILSTUDENTA' | translate}}</div>
                 </div>
             </li>
            
@@ -16,7 +16,7 @@
                         style="font-size: 3em"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
-                    <div class="layout-tabmenu-tooltip-text">Profil profesora</div>
+                    <div class="layout-tabmenu-tooltip-text">{{'APPSIDEBAR_PROFILPROFESORA' | translate}}</div>
                 </div>
             </li>
            
@@ -25,7 +25,7 @@
                         class="fa fa-calendar"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
-                    <div class="layout-tabmenu-tooltip-text">Raspored studenta</div>
+                    <div class="layout-tabmenu-tooltip-text">{{'APPSIDEBAR_RASPOREDSTUDENTA' | translate}}</div>
                 </div>
             </li>
             
@@ -33,18 +33,10 @@
                 <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 3)"><i class="fa fa-calendar"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>
-                    <div class="layout-tabmenu-tooltip-text">Raspored profesora</div>
+                    <div class="layout-tabmenu-tooltip-text">{{'APPSIDEBAR_RASPOREDPROFESORA' | translate}}</div>
                 </div>
             </li>
             
-            <li [ngClass]="{'active-item':app.activeTabIndex === 4}">
-                <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 4)"><i class="fa fa-language"
-                        style="font-size: 3em"></i></a>
-                <div class="layout-tabmenu-tooltip">
-                    <div class="layout-tabmenu-tooltip-arrow"></div>
-                    <div class="layout-tabmenu-tooltip-text">Odabir jezika</div>
-                </div>
-            </li>
             <!--<li [ngClass]="{'active-item':app.activeTabIndex === 1}">
                 <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 1)"><i class="fa fa-calendar-o"></i></a>
                 <div class="layout-tabmenu-tooltip">
@@ -72,7 +64,7 @@
         <div  class="layout-tabmenu-contents">
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 0}">
                 <div class="layout-submenu-title clearfix">
-                    <span>PROFIL STUDENTA</span>
+                    <span>{{'APPSIDEBAR_PROFILSTUDENTA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
                     <app-menu></app-menu>
@@ -81,7 +73,7 @@
 
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 1}">
                 <div class="layout-submenu-title clearfix">
-                    <span>PROFIL PROFESORA</span>
+                    <span>{{'APPSIDEBAR_PROFILPROFESORA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
                     <app-menu></app-menu>
@@ -90,7 +82,7 @@
 
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 2}">
                 <div class="layout-submenu-title clearfix">
-                    <span>RASPORED STUDENTA</span>
+                    <span>{{'APPSIDEBAR_RASPOREDSTUDENTA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
                     <app-menu-kalendar></app-menu-kalendar>
@@ -98,30 +90,13 @@
             </div>
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 3}">
                 <div class="layout-submenu-title clearfix">
-                    <span>RASPORED PROFESORA</span>
+                    <span>{{'APPSIDEBAR_RASPOREDPROFESORA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
                     <app-menu-kalendar></app-menu-kalendar>
                 </app-sidebarTabContent>
             </div>
            
-            <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 4}">
-                <div class="layout-submenu-title clearfix">
-                    <span>ODABIR JEZIKA</span>
-                </div>
-                <app-sidebarTabContent>
-                        <app-menu-jezici></app-menu-jezici>
-
-                       <!--<div class="inbox-tab">
-                            <ul>
-                                <li class="clearfix">                                    
-                                    <img src="../assets/layout/images/Contries icons/croatia.png" height="20" width="20">
-                                    <span class="name">Hrvatski</span>
-                                </li>
-                            </ul>
-                        </div> --> 
-                </app-sidebarTabContent>
-            </div>
 
             <!--<div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 1}">
                 <div class="layout-submenu-title clearfix">
