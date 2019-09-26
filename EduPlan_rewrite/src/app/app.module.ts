@@ -115,6 +115,7 @@ import { CalendarService } from './demo/service/calendarService';
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 import { StorageServiceModule } from "angular-webstorage-service";
 import { LanguageHandler } from  './app.languageHandler';
+import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
 
 @NgModule({
     imports: [
@@ -228,7 +229,8 @@ import { LanguageHandler } from  './app.languageHandler';
         StudentAgendaComponent,
         StudentCalendarComponent,
         AppMenuKalendarComponent,
-        TranslateSidebarComponent
+        TranslateSidebarComponent,
+        StudentPodaciNaStudijuComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
