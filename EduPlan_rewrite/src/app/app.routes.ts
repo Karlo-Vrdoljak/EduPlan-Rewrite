@@ -21,6 +21,7 @@ import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-os
 import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
+import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/student-podaci-na-akgodini.component';
 
 export const routes: Routes = [
            { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -44,8 +45,8 @@ export const routes: Routes = [
            { path: 'vStudentAgenda', component:  StudentAgendaComponent},
            { path: 'vStudentAgenda/:isRedirect', component:  StudentAgendaComponent},
            { path: 'vStudentKalendar', component: StudentCalendarComponent },
-           { path: 'translate/:lang', component: TranslateSidebarComponent }
-
+           { path: 'translate/:lang', component: TranslateSidebarComponent },
+           { path: 'vStudentPodaciNaAkGodini', component: StudentPodaciNaAkgodiniComponent}
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});

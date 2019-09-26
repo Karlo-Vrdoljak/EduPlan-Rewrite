@@ -23,7 +23,7 @@ export class LanguageHandler {
     setDefaultLanguage(lang?:string) {
         if(lang == null){
             this.getFromLocal("lang");
-            if (this.data) {
+            if (this.data["lang"] != null) {
                 this.translate.setDefaultLang(this.data["lang"]);
                 this.translate.use(this.data["lang"]);
             } else {

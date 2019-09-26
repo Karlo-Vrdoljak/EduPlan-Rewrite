@@ -45,6 +45,7 @@ export class AppMenuComponent implements OnInit {
             .get([
                 'VIEWS_APLIKACIJA_HOME_OSOBNIPODACI',
                 'STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU',
+                'STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD',
                 'STUDENT_SVI_PREDMETI_POPIS',
                 'STUDENT_PROSJECI_PROSJECI'
             ])
@@ -60,7 +61,12 @@ export class AppMenuComponent implements OnInit {
                         label:
                             res.STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU, //"Podaci na studiju",
                         icon: 'fa fa-university',
-                        routerLink: ['/']
+                        routerLink: ['/vStudentPodaciStudij']
+                    },
+                    {
+                        label: res.STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD, //'Podaci na akademskoj godini',
+                        icon: 'fa fa-graduation-cap',
+                        routerLink: ['/vStudentPodaciNaAkGodini']
                     },
                     {
                         label: res.STUDENT_SVI_PREDMETI_POPIS, //"Popis predmeta",
