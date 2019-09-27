@@ -3,7 +3,7 @@
                          [responsive]="true" [resizableColumns]="true">  
                     <ng-template pTemplate="caption">
                         <!--Podaci o predmetima-->
-                        {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}:
+                        {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
                     </ng-template>
                     <ng-template pTemplate="colgroup" let-columns>
                         <colgroup>
@@ -35,8 +35,8 @@
                         <tr>
                             <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
                                         <div class="card card-w-title" style="font-size:16px; padding:5px!important;">
-                                            <h1><!--Opširnije o predmetu-->
-                                                 {{ 'STUDENT_SVI_PREDMETI_OPSIRNIJE_O_PREDMETU' | translate }}:
+                                            <h1 style="text-align: center;"><!--Opširnije o predmetu-->
+                                                 {{ 'STUDENT_SVI_PREDMETI_OPSIRNIJE_O_PREDMETU' | translate }}
                                             </h1>
                                             <div class="ui-g">
                                                 <div class="ui-lg-4 ui-md-6 ui-sm-12">

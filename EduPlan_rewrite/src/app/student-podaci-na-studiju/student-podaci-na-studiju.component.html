@@ -1,3 +1,100 @@
-<p>
-  student-podaci-na-studiju works!
-</p>
+            <div class="card" style="padding: 10px!important;">
+                <p-table [columns]="cols" [value]="podaciStudij" selectionMode="single" [scrollable]="true" scrollHeight="77vh"  dataKey="kraticaStudija" 
+                         [responsive]="true" [resizableColumns]="true">  
+                    <ng-template pTemplate="caption">
+                        <!--Podaci o predmetima-->
+                        {{ 'STUDENT_STUDENTKARTICA_PODACI_NA_STUDIJU' | translate }}
+                    </ng-template>
+                    <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                            <col *ngFor="let col of columns" [style.width]="col.width">
+                        </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th width="7%" pResizableColumn></th>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn style="text-align: center;">
+                              {{col.header}}
+                              <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                            <td width="7%" class="ui-resizable-column">
+                                <a href="#" [pRowToggler]="rowData">
+                                    <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'" style="font-size: 2em; margin-left: -0.2em;"></i>
+                                </a>
+                            </td>
+                            <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                              {{rowData[col.field]}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                        <tr>
+                            <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                                        <div class="card card-w-title" style="font-size:16px; padding:5px!important;">
+                                            <h1 style="text-align: center;">
+                                                 {{ 'STUDENT_PODACINASTUDIJU_OPSIRNIJE' | translate }}
+                                            </h1>
+                                            <div class="ui-g">
+                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                    <div class="ui-g">
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                {{ 'STUDENT_BDSTUDENTPREDMETI_KRATICA_STUDIJA' | translate }}:
+                                                            </b>
+                                                             {{rowData.kraticaStudija}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_SIFRA_UPISNOG_LISTA' | translate }}:
+                                                            </b>
+                                                             {{rowData.sifraUpisnogLista}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_INDIKATOR_UPISA' | translate }}:
+                                                            </b>
+                                                             {{rowData.indikatorUpisa}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_STUDIJ_U_PREKIDU' | translate }}:
+                                                              </b>
+                                                              <span [style.color]="rowData.studijUPrekidu == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polazeSeDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                    <div class="ui-g">
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_RAZLOG_PRESTANKA_STUDENTSKIH_PRAVA' | translate }}:
+                                                            </b>
+                                                             {{rowData.razlogPrestankaStudentskihPrava}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_POSEBAN_STATUS_STUDENTA' | translate }}:
+                                                            </b>
+                                                             {{rowData.posebanStatusStudenta}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                <!--Polaze se: -->
+                                                                {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_TIP_INDEKSA' | translate }}:
+                                                            </b>
+                                                             {{rowData.tipIndeksa}}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>

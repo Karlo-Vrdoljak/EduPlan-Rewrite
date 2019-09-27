@@ -104,7 +104,8 @@ import {CountryService} from './demo/service/countryservice';
 import {EventService} from './demo/service/eventservice';
 import {NodeService} from './demo/service/nodeservice';
 import { SubjectService } from './demo/service/subjectService';
-import { StudentService } from './demo/service/studentService';
+import { StudentService } from "./demo/service/studentService";
+import { StudentPodaciStudijService } from './demo/service/studentPodaciStudijService';
 import { StudentSviPredmetiComponent } from './student-svi-predmeti/student-svi-predmeti.component';
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
@@ -241,7 +242,8 @@ import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/stu
         CountryService,
         EventService,
         NodeService,
-        LanguageHandler
+        LanguageHandler,
+        StudentPodaciStudijService
     ],
     bootstrap: [AppComponent]
 })

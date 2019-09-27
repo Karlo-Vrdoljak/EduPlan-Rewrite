@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "kraticaStudija": "FARM",
+            "studij": "Farmacija",
+            "sifraUpisnogLista": "2193666",
+            "datumUpisa": "24.7.2018",
+            "indikatorUpisa": "Prvi upis",
+            "studentskaPravaOd": "24.7.2018",
+            "studentskaPravaDo": "30.9.2019",
+            "studijUPrekidu": "Ne",
+            "razlogPrestankaStudentskihPrava": "",
+            "temeljFinanciranja": "uspjeh(EU)",
+            "placanje": "Ne",
+            "nastavnaGodina": 1,
+            "posebanStatusStudenta": "",
+            "tipIndeksa": "Nastavnik, kolegij, predavanja, vježbe, seminar",
+            "serijskiBrojIndeksa": ""
+        },
+        {
+            "kraticaStudija": "IT",
+            "studij": "Informacijska Tehnologija",
+            "sifraUpisnogLista": "8769415",
+            "datumUpisa": "19.7.2016",
+            "indikatorUpisa": "Prvi upis",
+            "studentskaPravaOd": "19.7.2016",
+            "studentskaPravaDo": "30.9.2019",
+            "studijUPrekidu": "Ne",
+            "razlogPrestankaStudentskihPrava": "",
+            "temeljFinanciranja": "",
+            "placanje": "Ne",
+            "nastavnaGodina": 3,
+            "posebanStatusStudenta": "",
+            "tipIndeksa": "predavanja, vježbe, seminar",
+            "serijskiBrojIndeksa": "10688317845"
+        }
+    ]
+}

@@ -21,31 +21,32 @@ import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-os
 import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
+import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
 
 export const routes: Routes = [
-           { path: '', redirectTo: '/login', pathMatch: 'full' },
-           { path: 'login', component: LoginComponent },
-           { path: 'sample', component: SampleDemoComponent },
-           { path: 'forms', component: FormsDemoComponent },
-           { path: 'data', component: DataDemoComponent },
-           { path: 'panels', component: PanelsDemoComponent },
-           { path: 'overlays', component: OverlaysDemoComponent },
-           { path: 'menus', component: MenusDemoComponent },
-           { path: 'messages', component: MessagesDemoComponent },
-           { path: 'misc', component: MiscDemoComponent },
-           { path: 'empty', component: EmptyDemoComponent },
-           { path: 'charts', component: ChartsDemoComponent },
-           { path: 'file', component: FileDemoComponent },
-           { path: 'utils', component: UtilsDemoComponent },
-           { path: 'documentation', component: DocumentationComponent },
-           { path: 'vStudentProsjeci', component: StudentProsjeciComponent },
-           { path: 'vStudentSviPredmeti', component: StudentSviPredmetiComponent },
-           { path: 'vStudentOsobniPodaci', component: StudentOsobniPodaciComponent },
-           { path: 'vStudentAgenda', component:  StudentAgendaComponent},
-           { path: 'vStudentAgenda/:isRedirect', component:  StudentAgendaComponent},
-           { path: 'vStudentKalendar', component: StudentCalendarComponent },
-           { path: 'translate/:lang', component: TranslateSidebarComponent }
-
+           { path: "", redirectTo: "/login", pathMatch: "full" },
+           { path: "login", component: LoginComponent },
+           { path: "sample", component: SampleDemoComponent },
+           { path: "forms", component: FormsDemoComponent },
+           { path: "data", component: DataDemoComponent },
+           { path: "panels", component: PanelsDemoComponent },
+           { path: "overlays", component: OverlaysDemoComponent },
+           { path: "menus", component: MenusDemoComponent },
+           { path: "messages", component: MessagesDemoComponent },
+           { path: "misc", component: MiscDemoComponent },
+           { path: "empty", component: EmptyDemoComponent },
+           { path: "charts", component: ChartsDemoComponent },
+           { path: "file", component: FileDemoComponent },
+           { path: "utils", component: UtilsDemoComponent },
+           { path: "documentation", component: DocumentationComponent },
+           { path: "vStudentProsjeci", component: StudentProsjeciComponent },
+           { path: "vStudentSviPredmeti", component: StudentSviPredmetiComponent },
+           { path: "vStudentOsobniPodaci", component: StudentOsobniPodaciComponent },
+           { path: "vStudentAgenda", component: StudentAgendaComponent },
+           { path: "vStudentAgenda/:isRedirect", component: StudentAgendaComponent },
+           { path: "vStudentKalendar", component: StudentCalendarComponent },
+           { path: "translate/:lang", component: TranslateSidebarComponent },
+           { path: "vStudentPodaciStudij", component: StudentPodaciNaStudijuComponent }
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});
