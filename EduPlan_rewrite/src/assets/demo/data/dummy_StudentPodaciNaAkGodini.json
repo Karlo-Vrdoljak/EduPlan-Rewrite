@@ -1,0 +1,21 @@
+{
+    "PodaciStudentAkGodina": 
+        {
+            "zdrastvenoOsiguranje": true,
+            "bracnoStanje": "Oženjen(a)",
+            "stipendija": false,
+            "studiraNaDrugomVisokomUcilistu": false,
+            "razinaPravaNaPrehranu": "2 kompletna obroka dnevno",
+            "adresaPrebivalista": "Ulica Josipa Pupačića 7",
+            "gradPrebivalista": "Split",
+            "drzavaPrebivalista": "Republika Hrvatska",
+            "telefonPrebivalista":"369 764",
+            "datumIzdavanjaPotvrdeoPrebivalistu":"08/12/2019",
+            "adresaStanovanja":"Ulica Josipa Pupačića 8",
+            "gradStanovanja":"Split",
+            "drzavaStanovanja":"Republika Hrvatska",
+            "telefonStanovanja":"563 637",
+            "statusStanovanja":"Stanuje"            
+        }
+    
+}

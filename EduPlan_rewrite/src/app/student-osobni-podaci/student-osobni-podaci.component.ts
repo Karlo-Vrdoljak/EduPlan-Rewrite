@@ -15,6 +15,7 @@ export class StudentOsobniPodaciComponent implements OnInit {
     this.studentService
       .getStudentData()
       .then(studentPodaci => (this.studentPodaci = studentPodaci));
+      console.log(this.studentPodaci);
 
   }
 

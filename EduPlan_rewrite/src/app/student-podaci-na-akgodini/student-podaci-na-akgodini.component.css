@@ -1,0 +1,30 @@
+
+@media screen and (min-width: 1024px) {
+
+    .firstHalfView {
+        height:15em;
+    }
+    .secondHalfView {
+        height:36.5em;
+    }
+}
+
+:host >>>  .ui-state-disabled  {    
+    opacity: 1.0;
+    font-size: 1.1em;
+}
+
+:host >>> .ui-widget:disabled {
+    opacity: 1.0;
+    font-size: 1.1em;
+
+}
+
+.card {
+    font-size: 1.25em;
+}
+
+.card h1 {
+    font-size: 1.5em;
+}
+

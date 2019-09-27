@@ -106,6 +106,7 @@ import {NodeService} from './demo/service/nodeservice';
 import { SubjectService } from './demo/service/subjectService';
 import { StudentService } from "./demo/service/studentService";
 import { StudentPodaciStudijService } from './demo/service/studentPodaciStudijService';
+import { StudentPodaciNaAkGodiniService } from './demo/service/studentPodaciNaAkGodiniService';
 import { StudentSviPredmetiComponent } from './student-svi-predmeti/student-svi-predmeti.component';
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
@@ -117,6 +118,7 @@ import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar
 import { StorageServiceModule } from "angular-webstorage-service";
 import { LanguageHandler } from  './app.languageHandler';
 import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
+import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/student-podaci-na-akgodini.component';
 
 @NgModule({
     imports: [
@@ -231,7 +233,8 @@ import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/stu
         StudentCalendarComponent,
         AppMenuKalendarComponent,
         TranslateSidebarComponent,
-        StudentPodaciNaStudijuComponent
+        StudentPodaciNaStudijuComponent,
+        StudentPodaciNaAkgodiniComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -243,7 +246,8 @@ import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/stu
         EventService,
         NodeService,
         LanguageHandler,
-        StudentPodaciStudijService
+        StudentPodaciStudijService,
+        StudentPodaciNaAkGodiniService
     ],
     bootstrap: [AppComponent]
 })

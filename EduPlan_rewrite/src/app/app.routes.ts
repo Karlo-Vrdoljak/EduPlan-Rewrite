@@ -20,6 +20,7 @@ import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.co
 import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
 import { StudentAgendaComponent } from './student-agenda/student-agenda.component';
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
+import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/student-podaci-na-akgodini.component';
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
 
@@ -46,7 +47,8 @@ export const routes: Routes = [
            { path: "vStudentAgenda/:isRedirect", component: StudentAgendaComponent },
            { path: "vStudentKalendar", component: StudentCalendarComponent },
            { path: "translate/:lang", component: TranslateSidebarComponent },
-           { path: "vStudentPodaciStudij", component: StudentPodaciNaStudijuComponent }
+           { path: "vStudentPodaciStudij", component: StudentPodaciNaStudijuComponent },
+           { path: 'vStudentPodaciNaAkGodini', component: StudentPodaciNaAkgodiniComponent}           
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});
