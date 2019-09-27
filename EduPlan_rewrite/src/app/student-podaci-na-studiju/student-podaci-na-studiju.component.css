@@ -1,6 +1,19 @@
-@media only screen and (orientation:portrait){
-  :host>>> body {
-    height: 100vw;
-    transform: rotate(90deg);
-  }
+@media only screen and (max-width: 600px) {
+    .largeMedium {
+        display: none;
+    }
+
+    .smallDevice {
+        display: block;
+    }
+
+}
+
+@media only screen and (min-width: 600px) {
+    .smallDevice {
+        display: none;
+    }
+
+
+
 }
