@@ -29,15 +29,28 @@ export class StudentCalendarComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.translate.use(this.languageHandler.getCurrentLanguage());
-        if (screen.width <= 700) {
-            this._router.navigate(["/vStudentAgenda", "sm"]);
-        }
+
         window.addEventListener("orientationchange", () => {
-            if (screen.width <= 700) {
-                this._router.navigate(["/vStudentAgenda", "sm"]);
+            switch (true) {
+                case screen.width <= 600 &&
+                    this.router.url == "/vStudentKalendar": {
+                    this._router.navigate(["/vStudentAgenda", "sm"]);
+                    break;
+                }
+                case screen.width >= 600 &&
+                    this.router.url == "/vStudentAgenda/sm": {
+                    this._router.navigate(["/vStudentKalendar"]);
+                    break;
+                }
+                default: {
+                    //none
+                    break;
+                }
             }
         });
+        if (screen.width <= 600) {
+            this._router.navigate(["/vStudentAgenda", "sm"]);
+        }
         this.translate.get("STUDENT_KALENDAR_LOCALE").toPromise().then(res => {
             this._calendarService.getCalendarData().then(events => {
                 this.events = events;

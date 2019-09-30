@@ -1,36 +1,36 @@
-  <div class="card" style="padding: 10px!important;">
+<div class="card largeMedium" style="padding: 10px!important;">
     <p-table [value]="subjects" dataKey="godina" [scrollable]="true" scrollHeight="70vh" sortField="godina" sortMode="single" (onSort)="onSort()">
-      <ng-template pTemplate="caption">
-          <!--Prosjeci--> 
-          {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
-      </ng-template>
-      <ng-template pTemplate="header" let-columns>
-          <tr>
-              <th></th>
-              <th>{{ 'STUDENT_PROSJECI_UPISANI_ECTS' | translate }}</th> <!--Upisani ECTS-->
-              <th>{{ 'STUDENT_PROSJECI_POST_POLOZENIH_ECTS' | translate }}</th><!--Postotak položenih ECTS-->
-              <th>{{ 'STUDENT_PROSJECI_POLOZENI_ECTS' | translate }}</th> <!--Položeni ECTS-->
-              <th>{{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_PROSJEK_OCJENA' | translate }}</th> <!--Prosjek ocjena-->
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
-          <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
-              <td>
-                  <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
-                      <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right usesTransition fade' : 'pi pi-chevron-circle-down usesTransition fade'" style="margin-left:-0.2em;"></i>
-                      {{rowData.godina}}&nbsp;godina</span>
-                  </a>
-              </td>
-              <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
-              <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
-              <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>
-              <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData let-rowIndex="rowIndex">
+        <ng-template pTemplate="caption">
+            <!--Prosjeci--> 
+            {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th></th>
+                <th>{{ 'STUDENT_PROSJECI_UPISANI_ECTS' | translate }}</th> <!--Upisani ECTS-->
+                <th>{{ 'STUDENT_PROSJECI_POST_POLOZENIH_ECTS' | translate }}</th><!--Postotak položenih ECTS-->
+                <th>{{ 'STUDENT_PROSJECI_POLOZENI_ECTS' | translate }}</th> <!--Položeni ECTS-->
+                <th>{{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_PROSJEK_OCJENA' | translate }}</th> <!--Prosjek ocjena-->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
+            <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+                <td>
+                    <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
+                        <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right usesTransition fade' : 'pi pi-chevron-circle-down usesTransition fade'" style="margin-left:-0.2em;"></i>
+                        {{rowData.godina}}&nbsp;godina</span>
+                    </a>
+                </td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData let-rowIndex="rowIndex">
         <td  colspan="5" class="ui-resizable-column" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
-          <div class="card" style="padding: 10px!important;" >
-              <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="30vh" [resizableColumns]="true">
+            <div class="card" style="padding: 10px!important;" >
+                <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="30vh" [resizableColumns]="true">
                 <ng-template pTemplate="colgroup" let-columns>
                     <colgroup>
                         <col *ngFor="let col of columns" >
@@ -51,8 +51,65 @@
                     </tr>
                 </ng-template>
             </p-table>
-          </div>
+            </div>
         </td>
-      </ng-template>
-  </p-table>
+        </ng-template>
+    </p-table>
+</div>
+<div class="card smallDevice" style="padding: 10px!important;">
+    <p-table [value]="subjects" dataKey="godina" [scrollable]="true" scrollHeight="70vh" sortField="godina" sortMode="single" (onSort)="onSort()">
+        <ng-template pTemplate="caption">
+            <!--Prosjeci--> 
+            {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <!--<th>{{ 'STUDENT_PROSJECI_UPISANI_ECTS' | translate }}</th>-->
+                <th colspan="2" style="text-align: center;" >{{ 'STUDENT_PROSJECI_POST_POLOZENIH_ECTS' | translate }}</th><!--Postotak položenih ECTS-->
+                <!--<th>{{ 'STUDENT_PROSJECI_POLOZENI_ECTS' | translate }}</th>-->
+                <th>{{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_PROSJEK_OCJENA' | translate }}</th> <!--Prosjek ocjena-->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
+            <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+                <td>
+                    <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
+                        <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right usesTransition fade' : 'pi pi-chevron-circle-down usesTransition fade'" style="margin-left:-0.2em;"></i>
+                        {{rowData.godina}}&nbsp;god</span>
+                    </a>
+                </td>
+                <!--<td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>-->
+                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
+                <!--<td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>-->
+                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData let-rowIndex="rowIndex">
+        <tr> <!--*ngIf="rowGroupData[rowData.godina].index === rowIndex"-->
+            <td *ngIf="rowGroupData[rowData.godina].index === rowIndex"  colspan="3" class="ui-resizable-column" >
+                <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="30vh" [resizableColumns]="true">
+                <!--{{col.header}} -->
+                <ng-template pTemplate="body"  let-rowData let-columns="columns">
+                    <p-accordion [multiple]="true" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+                        <p-accordionTab  [header]="rowData['predmet']">
+                            <div *ngFor="let col of columns" >
+                                <span *ngIf="col.field != 'predmet'">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-sm-6">
+                                            <b style="padding: -10px!important;">{{ col.header }}</b>
+                                        </div><div class="ui-g-12 ui-sm-6">
+                                            {{ rowData[col.field] }}
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
+                </ng-template>
+            </p-table>
+                
+            </td>
+        </tr>
+        </ng-template>
+    </p-table>
 </div>

@@ -1,6 +1,11 @@
 # Morpheus
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+## Localhost tunnel
+
+<!--until npx lt <options>; do done-->
+run `lt --port 4200  --subdomain eduplan-rewrite --local-host localhost`, Servea server na globalu.
+Testiranje na fizickoj razini za razlicite uredaje.
 
 ## Save Layout Eduplan changes
 

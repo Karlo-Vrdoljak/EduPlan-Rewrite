@@ -4,6 +4,7 @@ import { SubjectService } from "../demo/service/subjectService";
 import { Subject } from "../demo/domain/subject";
 import { ProsjekGodine } from "../demo/domain/prosjeci";
 import { TranslateService } from "@ngx-translate/core";
+import { AccordionModule } from "primeng/accordion";
 
 @Component({
     selector: "app-student-prosjeci",
@@ -108,7 +109,6 @@ export class StudentProsjeciComponent implements OnInit {
                 let countPolozenoEcts = 0;
                 let countPolozenoPredmeta = 0;
                 let sumOcjena = 0;
-
                 const sumEcts = e
                     .map(e => e.ects)
                     .reduce((a, b) => parseInt(a, 10) + parseInt(b, 10), 0);
@@ -134,7 +134,7 @@ export class StudentProsjeciComponent implements OnInit {
                 this._groupSubjects.push(result);
             }
         });
-        //console.log(this._groupSubjects);
+       // console.log(this._groupSubjects);
     }
 
     groupByYearForTable() {

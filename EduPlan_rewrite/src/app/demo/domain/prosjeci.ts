@@ -3,4 +3,5 @@ export interface ProsjekGodine {
     _avgECTS;
     _sumEctsPolozeno;
     _avgOcjena;
+    _predmet;
 }

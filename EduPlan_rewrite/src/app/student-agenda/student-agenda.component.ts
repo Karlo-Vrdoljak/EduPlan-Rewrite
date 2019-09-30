@@ -33,17 +33,15 @@ export class StudentAgendaComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        
         const redirect = this._route.snapshot.paramMap.get("isRedirect");
+        /*
         if(redirect == 'sm') {
-            if (screen.width >= 700) {
+            if (screen.width >= 600) {
                 this._router.navigate(["/vStudentKalendar"]);
             }
-            window.addEventListener("orientationchange", () => {
-                if (screen.width >= 700) {
-                    this._router.navigate(["/vStudentKalendar"]);
-                }
-            });
         }
+        */
         this.translate.get("STUDENT_KALENDAR_LOCALE").subscribe(res => {
             this._calendarService.getCalendarData().then(events => {
                 this.events = events;
