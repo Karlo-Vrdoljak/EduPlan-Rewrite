@@ -8,26 +8,18 @@ import { StudentPodaciStudij } from "../demo/domain/StudentPodaciStudij";
     templateUrl: "./student-podaci-na-studiju.component.html",
     styleUrls: ["./student-podaci-na-studiju.component.css"],
 })
+
 export class StudentPodaciNaStudijuComponent implements OnInit {
     podaciStudij: StudentPodaciStudij[];
     cols: any[];
+    colsSmall: any[];
 
     constructor(
         private translate: TranslateService,
         private studentPodaciService: StudentPodaciStudijService
     ) {}
-    /*
-    fullScreen() {
-      // Kind of painful, but this is how it works for now
-      if (document.documentEslement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(res => { console.log(res);});
-        }
-    }
-    */
 
     ngOnInit() {
-    //    this.fullScreen();
-    //    screen.orientation.lock("landscape-primary").catch(res => {console.log(res);});
         this.studentPodaciService
             .getStudentPodaciStudij()
             .then(podaciStudij => (this.podaciStudij = podaciStudij));
@@ -99,6 +91,13 @@ export class StudentPodaciNaStudijuComponent implements OnInit {
                         //                        width: "10%"
                     }
                 ];
+
+                this.colsSmall = [
+                    {
+                        field: "studij",
+                        header: res.STUDENT_BDSTUDENTPREDMETI_STUDIJ
+                        //                        width: "7%"
+                    }];
             });
     }
 }

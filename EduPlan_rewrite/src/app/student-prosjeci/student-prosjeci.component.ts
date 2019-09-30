@@ -50,8 +50,8 @@ export class StudentProsjeciComponent implements OnInit {
                     },
                     {
                         field: "ocjena",
-                        header:
-                            res.STUDENT_BDSTUDENTPREDMETI_OCJENA /*"Ocjena"*/,
+                        header: res.STUDENT_BDSTUDENTPREDMETI_OCJENA /*"Ocjena"*/,
+
                         width: "15%"
                     },
                     {

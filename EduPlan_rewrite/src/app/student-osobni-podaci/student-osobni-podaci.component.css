@@ -2,10 +2,10 @@
 @media screen and (min-width: 1024px) {
 
     .firstHalfView {
-        height:15em;
+        height:17em;
     }
     .secondHalfView {
-        height:36.5em;
+        height:36.9em;
     }
 }
 
@@ -17,6 +17,12 @@
     opacity: 1.0;
 }
 
+.card {
+    font-size: 1.1em;
+}
 
+.card h1 {
+    font-size: 1.3em;
+}
 
 
