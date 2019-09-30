@@ -1,5 +1,5 @@
 <div class="card largeMedium" style="padding: 10px!important;">
-    <p-table [columns]="cols" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="77vh"  dataKey="kraticaPredmeta" 
+    <p-table [columns]="cols" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="50vh"  dataKey="kraticaPredmeta" 
                 [resizableColumns]="true">  
         <ng-template pTemplate="caption">
             <!--Podaci o predmetima-->
@@ -27,7 +27,10 @@
                     </a>
                 </td>
                 <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
-                    {{rowData[col.field]}}
+                    <span *ngIf="rowData[col.field] == 'Da' || rowData[col.field] == 'Ne'; else textOutput">
+                            <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                    </span>
+                    <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                 </td>
             </tr>
         </ng-template>

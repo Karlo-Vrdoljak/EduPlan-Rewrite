@@ -46,7 +46,10 @@
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr *ngIf="rowGroupData[rowData.godina].index === rowIndex">
                         <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
-                            {{rowData[col.field]}}
+                            <span *ngIf="rowData[col.field] == 'Da' || rowData[col.field] == 'Ne'; else textOutput">
+                                 <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                            </span>
+                            <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                         </td>
                     </tr>
                 </ng-template>
@@ -87,7 +90,7 @@
         <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData let-rowIndex="rowIndex">
         <tr> <!--*ngIf="rowGroupData[rowData.godina].index === rowIndex"-->
             <td *ngIf="rowGroupData[rowData.godina].index === rowIndex"  colspan="3" class="ui-resizable-column" >
-                <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="30vh" [resizableColumns]="true">
+                <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="60vh" [resizableColumns]="true">
                 <!--{{col.header}} -->
                 <ng-template pTemplate="body"  let-rowData let-columns="columns">
                     <p-accordion [multiple]="true" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
@@ -96,9 +99,12 @@
                                 <span *ngIf="col.field != 'predmet'">
                                     <div class="ui-g">
                                         <div class="ui-g-12 ui-sm-6">
-                                            <b style="padding: -10px!important;">{{ col.header }}</b>
-                                        </div><div class="ui-g-12 ui-sm-6">
-                                            {{ rowData[col.field] }}
+                                            <b style="padding: -10px!important; text-align: left;">{{ col.header }}</b>
+                                        </div><div style="text-align: center;" class="ui-g-12 ui-sm-6">
+                                            <span *ngIf="rowData[col.field] == 'Da' || rowData[col.field] == 'Ne'; else textOutput">
+                                                 <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                                            </span>
+                                            <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                                         </div>
                                     </div>
                                 </span>
