@@ -103,8 +103,8 @@
             </div>
 
           <div class="card smallDevice" style="padding: 10px!important;">   <!-- small screen -->       
-                <p-table [columns]="colsSmall" [value]="podaciStudij" selectionMode="single" [scrollable]="true" scrollHeight="77vh"  dataKey="kraticaStudija" 
-                          [resizableColumns]="true">  
+                <p-table [columns]="colsSmall" [value]="podaciStudij"  selectionMode="single" [scrollable]="true" scrollHeight="77vh"  dataKey="kraticaStudija" 
+                          [resizableColumns]="true" >  
                     <ng-template pTemplate="caption">
                         <!--Podaci o predmetima-->
                         {{ 'STUDENT_STUDENTKARTICA_PODACI_NA_STUDIJU' | translate }}
@@ -114,7 +114,7 @@
                             <col *ngFor="let col of columns" [style.width]="col.width">
                         </colgroup>
                     </ng-template>
-                    <ng-template pTemplate="header" let-columns>
+                    <ng-template pTemplate="header" let-columns >
                         <tr>
                             <th *ngFor="let col of columns" colspan="2" [pSortableColumn]="col.field" pResizableColumn style="text-align: center;">
                               {{col.header}}
