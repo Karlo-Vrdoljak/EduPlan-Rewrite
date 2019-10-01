@@ -738,7 +738,6 @@
   background-color: #f8f8f8;
   box-sizing: border-box;
   padding-top: 50px;
-
 }
 .login-body .login-panel {
   -moz-border-radius: 3px;
@@ -750,8 +749,9 @@
   margin: 0 auto 40px;
   text-align: center;
   box-sizing: border-box;
+  box-shadow: 3px 4px 7px  #6ec5ff;
   color: #afafc0;
-  height: 35em;
+  height: 32em;
 }
 .login-body .login-panel .login-container {
   padding: 50px 80px;
@@ -763,7 +763,7 @@
   margin-top: 0px;
 }
 .login-body .login-panel .stripe {
-  border-top: 1px solid #c0c9ce;
+  border-top: 1px solid #97bedf;
   height: 0;
   width: 100%;
 }
