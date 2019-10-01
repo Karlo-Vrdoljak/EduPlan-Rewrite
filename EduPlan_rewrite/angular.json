@@ -113,11 +113,7 @@
                                       "node_modules/quill/dist/quill.snow.css",
                                       "node_modules/font-awesome/css/font-awesome.min.css",
                                       "node_modules/flag-icon-css/css/flag-icon.min.css",
-                                      "src/styles.scss",
-                                      "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                                      "node_modules/jquery/dist/jquery.min.js",
-                                      "src/assets/landing/css/simple-line-icons.css",
-                                      "src/assets/landing/landing-page.css"
+                                      "src/styles.scss"
                                   ],
                         "assets": [
                             "src/assets",
