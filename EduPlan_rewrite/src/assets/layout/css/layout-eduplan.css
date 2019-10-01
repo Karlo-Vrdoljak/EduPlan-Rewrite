@@ -738,18 +738,20 @@
   background-color: #f8f8f8;
   box-sizing: border-box;
   padding-top: 50px;
+
 }
 .login-body .login-panel {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
-  border-radius: 3px;
+  border-radius: 10px;
   background-color: #ffffff;
-  border: solid 1px #dce2e7;
-  width: 400px;
+  border: solid 1px #97bedf;
+  width: 35em;
   margin: 0 auto 40px;
   text-align: center;
   box-sizing: border-box;
   color: #afafc0;
+  height: 35em;
 }
 .login-body .login-panel .login-container {
   padding: 50px 80px;
@@ -761,7 +763,7 @@
   margin-top: 0px;
 }
 .login-body .login-panel .stripe {
-  border-top: 1px solid #dbdbdb;
+  border-top: 1px solid #c0c9ce;
   height: 0;
   width: 100%;
 }
