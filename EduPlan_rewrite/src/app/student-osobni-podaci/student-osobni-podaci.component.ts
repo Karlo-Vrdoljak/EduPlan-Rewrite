@@ -1,6 +1,4 @@
-import { StudentPodaci } from './../demo/domain/student';
 import { Component, OnInit } from '@angular/core';
-import { StudentService } from '../demo/service/studentService';
 import { StudentiService } from '../_services/studenti.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -10,23 +8,21 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./student-osobni-podaci.component.css'],
 })
 export class StudentOsobniPodaciComponent implements OnInit {
-  studentPodaci = <any>{};
+  studentPodaci = {} as any;
 
-  constructor(private studentService: StudentService, private studentiService: StudentiService) { }
+  constructor(private studentiService: StudentiService) { }
 
   ngOnInit() {
-    // this.studentService
-    //   .getStudentData()
-    //   .then(studentPodaci => (this.studentPodaci = studentPodaci));
-    //   console.log(this.studentPodaci);
 
     const params = {
-      PkStudent: 2
+      PkStudent: 4
     };
+
     this.studentiService.getStudent(params).subscribe((data) => {
-      this.studentPodaci = data;
-      console.log(this.studentPodaci);
+      this.studentPodaci = data[0];
+      this.formatAllDates();
     },
+
     (err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
         console.log('Client-side error occured.');
@@ -36,13 +32,14 @@ export class StudentOsobniPodaciComponent implements OnInit {
     }, () => { });
   }
 
- /* formatAllDates() {
-    this.studentPodaci.datumRodenja = new Date (this.studentPodaci.datumRodenja);
-    this.studentPodaci.datumIspisa = new Date (this.studentPodaci.datumIspisa);
-    this.studentPodaci.datumPodizanjaDokumenta = new Date (this.studentPodaci.datumPodizanjaDokumenta);
-    this.studentPodaci.datumPravaDo = new Date (this.studentPodaci.datumPravaDo);
-    this.studentPodaci.datumPravaOd = new Date (this.studentPodaci.datumPravaOd);
-    this.studentPodaci.datumUpisa = new Date (this.studentPodaci.datumUpisa);
-
-  }*/
+  formatAllDates() {
+    this.studentPodaci.DatumRodjenja ? this.studentPodaci.DatumRodjenja = new Date(this.studentPodaci.DatumRodjenja) :  this.studentPodaci.DatumRodjenja = null;
+    this.studentPodaci.DatumPravaDo ? this.studentPodaci.DatumPravaDo = new Date(this.studentPodaci.DatumPravaDo) :  this.studentPodaci.DatumPravaDo = null;
+    this.studentPodaci.DatumPravaOd ? this.studentPodaci.DatumPravaOd = new Date(this.studentPodaci.DatumPravaOd) :  this.studentPodaci.DatumPravaOd = null;
+    this.studentPodaci.DatumUpisa ? this.studentPodaci.DatumUpisa = new Date(this.studentPodaci.DatumUpisa) :  this.studentPodaci.DatumUpisa = null;
+    this.studentPodaci.DatumIspisa ? this.studentPodaci.DatumIspisa = new Date(this.studentPodaci.DatumIspisa) : this.studentPodaci.DatumIspisa = null;
+    this.studentPodaci.DatumPodizanjaDokumenta ? this.studentPodaci.DatumPodizanjaDokumenta = new Date(this.studentPodaci.DatumPodizanjaDokumenta) : this.studentPodaci.DatumPodizanjaDokumenta = null;
+  }
 }
+
+
