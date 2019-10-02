@@ -17,7 +17,6 @@ export class StudentiService {
     this.config = new Config();
   }
 
-  // select na tablicu Pitanja.BankaPitanja za comboBox
   getStudent(data) {
     return this.http.get(this.config.API_URL + 'Student', { params: data })
       .pipe(retry(this.config.APIRetryCount), catchError(this.appService.handleError('StudentiService.getStudent')));
