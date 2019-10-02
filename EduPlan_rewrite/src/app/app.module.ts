@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {AppRoutes} from './app.routes';
 
+import { Config } from './config';
 import { AccordionModule } from 'primeng/accordion';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -75,6 +76,7 @@ import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient } from "@angular/common/http";
+import { MessageService } from 'primeng/api';
 
 import {AppComponent} from './app.component';
 import {AppMenuComponent, AppSubMenuComponent} from './app.menu.component';
@@ -119,6 +121,8 @@ import { StorageServiceModule } from "angular-webstorage-service";
 import { LanguageHandler } from  './app.languageHandler';
 import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
 import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/student-podaci-na-akgodini.component';
+import { StudentiService } from "./_services/studenti.service";
+import { AppService } from "./_services/app.service";
 
 @NgModule({
     imports: [
@@ -247,7 +251,11 @@ import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/s
         NodeService,
         LanguageHandler,
         StudentPodaciStudijService,
-        StudentPodaciNaAkGodiniService
+        StudentPodaciNaAkGodiniService,
+        StudentiService,
+        AppService,
+        Config,
+        MessageService
     ],
     bootstrap: [AppComponent]
 })

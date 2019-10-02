@@ -1,22 +1,39 @@
 import { StudentPodaci } from './../demo/domain/student';
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../demo/service/studentService';
+import { StudentiService } from '../_services/studenti.service';
+import { HttpErrorResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-student-osobni-podaci',
   templateUrl: './student-osobni-podaci.component.html',
   styleUrls: ['./student-osobni-podaci.component.css'],
 })
 export class StudentOsobniPodaciComponent implements OnInit {
-  studentPodaci: StudentPodaci;
+  studentPodaci = <any>{};
 
-  constructor(private studentService: StudentService) { }
+  constructor(private studentService: StudentService, private studentiService: StudentiService) { }
 
   ngOnInit() {
-    this.studentService
-      .getStudentData()
-      .then(studentPodaci => (this.studentPodaci = studentPodaci));
-      console.log(this.studentPodaci);
+    // this.studentService
+    //   .getStudentData()
+    //   .then(studentPodaci => (this.studentPodaci = studentPodaci));
+    //   console.log(this.studentPodaci);
 
+    const params = {
+      PkStudent: 2
+    };
+    this.studentiService.getStudent(params).subscribe((data) => {
+      this.studentPodaci = data;
+      console.log(this.studentPodaci);
+    },
+    (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
   }
 
  /* formatAllDates() {
