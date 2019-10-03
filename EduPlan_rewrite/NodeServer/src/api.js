@@ -30,4 +30,14 @@ router.get("/StudentNaVisokomUcilistuPredmet", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 });
 
+// dohvat podataka o studentu na svim ak. godinama koje je pohadao
+router.get("/StudentNaAkGodini", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("EduPlanNew.spStudentUAkGodini_Select", conn);
+
+    request.addParameter("PkStudent", TYPES.Int, req.query.PkStudent);
+
+    db.execStoredProc(request, conn, res, "{}");
+});
+
 module.exports = router;

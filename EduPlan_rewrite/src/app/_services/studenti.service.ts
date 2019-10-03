@@ -49,4 +49,23 @@ export class StudentiService {
                 )
             );
     }
+    /*
+     *  Select sve podatke o studentu na akadmeskim godinama koje je pohađao.
+     *  Params: int ili null
+     *  Returns: Niz od više objekata ili jednog objekta
+     */
+    getStudentNaAkGodini(data) {
+        return this.http
+            .get(this.config.API_URL + "StudentNaAkGodini", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "StudentiService.getStudentNaAkGodini"
+                    )
+                )
+            );
+    }
 }

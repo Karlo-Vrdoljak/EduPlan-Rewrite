@@ -1,87 +1,94 @@
-<div class="ui-g ui-fluid" *ngIf="studentPodaciNaAkGodini">
+<div class="ui-g ui-fluid" *ngIf="studentPodaciNaAkGodinama">
     <div class="ui-g-12 ui-lg-12 firstHalfView">
         <!-- Left Side -->
-        <div class="card card-w-title ">
-            <h1>{{'STUDENTPODACINAAKGODINI_PODACINAAKGODINI' | translate}}</h1>
-            <div class="ui-g form-group">
+        <p-tabView (onChange)="filterByYearOnChange($event)">
+            <p-tabPanel [header]="item.SkolskaGodinaNaziv" *ngFor="let item of studentPodaciNaAkGodinama; let i = index" [selected]="i == studentPodaciNaAkGodinama.length - 1">
+                <div class="card card-w-title ">
+                    <h1>{{'STUDENTPODACINAAKGODINI_PODACINAAKGODINI' | translate}}</h1>
+                    <div class="ui-g form-group">
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_BRACNO_STANJE' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.bracnoStanje" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_BRACNO_STANJE' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.NazivBracnoStanje" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_RAZINA_PRAVA_PREHRANE' | translate}}:<input type="text"
-                        pInputText [ngModel]="studentPodaciNaAkGodini.razinaPravaNaPrehranu" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_RAZINA_PRAVA_PREHRANE' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.RazinaPravaNaPrehranuNaziv" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_ADRESA_PREBIVALISTA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.adresaPrebivalista" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_ADRESA_PREBIVALISTA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.AdresaPrebivaliste" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_GRAD_PREBIVALISTA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.gradPrebivalista" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_GRAD_PREBIVALISTA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.NazivGradaPrebivaliste" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DRZAVA_PREBIVALISTA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.drzavaPrebivalista" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DRZAVA_PREBIVALISTA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.NazivDrzavePrebivaliste" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_TELEFON_PREBIVALISTA' | translate}}:<input type="text"
-                        pInputText [ngModel]="studentPodaciNaAkGodini.telefonPrebivalista" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_TELEFON_PREBIVALISTA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.TelefonPrebivaliste" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DATUM_POTVRDE_PREBIVALISTA' | translate}}:<p-calendar
-                        showIcon="true" disabled="true"
-                        [ngModel]="studentPodaciNaAkGodini.datumIzdavanjaPotvrdeoPrebivalistu"></p-calendar>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DATUM_POTVRDE_PREBIVALISTA' | translate}}:<p-calendar
+                                showIcon="true" disabled="true"
+                                [ngModel]="studentPodaciNaAkGodiniFiltrirani.DatumIzdavanjaPotvrdeOPrebivalistu"></p-calendar>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_ADRESA_STANOVANJA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.adresaStanovanja" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_ADRESA_STANOVANJA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.AdresaStanovanje" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_GRAD_STANOVANJA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.gradStanovanja" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_GRAD_STANOVANJA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.NazivGradaStanovanje" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DRZAVA_STANOVANJA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.drzavaStanovanja" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DRZAVA_STANOVANJA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.NazivDrzaveStanovanje" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_TELEFON_STANOVANJA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.telefonStanovanja" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_TELEFON_STANOVANJA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.TelefonStanovanje" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_BDSTUDENTPODACINASTUDIJU_STATUS_STANOVANJA' | translate}}:<input type="text" pInputText
-                        [ngModel]="studentPodaciNaAkGodini.statusStanovanja" disabled>
-                </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_BDSTUDENTPODACINASTUDIJU_STATUS_STANOVANJA' | translate}}:<input type="text"
+                                pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.stanovanjeStatus" disabled>
+                        </div>
 
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    <p-checkbox name="zdrastvenoOsiguranje" binary="true"
-                        label="{{'STUDENT_BDSTUDENTPODACINASTUDIJU_ZDRAVSTVENO_OSIGURANJE' | translate}}"
-                        [ngModel]="studentPodaciNaAkGodini.zdrastvenoOsiguranje" disabled="true"></p-checkbox>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p-checkbox name="zdrastvenoOsiguranje" binary="true"
+                                label="{{'STUDENT_BDSTUDENTPODACINASTUDIJU_ZDRAVSTVENO_OSIGURANJE' | translate}}"
+                                [ngModel]="studentPodaciNaAkGodiniFiltrirani.ZdravstvenoOsiguranje" disabled="true"></p-checkbox>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p-checkbox name="stipendija" binary="true"
+                                label="{{'STUDENT_BDSTUDENTPODACINASTUDIJU_STIPENDIJA' | translate}}"
+                                [ngModel]="studentPodaciNaAkGodiniFiltrirani.PrimaStipendijuDaNE" disabled="true"></p-checkbox>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p-checkbox name="studiraNaDrugomVisokomUcilistu" binary="true"
+                                label="{{'STUDENT_BDSTUDENTPODACINASTUDIJU_STUDIRA_NA_DRUGOM_VISOKOM_UCILISTU' | translate}}"
+                                [ngModel]="studentPodaciNaAkGodiniFiltrirani.StudiraNaDrugomVisokomUcilistuDaNe" disabled="true">
+                            </p-checkbox>
+                        </div>
+                    </div>
                 </div>
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    <p-checkbox name="stipendija" binary="true"
-                        label="{{'STUDENT_BDSTUDENTPODACINASTUDIJU_STIPENDIJA' | translate}}"
-                        [ngModel]="studentPodaciNaAkGodini.stipendija" disabled="true"></p-checkbox>
-                </div>
-                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    <p-checkbox name="studiraNaDrugomVisokomUcilistu" binary="true"
-                        label="{{'STUDENT_BDSTUDENTPODACINASTUDIJU_STUDIRA_NA_DRUGOM_VISOKOM_UCILISTU' | translate}}"
-                        [ngModel]="studentPodaciNaAkGodini.studiraNaDrugomVisokomUcilistu" disabled="true"></p-checkbox>
-                </div>
-            </div>
-        </div>
+            </p-tabPanel>
+            
+        </p-tabView>
+
     </div>
 </div>
