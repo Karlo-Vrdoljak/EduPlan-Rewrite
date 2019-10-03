@@ -1,5 +1,5 @@
             <div class="card largeMedium" style="padding: 10px!important;">
-                <p-table [columns]="cols" [value]="podaciStudij" selectionMode="single" [scrollable]="true" scrollHeight="77vh"  dataKey="kraticaStudija" 
+                <p-table [columns]="cols" [value]="podaciStudij" selectionMode="single" [scrollable]="true" scrollHeight="60vh"  dataKey="SifraUpisnogLista" 
                          [resizableColumns]="true">  
                     <ng-template pTemplate="caption">
                         <!--Podaci o predmetima-->
@@ -27,8 +27,9 @@
                                 </a>
                             </td>
                             <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
-                                <span *ngIf="rowData[col.field] == 'Da' || rowData[col.field] == 'Ne'; else textOutput">
-                                        <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                                <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                                    <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                            [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                                 </span>
                                 <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                             </td>
@@ -48,25 +49,25 @@
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPREDMETI_KRATICA_STUDIJA' | translate }}:
                                                             </b>
-                                                             {{rowData.kraticaStudija}}
+                                                             {{rowData.Kratica}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_SIFRA_UPISNOG_LISTA' | translate }}:
                                                             </b>
-                                                             {{rowData.sifraUpisnogLista}}
+                                                             {{rowData.SifraUpisnogLista}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_INDIKATOR_UPISA' | translate }}:
                                                             </b>
-                                                             {{rowData.indikatorUpisa}}
+                                                             {{rowData.IndikatorUpisaNaziv}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_STUDIJ_U_PREKIDU' | translate }}:
                                                               </b>
-                                                              <span [style.color]="rowData.studijUPrekidu == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polazeSeDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                                                              <span [style.color]="rowData.StudijUPrekiduDaNe == true ? 'green' : 'red' "><i [ngClass]="rowData.StudijUPrekiduDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -76,20 +77,20 @@
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_RAZLOG_PRESTANKA_STUDENTSKIH_PRAVA' | translate }}:
                                                             </b>
-                                                             {{rowData.razlogPrestankaStudentskihPrava}}
+                                                             {{rowData.RazlogPrestankaStudentskihPravaNaziv}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_POSEBAN_STATUS_STUDENTA' | translate }}:
                                                             </b>
-                                                             {{rowData.posebanStatusStudenta}}
+                                                             {{rowData.PosebanStatusStudentaNaziv}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 <!--Polaze se: -->
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_TIP_INDEKSA' | translate }}:
                                                             </b>
-                                                             {{rowData.tipIndeksa}}
+                                                             {{rowData.TipIndexNaziv}}
 
                                                         </div>
                                                     </div>
@@ -103,7 +104,7 @@
             </div>
 
           <div class="card smallDevice" style="padding: 10px!important;">   <!-- small screen -->       
-                <p-table [columns]="colsSmall" [value]="podaciStudij"  selectionMode="single" [scrollable]="true" scrollHeight="77vh"  dataKey="kraticaStudija" 
+                <p-table [columns]="colsSmall" [value]="podaciStudij"  selectionMode="single" [scrollable]="true" scrollHeight="77vh"  dataKey="SifraUpisnogLista" 
                           [resizableColumns]="true" >  
                     <ng-template pTemplate="caption">
                         <!--Podaci o predmetima-->
@@ -148,25 +149,25 @@
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPREDMETI_KRATICA_STUDIJA' | translate }}:
                                                             </b>
-                                                             {{rowData.kraticaStudija}}
+                                                             {{rowData.Kratica}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_SIFRA_UPISNOG_LISTA' | translate }}:
                                                             </b>
-                                                             {{rowData.sifraUpisnogLista}}
+                                                             {{rowData.SifraUpisnogLista}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_INDIKATOR_UPISA' | translate }}:
                                                             </b>
-                                                             {{rowData.indikatorUpisa}}
+                                                             {{rowData.IndikatorUpisaNaziv}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_STUDIJ_U_PREKIDU' | translate }}:
                                                               </b>
-                                                              <span [style.color]="rowData.studijUPrekidu == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.studijUPrekidu == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                                                              <span [style.color]="rowData.StudijUPrekiduDaNe == true ? 'green' : 'red' "><i [ngClass]="rowData.StudijUPrekiduDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
@@ -194,20 +195,20 @@
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_RAZLOG_PRESTANKA_STUDENTSKIH_PRAVA' | translate }}:
                                                             </b>
-                                                             {{rowData.razlogPrestankaStudentskihPrava}}
+                                                             {{rowData.RazlogPrestankaStudentskihPravaNaziv}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_POSEBAN_STATUS_STUDENTA' | translate }}:
                                                             </b>
-                                                             {{rowData.posebanStatusStudenta}}
+                                                             {{rowData.PosebanStatusStudentaNaziv}}
                                                         </div>
                                                         <div class="ui-g-12">
                                                             <b>
                                                                 <!--Polaze se: -->
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_TIP_INDEKSA' | translate }}:
                                                             </b>
-                                                             {{rowData.tipIndeksa}}
+                                                             {{rowData.TipIndexNaziv}}
 
                                                         </div>
                                                         <div class="ui-g-12">
@@ -231,7 +232,7 @@
                                                                 <!--Polaze se: -->
                                                                 {{ 'STUDENT_BDSTUDENTPODACINASTUDIJU_PLACANJE' | translate }}:
                                                             </b>
-                                                            <span [style.color]="rowData.placanje == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.placanje == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                                                            <span [style.color]="rowData.placanje == true ? 'green' : 'red' "><i [ngClass]="rowData.placanje == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
 
                                                         </div>
                                                         <div class="ui-g-12">

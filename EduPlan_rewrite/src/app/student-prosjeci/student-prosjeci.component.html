@@ -1,5 +1,5 @@
 <div class="card largeMedium" style="padding: 10px!important;">
-    <p-table [value]="subjects" dataKey="godina" [scrollable]="true" scrollHeight="70vh" sortField="godina" sortMode="single" (onSort)="onSort()">
+    <p-table [value]="subjects" dataKey="StudijskaGodina" [scrollable]="true" scrollHeight="50vh" sortField="StudijskaGodina" sortMode="single" (onSort)="onSort()">
         <ng-template pTemplate="caption">
             <!--Prosjeci--> 
             {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
@@ -14,21 +14,21 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
-            <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+            <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.StudijskaGodina].index === rowIndex">
                 <td>
                     <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
                         <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right usesTransition fade' : 'pi pi-chevron-circle-down usesTransition fade'" style="margin-left:-0.2em;"></i>
-                        {{rowData.godina}}&nbsp;godina</span>
+                        {{rowData.StudijskaGodina}}&nbsp;godina</span>
                     </a>
                 </td>
-                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>
-                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
-                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>
-                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina]._sumEctsUpisano }}</td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina]._avgECTS }}&nbsp;%</td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina]._sumEctsPolozeno }}</td>
+                <td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina]._avgOcjena }}</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData let-rowIndex="rowIndex">
-        <td  colspan="5" class="ui-resizable-column" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+        <td  colspan="5" class="ui-resizable-column" *ngIf="rowGroupData[rowData.StudijskaGodina].index === rowIndex">
             <div class="card" style="padding: 10px!important;" >
                 <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="30vh" [resizableColumns]="true">
                 <ng-template pTemplate="colgroup" let-columns>
@@ -44,10 +44,11 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
-                    <tr *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+                    <tr *ngIf="rowGroupData[rowData.StudijskaGodina].index === rowIndex">
                         <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
-                            <span *ngIf="rowData[col.field] == 'Da' || rowData[col.field] == 'Ne'; else textOutput">
-                                 <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                            <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                                <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                        [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                             </span>
                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                         </td>
@@ -60,7 +61,7 @@
     </p-table>
 </div>
 <div class="card smallDevice" style="padding: 10px!important;">
-    <p-table [value]="subjects" dataKey="godina" [scrollable]="true" scrollHeight="70vh" sortField="godina" sortMode="single" (onSort)="onSort()">
+    <p-table [value]="subjects" dataKey="StudijskaGodina" [scrollable]="true" scrollHeight="80vh" sortField="StudijskaGodina" sortMode="single" (onSort)="onSort()">
         <ng-template pTemplate="caption">
             <!--Prosjeci--> 
             {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
@@ -74,35 +75,37 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
-            <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
+            <tr class="ui-widget-header" *ngIf="rowGroupData[rowData.StudijskaGodina].index === rowIndex">
                 <td>
                     <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
                         <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-right usesTransition fade' : 'pi pi-chevron-circle-down usesTransition fade'" style="margin-left:-0.2em;"></i>
-                        {{rowData.godina}}&nbsp;god</span>
+                        {{rowData.StudijskaGodina}}&nbsp;god</span>
                     </a>
                 </td>
-                <!--<td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsUpisano }}</td>-->
-                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgECTS }}&nbsp;%</td>
-                <!--<td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._sumEctsPolozeno }}</td>-->
-                <td style="text-align: center;">{{ _groupSubjects[rowData.godina -1 ]._avgOcjena }}</td>
+                <!--<td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina -1 ]._sumEctsUpisano }}</td>-->
+                <td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina]._avgECTS }}&nbsp;%</td>
+                <!--<td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina -1 ]._sumEctsPolozeno }}</td>-->
+                <td style="text-align: center;">{{ _groupSubjects[rowData.StudijskaGodina]._avgOcjena }}</td>
             </tr>
         </ng-template>
         <ng-template pTemplate="rowexpansion" let-columns="columns" let-rowData let-rowIndex="rowIndex">
-        <tr> <!--*ngIf="rowGroupData[rowData.godina].index === rowIndex"-->
-            <td *ngIf="rowGroupData[rowData.godina].index === rowIndex"  colspan="3" class="ui-resizable-column" >
+        <tr> <!--*ngIf="rowGroupData[rowData.StudijskaGodina].index === rowIndex"-->
+            <td *ngIf="rowGroupData[rowData.StudijskaGodina].index === rowIndex"  colspan="3" class="ui-resizable-column" >
                 <p-table [columns]="cols" [value]="subjects" [scrollable]="true" scrollHeight="60vh" [resizableColumns]="true">
                 <!--{{col.header}} -->
                 <ng-template pTemplate="body"  let-rowData let-columns="columns">
-                    <p-accordion [multiple]="true" *ngIf="rowGroupData[rowData.godina].index === rowIndex">
-                        <p-accordionTab  [header]="rowData['predmet']">
+                    <p-accordion [multiple]="true" *ngIf="rowGroupData[rowData.StudijskaGodina].index === rowIndex">
+                        <p-accordionTab  [header]="rowData['PredmetNaziv']">
                             <div *ngFor="let col of columns" >
-                                <span *ngIf="col.field != 'predmet'">
+                                <span *ngIf="col.field != 'PredmetNaziv'">
                                     <div class="ui-g">
                                         <div class="ui-g-12 ui-sm-6">
                                             <b style="padding: -10px!important; text-align: left;">{{ col.header }}</b>
-                                        </div><div style="text-align: center;" class="ui-g-12 ui-sm-6">
-                                            <span *ngIf="rowData[col.field] == 'Da' || rowData[col.field] == 'Ne'; else textOutput">
-                                                 <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'" ></i></span>
+                                        </div>
+                                        <div style="text-align: center;" class="ui-g-12 ui-sm-6">
+                                            <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                                                <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                                        [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                                             </span>
                                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                                         </div>

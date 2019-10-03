@@ -49,4 +49,23 @@ export class StudentiService {
                 )
             );
     }
+    /*
+     *  Select sve podatke o studentovom, studiju kroz upisne listove.
+     *  Params: int ili null
+     *  Returns: Niz od jednog objekta ili niz vise objekata
+     */
+    getStudentStudij(data) {
+        return this.http
+            .get(this.config.API_URL + "StudentStudij", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "StudentiService.getStudentStudij"
+                    )
+                )
+            );
+    }
 }
