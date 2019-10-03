@@ -1,6 +1,6 @@
 <div class="card largeMedium" style="padding: 10px!important;">
-    <p-table [columns]="cols" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="77vh"
-        dataKey="kraticaPredmeta" [resizableColumns]="true">
+    <p-table [columns]="cols" [value]="studentData" selectionMode="single" [scrollable]="true" scrollHeight="77vh"
+        dataKey="PredmetKratica" [resizableColumns]="true">
         <ng-template pTemplate="caption">
             <!--Podaci o predmetima-->
             {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
@@ -30,9 +30,9 @@
                     </a>
                 </td>
                 <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
-                    <span *ngIf="rowData[col.field] == 'Da' || rowData[col.field] == 'Ne'; else textOutput">
-                        <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i
-                                [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                    <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                        <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                     </span>
                     <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                 </td>
@@ -54,28 +54,28 @@
                                             <!--Kratica predmeta: -->
                                             {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate }}:
                                         </b>
-                                        {{rowData.kraticaPredmeta}}
+                                        {{rowData.PredmetKratica}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Vrsta predmeta: -->
                                             {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_VRSTAPREDMETA' | translate }}:
                                         </b>
-                                        {{rowData.vrstaPredmeta}}
+                                        {{rowData.PredmetVrstaNaziv}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Kratica studija: -->
                                             {{ 'NASTAVA_BDSKOLSKAGODINASTUDIJI_KRATICASTUDIJA' | translate }}:
                                         </b>
-                                        {{rowData.kraticaStudija}}
+                                        {{rowData.StudijKratica}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Katedra: -->
                                             {{ 'VIEWS_KATALOZI_PREDMET_KATEDRA' | translate }}:
                                         </b>
-                                        {{rowData.katedra}}
+                                        {{rowData.KatedraNaziv}}
                                     </div>
                                 </div>
                             </div>
@@ -86,30 +86,30 @@
                                             <!--Nacin upisa: -->
                                             {{ 'STUDENT_STUDENTPREDMETEDIT_NACIN_UPISA_PREDMETA' | translate }}:
                                         </b>
-                                        {{rowData.nacinUpisa}}
+                                        {{rowData.NacinUpisaPredmetNaziv}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Ocjenjivac: -->
                                             {{ 'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate }}:
                                         </b>
-                                        {{rowData.ocjenjivac}}
+                                        {{rowData.Ocjenjivac}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Polaze se: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_POLAZE_SE' | translate }}:
                                         </b>
-                                        <span [style.color]="rowData.polazeSeDaNe == 'Da' ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.polazeSeDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                        <span [style.color]="rowData.PolazeSeDaNe == true ? 'green' : 'red' "><i
+                                                [ngClass]="rowData.PolazeSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Ulazi u prosjek: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_ULAZI_U_PROSJEK' | translate }}:
                                         </b>
-                                        <span [style.color]="rowData.ulaziUProsjekDaNe == 'Da' ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.ulaziUProsjekDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                        <span [style.color]="rowData.UlaziUProsjekDaNE == true ? 'green' : 'red' "><i
+                                                [ngClass]="rowData.UlaziUProsjekDaNE == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -120,21 +120,21 @@
                                             <!--Datum prijave ispita: -->
                                             {{ 'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate }}:
                                         </b>
-                                        {{rowData.datumPrijaveIspita}}
+                                        {{rowData.DatumPrijaveIspita}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Datum ispita: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ISPITA' | translate }}:
                                         </b>
-                                        {{rowData.datumIspita}}
+                                        {{rowData.DatumIspita}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Datum roka: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ROKA' | translate }}:
                                         </b>
-                                        {{rowData.datumRoka}}
+                                        {{rowData.DatumRoka}}
                                     </div>
                                 </div>
                             </div>
@@ -146,8 +146,8 @@
     </p-table>
 </div>
 <div class="card smallDevice" style="padding: 10px!important;">
-    <p-table [columns]="colsSmall" [value]="subjects" selectionMode="single" [scrollable]="true" scrollHeight="50vh"
-        dataKey="kraticaPredmeta" [resizableColumns]="true">
+    <p-table [columns]="colsSmall" [value]="studentData" selectionMode="single" [scrollable]="true" scrollHeight="50vh"
+        dataKey="PredmetKratica" [resizableColumns]="true">
         <ng-template pTemplate="caption">
             <!--Podaci o predmetima-->
             {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
@@ -197,46 +197,46 @@
                                             <!--Kratica predmeta: -->
                                             {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate }}:
                                         </b>
-                                        {{rowData.kraticaPredmeta}}
+                                        {{rowData.PredmetKratica}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Vrsta predmeta: -->
                                             {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_VRSTAPREDMETA' | translate }}:
                                         </b>
-                                        {{rowData.vrstaPredmeta}}
+                                        {{rowData.PredmetVrstaNaziv}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Kratica studija: -->
                                             {{ 'NASTAVA_BDSKOLSKAGODINASTUDIJI_KRATICASTUDIJA' | translate }}:
                                         </b>
-                                        {{rowData.kraticaStudija}}
+                                        {{rowData.StudijKratica}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Katedra: -->
                                             {{ 'VIEWS_KATALOZI_PREDMET_KATEDRA' | translate }}:
                                         </b>
-                                        {{rowData.katedra}}
+                                        {{rowData.KatedraNaziv}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             {{ 'VIEWS_KATALOZI_PREDMET_STUDIJ' | translate }}:
                                         </b>
-                                        {{rowData.studij}}
+                                        {{rowData.StudijNaziv}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             {{ 'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate }}:
                                         </b>
-                                        {{rowData.semestar}}
+                                        {{rowData.Semestar}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             {{ 'VIEWS_KATALOZI_PREDMET_ECTS' | translate }}:
                                         </b>
-                                        {{rowData.ects}}
+                                        {{rowData.EctsBodovi}}
                                     </div>
                                 </div>
                             </div>
@@ -247,42 +247,42 @@
                                             <!--Nacin upisa: -->
                                             {{ 'STUDENT_STUDENTPREDMETEDIT_NACIN_UPISA_PREDMETA' | translate }}:
                                         </b>
-                                        {{rowData.nacinUpisa}}
+                                        {{rowData.NacinUpisaPredmetNaziv}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Ocjenjivac: -->
                                             {{ 'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate }}:
                                         </b>
-                                        {{rowData.ocjenjivac}}
+                                        {{rowData.Ocjenjivac}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Polaze se: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_POLAZE_SE' | translate }}:
                                         </b>
-                                        <span [style.color]="rowData.polazeSeDaNe == 'Da' ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.polazeSeDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                        <span [style.color]="rowData.PolazeSeDaNe == true ? 'green' : 'red' "><i
+                                                [ngClass]="rowData.PolazeSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Ulazi u prosjek: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_ULAZI_U_PROSJEK' | translate }}:
                                         </b>
-                                        <span [style.color]="rowData.ulaziUProsjekDaNe == 'Da' ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.ulaziUProsjekDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                        <span [style.color]="rowData.UlaziUProsjekDaNE == true ? 'green' : 'red' "><i
+                                                [ngClass]="rowData.UlaziUProsjekDaNE == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             {{ 'KATALOZI_BDSTUDIJPREDMET_GODINA' | translate }}:
                                         </b>
-                                        {{rowData.godina}}
+                                        {{rowData.StudijskaGodina}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             {{ 'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate }}:
                                         </b>
-                                        {{rowData.voditelj}}
+                                        {{rowData.VoditeljPredmeta}}
                                     </div>
                                 </div>
                             </div>
@@ -293,34 +293,34 @@
                                             <!--Datum prijave ispita: -->
                                             {{ 'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate }}:
                                         </b>
-                                        {{rowData.datumPrijaveIspita}}
+                                        {{rowData.DatumPrijaveIspita}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Datum ispita: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ISPITA' | translate }}:
                                         </b>
-                                        {{rowData.datumIspita}}
+                                        {{rowData.DatumIspita}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             <!--Datum roka: -->
                                             {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ROKA' | translate }}:
                                         </b>
-                                        {{rowData.datumRoka}}
+                                        {{rowData.DatumRoka}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             {{ 'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA' | translate }}:
                                         </b>
-                                        {{rowData.ocjena}}
+                                        {{rowData.Ocjena}}
                                     </div>
                                     <div class="ui-g-12">
                                         <b>
                                             {{ 'KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN' | translate }}:
                                         </b>
-                                        <span [style.color]="rowData.polozenDaNe == 'Da' ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.polozenDaNe == 'Da' ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                        <span [style.color]="rowData.PolozenDaNe == true ? 'green' : 'red' "><i
+                                                [ngClass]="rowData.PolozenDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
                                     </div>
                                 </div>
                             </div>
