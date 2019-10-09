@@ -57,7 +57,7 @@ export class StudentiService {
     getStudentStudij(data) {
         return this.http
             .get(this.config.API_URL + "StudentStudij", {
-                                params: data
+                params: data
             })
             .pipe(
                 retry(this.config.APIRetryCount),
@@ -83,6 +83,33 @@ export class StudentiService {
                 catchError(
                     this.appService.handleError(
                         "StudentiService.getStudentNaAkGodini"
+                    )
+                )
+            );
+    }
+    /*
+     *  Select raspored studenta za odredeni period.
+     *  Params: int,string `YYYY-MM-DD`, string `YYYY-MM-DD`
+     *  Returns: Niz od više objekata ili jednog objekta
+     */
+    getStudentRaspored(data) {
+        const headerdata = {
+            'Content-Type':'application/json',
+            'Authorization':'Basic c3R1ZDpzdHVk'
+        }
+        return this.http
+            .get(
+                "https://cloudvm2.westeurope.cloudapp.azure.com/EduPlan_Turnusno_WebApi/HomePage/PrikazRasporeda",
+                {
+                    params: data,
+                    headers: headerdata
+                }
+            )
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "StudentiService.getStudentRaspored"
                     )
                 )
             );
