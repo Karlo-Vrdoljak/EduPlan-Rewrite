@@ -23,6 +23,8 @@ import { StudentCalendarComponent } from './student-calendar/student-calendar.co
 import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/student-podaci-na-akgodini.component';
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
+import { StudentObavijestiComponent } from './student-obavijesti/student-obavijesti.component';
+
 
 export const routes: Routes = [
            { path: "", redirectTo: "/login", pathMatch: "full" },
@@ -48,7 +50,8 @@ export const routes: Routes = [
            { path: "vStudentKalendar", component: StudentCalendarComponent },
            { path: "translate/:lang", component: TranslateSidebarComponent },
            { path: "vStudentPodaciStudij", component: StudentPodaciNaStudijuComponent },
-           { path: 'vStudentPodaciNaAkGodini', component: StudentPodaciNaAkgodiniComponent}           
+           { path: "vStudentPodaciNaAkGodini", component: StudentPodaciNaAkgodiniComponent},
+           { path: "vStudentObavijesti", component: StudentObavijestiComponent}           
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});

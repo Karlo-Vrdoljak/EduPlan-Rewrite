@@ -47,7 +47,8 @@ export class AppMenuComponent implements OnInit {
                 'STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU',
                 'STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD',
                 'STUDENT_SVI_PREDMETI_POPIS',
-                'STUDENT_PROSJECI_PROSJECI'
+                'STUDENT_PROSJECI_PROSJECI',
+                'STUDENT_OBAVIJESTI_OBAVIJEST'
             ])
             .toPromise()
             .then(res => {
@@ -77,6 +78,11 @@ export class AppMenuComponent implements OnInit {
                         label: res.STUDENT_PROSJECI_PROSJECI, //"Prosjeci",
                         icon: 'fa fa-percent',
                         routerLink: ['/vStudentProsjeci']
+                    },
+                    {
+                        label: res.STUDENT_OBAVIJESTI_OBAVIJEST, //"Obavijesti",
+                        icon: 'fa fa-bullseye',
+                        routerLink: ['/vStudentObavijesti']
                     }
                 ];
             });
@@ -94,7 +100,7 @@ export class AppMenuComponent implements OnInit {
                     label:
                         this.translate.instant("STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU"), //"Podaci na studiju",
                     icon: "fa fa-university",
-                    routerLink: ["/"]
+                    routerLink: ["/vStudentPodaciStudij"]
                 },
                 {
                     label: this.translate.instant("STUDENT_SVI_PREDMETI_POPIS"), //"Popis predmeta",
@@ -103,8 +109,13 @@ export class AppMenuComponent implements OnInit {
                 },
                 {
                     label: this.translate.instant("STUDENT_PROSJECI_PROSJECI"), //"Prosjeci",
-                    icon: "fa fa-percent",
+                    icon: 'fa fa-percent',
                     routerLink: ["/vStudentProsjeci"]
+                },
+                {
+                    label: this.translate.instant("STUDENT_OBAVIJESTI_OBAVIJEST"), //"Obavijesti",
+                    icon: 'fa fa-bullseye',
+                    routerLink: ['/vStudentObavijesti']
                 }
             ];
         })
