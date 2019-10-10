@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -6,9 +6,10 @@ import { CalendarService } from "../demo/service/calendarService";
 import allLocales from "@fullcalendar/core/locales-all";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-import { StudentiService } from '../_services/studenti.service';
-import { CalendarEvent } from '../_interfaces/CalendarEvent';
-import { EventColor } from '../_interfaces/ColorEventEnum';
+import { StudentiService } from "../_services/studenti.service";
+import { CalendarEvent } from "../_interfaces/CalendarEvent";
+import { EventColor } from "../_interfaces/ColorEventEnum";
+import { OverlayPanelModule, OverlayPanel } from "primeng/overlaypanel";
 
 @Component({
     selector: "app-student-calendar",
@@ -16,8 +17,11 @@ import { EventColor } from '../_interfaces/ColorEventEnum';
     styleUrls: ["./student-calendar.component.css"]
 })
 export class StudentCalendarComponent implements OnInit {
+    @ViewChild('op',null) overlayPanel;
+
     calendarOptions: any;
     events: any[];
+    selectedEvent: any;
     apiData: any;
     _router: Router;
     translate: TranslateService;
@@ -31,7 +35,7 @@ export class StudentCalendarComponent implements OnInit {
         this.translate = translate;
     }
 
-    public chooseColor( tipPredavanja ):string {
+    public chooseColor(tipPredavanja): string {
         switch (true) {
             case tipPredavanja == "Predavanja": {
                 return EventColor.Predavanja;
@@ -116,9 +120,12 @@ export class StudentCalendarComponent implements OnInit {
                                 id: e.PkNastavaPlan,
                                 groupId: e.BrojSkupine,
                                 title:
-                                    e.PredmetKratica + '\n'+
-                                    e.PredmetNaziv + '\n'+
-                                    e.PodTipPredavanjaNaziv + '\n'+
+                                    e.PredmetKratica +
+                                    "\n" +
+                                    e.PredmetNaziv +
+                                    "\n" +
+                                    e.PodTipPredavanjaNaziv +
+                                    "\n" +
                                     e.NastavnikSuradnikNaziv,
                                 start: e.DatumVrijemeOd,
                                 end: e.DatumVrijemeDo,
@@ -145,11 +152,16 @@ export class StudentCalendarComponent implements OnInit {
                     height: "auto",
                     contentHeight: screen.height - 70 - 57.25 - 19.5 - 90,
                     firstDay: 1,
+                    hiddenDays: [0],
                     header: {
                         center: "prevYear,prev,today,next,nextYear",
                         right: "dayGridMonth,timeGridWeek,timeGridDay"
                     },
-                    eventRender: function(elem) {}
+                    eventClick: function(info) {
+                        console.log(info.event);
+                        this.selectedEvent = info.event;
+                        this.overlayPanel.toggle(Event);
+                    }
                 };
             });
     }

@@ -29,12 +29,7 @@ export class StudentProsjeciComponent implements OnInit {
         const params = {
             PkStudent: 420
         };
-        this.studentiService
-            .getStudentNaVisokomUcilistuPredmet(params)
-            .subscribe(data => {
-                this.subjects = data;
-            });
-
+        
         this.translate
             .get([
                 "KATALOZI_KORISNIK_PREDMET",
