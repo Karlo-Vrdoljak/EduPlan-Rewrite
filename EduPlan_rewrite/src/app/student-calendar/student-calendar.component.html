@@ -14,3 +14,9 @@
 
 
 <p-fullCalendar  *ngIf="events" [events]="events" [options]="calendarOptions" ></p-fullCalendar>
+
+<p-overlayPanel #op>
+    <div *ngIf="selectedEvent">
+        {{ selectedEvent.title }}
+    </div>
+</p-overlayPanel>
