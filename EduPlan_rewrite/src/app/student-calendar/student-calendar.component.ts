@@ -103,8 +103,8 @@ export class StudentCalendarComponent implements OnInit {
                 const params = {
                     PkStudent: 1312,
                     PkSkolskaGodina: 8,
-                    DatumOd: "2017-10-10",
-                    DatumDo: "2019-10-30"
+                    DatumOd: "2018-10-10",
+                    DatumDo: "2018-11-10"
                 };
                 this.studentiService
                     .getStudentRaspored(params)
@@ -120,12 +120,9 @@ export class StudentCalendarComponent implements OnInit {
                                 id: e.PkNastavaPlan,
                                 groupId: e.BrojSkupine,
                                 title:
-                                    e.PredmetKratica +
-                                    "\n" +
-                                    e.PredmetNaziv +
-                                    "\n" +
-                                    e.PodTipPredavanjaNaziv +
-                                    "\n" +
+                                    e.PredmetNaziv + '\n'+
+                                    e.PodTipPredavanjaNaziv + '\n'+
+                                    e.PredmetKratica + '\n'+
                                     e.NastavnikSuradnikNaziv,
                                 start: e.DatumVrijemeOd,
                                 end: e.DatumVrijemeDo,
@@ -147,7 +144,7 @@ export class StudentCalendarComponent implements OnInit {
                     defaultDate: fullDate,
                     //aspectRatio: 2.8,
                     locales: allLocales,
-
+                    defaultView: 'timeGridWeek',
                     locale: res,
                     height: "auto",
                     contentHeight: screen.height - 70 - 57.25 - 19.5 - 90,

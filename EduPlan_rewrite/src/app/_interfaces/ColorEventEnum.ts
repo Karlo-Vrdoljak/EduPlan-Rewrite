@@ -1,12 +1,12 @@
 export enum EventColor {
-    Predavanja = "#0099ff",
-    Seminar = "#3cff00",
     Ispiti = "#ff002f",
+    Predavanja = "#0099ff",
+    Vjezbe = "#084f37",
+    Seminar = "#1f9101",
     KlinickeVjezbe = "#ffb300",
-    PretKlinickeVjezbe = "#ffd745",
+    PretKlinickeVjezbe = "#a8913f",
     VjezbeTjelesniOdgoj = "#00fcad",
-    VjezbePratikum = "#007cb5",
-    LaboratorijskeVjezbe = "#540099",
-    TerenskeVjezbe = "#10b542",
-    Vjezbe = "#17b061"
+    VjezbePratikum = "#15678d",
+    LaboratorijskeVjezbe = "#580f31",
+    TerenskeVjezbe = "#240c5c"
 }
