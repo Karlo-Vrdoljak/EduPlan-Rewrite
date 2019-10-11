@@ -18,8 +18,8 @@ export class StudentPodaciNaAkgodiniComponent implements OnInit {
 
   ngOnInit() {
     const params = {
-      PkStudent: 333
-    };
+      PkStudent: 242
+    }; 
 
     this.studentiService.getStudentNaAkGodini(params).subscribe((data) => {
       this.studentPodaciNaAkGodinama = data;

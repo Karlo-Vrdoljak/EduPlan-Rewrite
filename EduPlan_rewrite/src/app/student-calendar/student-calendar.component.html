@@ -9,7 +9,7 @@
     <span class="fc-event-dot" style="background-color:#15678d"></span>  {{ 'STUDENTCALENDAR_VJEZBEPRAKTIKUM' | translate }} &nbsp; &nbsp;
     <span class="fc-event-dot" style="background-color:#580f31"></span>  {{ 'STUDENTCALENDAR_LABARATORIJSKEVJEZBE' | translate }} &nbsp; &nbsp;
     <span class="fc-event-dot" style="background-color:#240c5c"></span>  {{ 'STUDENTCALENDAR_TERENSKEVJEZBE' | translate }} &nbsp; &nbsp;
-</div> <hr style="color: #c2dfd5; width: 75%"> <br/>
+</div> <hr style="color: #c2dfd5; padding-right: 10px;"><br/>
 
 <div *ngIf="events; else loader">
     <p-fullCalendar  [events]="events" [options]="calendarOptions" ></p-fullCalendar>

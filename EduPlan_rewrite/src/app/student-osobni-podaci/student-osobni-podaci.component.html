@@ -1,4 +1,7 @@
-<div class="ui-g ui-fluid" *ngIf="studentPodaci">
+
+
+<div *ngIf="studentPodaci; else loader">
+    <div class="ui-g ui-fluid">
     <div class="ui-g-12 ui-lg-6 firstHalfView">
         <!-- Left Side -->
         <div class="card card-w-title ">
@@ -124,4 +127,11 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
+
+<ng-template #loader>
+    <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>
+
+

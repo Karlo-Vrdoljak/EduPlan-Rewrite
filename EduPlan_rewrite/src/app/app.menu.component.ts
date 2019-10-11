@@ -43,46 +43,47 @@ export class AppMenuComponent implements OnInit {
         this.onTranslateChange();
         var result = this.translate
             .get([
-                'VIEWS_APLIKACIJA_HOME_OSOBNIPODACI',
-                'STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU',
-                'STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD',
-                'STUDENT_SVI_PREDMETI_POPIS',
-                'STUDENT_PROSJECI_PROSJECI',
-                'STUDENT_OBAVIJESTI_OBAVIJEST'
+                "VIEWS_APLIKACIJA_HOME_OSOBNIPODACI",
+                "STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU",
+                "STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD",
+                "STUDENT_SVI_PREDMETI_POPIS",
+                "STUDENT_PROSJECI_PROSJECI",
+                "STUDENT_OBAVIJESTI_OBAVIJESTI"
             ])
             .toPromise()
             .then(res => {
                 this.model = [
                     {
                         label: res.VIEWS_APLIKACIJA_HOME_OSOBNIPODACI, //'Osobni podaci',
-                        icon: 'fa fa-address-card',
-                        routerLink: ['/vStudentOsobniPodaci']
+                        icon: "fa fa-address-card",
+                        routerLink: ["/vStudentOsobniPodaci"]
                     },
                     {
                         label:
                             res.STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_STUDIJU, //"Podaci na studiju",
-                        icon: 'fa fa-university',
-                        routerLink: ['/vStudentPodaciStudij']
+                        icon: "fa fa-university",
+                        routerLink: ["/vStudentPodaciStudij"]
                     },
                     {
-                        label: res.STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD, //'Podaci na akademskoj godini',
-                        icon: 'fa fa-graduation-cap',
-                        routerLink: ['/vStudentPodaciNaAkGodini']
+                        label:
+                            res.STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD, //'Podaci na akademskoj godini',
+                        icon: "fa fa-graduation-cap",
+                        routerLink: ["/vStudentPodaciNaAkGodini"]
                     },
                     {
                         label: res.STUDENT_SVI_PREDMETI_POPIS, //"Popis predmeta",
-                        icon: 'fa fa-book',
-                        routerLink: ['/vStudentSviPredmeti']
+                        icon: "fa fa-book",
+                        routerLink: ["/vStudentSviPredmeti"]
                     },
                     {
                         label: res.STUDENT_PROSJECI_PROSJECI, //"Prosjeci",
-                        icon: 'fa fa-percent',
-                        routerLink: ['/vStudentProsjeci']
+                        icon: "fa fa-percent",
+                        routerLink: ["/vStudentProsjeci"]
                     },
                     {
-                        label: res.STUDENT_OBAVIJESTI_OBAVIJEST, //"Obavijesti",
-                        icon: 'fa fa-bullseye',
-                        routerLink: ['/vStudentObavijesti']
+                        label: res.STUDENT_OBAVIJESTI_OBAVIJESTI, //"Obavijesti",
+                        icon: "fa fa-bullseye",
+                        routerLink: ["/vStudentObavijesti"]
                     }
                 ];
             });
@@ -113,7 +114,7 @@ export class AppMenuComponent implements OnInit {
                     routerLink: ["/vStudentProsjeci"]
                 },
                 {
-                    label: this.translate.instant("STUDENT_OBAVIJESTI_OBAVIJEST"), //"Obavijesti",
+                    label: this.translate.instant("STUDENT_OBAVIJESTI_OBAVIJESTI"), //"Obavijesti",
                     icon: 'fa fa-bullseye',
                     routerLink: ['/vStudentObavijesti']
                 }
