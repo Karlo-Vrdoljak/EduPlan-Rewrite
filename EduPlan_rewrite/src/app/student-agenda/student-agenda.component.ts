@@ -136,6 +136,7 @@ export class StudentAgendaComponent implements OnInit {
                     defaultView: "listWeek",
                     defaultDate: fullDate,
                     firstDay: 1,
+                    navLinks: true,
                     locales: allLocales,
                     locale: res,
                     // customize the button names,
