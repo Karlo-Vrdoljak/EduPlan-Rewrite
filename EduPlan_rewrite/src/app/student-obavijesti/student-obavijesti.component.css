@@ -1,0 +1,31 @@
+
+.kreatorObavijesti {
+    float: left;
+    color: blue;
+}
+
+.vrijemeKreiranja {
+    float: right;
+}
+
+.card.card-w-title {
+    padding-bottom: 1.6em;
+}
+
+
+.card.obavijestContainer {
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+
+}
+
+.card {
+    padding: 0em;
+    height: 100%;
+}
+
+.card h1 {
+    font-size: 1em;
+    padding: 0.71em 0;
+}
+

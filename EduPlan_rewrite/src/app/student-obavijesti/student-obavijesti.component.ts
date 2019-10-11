@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class StudentObavijestiComponent implements OnInit {
   
-  StudentObavijesti = {} as any;
+  StudentObavijesti: any;
 
   constructor(private studentiService: StudentiService) { }
 
