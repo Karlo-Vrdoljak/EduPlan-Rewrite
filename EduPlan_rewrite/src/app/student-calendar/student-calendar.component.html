@@ -11,12 +11,13 @@
     <span class="fc-event-dot" style="background-color:#240c5c"></span>  {{ 'STUDENTCALENDAR_TERENSKEVJEZBE' | translate }} &nbsp; &nbsp;
 </div> <hr style="color: #c2dfd5; width: 75%"> <br/>
 
+<div *ngIf="events; else loader">
+    <p-fullCalendar  [events]="events" [options]="calendarOptions" ></p-fullCalendar>
+
+</div>
+
+<ng-template #loader>
+    <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>
 
 
-<p-fullCalendar  *ngIf="events" [events]="events" [options]="calendarOptions" ></p-fullCalendar>
-
-<p-overlayPanel #op>
-    <div *ngIf="selectedEvent">
-        {{ selectedEvent.title }}
-    </div>
-</p-overlayPanel>

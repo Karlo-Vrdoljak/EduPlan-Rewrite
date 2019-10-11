@@ -17,8 +17,6 @@ import { OverlayPanelModule, OverlayPanel } from "primeng/overlaypanel";
     styleUrls: ["./student-calendar.component.css"]
 })
 export class StudentCalendarComponent implements OnInit {
-    @ViewChild('op',null) overlayPanel;
-
     calendarOptions: any;
     events: any[];
     selectedEvent: any;
@@ -143,22 +141,17 @@ export class StudentCalendarComponent implements OnInit {
                     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
                     defaultDate: fullDate,
                     //aspectRatio: 2.8,
+                    navLinks: true,
                     locales: allLocales,
                     defaultView: 'timeGridWeek',
                     locale: res,
                     height: "auto",
                     contentHeight: screen.height - 70 - 57.25 - 19.5 - 90,
                     firstDay: 1,
-                    hiddenDays: [0],
                     header: {
                         center: "prevYear,prev,today,next,nextYear",
                         right: "dayGridMonth,timeGridWeek,timeGridDay"
                     },
-                    eventClick: function(info) {
-                        console.log(info.event);
-                        this.selectedEvent = info.event;
-                        this.overlayPanel.toggle(Event);
-                    }
                 };
             });
     }
