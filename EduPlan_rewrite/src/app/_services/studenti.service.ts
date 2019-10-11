@@ -114,4 +114,24 @@ export class StudentiService {
                 )
             );
     }
+    
+    /*
+     *  Selecta sve obavijesti filtrirane po studentima.
+     *  Params: int (pkUsera -> iz logina) ili null
+     *  Returns: Niz objekata
+     */
+    getStudentObavijesti(data) {
+        return this.http
+            .get(this.config.API_URL + "StudentObavijesti", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "StudentiService.getStudentObavijesti"
+                    )
+                )
+            );
+    }
 }

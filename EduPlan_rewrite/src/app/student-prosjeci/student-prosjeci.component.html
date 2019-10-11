@@ -1,5 +1,5 @@
 <div class="card largeMedium" style="padding: 10px!important;">
-    <p-table [value]="subjects" dataKey="StudijskaGodina" [scrollable]="true" scrollHeight="50vh" sortField="StudijskaGodina" sortMode="single" (onSort)="onSort()">
+    <p-table [value]="subjects" dataKey="StudijskaGodina" [scrollable]="true" scrollHeight="80vh" sortField="StudijskaGodina" sortMode="single" (onSort)="onSort()">
         <ng-template pTemplate="caption">
             <!--Prosjeci--> 
             {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
@@ -61,7 +61,7 @@
     </p-table>
 </div>
 <div class="card smallDevice" style="padding: 10px!important;">
-    <p-table [value]="subjects" dataKey="StudijskaGodina" [scrollable]="true" scrollHeight="80vh" sortField="StudijskaGodina" sortMode="single" (onSort)="onSort()">
+    <p-table [value]="subjects" dataKey="StudijskaGodina" [scrollable]="true" scrollHeight="50vh" sortField="StudijskaGodina" sortMode="single" (onSort)="onSort()">
         <ng-template pTemplate="caption">
             <!--Prosjeci--> 
             {{ 'STUDENT_PROSJECI_PROSJECI'  | translate }}
