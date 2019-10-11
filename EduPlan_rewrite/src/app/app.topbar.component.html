@@ -22,13 +22,12 @@
                 <i class="fa fa-search"></i>
             </span>
         </li>
-        <li #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}">
-            <a href="#" (click)="app.onTopbarItemClick($event,notifications)">
+        <li >
+            <a routerLink="vStudentObavijesti">
                 <i class="topbar-icon fa fa-fw fa-dot-circle-o"></i>
-                <span class="topbar-badge animated rubberBand">4</span>
                 <span class="topbar-item-name">Notifications</span>
             </a>
-            <ul class="fadeInDown">
+            <!-- <ul class="fadeInDown">
                 <li role="menuitem">
                     <a href="#" (click)="app.onTopbarSubItemClick($event)">
                         <i class="fa fa-fw fa-tasks"></i>
@@ -54,7 +53,7 @@
                         <span>Book flight</span>
                     </a>
                 </li>
-            </ul>
+            </ul> -->
         </li>
         <!--<li #messages [ngClass]="{'active-topmenuitem':app.activeTopbarItem === messages}">
             <a href="#" (click)="app.onTopbarItemClick($event,messages)">
