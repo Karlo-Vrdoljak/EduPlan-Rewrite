@@ -24,6 +24,9 @@ import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/s
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
 import { StudentObavijestiComponent } from './student-obavijesti/student-obavijesti.component';
+import { ProfesorObavijestiComponent } from './profesor-obavijesti/profesor-obavijesti.component';
+import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-svi-predmeti.component';
+import { ProfesorOsobniPodaciComponent } from './profesor-osobni-podaci/profesor-osobni-podaci.component';
 
 
 export const routes: Routes = [
@@ -50,8 +53,11 @@ export const routes: Routes = [
            { path: "vStudentKalendar", component: StudentCalendarComponent },
            { path: "translate/:lang", component: TranslateSidebarComponent },
            { path: "vStudentPodaciStudij", component: StudentPodaciNaStudijuComponent },
-           { path: "vStudentPodaciNaAkGodini", component: StudentPodaciNaAkgodiniComponent},
-           { path: "vStudentObavijesti", component: StudentObavijestiComponent}           
-       ];
+           { path: "vStudentPodaciNaAkGodini", component: StudentPodaciNaAkgodiniComponent },
+           { path: "vStudentObavijesti", component: StudentObavijestiComponent },
+           { path: "vProfesorObavijesti", component: ProfesorObavijestiComponent },
+           { path: "vProfesorOsobniPodaci", component: ProfesorOsobniPodaciComponent },
+           { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent }
+        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});

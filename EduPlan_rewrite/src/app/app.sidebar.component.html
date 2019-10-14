@@ -67,7 +67,7 @@
                     <span>{{'APPSIDEBAR_PROFILSTUDENTA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
-                    <app-menu></app-menu>
+                    <app-menu-student></app-menu-student>
                 </app-sidebarTabContent>
             </div>
 
@@ -76,7 +76,7 @@
                     <span>{{'APPSIDEBAR_PROFILPROFESORA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
-                    <app-menu></app-menu>
+                    <app-menu-profesor></app-menu-profesor>
                 </app-sidebarTabContent>
             </div>
 
@@ -85,7 +85,7 @@
                     <span>{{'APPSIDEBAR_RASPOREDSTUDENTA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
-                    <app-menu-kalendar></app-menu-kalendar>
+                    <app-menu-studentKalendar></app-menu-studentKalendar>
                 </app-sidebarTabContent>
             </div>
             <div class="layout-tabmenu-content" [ngClass]="{'layout-tabmenu-content-active': app.activeTabIndex === 3}">
@@ -93,7 +93,7 @@
                     <span>{{'APPSIDEBAR_RASPOREDPROFESORA' | translate}}</span>
                 </div>
                 <app-sidebarTabContent>
-                    <app-menu-kalendar></app-menu-kalendar>
+                    <app-menu-profesorKalendar></app-menu-profesorKalendar>
                 </app-sidebarTabContent>
             </div>
            

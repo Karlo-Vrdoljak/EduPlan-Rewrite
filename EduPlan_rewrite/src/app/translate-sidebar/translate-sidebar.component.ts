@@ -2,7 +2,7 @@ import { OnInit, Component, Inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { TranslateService } from '@ngx-translate/core';
-import { AppMenuComponent } from '../app.menu.component';
+import { AppMenuComponent } from '../app.menu-student.component';
 import { NgZone } from "@angular/core";
 import { WebStorageService, LOCAL_STORAGE } from 'angular-webstorage-service';
 import { LanguageHandler } from '../app.languageHandler';

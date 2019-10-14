@@ -59,4 +59,15 @@ router.get("/StudentObavijesti", function(req, res) {
 
     db.execStoredProc(request, conn, res, "{}");
 });
+
+// dohvat podataka o obavijestima vezanim za profesore
+router.get("/ProfesorObavijesti", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("EduPlanNew.spStudentObavijesti_Select", conn); //promjenit na proceduru za profesora
+
+    request.addParameter('PkUsera', TYPES.Int, req.query.PkUsera);
+
+    db.execStoredProc(request, conn, res, "{}");
+});
+
 module.exports = router;

@@ -1,0 +1,53 @@
+@media only screen and (max-width: 650px) {
+    .nemaObavijestiSmall {
+        display: block;
+    }
+    .nemaObavijestiLarge {
+        display: none;
+    }
+}
+
+
+.kreatorObavijesti {
+    float: left;
+}
+
+.card.card-w-title {
+    padding-bottom: 1.6em;
+}
+
+
+.card.obavijestContainer {
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+
+}
+
+.card {
+    padding: 0em;
+    height: 100%;
+}
+
+.card h1 {
+    font-size: 1em;
+    padding: 0.71em 0;
+}
+
+.nemaObavijestiSmall {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 auto;
+    padding-top: 1.2em;
+}
+
+.nemaObavijestiLarge {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 auto;
+    padding-top:10em;
+
+
+}
+

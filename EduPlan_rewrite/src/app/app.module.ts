@@ -79,7 +79,7 @@ import { HttpClient } from "@angular/common/http";
 import { MessageService } from 'primeng/api';
 
 import {AppComponent} from './app.component';
-import {AppMenuComponent, AppSubMenuComponent} from './app.menu.component';
+import {AppMenuComponent, AppSubMenuComponent} from './app.menu-student.component';
 import {AppSideBarComponent} from './app.sidebar.component';
 import {AppSideBarTabContentComponent} from './app.sidebartabcontent.component';
 import {AppTopBarComponent} from './app.topbar.component';
@@ -98,8 +98,9 @@ import {ChartsDemoComponent} from './demo/view/chartsdemo.component';
 import {FileDemoComponent} from './demo/view/filedemo.component';
 import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
 import {DocumentationComponent} from './demo/view/documentation.component';
-import { AppMenuKalendarComponent } from './app.menuKalendar.component';
-
+import { AppMenuKalendarComponent } from './app.menu-studentKalendar.component';
+import { AppMenuProfesorComponent } from './app.menu-profesor.component';
+import { AppMenuProfesorKalendarComponent } from './app.menu-profesorKalendar.component';
 
 import {CarService} from './demo/service/carservice';
 import {CountryService} from './demo/service/countryservice';
@@ -124,6 +125,9 @@ import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/s
 import { StudentiService } from "./_services/studenti.service";
 import { AppService } from "./_services/app.service";
 import { StudentObavijestiComponent } from './student-obavijesti/student-obavijesti.component';
+import { ProfesorObavijestiComponent } from './profesor-obavijesti/profesor-obavijesti.component';
+import { ProfesorOsobniPodaciComponent } from './profesor-osobni-podaci/profesor-osobni-podaci.component';
+import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-svi-predmeti.component';
 
 @NgModule({
     imports: [
@@ -240,7 +244,12 @@ import { StudentObavijestiComponent } from './student-obavijesti/student-obavije
         TranslateSidebarComponent,
         StudentPodaciNaStudijuComponent,
         StudentPodaciNaAkgodiniComponent,
-        StudentObavijestiComponent
+        StudentObavijestiComponent,
+        AppMenuProfesorComponent,
+        AppMenuProfesorKalendarComponent,
+        ProfesorObavijestiComponent,
+        ProfesorOsobniPodaciComponent,
+        ProfesorSviPredmetiComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
