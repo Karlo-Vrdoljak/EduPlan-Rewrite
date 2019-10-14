@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
 import { LOCAL_STORAGE, WebStorageService } from "angular-webstorage-service";
 import { LanguageHandler } from './app.languageHandler';
+import { EmailMessage } from './_interfaces/EmailMessage';
 
 enum MenuOrientation {
     STATIC,
@@ -25,6 +26,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     overlayMenuActive: boolean;
 
+    displayEmailSender: boolean = false;
+
     staticMenuDesktopInactive: boolean;
 
     staticMenuMobileActive: boolean;
@@ -39,6 +42,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     activeTopbarItem: any;
 
+    emailSend: EmailMessage;
+
     documentClickListener: () => void;
 
     public data: any = [];
@@ -49,18 +54,30 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         public router: Router,
         private translate: TranslateService,
         @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-        private languageHandler : LanguageHandler
-    ) { }
+        private languageHandler: LanguageHandler
+    ) {}
 
     ngOnInit(): void {
-        const lang = this.languageHandler.setDefaultLanguage().getCurrentLanguage();
+
+        // Dummy podaci
+        
+        
+        // .from = "kv45531@unist.hr";
+        // this.emailSend.to = "referada@oss.unist.hr";
+
+        this.emailSend = {
+            from : "kv45531@unist.hr",
+            to : "referada@oss.unist.hr",
+            subject : null,
+            text : null
+        };
+        const lang = this.languageHandler
+            .setDefaultLanguage()
+            .getCurrentLanguage();
         this.translate.use(lang);
     }
 
-    
-
     ngAfterViewInit() {
-        
         this.documentClickListener = this.renderer.listen(
             "body",
             "click",
@@ -156,6 +173,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onTopbarSubItemClick(event) {
         event.preventDefault();
+    }
+    openEmailForm(event) {
+        event.preventDefault();
+        this.displayEmailSender = true;
+    }
+    submitEmailForm(event) {
+        event.preventDefault();        
+        this.displayEmailSender = false;
+        console.log(this.emailSend);
     }
 
     get overlay(): boolean {

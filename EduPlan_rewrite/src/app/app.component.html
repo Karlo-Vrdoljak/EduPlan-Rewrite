@@ -15,6 +15,47 @@
         <app-sidebar></app-sidebar>
 
         <div class="layout-content">
+            <p-dialog [header]="'STUDENT_EMAILSEND_REFERADA' | translate " [(visible)]="displayEmailSender" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="100" 
+                [maximizable]="true" [baseZIndex]="10000">
+                <div class="ui-g ui-fluid form-group" *ngIf="emailSend">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <input id="sendFrom" type="email" size="30" [ngModel]="emailSend.from" pInputText disabled> 
+                            <label for="sendFrom">{{ 'STUDENT_EMAILSEND_STUDENTEMAIL' | translate }}
+                                <!-- Vaša email adresa -->
+                            </label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <input id="sendTo" type="email" size="30" [ngModel]="emailSend.to" pInputText disabled> 
+                            <label for="sendTo">{{ 'STUDENT_EMAILSEND_REFERADAEMAIL' | translate }}
+                                <!-- Email adresa referade -->
+                            </label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <input id="subject" type="email" size="30" [(ngModel)]="emailSend.subject" pInputText required> 
+                            <label for="subject">{{ 'STUDENT_EMAILSEND_NASLOV' | translate }}
+                                <!-- Naslov -->
+                            </label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <textarea required id="emailText" [rows]="3" [cols]="30" [(ngModel)]="emailSend.text" pInputTextarea autoResize="autoResize"></textarea>
+                            <label for="emailText">{{ 'STUDENT_EMAILSEND_PORUKA' | translate }}
+                                <!-- Vaša poruka referadi -->
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <p-footer>
+                    <button type="button" pButton icon="fa fa-fw fa-check" (click)="submitEmailForm($event)" label="Pošalji"></button>
+                    <button type="button" pButton icon="fa fa-fw fa-times" (click)="displayEmailSender=false" label="Odustani" class="ui-button-secondary"></button>
+                </p-footer>
+            </p-dialog>
             <router-outlet></router-outlet>
         </div>
     </ng-template>
