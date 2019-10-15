@@ -124,6 +124,9 @@ import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/s
 import { StudentiService } from "./_services/studenti.service";
 import { AppService } from "./_services/app.service";
 import { StudentObavijestiComponent } from './student-obavijesti/student-obavijesti.component';
+import { ProfesorCalendarComponent } from './profesor-calendar/profesor-calendar.component';
+import { ProfesorAgendaComponent } from './profesor-agenda/profesor-agenda.component';
+import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-svi-predmeti.component';
 
 @NgModule({
     imports: [
@@ -240,7 +243,10 @@ import { StudentObavijestiComponent } from './student-obavijesti/student-obavije
         TranslateSidebarComponent,
         StudentPodaciNaStudijuComponent,
         StudentPodaciNaAkgodiniComponent,
-        StudentObavijestiComponent
+        StudentObavijestiComponent,
+        ProfesorCalendarComponent,
+        ProfesorAgendaComponent,
+        ProfesorSviPredmetiComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

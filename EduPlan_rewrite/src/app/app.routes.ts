@@ -1,20 +1,20 @@
-import {Routes, RouterModule} from '@angular/router';
-import {ModuleWithProviders} from '@angular/core';
-import {DashboardDemoComponent} from './demo/view/dashboarddemo.component';
-import {SampleDemoComponent} from './demo/view/sampledemo.component';
-import {FormsDemoComponent} from './demo/view/formsdemo.component';
-import {DataDemoComponent} from './demo/view/datademo.component';
-import {PanelsDemoComponent} from './demo/view/panelsdemo.component';
-import {OverlaysDemoComponent} from './demo/view/overlaysdemo.component';
-import {MenusDemoComponent} from './demo/view/menusdemo.component';
-import {MessagesDemoComponent} from './demo/view/messagesdemo.component';
-import {MiscDemoComponent} from './demo/view/miscdemo.component';
-import {EmptyDemoComponent} from './demo/view/emptydemo.component';
-import {ChartsDemoComponent} from './demo/view/chartsdemo.component';
-import {FileDemoComponent} from './demo/view/filedemo.component';
-import {UtilsDemoComponent} from './demo/view/utilsdemo.component';
-import {DocumentationComponent} from './demo/view/documentation.component';
-import {StudentSviPredmetiComponent} from './student-svi-predmeti/student-svi-predmeti.component';
+import { Routes, RouterModule} from '@angular/router';
+import { ModuleWithProviders} from '@angular/core';
+import { DashboardDemoComponent} from './demo/view/dashboarddemo.component';
+import { SampleDemoComponent} from './demo/view/sampledemo.component';
+import { FormsDemoComponent} from './demo/view/formsdemo.component';
+import { DataDemoComponent} from './demo/view/datademo.component';
+import { PanelsDemoComponent} from './demo/view/panelsdemo.component';
+import { OverlaysDemoComponent} from './demo/view/overlaysdemo.component';
+import { MenusDemoComponent} from './demo/view/menusdemo.component';
+import { MessagesDemoComponent} from './demo/view/messagesdemo.component';
+import { MiscDemoComponent} from './demo/view/miscdemo.component';
+import { EmptyDemoComponent} from './demo/view/emptydemo.component';
+import { ChartsDemoComponent} from './demo/view/chartsdemo.component';
+import { FileDemoComponent} from './demo/view/filedemo.component';
+import { UtilsDemoComponent} from './demo/view/utilsdemo.component';
+import { DocumentationComponent} from './demo/view/documentation.component';
+import { StudentSviPredmetiComponent} from './student-svi-predmeti/student-svi-predmeti.component';
 import { LoginComponent } from '../assets/pages/login.component';
 import { StudentProsjeciComponent } from './student-prosjeci/student-prosjeci.component';
 import { StudentOsobniPodaciComponent } from './student-osobni-podaci/student-osobni-podaci.component';
@@ -24,6 +24,8 @@ import { StudentPodaciNaAkgodiniComponent } from './student-podaci-na-akgodini/s
 import { TranslateSidebarComponent } from './translate-sidebar/translate-sidebar.component';
 import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/student-podaci-na-studiju.component';
 import { StudentObavijestiComponent } from './student-obavijesti/student-obavijesti.component';
+import { ProfesorCalendarComponent } from './profesor-calendar/profesor-calendar.component';
+import { ProfesorAgendaComponent } from "./profesor-agenda/profesor-agenda.component";
 
 
 export const routes: Routes = [
@@ -51,7 +53,12 @@ export const routes: Routes = [
            { path: "translate/:lang", component: TranslateSidebarComponent },
            { path: "vStudentPodaciStudij", component: StudentPodaciNaStudijuComponent },
            { path: "vStudentPodaciNaAkGodini", component: StudentPodaciNaAkgodiniComponent},
-           { path: "vStudentObavijesti", component: StudentObavijestiComponent}           
+           { path: "vStudentObavijesti", component: StudentObavijestiComponent},
+           { path: "vProfesorKalendar", component: ProfesorCalendarComponent },
+           { path: "vProfesorAgenda", component: ProfesorAgendaComponent },
+           { path: "vProfesorAgenda/:isRedirect", component: ProfesorAgendaComponent },
+
+                      
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});

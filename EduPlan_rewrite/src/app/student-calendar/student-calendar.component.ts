@@ -21,7 +21,7 @@ export class StudentCalendarComponent implements OnInit {
     events: any[];
     selectedEvent: any;
     apiData: any;
-    _router: Router;
+
     translate: TranslateService;
     constructor(
         private _calendarService: CalendarService,
@@ -29,7 +29,6 @@ export class StudentCalendarComponent implements OnInit {
         translate: TranslateService,
         private studentiService: StudentiService
     ) {
-        this._router = router;
         this.translate = translate;
     }
 
@@ -48,22 +47,22 @@ export class StudentCalendarComponent implements OnInit {
                 return EventColor.Ispiti;
             }
             case tipPredavanja == "Kliničke vježbe": {
-                return EventColor.KlinickeVjezbe;
+                return EventColor.Vjezbe;
             }
             case tipPredavanja == "Pretkliničke vježbe": {
-                return EventColor.PretKlinickeVjezbe;
+                return EventColor.Vjezbe;
             }
             case tipPredavanja == "Vježbe tjelesnog odgoja": {
-                return EventColor.VjezbeTjelesniOdgoj;
+                return EventColor.Vjezbe;
             }
             case tipPredavanja == "Vježbe u praktikumu": {
-                return EventColor.VjezbePratikum;
+                return EventColor.Vjezbe;
             }
             case tipPredavanja == "Laboratorijske vježbe": {
-                return EventColor.LaboratorijskeVjezbe;
+                return EventColor.Vjezbe;
             }
             case tipPredavanja == "Terenske vježbe": {
-                return EventColor.TerenskeVjezbe;
+                return EventColor.Vjezbe;
             }
 
             default: {
@@ -73,26 +72,9 @@ export class StudentCalendarComponent implements OnInit {
     }
 
     ngOnInit() {
-        window.addEventListener("orientationchange", () => {
-            switch (true) {
-                case screen.width <= 600 &&
-                    this.router.url == "/vStudentKalendar": {
-                    this._router.navigate(["/vStudentAgenda", "sm"]);
-                    break;
-                }
-                case screen.width >= 600 &&
-                    this.router.url == "/vStudentAgenda/sm": {
-                    this._router.navigate(["/vStudentKalendar"]);
-                    break;
-                }
-                default: {
-                    //none
-                    break;
-                }
-            }
-        });
+        
         if (screen.width <= 600) {
-            this._router.navigate(["/vStudentAgenda", "sm"]);
+            this.router.navigate(["/vStudentAgenda", "sm"]);
         }
         this.translate
             .get("STUDENT_KALENDAR_LOCALE")

@@ -1,7 +1,7 @@
 export interface CalendarEvent {
     id;
     groupId;
-    title;
+    title:string;
     start;
     end;
     // startTime;

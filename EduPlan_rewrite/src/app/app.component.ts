@@ -60,11 +60,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit(): void {
 
         // Dummy podaci
-        
-        
-        // .from = "kv45531@unist.hr";
-        // this.emailSend.to = "referada@oss.unist.hr";
-
         this.emailSend = {
             from : "kv45531@unist.hr",
             to : "referada@oss.unist.hr",
@@ -75,6 +70,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             .setDefaultLanguage()
             .getCurrentLanguage();
         this.translate.use(lang);
+
+
+        this.setupCalendarOrientationEvent();
+
     }
 
     ngAfterViewInit() {
@@ -100,6 +99,37 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.menuButtonClick = false;
             }
         );
+    }
+
+    setupCalendarOrientationEvent() {
+        window.addEventListener("orientationchange", () => {
+            switch (true) {
+                case screen.width <= 600 &&
+                    this.router.url == "/vStudentKalendar": {
+                    this.router.navigate(["/vStudentAgenda", "sm"]);
+                    break;
+                }
+                case screen.width >= 600 &&
+                    this.router.url == "/vStudentAgenda/sm": {
+                    this.router.navigate(["/vStudentKalendar"]);
+                    break;
+                }
+                case screen.width <= 600 &&
+                    this.router.url == "/vProfesorKalendar": {
+                    this.router.navigate(["/vProfesorAgenda", "sm"]);
+                    break;
+                }
+                case screen.width >= 600 &&
+                    this.router.url == "/vProfesorAgenda/sm": {
+                    this.router.navigate(["/vProfesorKalendar"]);
+                    break;
+                }
+                default: {
+                    //none
+                    break;
+                }
+            }
+        });
     }
 
     onTabClick(event: Event, index: number) {

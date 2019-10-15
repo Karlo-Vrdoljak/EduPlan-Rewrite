@@ -13,21 +13,20 @@ import { EventColor } from "../_interfaces/ColorEventEnum";
 import { CalendarEvent } from "../_interfaces/CalendarEvent";
 
 @Component({
-    selector: "app-student-agenda",
-    templateUrl: "./student-agenda.component.html",
-    styleUrls: ["./student-agenda.component.css"]
+    selector: "app-profesor-agenda",
+    templateUrl: "./profesor-agenda.component.html",
+    styleUrls: ["./profesor-agenda.component.css"]
 })
-export class StudentAgendaComponent implements OnInit {
+export class ProfesorAgendaComponent implements OnInit {
     calendarOptions: any;
     events: any[];
     apiData: any;
     _router: Router;
     locale: string;
-    translate: TranslateService;
+
     constructor(
         private _route: ActivatedRoute,
-        private _calendarService: CalendarService,
-        translate: TranslateService,
+        private translate: TranslateService,
         public router: Router,
         private languageHandler: LanguageHandler,
         private studentiService: StudentiService
@@ -79,18 +78,18 @@ export class StudentAgendaComponent implements OnInit {
     }
 
     ngOnInit() {
-       
         this.translate
             .get([
                 "STUDENT_KALENDAR_LOCALE",
                 "STUDENT_KALENDAR_DAN",
-                "STUDENT_KALENDAR_TJEDAN",
-                "STUDENT_KALENDAR_MJESEC"
+                "STUDENT_KALENDAR_MJESEC",
+                "STUDENT_KALENDAR_TJEDAN"
             ])
             .subscribe(res => {
                 const params = {
-                    PkStudent: 1312,
+                    //  PkStudent: 1312,
                     PkSkolskaGodina: 8,
+                    PkNastavnikSuradnik: 5,
                     DatumOd: "2017-10-10",
                     DatumDo: "2019-10-30"
                 };
@@ -108,15 +107,15 @@ export class StudentAgendaComponent implements OnInit {
                                 id: e.PkNastavaPlan,
                                 groupId: e.BrojSkupine,
                                 title:
-                                    e.PredmetKratica +
-                                    "\n" +
                                     e.PredmetNaziv +
                                     "\n" +
                                     e.PodTipPredavanjaNaziv +
                                     "\n" +
-                                    e.SifraPredavaonice +
+                                    // "Kratica &bull;" +
+                                    e.PredmetKratica +
                                     "\n" +
-                                    e.NastavnikSuradnikNaziv,
+                                    // "Predavaonica &bull;" +
+                                    e.SifraPredavaonice,
                                 start: e.DatumVrijemeOd,
                                 end: e.DatumVrijemeDo,
                                 allDay: false,
@@ -146,11 +145,32 @@ export class StudentAgendaComponent implements OnInit {
                             // customize the button names,
                             // otherwise they'd all just say "list"
                             views: {
-                                listDay: { buttonText: res.STUDENT_KALENDAR_DAN },
-                                listWeek: { buttonText: res.STUDENT_KALENDAR_TJEDAN },
-                                listMonth: { buttonText: res.STUDENT_KALENDAR_MJESEC }
+                                listDay: {
+                                    buttonText: res.STUDENT_KALENDAR_DAN
+                                },
+                                listWeek: {
+                                    buttonText: res.STUDENT_KALENDAR_TJEDAN
+                                },
+                                listMonth: {
+                                    buttonText: res.STUDENT_KALENDAR_MJESEC
+                                }
                             },
-
+                            // eventRender: function(info) {
+                              // let title = info.event.title as string;
+                              // if(title.match("$")) {
+                                // title = title.split("$")
+                                  // .map(
+                                        // s => s.match("&bull;") ? 
+                                        // "<b>"
+                                        // .concat(s.split("&bull;")[0])
+                                        // .concat(" </b>")
+                                        // .concat(' ' + s.split("&bull;")[1]) : s
+                                      // )
+                                        // .join("<br/>");
+                                // info.el.innerHTML = title;
+                                // console.log(title);
+                              // }
+                            // },
                             height: "auto",
                             contentHeight: screen.height - 337 - 57.25,
                             header: {
