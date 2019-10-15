@@ -13,6 +13,22 @@ export class ProfesorService {
     constructor(private http: HttpClient, private appService: AppService) {
         this.config = new Config();
     }
+
+     /*
+     *  Select sve podatke o profesoru.
+     *  Params: int ili null
+     *  Returns: Niz od jednog objekta ili niz vise objekata
+     */
+    getNastavnik(data) {
+        return this.http
+            .get(this.config.API_URL + "Nastavnik", { params: data })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError("ProfesorService.getNastavnik")
+                )
+            );
+    }
     
     /*
      *  Selecta sve obavijesti filtrirane po studentima.

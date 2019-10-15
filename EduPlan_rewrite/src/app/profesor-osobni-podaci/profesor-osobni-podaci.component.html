@@ -1,101 +1,165 @@
-    <div class="ui-g ui-fluid">
-        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
-            <!-- Left Side -->
-            <div class="card card-w-title ">
-                <h1>{{'STUDENT_STUDENTOSOBNIPODACI_OSOBNI_PODACI' | translate}}</h1>
-                <div class="ui-g form-group">
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_IME' | translate}}:<input type="text" pInputText disabled />
+    <div *ngIf="nastavnikPodaci; else loader">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-lg-6 ui-md-12 ui-sm-12">
+                <!-- Left Side -->
+                <div class="card card-w-title ">
+                    <h1>{{'STUDENT_STUDENTOSOBNIPODACI_OSOBNI_PODACI' | translate}}</h1>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_STUDENTOSOBNIPODACI_IME' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.Ime" pInputText disabled />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_STUDENTOSOBNIPODACI_PREZIME' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.Prezime" pInputText disabled />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_STUDENTOSOBNIPODACI_SPOL' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.Spol" pInputText disabled="true">
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_RODENJA' | translate}}:<p-calendar showIcon="true"
+                                [ngModel]="nastavnikPodaci.DatumRodenja" disabled="true"></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_STUDENTOSOBNIPODACI_OIB' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.OIB" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'STUDENT_STUDENTOSOBNIPODACI_JMBG' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.JMBG" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_ADRESAKUCA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.AdresaKucna" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_GRADKUCA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivGradaKuca" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_ADRESAPOSA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.AdresaNaPoslu" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_GRADPOSA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivGradaPosao" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_TELEFONKUCA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.TelefonKucni" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_TELEFONPOSA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.TelefonPosao" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_MOBITEL' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.Mobitel" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_FAKS' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.Fax" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_EMAIL1' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.Email1" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_EMAIL2' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.Email2" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                            {{'VIEWS_APLIKACIJA_HOME_NAPOMENA' | translate}}:<textarea [rows]="5" [cols]="30" [ngModel]="nastavnikPodaci.Napomena"
+                                pInputTextarea  disabled></textarea>
+                        </div>
                     </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_PREZIME' | translate}}:<input type="text" pInputText disabled />
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-lg-6 ui-md-12 ui-sm-12">
+                <div class="card card-w-title">
+                    <h1>{{'VIEWS_APLIKACIJA_HOME_AKADEMSKIPODACI' | translate}}</h1>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_NASTAVNIKSTATUS' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivNastavnikStatus"
+                                pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_KATALOZI_PREDMET_KATEDRA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.KatedraNaziv" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_USTANOVAZAPOSLENJA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivZaposlenikUstanova"
+                                pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_TIPZAPOSLENJA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivTipZaposlenja" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_AKADEMSKISTUPANJ' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.AkademskiStupanjNaziv"
+                                pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_STRUCNINAZIV' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.KraticaStucniNaziv" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_ZNANSTVENOZVANJE' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.ZvanjeNaziv" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_ZNANSTVENOPODRUCJE' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivZnanstvenoPodrucje"
+                                pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_ZNANSTVENOPOLJE' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivZnanstvenoPolje"
+                                pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_ZNANSTVENAGRANA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivZnanstvenaGrana"
+                                pInputText disabled>
+                        </div>
                     </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_SPOL' | translate}}:<input type="text" pInputText
-                            disabled="true">
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_RODENJA' | translate}}:<p-calendar showIcon="true"
-                            disabled="true"></p-calendar>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_OIB' | translate}}:<input type="text" pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_JMBG' | translate}}:<input type="text" pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_JMBAG' | translate}}:<input type="text" pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_BROJ_MOBITELA' | translate}}:<input type="text" pInputText
-                            disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_GRAD' | translate}}:<input type="text" pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_OPCINA' | translate}}:<input type="text" pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_DRZAVA' | translate}}:<input type="text" pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_NACIONALNOST' | translate}}:<input type="text" pInputText
-                            disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_IME_OCA' | translate}}:<input type="text" pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_IME_MAJKE' | translate}}:<input type="text" pInputText disabled>
+                </div>
+
+                <div class="financijskiPodaci card card-w-title">
+                    <h1>{{'VIEWS_APLIKACIJA_HOME_FINANCIJSKIPODACI' | translate}}</h1>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_DATUMZAPOSLENJA' | translate}}:<p-calendar showIcon="true" [ngModel]="nastavnikPodaci.DatumZaposlenjaUVU"
+                                disabled="true"></p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_GODINEPRETHODNOGRADNOGSTAZA' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.GodinePrethodnogRadnogStaza" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_MJESECIPRETHODNOGRADNOGSTAZA' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.MjeseciPrethodnogRadnogStaza1" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_DANIPRETHODNOGRADNOGSTAZA' | translate}}:<input type="text"
+                                [ngModel]="nastavnikPodaci.DaniPrethodnogRadnogStaza1" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_NACINFINANCIRANJA' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.NazivNacinFinanciranja"
+                                pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_APLIKACIJA_HOME_BANKOVNIRACUN' | translate}}:<input type="text" [ngModel]="nastavnikPodaci.BankovniRacun" pInputText
+                                disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p-checkbox label="{{'VIEWS_APLIKACIJA_HOME_OBVEZNIKPDV' |translate}}" binary="true" [ngModel]="nastavnikPodaci.ObveznikPDVDaNe"
+                                disabled="true"></p-checkbox>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p-checkbox label="{{'VIEWS_APLIKACIJA_HOME_OBVEZNIKDRUGIMIROVINSKIFOND' |translate}}" binary="true"
+                                [ngModel]="nastavnikPodaci.ObveznikDrugiMirovinskiFond" disabled="true"></p-checkbox>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
-
-            <div class="card card-w-title">
-                <h1>Akademski podaci</h1>
-                <div class="ui-g form-group">
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_NAZIV_SKOLE' | translate}}:<input type="text" pInputText
-                            disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_GODINA_ZAVRSETKA_SKOLE' | translate}}:<input type="text"
-                            pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_STRUKOVNO_PODRUCJE' | translate}}:<input type="text" pInputText
-                            disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_PROGRAM_IZOBRAZBE' | translate}}:<input type="text" pInputText
-                            disabled>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
-
-            <div class="card card-w-title ">
-                <h1>Financijski podaci</h1>
-                <div class="ui-g form-group">
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_RAZINA_PRAVA_NA_PREHRANU' | translate}}:<input type="text"
-                            pInputText disabled>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PRAVA_OD' | translate}}:<p-calendar showIcon="true"
-                            disabled="true"></p-calendar>
-                    </div>
-                    <div class="ui-g-12 ui-md-6 ui-lg-6">
-                        {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PRAVA_DO' | translate}}:<p-calendar showIcon="true"
-                            disabled="true"></p-calendar>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+
+    <ng-template #loader>
+        <p-progressBar mode="indeterminate"></p-progressBar>
+    </ng-template>
