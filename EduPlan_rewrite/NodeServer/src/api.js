@@ -60,7 +60,7 @@ router.get("/StudentObavijesti", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 });
 
-// dohvat podataka o profesoru
+// dohvat podataka o profesoru -> ne vraca nista jer je napravljeno za razvojnu bazu, a ne live (na njemu ne postoji procedura)
 router.get('/Nastavnik', function (req, res) {
     var conn = db.createConnection();
     var request = db.createRequest('EduPlanNew.spNastavnik_Select', conn);

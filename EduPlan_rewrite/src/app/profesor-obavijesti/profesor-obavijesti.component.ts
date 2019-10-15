@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentiService } from '../_services/studenti.service';
+import { ProfesorService } from '../_services/profesori.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -14,14 +14,14 @@ export class ProfesorObavijestiComponent implements OnInit {
   NemaObavijestiSluzbeno : boolean = true;
   NemaObavijestiOstalo : boolean = true;
 
-  constructor(private studentiService: StudentiService) { }
+  constructor(private profesorService: ProfesorService) { }
 
   ngOnInit() {
     const params = {
       PkUsera: 3675
     };
       
-      this.studentiService.getStudentObavijesti(params).subscribe((data) => {
+      this.profesorService.getProfesorObavijesti(params).subscribe((data) => {
       this.ProfesorObavijesti = data;
 
       for (let s of this.ProfesorObavijesti) {
