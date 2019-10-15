@@ -1,0 +1,20 @@
+
+:host >>>  .ui-state-disabled  {    
+    opacity: 1.0;
+}
+
+:host >>> .ui-widget:disabled {
+    opacity: 1.0;
+}
+
+.card {
+    font-size: 1.1em;
+}
+
+.card h1 {
+    font-size: 1.3em;
+}
+
+textarea {
+    resize: none;
+  }

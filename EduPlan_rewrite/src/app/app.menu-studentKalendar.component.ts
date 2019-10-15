@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { TranslateService, LangChangeEvent } from "@ngx-translate/core";
 
 @Component({
-    selector: 'app-menu-kalendar',
+    selector: 'app-menu-studentKalendar',
     template: `
         <ul app-submenu [item]="model" root="true" class="navigation-menu" visible="true" parentActive="true"></ul>
     `

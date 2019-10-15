@@ -26,6 +26,9 @@ import { StudentPodaciNaStudijuComponent } from './student-podaci-na-studiju/stu
 import { StudentObavijestiComponent } from './student-obavijesti/student-obavijesti.component';
 import { ProfesorCalendarComponent } from './profesor-calendar/profesor-calendar.component';
 import { ProfesorAgendaComponent } from "./profesor-agenda/profesor-agenda.component";
+import { ProfesorObavijestiComponent } from './profesor-obavijesti/profesor-obavijesti.component';
+import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-svi-predmeti.component';
+import { ProfesorOsobniPodaciComponent } from './profesor-osobni-podaci/profesor-osobni-podaci.component';
 
 
 export const routes: Routes = [
@@ -57,8 +60,10 @@ export const routes: Routes = [
            { path: "vProfesorKalendar", component: ProfesorCalendarComponent },
            { path: "vProfesorAgenda", component: ProfesorAgendaComponent },
            { path: "vProfesorAgenda/:isRedirect", component: ProfesorAgendaComponent },
+           { path: "vProfesorObavijesti", component: ProfesorObavijestiComponent },
+           { path: "vProfesorOsobniPodaci", component: ProfesorOsobniPodaciComponent },
+           { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent }
 
-                      
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'});

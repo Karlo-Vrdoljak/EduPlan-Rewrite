@@ -19,7 +19,7 @@ import { AppComponent } from "./app.component";
 import { TranslateService, LangChangeEvent } from "@ngx-translate/core";
 
 @Component({
-    selector: 'app-menu',
+    selector: 'app-menu-student',
     template: `
         <ul
             app-submenu
@@ -107,6 +107,12 @@ export class AppMenuComponent implements OnInit {
                     label: this.translate.instant("STUDENT_SVI_PREDMETI_POPIS"), //"Popis predmeta",
                     icon: "fa fa-book",
                     routerLink: ["/vStudentSviPredmeti"]
+                },
+                {
+                    label:
+                    this.translate.instant("STUDENT_NOVISTUDENTPODACINASTUDIJU_PODACI_NA_AKADEMSKOJ_GOD"), //'Podaci na akademskoj godini',
+                    icon: "fa fa-graduation-cap",
+                    routerLink: ["/vStudentPodaciNaAkGodini"]
                 },
                 {
                     label: this.translate.instant("STUDENT_PROSJECI_PROSJECI"), //"Prosjeci",
