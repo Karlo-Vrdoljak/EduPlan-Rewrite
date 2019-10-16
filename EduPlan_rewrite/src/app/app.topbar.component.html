@@ -17,10 +17,10 @@
     <ul class="topbar-menu fadeInDown" [ngClass]="{'topbar-menu-visible': app.topbarMenuActive}">
         <li #search class="search-item" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === search}"
             (click)="app.onTopbarSearchItemClick($event)">
-            <span class="md-inputfield">
-                <input type="text" pInputText placeholder="Search">
-                <i class="fa fa-search"></i>
-            </span>
+            <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon"><i class="fa fa-graduation-cap" style="font-size: 1.3em; left:4px; top:6px;"></i></span>
+                    <p-dropdown [options]="akademskeGodine"  [(ngModel)]="akademskaGodinaSelected"  optionLabel="SkolskaGodinaNaziv" (onChange)="setPkSkolskaGodina()"></p-dropdown>
+            </div>
         </li>
         <li >
             <a routerLink="vStudentObavijesti">
