@@ -28,12 +28,12 @@ export class AppMenuProfesorKalendarComponent implements OnInit {
                     {
                         label: res.VIEWS_KATALOZI_PREDMET_RASPORED,
                         icon: "fa fa-calendar",
-                        routerLink: ["/"]
+                        routerLink: ["/vProfesorKalendar"]
                     },
                     {
                         label: res.STUDENT_KALENDAR_AGENDA,
                         icon: "fa fa-clipboard",
-                        routerLink: ["/"]
+                        routerLink: ["/vProfesorAgenda"]
                     }
                 ];
             });
@@ -46,12 +46,12 @@ export class AppMenuProfesorKalendarComponent implements OnInit {
                 {
                     label: this.translate.instant("VIEWS_KATALOZI_PREDMET_RASPORED"),
                     icon: "fa fa-calendar",
-                    routerLink: ["/"]
+                    routerLink: ["/vProfesorKalendar"]
                 },
                 {
                     label: this.translate.instant("STUDENT_KALENDAR_AGENDA"),
                     icon: "fa fa-clipboard",
-                    routerLink: ["/"]
+                    routerLink: ["/vProfesorAgenda"]
                 }
             ];
             
