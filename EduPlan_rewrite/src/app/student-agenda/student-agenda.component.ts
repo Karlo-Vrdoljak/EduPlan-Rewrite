@@ -7,8 +7,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { LanguageHandler } from "../app.languageHandler";
 import { StudentiService } from "../_services/studenti.service";
 import { CalendarEvent } from "../_interfaces/CalendarEvent";
-import { CalendarColorPicker } from '../_interfaces/CalendarColorPicker';
 import { AppVariables } from '../_interfaces/_configAppVariables';
+import { CalendarConfig } from '../_interfaces/_configCalendar';
 
 @Component({
     selector: "app-student-agenda",
@@ -16,7 +16,6 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
     styleUrls: ["./student-agenda.component.css"]
 })
 export class StudentAgendaComponent implements OnInit {
-
     events: any[];
     apiData: any;
 
@@ -24,15 +23,13 @@ export class StudentAgendaComponent implements OnInit {
         private translate: TranslateService,
         private languageHandler: LanguageHandler,
         private studentiService: StudentiService,
-        private colorPicker: CalendarColorPicker,
+        private calendarConfig: CalendarConfig,
         private appVariables: AppVariables
     ) {
         this.translate.use(
             this.languageHandler.setDefaultLanguage().getCurrentLanguage()
         );
     }
-
-
 
     ngOnInit() {
         this.translate
@@ -52,7 +49,6 @@ export class StudentAgendaComponent implements OnInit {
                 this.studentiService
                     .getStudentRaspored(params)
                     .subscribe(data => {
-                        
                         this.events = [];
                         this.apiData = data;
                         // console.log(data);
@@ -73,12 +69,13 @@ export class StudentAgendaComponent implements OnInit {
                                 start: e.DatumVrijemeOd,
                                 end: e.DatumVrijemeDo,
                                 allDay: false,
-                                color: this.colorPicker.chooseColor(e.PodTipPredavanjaNaziv)
+                                color: this.calendarConfig.chooseColor(
+                                    e.PodTipPredavanjaNaziv
+                                )
                             };
                             this.events.push(event);
                         });
 
-                    
                         var calendarEl = document.getElementById("agenda");
 
                         var calendar = new Calendar(calendarEl, {

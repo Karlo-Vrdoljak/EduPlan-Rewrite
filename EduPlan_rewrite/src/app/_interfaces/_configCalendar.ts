@@ -1,9 +1,8 @@
 import { EventColor } from "./ColorEventEnum";
 
-export class CalendarColorPicker {
-    
+export class CalendarConfig {
     constructor() {}
-    
+
     public chooseColor(tipPredavanja): string {
         switch (true) {
             case tipPredavanja == "Predavanja": {
@@ -41,5 +40,22 @@ export class CalendarColorPicker {
                 return EventColor.Predavanja;
             }
         }
+    }
+
+    public checkDeviceWidth(screenWidth): boolean {
+        return screenWidth >= 1280 ? true : false;
+    }
+
+    public parseTitleLargeDevice(event?, data?:string[]) {
+        return data.join("\n").trim();
+    }
+    public parseTitleSmallDevice(predmet:string, data?:string[]) {
+        return (
+            predmet
+                .split(" ")
+                .map(s => (s.length > 3 ? (s += "\n") : s))
+                .join(" ") +
+            data.join("\n").trim()
+        );
     }
 }
