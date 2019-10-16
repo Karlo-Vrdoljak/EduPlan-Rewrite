@@ -18,7 +18,7 @@ export class AppTopBarComponent {
 
     ngOnInit() {
 
-        this.studentiService.getAkademskeGodine().subscribe((data) => {
+        /*this.studentiService.getAkademskeGodine().subscribe((data) => {
           this.akademskeGodine = data;
           this.akademskaGodinaSelected = data[0];
           this.appVariables.PkSkolskaGodina = this.akademskaGodinaSelected.PkSkolskaGodina;
@@ -31,10 +31,10 @@ export class AppTopBarComponent {
             console.log('Server-side error occured.');
           }
         }, () => { });
-      }
+      }*/
+    }
 
       setPkSkolskaGodina() {
         this.appVariables.PkSkolskaGodina = this.akademskaGodinaSelected.PkSkolskaGodina;
       }
-
-}
+    }
