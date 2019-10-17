@@ -113,6 +113,14 @@ router.get("/PrikazRasporeda", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 });
 
+//dohvat podataka o logiranom useru
+router.get("/KorisnikPodaci", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "EduPlanNew.spUser_Select", conn);
 
+    request.addParameter("PkUsera", TYPES.Int, req.query.pkUsera);
+  
+    db.execStoredProc(request, conn, res, "{}");
+});
 
 module.exports = router;

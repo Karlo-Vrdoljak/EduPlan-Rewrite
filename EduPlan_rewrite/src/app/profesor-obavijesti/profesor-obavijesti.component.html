@@ -3,7 +3,7 @@
             <div class="ui-g-12">
                 <p-tabView>
                     <p-tabPanel header="SVE">
-                        <ng-container>
+                        <ng-container *ngIf="NemaObavijestiSve === false; else nemaObavijesti">
                             <p-scrollPanel [style]="{width: '100%'}">
                                 <div *ngFor="let obavijest of ProfesorObavijesti">
                                     <div class="obavijestContainer card card-w-title">
@@ -188,7 +188,7 @@
                         <div class="card card-w-title">
                             <h1 style="border-left: 6px solid #1e73be;">&nbsp; SVE</h1>
                             <p-accordionTab header="Show more">
-                                <ng-container>
+                                <ng-container *ngIf="NemaObavijestiSve === false; else nemaObavijesti">
                                     <p-scrollPanel [style]="{width: '100%'}">
                                         <div *ngFor="let obavijest of ProfesorObavijesti">
                                             <div class="obavijestContainer card card-w-title">

@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class StudentObavijestiComponent implements OnInit {
   
   StudentObavijesti: any;
+  NemaObavijestiSve: boolean = true;
   NemaObavijestiDogadanja : boolean = true;
   NemaObavijestiSluzbeno : boolean = true;
   NemaObavijestiOstalo : boolean = true;
@@ -18,12 +19,15 @@ export class StudentObavijestiComponent implements OnInit {
   constructor(private studentiService: StudentiService) { }
 
   ngOnInit() {
+
     const params = {
       PkUsera: 3675
     };
       
       this.studentiService.getStudentObavijesti(params).subscribe((data) => {
       this.StudentObavijesti = data;
+
+      if(this.StudentObavijesti.length ==! 0) {this.NemaObavijestiSve = false};
 
       for (let s of this.StudentObavijesti) {
         if(s.PkTipObavijesti === 1) { this.NemaObavijestiDogadanja = false }

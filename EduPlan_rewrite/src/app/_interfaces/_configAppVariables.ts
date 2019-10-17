@@ -1,10 +1,10 @@
 export class AppVariables {
-    PkStudent: number = 1312;
-    PkSkolskaGodina: number = 8;
-    PkNastavnikSuradnik: number = 2006;
+    PkStudent: number;
+    PkSkolskaGodina: number;
+    PkNastavnikSuradnik: number;
     DatumOd: string; // = "2017-10-10";
     DatumDo: string; // = "2019-10-30";
-    PkUsera: 3675;
+    PkUsera: number; //3675
     emailSend = {
         from: "kv45531@unist.hr",
         to: "referada@oss.unist.hr",
