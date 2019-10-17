@@ -6,6 +6,7 @@ import { LanguageHandler } from './app.languageHandler';
 import { EmailMessage } from './_interfaces/EmailMessage';
 import { AppVariables } from './_interfaces/_configAppVariables';
 import { CalendarConfig } from './_interfaces/_configCalendar';
+import { LoginComponent } from 'src/assets/pages/login.component';
 
 enum MenuOrientation {
     STATIC,
@@ -58,22 +59,21 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         @Inject(LOCAL_STORAGE) private storage: WebStorageService,
         private languageHandler: LanguageHandler,
         private calendarConfig: CalendarConfig,
-        private appVariables : AppVariables,
-
+        private appVariables: AppVariables,
+        private loginComponent: LoginComponent
     ) {}
 
     ngOnInit(): void {
-
         // Dummy podaci
         this.emailSend = this.appVariables.emailSend;
         const lang = this.languageHandler
             .setDefaultLanguage()
             .getCurrentLanguage();
         this.translate.use(lang);
-
-
+        if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null){
+            this.loginComponent.setUserConfig();
+        }
         this.setupCalendarOrientationEvent();
-
     }
 
     ngAfterViewInit() {
@@ -103,7 +103,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     setupCalendarOrientationEvent() {
         window.addEventListener("orientationchange", () => {
-            
             switch (true) {
                 case screen.width <= 600 &&
                     this.router.url == "/vStudentKalendar": {
@@ -210,7 +209,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.displayEmailSender = true;
     }
     submitEmailForm(event) {
-        event.preventDefault();        
+        event.preventDefault();
         this.displayEmailSender = false;
         console.log(this.emailSend);
     }

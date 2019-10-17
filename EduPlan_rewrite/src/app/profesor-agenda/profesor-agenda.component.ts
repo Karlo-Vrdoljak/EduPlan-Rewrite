@@ -134,6 +134,7 @@ export class ProfesorAgendaComponent implements OnInit {
                             },
                             datesRender: arg => {
                                 this.calendarConfig.passedDate = arg.view.calendar.getDate();
+                                // arg.view.calendar.
                             }
                         });
                         calendar.render();

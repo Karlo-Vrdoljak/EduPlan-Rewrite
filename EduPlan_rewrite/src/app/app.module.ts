@@ -277,7 +277,8 @@ import { CalendarConfig } from "./_interfaces/_configCalendar";
         Config,
         MessageService,
         AppVariables,
-        CalendarConfig
+        CalendarConfig,
+        LoginComponent
     ],
     bootstrap: [AppComponent]
 })
