@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentiService } from '../_services/studenti.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AppVariables } from '../_interfaces/_configAppVariables';
 
 @Component({
   selector: 'app-student-obavijesti',
@@ -16,12 +17,15 @@ export class StudentObavijestiComponent implements OnInit {
   NemaObavijestiOstalo : boolean = true;
 
 
-  constructor(private studentiService: StudentiService) { }
+  constructor(
+    private studentiService: StudentiService,
+    private appVariables: AppVariables
+    ) { }
 
   ngOnInit() {
 
     const params = {
-      PkUsera: 3675
+        PkUsera: this.appVariables.PkUsera
     };
       
       this.studentiService.getStudentObavijesti(params).subscribe((data) => {

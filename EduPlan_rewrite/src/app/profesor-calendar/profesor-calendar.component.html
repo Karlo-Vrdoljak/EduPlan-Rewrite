@@ -6,9 +6,9 @@
 </div> <hr style="color: #c2dfd5; padding-right: 10px;"><br/>
 
 <div *ngIf="events; else loader">
-    <p-fullCalendar  [events]="events" [options]="calendarOptions" ></p-fullCalendar>
-
+    <!-- <p-fullCalendar id="calendar"  [events]="events" [options]="calendarOptions" ></p-fullCalendar> -->
 </div>
+<div id="calendar"></div>
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>

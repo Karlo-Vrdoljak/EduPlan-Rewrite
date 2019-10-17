@@ -43,8 +43,8 @@ export class StudentAgendaComponent implements OnInit {
                 const params = {
                     PkStudent: this.appVariables.PkStudent,
                     PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
-                    DatumOd: this.appVariables.DatumOd,
-                    DatumDo: this.appVariables.DatumDo
+                    DatumOd: this.calendarConfig.DatumOd,
+                    DatumDo: this.calendarConfig.DatumDo
                 };
                 this.studentiService
                     .getStudentRaspored(params)
@@ -81,7 +81,7 @@ export class StudentAgendaComponent implements OnInit {
                         var calendar = new Calendar(calendarEl, {
                             plugins: [listPlugin, interactionPlugin],
                             defaultView: "listWeek",
-                            defaultDate: this.appVariables.getDateTimeCurrent(),
+                            defaultDate: this.calendarConfig.getDateTimeCurrent(),
                             firstDay: 1,
                             navLinks: true,
                             locales: allLocales,

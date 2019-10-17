@@ -3,6 +3,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { StudentPodaciStudijService } from "../demo/service/studentPodaciStudijService";
 import { StudentPodaciStudij } from "../demo/domain/StudentPodaciStudij";
 import { StudentiService } from "../_services/studenti.service";
+import { AppVariables } from '../_interfaces/_configAppVariables';
 
 @Component({
     selector: "app-student-podaci-na-studiju",
@@ -17,12 +18,13 @@ export class StudentPodaciNaStudijuComponent implements OnInit {
     constructor(
         private translate: TranslateService,
         private studentPodaciService: StudentPodaciStudijService,
-        private studentiService: StudentiService
+        private studentiService: StudentiService,
+        private appVariables: AppVariables
     ) {}
 
     ngOnInit() {
         const params = {
-            PkStudent: 2
+            PkStudent: this.appVariables.PkStudent
         };
 
         this.translate

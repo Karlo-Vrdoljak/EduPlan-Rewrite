@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentiService } from '../_services/studenti.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AppVariables } from '../_interfaces/_configAppVariables';
 
 
 @Component({
@@ -14,11 +15,14 @@ export class StudentPodaciNaAkgodiniComponent implements OnInit {
   academicYear: string;
   studentPodaciNaAkGodiniFiltrirani: any;
  
-  constructor(private studentiService: StudentiService) { }
+  constructor(
+    private studentiService: StudentiService,
+    private appVariables: AppVariables
+    ) { }
 
   ngOnInit() {
     const params = {
-      PkStudent: 242
+      PkStudent: this.appVariables.PkStudent
     }; 
 
     this.studentiService.getStudentNaAkGodini(params).subscribe((data) => {

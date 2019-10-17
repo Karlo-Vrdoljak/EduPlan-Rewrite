@@ -10,6 +10,7 @@ import { AppVariables } from './_interfaces/_configAppVariables';
 })
 export class AppTopBarComponent {
 
+
   akademskeGodine: any;
   akademskaGodinaSelected: any;
   studentPodaciNaAkGodinama: any;
