@@ -10,7 +10,7 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
   styleUrls: ['./student-osobni-podaci.component.css'],
 })
 export class StudentOsobniPodaciComponent implements OnInit {
-  studentPodaci = {} as any;
+  studentPodaci: any;
 
   constructor(
     private studentiService: StudentiService,
