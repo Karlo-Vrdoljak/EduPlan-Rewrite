@@ -133,4 +133,22 @@ export class StudentiService {
                 )
             );
     }
+
+        /*
+     *  Selecta sve akademske godine. Temp service (tria filtrirat po pkUsera, za sta treba procedura)
+     *  Params: null
+     *  Returns: Niz objekata
+     */
+    getAkademskeGodine() {
+        return this.http
+            .get(this.config.API_URL + "AkademskaGodinaCombo", {})
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "StudentiService.getAkademskeGodine"
+                    )
+                )
+            );
+    }
 }

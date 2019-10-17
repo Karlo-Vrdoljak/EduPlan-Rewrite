@@ -80,6 +80,13 @@ router.get("/ProfesorObavijesti", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 });
 
+// dohvat podataka o ak.godinama
+router.get("/AkademskaGodinaCombo", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("EduPlanNew.spAkGodinaComboBoxTemp_Select", conn); 
+    db.execStoredProc(request, conn, res, "{}");
+});
+
 
 // dohvat rasporeda za profesore ili studente
 router.get("/PrikazRasporeda", function(req, res) {

@@ -1,12 +1,20 @@
-@media only screen and (max-width: 650px) {
-    .nemaObavijestiSmall {
+@media only screen and (max-width: 400px) {
+    .smallDevice {
         display: block;
     }
-    .nemaObavijestiLarge {
+    .bigDevice {
         display: none;
     }
 }
 
+@media only screen and (min-width: 400px) {
+    .smallDevice {
+        display: none;
+    }
+    .bigDevice {
+        display: block;
+    }
+}
 
 .kreatorObavijesti {
     float: left;
@@ -27,6 +35,14 @@
 
 }
 
+.nemaObavijesti {
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0 auto;
+    padding-top: 1.5em;
+}
+
 .card {
     padding: 0em;
     height: 100%;
@@ -37,21 +53,6 @@
     padding: 0.71em 0;
 }
 
-.nemaObavijestiSmall {
-    width: 100%;
-    text-align: center;
-    font-size: 1.5em;
-    margin: 0 auto;
-    padding-top: 1.5em;
-}
-
-.nemaObavijestiLarge {
-    width: 100%;
-    text-align: center;
-    font-size: 1.5em;
-    margin: 0 auto;
-    padding-top:10em;
 
 
-}
 
