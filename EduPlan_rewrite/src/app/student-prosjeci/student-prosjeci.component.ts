@@ -6,6 +6,7 @@ import { ProsjekGodine } from "../demo/domain/prosjeci";
 import { TranslateService } from "@ngx-translate/core";
 import { AccordionModule } from "primeng/accordion";
 import { StudentiService } from "../_services/studenti.service";
+import { AppVariables } from '../_interfaces/_configAppVariables';
 
 @Component({
     selector: "app-student-prosjeci",
@@ -20,14 +21,15 @@ export class StudentProsjeciComponent implements OnInit {
     rowGroupData: any;
 
     constructor(
-        private subjectService: SubjectService,
+        // private subjectService: SubjectService,
         private translate: TranslateService,
-        private studentiService: StudentiService
+        private studentiService: StudentiService,
+        private appVariables: AppVariables
     ) {}
     // suma EctsBodovi polozeno, Prosjek ocjene, broj upisanih EctsBodovi, prosjek polozenih EctsBodovi/god
     ngOnInit() {
         const params = {
-            PkStudent: 420
+            PkStudent: this.appVariables.PkStudent
         };
         
         this.translate

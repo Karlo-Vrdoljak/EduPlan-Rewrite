@@ -4,6 +4,7 @@ import { Subject } from "../demo/domain/subject";
 import { TranslateService } from "@ngx-translate/core";
 import { StudentiService } from "../_services/studenti.service";
 import { HttpErrorResponse } from "@angular/common/http";
+import { AppVariables } from '../_interfaces/_configAppVariables';
 
 @Component({
     selector: "app-student-svi-predmeti",
@@ -18,12 +19,13 @@ export class StudentSviPredmetiComponent implements OnInit {
     constructor(
         private subjectService: SubjectService,
         private translate: TranslateService,
-        private studentiService: StudentiService
+        private studentiService: StudentiService,
+        private appVariables: AppVariables
     ) {}
 
     ngOnInit() {
         const params = {
-            PkStudent: 2
+            PkStudent: this.appVariables.PkStudent
         };
 
         this.translate

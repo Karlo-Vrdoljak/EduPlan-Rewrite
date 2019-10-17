@@ -45,8 +45,8 @@ export class ProfesorAgendaComponent implements OnInit {
                     //  PkStudent: 1312,
                     PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
                     PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
-                    DatumOd: this.appVariables.DatumOd,
-                    DatumDo: this.appVariables.DatumDo
+                    DatumOd: this.calendarConfig.DatumOd,
+                    DatumDo: this.calendarConfig.DatumDo
                 };
                 this.studentiService
                     .getStudentRaspored(params)
@@ -84,7 +84,7 @@ export class ProfesorAgendaComponent implements OnInit {
                         var calendar = new Calendar(calendarEl, {
                             plugins: [listPlugin, interactionPlugin],
                             defaultView: "listWeek",
-                            defaultDate: this.appVariables.getDateTimeCurrent(),
+                            defaultDate: this.calendarConfig.getDateTimeCurrent(),
                             firstDay: 1,
                             navLinks: true,
                             locales: allLocales,
@@ -131,6 +131,9 @@ export class ProfesorAgendaComponent implements OnInit {
                                     "contentHeight",
                                     screen.height - 337 - 57.25
                                 );
+                            },
+                            datesRender: arg => {
+                                this.calendarConfig.passedDate = arg.view.calendar.getDate();
                             }
                         });
                         calendar.render();

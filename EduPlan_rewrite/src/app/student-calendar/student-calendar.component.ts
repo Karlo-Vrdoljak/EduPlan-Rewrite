@@ -45,8 +45,8 @@ export class StudentCalendarComponent implements OnInit {
                 const params = {
                     PkStudent: this.appVariables.PkStudent,
                     PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
-                    DatumOd: this.appVariables.DatumOd,
-                    DatumDo: this.appVariables.DatumDo
+                    DatumOd: this.calendarConfig.DatumOd,
+                    DatumDo: this.calendarConfig.DatumDo
                 };
                 this.studentiService
                     .getStudentRaspored(params)
@@ -79,7 +79,7 @@ export class StudentCalendarComponent implements OnInit {
 
                 this.calendarOptions = {
                     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-                    defaultDate: this.appVariables.getDateTimeCurrent(),
+                    defaultDate: this.calendarConfig.getDateTimeCurrent(),
                     //aspectRatio: 2.8,
                     navLinks: true,
                     locales: allLocales,
