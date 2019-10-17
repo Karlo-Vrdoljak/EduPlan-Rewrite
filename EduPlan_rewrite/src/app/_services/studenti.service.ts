@@ -93,16 +93,15 @@ export class StudentiService {
      *  Returns: Niz od više objekata ili jednog objekta
      */
     getStudentRaspored(data) {
-        const headerdata = {
-            'Content-Type':'application/json',
-            'Authorization':'Basic c3R1ZDpzdHVk'
-        }
+        // const headerdata = {
+            // 'Content-Type':'application/json',
+            // 'Authorization':'Basic c3R1ZDpzdHVk'
+        // }
         return this.http
-            .get(
-                "https://cloudvm2.westeurope.cloudapp.azure.com/EduPlan_Turnusno_WebApi/HomePage/PrikazRasporeda",
+            .get(this.config.API_URL + "PrikazRasporeda",
                 {
-                    params: data,
-                    headers: headerdata
+                    params: data
+                    // headers: headerdata
                 }
             )
             .pipe(

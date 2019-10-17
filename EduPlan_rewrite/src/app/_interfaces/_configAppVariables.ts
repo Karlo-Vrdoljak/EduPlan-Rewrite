@@ -1,20 +1,25 @@
 export class AppVariables {
     PkStudent: number = 1312;
     PkSkolskaGodina: number = 8;
-    PkNastavnikSuradnik: number = 5;
+    PkNastavnikSuradnik: number = 2006;
     DatumOd: string; // = "2017-10-10";
     DatumDo: string; // = "2019-10-30";
     PkUsera: 3675;
-
+    emailSend = {
+        from: "kv45531@unist.hr",
+        to: "referada@oss.unist.hr",
+        subject: null,
+        text: null
+    };
     constructor() {
         this.setupDefaultDateTime();
     }
 
     /// changeDay => opcionalan, pozitivna vrijednost gura datum naprid
     ///                          negativna vrijednost gura datum nazad
-    public getDateTimeCurrent(changeDay?:number): string {
+    public getDateTimeCurrent(changeDay?: number): string {
         let date = new Date();
-        if(changeDay) {
+        if (changeDay) {
             date.setDate(date.getDate() + changeDay);
         }
         return (
@@ -26,9 +31,7 @@ export class AppVariables {
         );
     }
     private setupDefaultDateTime() {
-        
         this.DatumOd = this.getDateTimeCurrent(-400);
         this.DatumDo = this.getDateTimeCurrent(400);
     }
-
 }

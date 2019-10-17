@@ -19,15 +19,15 @@ export class ProfesorCalendarComponent implements OnInit {
     calendarOptions: any;
     events: any[];
     apiData: any;
-
+    
     constructor(
         public router: Router,
         private translate: TranslateService,
         private studentiService: StudentiService,
         private appVariables: AppVariables,
-        private calendarConfig: CalendarConfig
+        private calendarConfig: CalendarConfig,
+        // private windowOrientation: WindowCalendarOrientation
     ) {}
-
 
     ngOnInit() {
         if (screen.width <= 600) {
@@ -43,6 +43,14 @@ export class ProfesorCalendarComponent implements OnInit {
                     PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
                     DatumOd: this.appVariables.DatumOd,
                     DatumDo: this.appVariables.DatumDo
+                    // PkSkolskaGodinaStudijPredmetKatedra : null,
+                    // PkPredmet : null,
+                    // PkTipPredavanje : null,
+                    // PkPredavaonica : null,
+                    // PkStudij : null,
+                    // PkKatedra : null,
+                    // GostDaNE : null,
+                    // PkStudent : null
                 };
                 this.studentiService
                     .getStudentRaspored(params)
@@ -52,7 +60,7 @@ export class ProfesorCalendarComponent implements OnInit {
                         // });
                         this.events = [];
                         this.apiData = data;
-                        // console.log(data);
+                        console.log(data);
                         this.apiData.forEach(e => {
                             // let predmetRefactured = ;
                             let event: CalendarEvent = {
@@ -86,7 +94,6 @@ export class ProfesorCalendarComponent implements OnInit {
                                 )
                             };
                             this.events.push(event);
-                            
                         });
                     });
 
@@ -96,6 +103,7 @@ export class ProfesorCalendarComponent implements OnInit {
                     //aspectRatio: 2.8,
                     navLinks: true,
                     locales: allLocales,
+                    selectable: true,
                     defaultView: "timeGridWeek",
                     locale: res,
                     height: "auto",
@@ -104,6 +112,12 @@ export class ProfesorCalendarComponent implements OnInit {
                     header: {
                         center: "prevYear,prev,today,next,nextYear",
                         right: "dayGridMonth,timeGridWeek,timeGridDay"
+                    },
+
+                    dateCLick: function(info) {
+                        this.windowOrientation.passedDate = this.calendarConfig.passedDate;
+                        console.log(info.dateStr);
+
                     }
                 };
             });

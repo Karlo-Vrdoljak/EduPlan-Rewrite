@@ -1,6 +1,9 @@
 import { EventColor } from "./ColorEventEnum";
 
 export class CalendarConfig {
+
+    passedDate:string = null;
+
     constructor() {}
 
     public chooseColor(tipPredavanja): string {

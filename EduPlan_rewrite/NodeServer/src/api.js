@@ -81,5 +81,31 @@ router.get("/ProfesorObavijesti", function(req, res) {
 });
 
 
+// dohvat rasporeda za profesore ili studente
+router.get("/PrikazRasporeda", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest(
+        "EduPlanNew.PrikazRasporedaZaNastavnikaSuradnikaStudenta",
+        conn
+    );
+
+
+    request.addParameter("DatumOd", TYPES.NVarChar, req.query.DatumOd);
+    request.addParameter("DatumDo", TYPES.NVarChar, req.query.DatumDo);
+    request.addParameter("PkNastavnikSuradnik", TYPES.Int, req.query.PkNastavnikSuradnik);
+    request.addParameter("PkSkolskaGodina", TYPES.Int, req.query.PkSkolskaGodina);
+    // request.addParameter("PkSkolskaGodinaStudijPredmetKatedra", TYPES.Int, req.query.PkSkolskaGodinaStudijPredmetKatedra);
+    // request.addParameter("PkPredmet", TYPES.Int, req.query.PkPredmet);
+    // request.addParameter("PkTipPredavanje", TYPES.Int, req.query.PkTipPredavanje);
+    // request.addParameter("PkPredavaonica", TYPES.Int, req.query.PkPredavaonica);
+    // request.addParameter("PkStudij", TYPES.Int, req.query.PkStudij);
+    // request.addParameter("PkKatedra", TYPES.Int, req.query.PkKatedra);
+    // request.addParameter("GostDaNE", TYPES.Bit, req.query.GostDaNE);
+    // request.addParameter("PkStudent", TYPES.Int, req.query.PkStudent);
+
+    db.execStoredProc(request, conn, res, "{}");
+});
+
+
 
 module.exports = router;

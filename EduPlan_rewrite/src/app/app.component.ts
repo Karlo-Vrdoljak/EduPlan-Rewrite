@@ -4,6 +4,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { LOCAL_STORAGE, WebStorageService } from "angular-webstorage-service";
 import { LanguageHandler } from './app.languageHandler';
 import { EmailMessage } from './_interfaces/EmailMessage';
+import { AppVariables } from './_interfaces/_configAppVariables';
+import { CalendarConfig } from './_interfaces/_configCalendar';
 
 enum MenuOrientation {
     STATIC,
@@ -54,18 +56,16 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         public router: Router,
         private translate: TranslateService,
         @Inject(LOCAL_STORAGE) private storage: WebStorageService,
-        private languageHandler: LanguageHandler
+        private languageHandler: LanguageHandler,
+        private calendarConfig: CalendarConfig,
+        private appVariables : AppVariables,
+
     ) {}
 
     ngOnInit(): void {
 
         // Dummy podaci
-        this.emailSend = {
-            from : "kv45531@unist.hr",
-            to : "referada@oss.unist.hr",
-            subject : null,
-            text : null
-        };
+        this.emailSend = this.appVariables.emailSend;
         const lang = this.languageHandler
             .setDefaultLanguage()
             .getCurrentLanguage();
@@ -103,6 +103,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     setupCalendarOrientationEvent() {
         window.addEventListener("orientationchange", () => {
+            
             switch (true) {
                 case screen.width <= 600 &&
                     this.router.url == "/vStudentKalendar": {
