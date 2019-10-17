@@ -23,6 +23,7 @@ export class StudentCalendarComponent implements OnInit {
     apiData: any;
 
     translate: TranslateService;
+    
     constructor(
         private _calendarService: CalendarService,
         public router: Router,
