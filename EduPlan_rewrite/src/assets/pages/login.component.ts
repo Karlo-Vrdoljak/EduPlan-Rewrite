@@ -16,15 +16,16 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {}
 
-    setUserConfig(pkUser) {
+    setUserConfig() {
 
        const params = {
-            pkUsera: pkUser
+            pkUsera: this.appVariables.PkUsera
         };
 
         this.opciService.getKorisnikPodaci(params).subscribe((data) => {
             data[0].PkStudent ? this.appVariables.PkStudent = data[0].PkStudent : this.appVariables.PkStudent = null;
             data[0].PkNastavnikSuradnik ? this.appVariables.PkNastavnikSuradnik =data[0].PkNastavnikSuradnik : this.appVariables.PkNastavnikSuradnik = null; //Provjera da li je rijeć o profesoru ili studentu i postavljanje na null onoga ko nije u pitanju
+            console.log(this.appVariables);
         },
 
         (err: HttpErrorResponse) => {
