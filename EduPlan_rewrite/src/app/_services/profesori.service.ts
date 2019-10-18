@@ -49,4 +49,31 @@ export class ProfesorService {
                 )
             );
     }
+
+     /*
+     *  Select raspored nastavnika za odredeni period.
+     *  Params: int,string `YYYY-MM-DD`, string `YYYY-MM-DD`
+     *  Returns: Niz od više objekata ili jednog objekta
+     */
+    getNastavnikRaspored(data) {
+        // const headerdata = {
+            // 'Content-Type':'application/json',
+            // 'Authorization':'Basic c3R1ZDpzdHVk'
+        // }
+        return this.http
+            .get(this.config.API_URL + "PrikazRasporedaProfesor",
+                {
+                    params: data
+                    // headers: headerdata
+                }
+            )
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getNastavnikRaspored"
+                    )
+                )
+            );
+    }
 }
