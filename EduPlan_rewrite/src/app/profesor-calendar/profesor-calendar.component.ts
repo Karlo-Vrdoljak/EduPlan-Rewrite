@@ -10,6 +10,7 @@ import { CalendarEvent } from "../_interfaces/CalendarEvent";
 import { AppVariables } from "../_interfaces/_configAppVariables";
 import { CalendarConfig } from "../_interfaces/_configCalendar";
 import { Calendar } from "@fullcalendar/core";
+import { ProfesorService } from '../_services/profesori.service';
 
 @Component({
     selector: "app-profesor-calendar",
@@ -24,7 +25,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     rangeDates: Date[];
     params = {
         // PkStudent: 1312,
-        PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
+        // PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
         PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
         DatumOd: this.calendarConfig.DatumOd,
         DatumDo: this.calendarConfig.DatumDo
@@ -33,20 +34,24 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     constructor(
         public router: Router,
         private translate: TranslateService,
-        private studentiService: StudentiService,
+        // private studentiService: StudentiService,        
+        private profesorSerivce: ProfesorService,
         private appVariables: AppVariables,
         private calendarConfig: CalendarConfig // private windowOrientation: WindowCalendarOrientation
     ) {}
 
     handleSelectedDate() {
         if (this.rangeDates) {
-            this.params.DatumOd = this.calendarConfig.formatDate( this.rangeDates[0] );
-            this.params.DatumDo = this.calendarConfig.formatDate( this.rangeDates[1] );
+            this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
+            this.params.DatumDo = this.calendarConfig.formatDate(this.rangeDates[1]);
 
-            this.studentiService.getStudentRaspored(this.params)
-            .subscribe(data => {
-                var events = []
-            });
+            this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
+                var events = this.calendarConfig.prepareCalendarEventsProfesor(data);
+                this.calendar.removeAllEventSources();
+
+                this.calendar.addEventSource(events);
+                this.calendar.rerenderEvents();
+            })
         }
     }
     ngOnInit() {
@@ -59,79 +64,38 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             .get("STUDENT_KALENDAR_LOCALE")
             .toPromise()
             .then(res => {
-                this.studentiService
-                    .getStudentRaspored(this.params)
-                    .subscribe(data => {
-                        // this._calendarService.getCalendarData().then(res => {
-                        //     console.log(res);
-                        // });
-                        this.events = [];
-                        this.apiData = data;
-                        console.log(data);
-                        this.apiData.forEach(e => {
-                            // let predmetRefactured = ;
-                            let event: CalendarEvent = {
-                                id: e.PkNastavaPlan,
-                                groupId: e.BrojSkupine,
-                                title: this.calendarConfig.checkDeviceWidth(
-                                    screen.width
-                                )
-                                    ? this.calendarConfig.parseTitleLargeDevice(
-                                          e,
-                                          [
-                                              e.PredmetNaziv,
-                                              e.PodTipPredavanjaNaziv,
-                                              e.PredmetKratica,
-                                              e.SifraPredavaonice
-                                          ]
-                                      )
-                                    : this.calendarConfig.parseTitleSmallDevice(
-                                          e.PredmetNaziv,
-                                          [
-                                              e.PodTipPredavanjaNaziv,
-                                              e.PredmetKratica,
-                                              e.SifraPredavaonice
-                                          ]
-                                      ),
-                                start: e.DatumVrijemeOd,
-                                end: e.DatumVrijemeDo,
-                                allDay: false,
-                                color: this.calendarConfig.chooseColor(
-                                    e.PodTipPredavanjaNaziv
-                                )
-                            };
-                            this.events.push(event);
-                        });
+                this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
+                    // this._calendarService.getCalendarData().then(res => {
+                    //     console.log(res);
+                    // });
+                    console.log(data);
+                    this.events = this.calendarConfig.prepareCalendarEventsProfesor(data);
 
-                        var calendarEl = document.getElementById("calendar");
-                        this.calendar = new Calendar(calendarEl, {
-                            plugins: [
-                                dayGridPlugin,
-                                timeGridPlugin,
-                                interactionPlugin
-                            ],
-                            defaultDate: this.calendarConfig.getDateTimeCurrent(),
-                            //aspectRatio: 2.8,
-                            navLinks: true,
-                            locales: allLocales,
-                            selectable: true,
-                            defaultView: "timeGridWeek",
-                            locale: res,
-                            height: "auto",
-                            contentHeight:
-                                screen.height - 70 - 57.25 - 19.5 - 90,
-                            firstDay: 1,
-                            events: this.events,
-                            header: {
-                                center: "prevYear,prev,today,next,nextYear",
-                                right: "dayGridMonth,timeGridWeek,timeGridDay"
-                            },
-                            datesRender: arg => {
-                                this.calendarConfig.passedDate = arg.view.calendar.getDate();
-                            }
-                        });
-                        this.calendar.render();
+                    var calendarEl = document.getElementById("calendar");
+                    this.calendar = new Calendar(calendarEl, {
+
+                        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+                        defaultDate: this.calendarConfig.getDateTimeCurrent(),
+                        //aspectRatio: 2.8,
+                        navLinks: true,
+                        locales: allLocales,
+                        selectable: true,
+                        defaultView: "timeGridWeek",
+                        locale: res,
+                        height: "auto",
+                        contentHeight: screen.height - 70 - 57.25 - 19.5 - 90,
+                        firstDay: 1,
+                        events: this.events,
+                        header: {
+                            center: "prevYear,prev,today,next,nextYear",
+                            right: "dayGridMonth,timeGridWeek,timeGridDay"
+                        },
+                        datesRender: arg => {
+                            this.calendarConfig.passedDate = arg.view.calendar.getDate();
+                        }
                     });
+                    this.calendar.render();
+                });
             });
     }
 
