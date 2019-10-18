@@ -103,25 +103,23 @@ export class CalendarConfig {
             let event: CalendarEvent = {
                 id: e.PkNastavaPlan,
                 groupId: e.BrojSkupine,
-                title: this.checkDeviceWidth(screen.width)
-                    ? this.parseTitleLargeDevice(e, [
-                          e.PredmetNaziv,
-                          e.PodTipPredavanjaNaziv,
-                          e.PredmetKratica,
-                          e.SifraPredavaonice
-                      ])
-                    : this.parseTitleSmallDevice(
-                          e.PredmetNaziv,
-                          [
-                              e.PodTipPredavanjaNaziv,
-                              e.PredmetKratica,
-                              e.SifraPredavaonice
-                          ]
-                      ),
+                title: e.SifraPredavaonice,
                 start: e.DatumVrijemeOd,
                 end: e.DatumVrijemeDo,
                 allDay: false,
-                color: this.chooseColor(e.PodTipPredavanjaNaziv)
+                color: this.chooseColor(e.PodTipPredavanjaNaziv),
+                extendedProps: {
+                    PredmetNaziv: e.PredmetNaziv,
+                    PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv,
+                    PodTipPredavanjaSifra: e.PodTipPredavanjaSifra,
+                    PredmetKratica: e.PredmetKratica,
+                    SifraPredavaonice: e.SifraPredavaonice,
+                    Realizirano: e.Realizirano,
+                    PkPredmet: e.PkPredmet,
+                    PkStudij: e.PkStudij,
+                    StudijNaziv: e.StudijNaziv
+                }
+                
             };
             events.push(event);
         });
@@ -129,3 +127,21 @@ export class CalendarConfig {
         return events;
     }
 }
+
+
+// title: 
+// this.checkDeviceWidth(screen.width)
+//                     ? this.parseTitleLargeDevice(e, [
+//                           e.PredmetNaziv,
+//                           e.PodTipPredavanjaNaziv,
+//                           e.PredmetKratica,
+//                           e.SifraPredavaonice
+//                       ])
+//                     : this.parseTitleSmallDevice(
+//                           e.PredmetNaziv,
+//                           [
+//                               e.PodTipPredavanjaNaziv,
+//                               e.PredmetKratica,
+//                               e.SifraPredavaonice
+//                           ]
+//                       )

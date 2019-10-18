@@ -55,7 +55,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         }
     }
     ngOnInit() {
-        console.log(this.appVariables.PkSkolskaGodina);
+        // console.log(this.appVariables.PkSkolskaGodina);
 
         if (screen.width <= 600) {
             this.router.navigate(["/vProfesorAgenda", "sm"]);
@@ -70,7 +70,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                     // });
                     console.log(data);
                     this.events = this.calendarConfig.prepareCalendarEventsProfesor(data);
-
+                    console.log(this.events);
                     var calendarEl = document.getElementById("calendar");
                     this.calendar = new Calendar(calendarEl, {
 
@@ -89,6 +89,10 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                         header: {
                             center: "prevYear,prev,today,next,nextYear",
                             right: "dayGridMonth,timeGridWeek,timeGridDay"
+                        },
+                        eventRender: arg => {
+                            /*******************HTML***********************/
+                            // <td class="fc-event-container"><a class="fc-day-grid-event fc-h-event fc-event fc-start fc-end" style="background-color:#004e8a;border-color:#004e8a"><div class="fc-content"><span class="fc-time">10:30</span> <span class="fc-title">305</span></div></a></td>
                         },
                         datesRender: arg => {
                             this.calendarConfig.passedDate = arg.view.calendar.getDate();
