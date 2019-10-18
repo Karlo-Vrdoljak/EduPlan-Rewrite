@@ -98,7 +98,7 @@ export class StudentiService {
             // 'Authorization':'Basic c3R1ZDpzdHVk'
         // }
         return this.http
-            .get(this.config.API_URL + "PrikazRasporeda",
+            .get(this.config.API_URL + "PrikazRasporedaStudent",
                 {
                     params: data
                     // headers: headerdata
