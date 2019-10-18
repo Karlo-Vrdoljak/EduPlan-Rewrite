@@ -102,7 +102,7 @@ router.get("/PrikazRasporedaStudent", function(req, res) {
     request.addParameter("PkStudent", TYPES.Int, req.query.PkStudent);
     // request.addParameter("PkSkolskaGodina", TYPES.Int, req.query.PkSkolskaGodina);
 
-    db.execStoredProcFromNode(request, conn, res, "{}");
+    db.execStoredProc(request, conn, res, "{}");
 });
 
 // dohvat rasporeda studente
@@ -119,7 +119,7 @@ router.get("/PrikazRasporedaProfesor", function(req, res) {
     request.addParameter("PkNastavnikSuradnik", TYPES.Int, req.query.PkNastavnikSuradnik);
     // request.addParameter("PkSkolskaGodina", TYPES.Int, req.query.PkSkolskaGodina);
 
-    db.execStoredProcFromNode(request, conn, res, "{}");
+    db.execStoredProc(request, conn, res, "{}");
 });
 
 //dohvat podataka o logiranom useru
@@ -131,5 +131,16 @@ router.get("/KorisnikPodaci", function(req, res) {
   
     db.execStoredProc(request, conn, res, "{}");
 });
+
+//dohvat podataka o logiranom useru
+router.get("/PrikazPredmetaProfesor", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spPrikazPredmetaZaNastavnikaSuradnika", conn);
+
+    request.addParameter("PkSkolskaGodina", TYPES.Int, req.query.PkSkolskaGodina);
+    request.addParameter("PkNastavnikSuradnik",TYPES.Int, req.query.PkNastavnikSuradnik);
+  
+    db.execStoredProc(request, conn, res, "{}");
+}); 
 
 module.exports = router;
