@@ -74,13 +74,19 @@ export class CalendarConfig {
                if(this.passedDate) {
                    date = this.passedDate;
                }
-               return (
-                   date.getFullYear() +
+               return this.formatDate(date);
+           }
+
+           
+           public formatDate(date: Date) :string {
+            
+            return (
+                date.getFullYear() +
                    "-" +
                    (date.getMonth() + 1) +
                    "-" +
                    date.getDate()
-               );
+            );
            }
 
            private setupDefaultDateTime() {

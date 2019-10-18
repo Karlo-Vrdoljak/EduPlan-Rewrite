@@ -60,7 +60,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         private languageHandler: LanguageHandler,
         private calendarConfig: CalendarConfig,
         private appVariables: AppVariables,
-        private loginComponent: LoginComponent
     ) {}
 
     ngOnInit(): void {
@@ -71,7 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             .getCurrentLanguage();
         this.translate.use(lang);
         if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null){
-            this.loginComponent.setUserConfig();
+            this.router.navigate(["/login"]) ;   
         }
         this.setupCalendarOrientationEvent();
     }

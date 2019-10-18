@@ -36,7 +36,9 @@ export class LoginComponent implements OnInit {
             }
         }, () => { });
       
-        this.router.navigate(["/vStudentObavijesti"]);
+        this.router.navigate([
+            this.appVariables.PkStudent? "/vStudentObavijesti" : "/vProfesorObavijesti"
+        ]);
     }
 
 }

@@ -21,6 +21,14 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     events: any[];
     apiData: any;
     calendar: Calendar;
+    rangeDates: Date[];
+    params = {
+        // PkStudent: 1312,
+        PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
+        PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
+        DatumOd: this.calendarConfig.DatumOd,
+        DatumDo: this.calendarConfig.DatumDo
+    };
 
     constructor(
         public router: Router,
@@ -30,7 +38,20 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         private calendarConfig: CalendarConfig // private windowOrientation: WindowCalendarOrientation
     ) {}
 
+    handleSelectedDate() {
+        if (this.rangeDates) {
+            this.params.DatumOd = this.calendarConfig.formatDate( this.rangeDates[0] );
+            this.params.DatumDo = this.calendarConfig.formatDate( this.rangeDates[1] );
+
+            this.studentiService.getStudentRaspored(this.params)
+            .subscribe(data => {
+                var events = []
+            });
+        }
+    }
     ngOnInit() {
+        console.log(this.appVariables.PkSkolskaGodina);
+
         if (screen.width <= 600) {
             this.router.navigate(["/vProfesorAgenda", "sm"]);
         }
@@ -38,30 +59,15 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             .get("STUDENT_KALENDAR_LOCALE")
             .toPromise()
             .then(res => {
-                const params = {
-                    // PkStudent: 1312,
-                    PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
-                    PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
-                    DatumOd: this.calendarConfig.DatumOd,
-                    DatumDo: this.calendarConfig.DatumDo
-                    // PkSkolskaGodinaStudijPredmetKatedra : null,
-                    // PkPredmet : null,
-                    // PkTipPredavanje : null,
-                    // PkPredavaonica : null,
-                    // PkStudij : null,
-                    // PkKatedra : null,
-                    // GostDaNE : null,
-                    // PkStudent : null
-                };
                 this.studentiService
-                    .getStudentRaspored(params)
+                    .getStudentRaspored(this.params)
                     .subscribe(data => {
                         // this._calendarService.getCalendarData().then(res => {
                         //     console.log(res);
                         // });
                         this.events = [];
                         this.apiData = data;
-                        // console.log(data);
+                        console.log(data);
                         this.apiData.forEach(e => {
                             // let predmetRefactured = ;
                             let event: CalendarEvent = {
@@ -120,25 +126,14 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                 center: "prevYear,prev,today,next,nextYear",
                                 right: "dayGridMonth,timeGridWeek,timeGridDay"
                             },
-                            datesRender: (arg) => {
+                            datesRender: arg => {
                                 this.calendarConfig.passedDate = arg.view.calendar.getDate();
                             }
-                            
                         });
                         this.calendar.render();
                     });
             });
     }
 
-    setupDateListeners() {
-        
-        var navButtons = document.getElementsByClassName(
-            "fc-prevYear-button fc-prev-button fc-today-button fc-next-button fc-nextYear-button fc-dayGridMonth-button fc-timeGridWeek-button fc-timeGridDay-button "
-        );
-        console.log(navButtons);
-        Array.from(navButtons).map(e => console.log(e));
-    }
-    
-    
-    ngAfterViewInit(){}
+    ngAfterViewInit() {}
 }

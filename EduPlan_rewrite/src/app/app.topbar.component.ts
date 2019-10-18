@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import { OpciService } from './_services/opci.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppVariables } from './_interfaces/_configAppVariables';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -15,9 +16,15 @@ export class AppTopBarComponent {
   akademskaGodinaSelected: any;
   studentPodaciNaAkGodinama: any;
 
-  constructor(public app: AppComponent, private opciService: OpciService, private appVariables: AppVariables) { }
+  constructor(
+    private router: Router,
+    public app: AppComponent, 
+    private opciService: OpciService, 
+    private appVariables: AppVariables
+    ) { }
 
   ngOnInit() {
+
 
     this.opciService.getAkademskeGodine().subscribe((data) => {
       this.akademskeGodine = data;
@@ -37,6 +44,12 @@ export class AppTopBarComponent {
 
   setPkSkolskaGodina() {
     this.appVariables.PkSkolskaGodina = this.akademskaGodinaSelected.PkSkolskaGodina;
+    console.log(this.router.url);
+    let url = this.router.url;
+
+    this.router
+        .navigateByUrl("/", { skipLocationChange: true })
+        .then(() => this.router.navigate([url]));
 
   }
 }
