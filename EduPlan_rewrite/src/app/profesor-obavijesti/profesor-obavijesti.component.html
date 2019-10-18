@@ -2,7 +2,7 @@
         <div class="ui-g ui-fluid bigDevice">
             <div class="ui-g-12">
                 <p-tabView>
-                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_SVE' | translate}}">
+                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_SVE' | translate}}"  leftIcon="fa fa-globe">
                         <ng-container *ngIf="NemaObavijestiSve === false; else nemaObavijesti">
                             <p-scrollPanel [style]="{width: '100%'}">
                                 <div *ngFor="let obavijest of ProfesorObavijesti">
@@ -24,7 +24,7 @@
                         <span style="opacity:0;">.</span>
                     </p-tabPanel>
     
-                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_DOGADANJA' | translate}}">
+                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_DOGADANJA' | translate}}" leftIcon="fa fa-calendar-o">
                         <ng-container *ngIf="NemaObavijestiDogadanja === false; else nemaObavijesti">
                             <p-scrollPanel [style]="{width: '100%'}">
                                 <div *ngFor="let obavijest of ProfesorObavijesti">
@@ -47,7 +47,7 @@
                         <span style="opacity:0;">.</span>
                     </p-tabPanel>
     
-                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_SLUZBENO' | translate}}">
+                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_SLUZBENO' | translate}}" leftIcon="fa fa-bullhorn">
                         <ng-container *ngIf="NemaObavijestiSluzbeno === false; else nemaObavijesti">
                             <p-scrollPanel [style]="{width: '100%'}">
                                 <div *ngFor="let obavijest of ProfesorObavijesti">
@@ -70,7 +70,7 @@
                         <span style="opacity:0;">.</span>
                     </p-tabPanel>
     
-                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_OSTALO' | translate}}">
+                    <p-tabPanel header="{{'STUDENTOBAVIJESTI_OSTALO' | translate}}" leftIcon="fa fa-map-signs">
                         <ng-container *ngIf="NemaObavijestiOstalo === false; else nemaObavijesti">
                             <p-scrollPanel [style]="{width: '100%'}">
                                 <div *ngFor="let obavijest of ProfesorObavijesti">

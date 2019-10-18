@@ -76,4 +76,26 @@ export class ProfesorService {
                 )
             );
     }
+
+    /*
+     *  Select svih predmeta koji pripadaju profesoru.
+     *  Params: pkSkolska godina int, PkNastavnikSuradnik
+     *  Returns: Niz od više objekata ili jednog objekta
+     */
+    getNastavnikPredmeti(data) {
+        return this.http
+            .get(this.config.API_URL + "PrikazPredmetaProfesor",
+                {
+                    params: data
+                }
+            )
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getNastavnikPredmeti"
+                    )
+                )
+            );
+    }
 }
