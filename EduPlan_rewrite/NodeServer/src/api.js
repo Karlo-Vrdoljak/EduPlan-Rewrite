@@ -1,23 +1,23 @@
-var express = require('express'),
-    appConfig = require('./appConfig.js'),
-    db = require('./db.js'),
-    request = require('request'),
-    TYPES = require('tedious').TYPES,
-    moment = require('moment'),
-    login = require('./login.js'),
-    accentRemover = require('./removeAccent.js'),
-    fs = require('fs'),
-    multer = require('multer'),
+var express = require("express"),
+    appConfig = require("./appConfig.js"),
+    db = require("./db.js"),
+    request = require("request"),
+    TYPES = require("tedious").TYPES,
+    moment = require("moment"),
+    login = require("./login.js"),
+    accentRemover = require("./removeAccent.js"),
+    fs = require("fs"),
+    multer = require("multer"),
     router = express.Router();
 
 // dohvat podataka o studentu
-router.get('/Student', function (req, res) {
+router.get("/Student", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest('PregledKartice.spStudent_Select', conn);
+    var request = db.createRequest("PregledKartice.spStudent_Select", conn);
 
-    request.addParameter('PkStudent', TYPES.Int, req.query.PkStudent);
+    request.addParameter("PkStudent", TYPES.Int, req.query.PkStudent);
 
-    db.execStoredProc(request, conn, res, '{}');
+    db.execStoredProc(request, conn, res, "{}");
 });
 
 // dohvat podataka o studentu, studiju i predmetima
@@ -55,19 +55,19 @@ router.get("/StudentObavijesti", function(req, res) {
     var conn = db.createConnection();
     var request = db.createRequest("PregledKartice.spStudentObavijesti_Select", conn);
 
-    request.addParameter('PkUsera', TYPES.Int, req.query.PkUsera);
+    request.addParameter("PkUsera", TYPES.Int, req.query.PkUsera);
 
     db.execStoredProc(request, conn, res, "{}");
 });
 
 // dohvat podataka o profesoru -> ne vraca nista jer je napravljeno za razvojnu bazu, a ne live (na njemu ne postoji procedura)
-router.get('/Nastavnik', function (req, res) {
+router.get("/Nastavnik", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest('PregledKartice.spNastavnik_Select', conn);
+    var request = db.createRequest("PregledKartice.spNastavnik_Select", conn);
 
-    request.addParameter('PkNastavnik', TYPES.Int, req.query.PkNastavnik);
+    request.addParameter("PkNastavnik", TYPES.Int, req.query.PkNastavnik);
 
-    db.execStoredProc(request, conn, res, '{}');
+    db.execStoredProc(request, conn, res, "{}");
 });
 
 // dohvat podataka o obavijestima vezanim za profesore
@@ -75,7 +75,7 @@ router.get("/ProfesorObavijesti", function(req, res) {
     var conn = db.createConnection();
     var request = db.createRequest("PregledKartice.spStudentObavijesti_Select", conn); //promjenit na proceduru za profesora
 
-    request.addParameter('PkUsera', TYPES.Int, req.query.PkUsera);
+    request.addParameter("PkUsera", TYPES.Int, req.query.PkUsera);
 
     db.execStoredProc(request, conn, res, "{}");
 });
@@ -83,19 +83,14 @@ router.get("/ProfesorObavijesti", function(req, res) {
 // dohvat podataka o ak.godinama
 router.get("/AkademskaGodinaCombo", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest("PregledKartice.spAkGodinaComboBoxTemp_Select", conn); 
+    var request = db.createRequest("PregledKartice.spAkGodinaComboBoxTemp_Select", conn);
     db.execStoredProc(request, conn, res, "{}");
 });
-
 
 // dohvat rasporeda studente
 router.get("/PrikazRasporedaStudent", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest(
-        "PregledKartice.spPrikazDnevnogRasporedaZaStudenta",
-        conn
-    );
-
+    var request = db.createRequest("PregledKartice.spPrikazDnevnogRasporedaZaStudenta", conn);
 
     request.addParameter("DatumOd", TYPES.NVarChar, req.query.DatumOd);
     request.addParameter("DatumDo", TYPES.NVarChar, req.query.DatumDo);
@@ -113,7 +108,6 @@ router.get("/PrikazRasporedaProfesor", function(req, res) {
         conn
     );
 
-
     request.addParameter("DatumOd", TYPES.NVarChar, req.query.DatumOd);
     request.addParameter("DatumDo", TYPES.NVarChar, req.query.DatumDo);
     request.addParameter("PkNastavnikSuradnik", TYPES.Int, req.query.PkNastavnikSuradnik);
@@ -125,10 +119,10 @@ router.get("/PrikazRasporedaProfesor", function(req, res) {
 //dohvat podataka o logiranom useru
 router.get("/KorisnikPodaci", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest( "PregledKartice.spUser_Select", conn);
+    var request = db.createRequest("PregledKartice.spUser_Select", conn);
 
     request.addParameter("PkUsera", TYPES.Int, req.query.pkUsera);
-  
+
     db.execStoredProc(request, conn, res, "{}");
 });
 
