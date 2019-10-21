@@ -1,0 +1,41 @@
+<div *ngIf="ProfesorPredmeti; else loader">
+    <p-table [value]="ProfesorPredmeti" dataKey="PredmetNaziv" sortField="PredmetNaziv" sortMode="single"
+        (onSort)="onSort()" rowExpandMode="single" expandableRows="true">
+        <ng-template pTemplate="caption">
+            {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>{{'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate}}</th>
+                <th>{{'NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA' | translate}}</th>
+                <th style="width:5em">Detalji</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded" let-columns="columns">
+            <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PredmetNaziv].index === rowIndex">
+                <td colspan="3">
+                    <a href="#" [pRowToggler]="rowData">
+                        <i
+                            [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
+                        <span>{{rowData.PredmetNaziv}}</span>
+                    </a>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
+            <tr>
+                <td>{{rowData.PredmetKratica}}</td>
+                <td>{{rowData.Studij}}</td>
+                <td> <a routerLink="/vPredmet/{{rowData.PkPredmet}}"> <i class="fa fa-angle-double-right fa-2x" style="margin-left: 0.4em;"></i></a>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<ng-template #loader>
+        <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>
