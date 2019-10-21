@@ -9,6 +9,9 @@ export class CalendarConfig {
     constructor() {
         this.setupDefaultDateTime();
     }
+    public getColors() {
+        return EventColor;
+    }
 
     public chooseColor(tipPredavanja): string {
         switch (true) {
@@ -64,6 +67,14 @@ export class CalendarConfig {
                 .join(" ") + data.join("\n").trim()
         );
     }
+    public parsePredmetSmallDevice(predmet) {
+        return ( predmet
+            .split(" ")
+            .map(s => (s.length > 3 ? (s += "</br>") : s))
+            .join(" ").trim()
+        );
+    }
+
     /// changeDay => opcionalan, pozitivna vrijednost gura datum naprid
     ///                          negativna vrijednost gura datum nazad
 
@@ -87,6 +98,13 @@ export class CalendarConfig {
             date.getDate()
         );
     }
+    public formatDateShort(date: Date):string {
+        return (
+            date.getHours() +
+            ":" +
+            date.getMinutes()
+        );
+    }
 
     private setupDefaultDateTime() {
         this.DatumOd = this.getDateTimeCurrent(-365);
@@ -98,7 +116,31 @@ export class CalendarConfig {
     // Ubrzo postaje DEPRECATED... 18.10.2019.
     public prepareCalendarEventsProfesor(data) {
         var events = [];
-        data.forEach(e => {
+        var filtered = Object.values(Array.from(data).reduce( 
+            (r:any,e:any) => {
+                var key = e.Datum + '|' + e.PkSatnica + '|' + e.PkPredavaonica + '|' + e.PkNastavnikSuradnik;
+                if(!r[key]) {
+                    r[key] = e;
+                } else {
+                    r[key].StudijNaziv += ', ' + e.StudijNaziv;
+                    r[key].PredmetNaziv += ', ' + e.PredmetNaziv;
+                    r[key].PredmetKratica += ", " + e.PredmetKratica;
+                }
+                return r;
+            }, {}));
+        
+        
+        // filter(
+            // (e: any) => {
+                // return (
+                    // (!this[e.Datum] && (this[e.Datum] == true)) && 
+                    // (!this[e.PkSatnica] && (this[e.PkSatnica] == true)) && 
+                    // (!this[e.PkPredavaonica] && (this[e.PkPredavaonica])) &&
+                    // (!this[e.PkNastavnikSuradnik] && (this[e.PkNastavnikSuradnik]))
+                // )
+            // }, Object.create(null));
+        console.log("FILTER",filtered);
+            filtered.forEach(e => {
             // let predmetRefactured = ;
             let event: CalendarEvent = {
                 id: e.PkNastavaPlan,
