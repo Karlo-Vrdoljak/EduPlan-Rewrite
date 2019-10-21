@@ -29,6 +29,8 @@ import { ProfesorAgendaComponent } from "./profesor-agenda/profesor-agenda.compo
 import { ProfesorObavijestiComponent } from './profesor-obavijesti/profesor-obavijesti.component';
 import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-svi-predmeti.component';
 import { ProfesorOsobniPodaciComponent } from './profesor-osobni-podaci/profesor-osobni-podaci.component';
+import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.component';
+
 
 
 export const routes: Routes = [
@@ -62,7 +64,9 @@ export const routes: Routes = [
            { path: "vProfesorAgenda/:isRedirect", component: ProfesorAgendaComponent },
            { path: "vProfesorObavijesti", component: ProfesorObavijestiComponent },
            { path: "vProfesorOsobniPodaci", component: ProfesorOsobniPodaciComponent },
-           { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent }
+           { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent },
+           { path: "vPredmet/:pkPredmet", component: ProfesorPredmetComponent }
+
 
        ];
 

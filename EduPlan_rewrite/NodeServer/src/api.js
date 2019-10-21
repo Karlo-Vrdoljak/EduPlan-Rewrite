@@ -132,7 +132,7 @@ router.get("/KorisnikPodaci", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 });
 
-//dohvat podataka o logiranom useru
+//dohvat podataka o svim predmetima koje profesor predaje na zadanoj akademskoj godini
 router.get("/PrikazPredmetaProfesor", function(req, res) {
     var conn = db.createConnection();
     var request = db.createRequest( "PregledKartice.spPrikazPredmetaZaNastavnikaSuradnika", conn);

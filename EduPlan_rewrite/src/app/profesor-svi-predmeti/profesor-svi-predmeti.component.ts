@@ -10,6 +10,7 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
 })
 export class ProfesorSviPredmetiComponent implements OnInit {
   ProfesorPredmeti: any;
+  rowGroupMetadata: any;
 
   constructor(private profesorService: ProfesorService, private appVariables: AppVariables) { }
 
@@ -20,11 +21,11 @@ export class ProfesorSviPredmetiComponent implements OnInit {
     };
 
     this.profesorService.getNastavnikPredmeti(params).subscribe((data) => {
-      console.log(data);
       this.ProfesorPredmeti = data;
+      this.updateRowGroupMetaData();
     },
 
-    (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.log('Client-side error occured.');
         } else {
@@ -32,5 +33,31 @@ export class ProfesorSviPredmetiComponent implements OnInit {
         }
       }, () => { });
 
+  }
+
+  onSort() {
+    this.updateRowGroupMetaData();
+  }
+
+
+  updateRowGroupMetaData() {
+    this.rowGroupMetadata = {};
+    if (this.ProfesorPredmeti) {
+      for (let i = 0; i < this.ProfesorPredmeti.length; i++) {
+        let rowData = this.ProfesorPredmeti[i];
+        let predmet = rowData.PredmetNaziv;
+        if (i === 0) {
+          this.rowGroupMetadata[predmet] = { index: 0, size: 1 };
+        }
+        else {
+          let previousRowData = this.ProfesorPredmeti[i - 1];
+          let previousRowGroup = previousRowData.PredmetNaziv;
+          if (predmet === previousRowGroup)
+            this.rowGroupMetadata[predmet].size++;
+          else
+            this.rowGroupMetadata[predmet] = { index: i, size: 1 };
+        }
+      }
+    }
   }
 }
