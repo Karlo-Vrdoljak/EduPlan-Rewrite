@@ -1,3 +1,199 @@
-<p>
-  profesor-predmet {{pkPredmet}} works!
-</p>
+<div *ngIf="predmetOsnovniPodaci && studentiNaPredmetu; else loader">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-tabView>
+                <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}"
+                    leftIcon="fa fa-info-circle">
+                    <ng-container>
+                        <div class="card card-w-title ">
+                            <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}</h1>
+                            <div class="ui-g form-group">
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}<input
+                                        type="text" [ngModel]="predmetOsnovniPodaci.Katedra" pInputText disabled />
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}<input type="text"
+                                        [ngModel]="predmetOsnovniPodaci.studijskaGodina" pInputText disabled />
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}<input type="text"
+                                        [ngModel]="predmetOsnovniPodaci.Semestar" pInputText disabled="true">
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate}}<input type="text"
+                                        [ngModel]="predmetOsnovniPodaci.voditeljPredmeta" pInputText disabled>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'KATALOZI_AKADEMSKISTUPANJ_ISVUOZNAKA' | translate}}<input type="text"
+                                        [ngModel]="predmetOsnovniPodaci.ISVUoznaka" pInputText disabled>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'VIEWS_KATALOZI_PREDMET_ECTS' | translate}}<input type="text"
+                                        [ngModel]="predmetOsnovniPodaci.ectsBodovi" pInputText disabled>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<p-calendar showIcon="true"
+                                        [ngModel]="predmetOsnovniPodaci.pocetakTurnusa" disabled="true">
+                                    </p-calendar>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<p-calendar showIcon="true"
+                                        [ngModel]="predmetOsnovniPodaci.krajTurnusa" disabled="true"></p-calendar>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <p-checkbox label="{{'VIEWS_KATALOZI_PREDMET_ULAZIUPROSJEK' | translate}}"
+                                        binary="true" [ngModel]="predmetOsnovniPodaci.ulaziUprosjek" disabled="true">
+                                    </p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <span style="opacity:0;">.</span>
+                </p-tabPanel>
+
+                <p-tabPanel header="Studenti" leftIcon="fa fa-users">
+                    <ng-container>
+                        <p-table [value]="studentiNaPredmetu" [columns]="cols" selectionMode="single" 
+                        [scrollable]="true" scrollHeight="75vh"  [resizableColumns]="true" dataKey="pkStudentNaPredmetu">
+                            
+                            <ng-template pTemplate="colgroup" let-columns>
+                                <colgroup>
+                                    <col *ngFor="let col of columns" [style.width]="col.width">
+                                </colgroup>
+                            </ng-template>
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th width="3%" pResizableColumn></th>
+                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
+                                        style="text-align: center;">
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            
+                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                                <tr [pSelectableRow]="rowData">
+                                    <td width="3%" class="ui-resizable-column">
+                                        <a href="#" [pRowToggler]="rowData">
+                                            <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                                style="font-size: 2em; margin-left: -0.2em;"></i>
+                                        </a>
+                                    </td>
+                                    <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                                        <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                                            <span [style.color]="rowData[col.field] == 'true' ? 'green' : 'red' "><i
+                                                    [ngClass]="rowData[col.field] == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                        </span>
+                                        <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            
+                            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                                <tr>
+                                    <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                                        <div class="card card-w-title">
+                                            <h1 style="text-align: center;">
+                                                OPŠIRNIJE
+                                            </h1>
+                                            <div class="ui-g">
+                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                    <div class="ui-g">
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Kratica studija:
+                                                            </b>
+                                                            {{rowData.kraticaStudija}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Status upisnog lista:
+                                                            </b>
+                                                            {{rowData.statusUpisnogLista}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Način upisa predmeta:
+                                                            </b>
+                                                            {{rowData.nacinUpisaPredmetax}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Polaže se:
+                                                            </b>
+                                                            <span
+                                                                [style.color]="rowData.polazeSe == 'true' ? 'green' : 'red' "><i
+                                                                [ngClass]="rowData.polazeSe == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Datum ispita:
+                                                            </b>
+                                                            {{rowData.datumIspita}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                    <div class="ui-g">
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Datum prijave:
+                                                            </b>
+                                                            {{rowData.datumPrijave}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Datum roka:
+                                                            </b>
+                                                            {{rowData.datumRoka}}
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Ulazi u prosjek:
+                                                            </b>
+                                                            <span
+                                                            [style.color]="rowData.ulaziUprosjek == 'true' ? 'green' : 'red' ">
+                                                            <i
+                                                            [ngClass]="rowData.ulaziUprosjek == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                        </div>
+                                                        <div class="ui-g-12">
+                                                            <b>
+                                                                Ulazi u stjecanje kvalifikacije:
+                                                            </b>
+                                                            <span
+                                                            [style.color]="rowData.ulaziUstjecanjeKvalifikacije == 'true' ? 'green' : 'red' "><i
+                                                            [ngClass]="rowData.ulaziUstjecanjeKvalifikacije == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        
+                          </p-table>
+                    </ng-container>
+                    <span style="opacity:0;">.</span>
+                </p-tabPanel>
+
+                <p-tabPanel header="Nastavne cjeline" leftIcon="fa fa-calendar-o">
+                    <ng-container>
+                        Ovdje ide tablica nastavnih cjelina
+                    </ng-container>
+                    <span style="opacity:0;">.</span>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>
+
+<ng-template #loader>
+    <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>

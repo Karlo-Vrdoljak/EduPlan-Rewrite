@@ -8,7 +8,7 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
   templateUrl: './profesor-svi-predmeti.component.html',
   styleUrls: ['./profesor-svi-predmeti.component.css']
 })
-export class ProfesorSviPredmetiComponent implements OnInit {
+export class ProfesorSviPredmetiComponent implements OnInit { //U proceduri koju koristi su hardkodirane neke vrijednosti
   ProfesorPredmeti: any;
   rowGroupMetadata: any;
 

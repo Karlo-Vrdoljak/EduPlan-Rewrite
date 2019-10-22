@@ -98,4 +98,40 @@ export class ProfesorService {
                 )
             );
     }
+
+     /*
+     *  Select odabranog predmeta na studiju i prikaz osnovnih iformacija.
+     *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
+     *  Returns: Niz od  jednog objekta
+     */
+    getPredmetOsnovniPodaci() { //Dummy service
+        return this.http
+        .get(this.config.API_URL + "PrikazPredmetaOsnovniPodaci")
+        .pipe(
+            retry(this.config.APIRetryCount),
+            catchError(
+                this.appService.handleError(
+                    "ProfesorService.getPredmetOsnovniPodaci"
+                )
+            )
+        );
+    }
+
+    /*
+     *  Select svih studenata koji slušaju odabrani predmet.
+     *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
+     *  Returns: Niz od  jednog ili više objekata
+     */
+    getPredmetStudenti() { //Dummy service
+        return this.http
+        .get(this.config.API_URL + "PrikazStudenataPoPredmetu")
+        .pipe(
+            retry(this.config.APIRetryCount),
+            catchError(
+                this.appService.handleError(
+                    "ProfesorService.getPredmetStudenti"
+                )
+            )
+        );
+    }
 }
