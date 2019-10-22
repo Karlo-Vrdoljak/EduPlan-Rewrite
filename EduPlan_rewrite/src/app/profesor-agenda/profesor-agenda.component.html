@@ -1,6 +1,15 @@
 <div *ngIf="!events">
     <p-progressBar mode="indeterminate"></p-progressBar>
-</div>
+</div> 
 
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4">
+    </div>
+    <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4">
+        <p-calendar [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()"  selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
+    </div>
+    <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4">
+    </div>
+</div>
 
 <div id="agenda"></div>
