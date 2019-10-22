@@ -137,4 +137,20 @@ router.get("/PrikazPredmetaProfesor", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+//dohvat podataka o predmetu na odredenom studiju 
+router.get("/PrikazPredmetaOsnovniPodaci", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spPredmetOsnovniPodaci_selectDummy", conn); //Dummy api
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+//dohvat podataka o studentima na odredenom predmetu 
+router.get("/PrikazStudenataPoPredmetu", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spPredmetStudenti_selectDummy", conn); //Dummy api
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 module.exports = router;

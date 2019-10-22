@@ -9,7 +9,7 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
   styleUrls: ['./profesor-osobni-podaci.component.css']
 })
 export class ProfesorOsobniPodaciComponent implements OnInit {
-  nastavnikPodaci = {} as any;
+  nastavnikPodaci: any;
 
   constructor(
     private nastavnikService: ProfesorService,
