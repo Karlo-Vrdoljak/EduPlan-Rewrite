@@ -124,7 +124,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
                                             </div>
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                                <span class="fc-title">` + arg.event.extendedProps.StudijNaziv + `</span>
+                                                <span class="fc-title">` + this.parseStudijKratica(arg.event.extendedProps.StudijNazivKratica) + `</span>
 
                                             </div>
                                         </div>
@@ -160,6 +160,17 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
             : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
          ;
+    }
+
+    parseStudijKratica(studiji?:string) {
+        let retVal = studiji.split(',').map((e:string,index:number) => {
+            return e
+                .concat(index % 2 == 0 && index != 0 ? ",<br> " : ", ")
+                .slice(0, -1);
+            // console.log(e);
+
+        }).join(' ').trim().slice(0,-1);
+        return retVal;
     }
 }
 

@@ -121,10 +121,12 @@ export class CalendarConfig {
                 var key = e.Datum + '|' + e.PkSatnica + '|' + e.PkPredavaonica + '|' + e.PkNastavnikSuradnik;
                 if(!r[key]) {
                     r[key] = e;
-                } else {
-                    r[key].StudijNaziv += ', ' + e.StudijNaziv;
-                    r[key].PredmetNaziv += ', ' + e.PredmetNaziv;
-                    r[key].PredmetKratica += ", " + e.PredmetKratica;
+                } else { 
+                    // let a : string;
+                    //  a.includes()
+                    r[key].StudijNazivKratica += !r[key].StudijNazivKratica.includes(e.StudijNazivKratica) ? ', ' + e.StudijNazivKratica : '';
+                    r[key].PredmetNaziv += !r[key].PredmetNaziv.includes(e.PredmetNaziv) ? ', ' + e.PredmetNaziv : '';
+                    r[key].PredmetKratica += !r[key].PredmetKratica.includes(e.PredmetKratica) ? ', ' + e.PredmetKratica : '';
                 }
                 return r;
             }, {}));
@@ -140,7 +142,7 @@ export class CalendarConfig {
                 // )
             // }, Object.create(null));
         console.log("FILTER",filtered);
-            filtered.forEach(e => {
+            filtered.forEach((e:any) => {
             // let predmetRefactured = ;
             let event: CalendarEvent = {
                 id: e.PkNastavaPlan,
@@ -151,15 +153,16 @@ export class CalendarConfig {
                 allDay: false,
                 color: this.chooseColor(e.PodTipPredavanjaNaziv),
                 extendedProps: {
-                    PredmetNaziv: e.PredmetNaziv,
-                    PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv,
-                    PodTipPredavanjaSifra: e.PodTipPredavanjaSifra,
-                    PredmetKratica: e.PredmetKratica,
-                    SifraPredavaonice: e.SifraPredavaonice,
-                    Realizirano: e.Realizirano,
-                    PkPredmet: e.PkPredmet,
-                    PkStudij: e.PkStudij,
-                    StudijNaziv: e.StudijNaziv
+                    PredmetNaziv: e.PredmetNaziv || null,
+                    PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
+                    PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
+                    PredmetKratica: e.PredmetKratica || null,
+                    SifraPredavaonice: e.SifraPredavaonice || null,
+                    Realizirano: e.Realizirano || null,
+                    PkPredmet: e.PkPredmet || null,
+                    PkStudij: e.PkStudij || null,
+                    StudijNaziv: e.StudijNaziv || null,
+                    StudijNazivKratica: e.StudijNazivKratica || null
                 }
                 
             };

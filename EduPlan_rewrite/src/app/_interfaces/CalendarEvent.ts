@@ -1,12 +1,23 @@
 export interface CalendarEvent {
     id;
     groupId;
-    title:string;
+    title: string;
     start;
     end;
     // startTime;
     // endTime;
     allDay;
     color;
-    extendedProps?;
+    extendedProps?: {
+        PredmetNaziv;
+        PodTipPredavanjaNaziv;
+        PodTipPredavanjaSifra;
+        PredmetKratica;
+        SifraPredavaonice;
+        Realizirano;
+        PkPredmet;
+        PkStudij;
+        StudijNaziv;
+        StudijNazivKratica;
+    };
 }
