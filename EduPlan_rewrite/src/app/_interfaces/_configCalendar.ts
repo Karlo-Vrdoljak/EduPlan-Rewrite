@@ -98,6 +98,16 @@ export class CalendarConfig {
             date.getDate()
         );
     }
+    public formatDateFull(date: Date): string {
+        return (
+            date.getFullYear() +
+            "/" +
+            (date.getMonth() + 1) +
+            "/" +
+            date.getDay() +
+            " "
+        );
+    }
     public formatDateShort(date: Date):string {
         return (
             date.getHours() +
@@ -111,9 +121,17 @@ export class CalendarConfig {
         this.DatumDo = this.getDateTimeCurrent(365);
     }
 
+    /**
+     * @returns string: "1" ili "0.5" ovisno o realizaciji jeli true ili false.
+     * Namjena: kartica Agenda i Kalendar, mjenja opacity pozadine
+     * @param realziranoDaNe boolean
+     */
+    public checkRealizacijaDaNe(realziranoDaNe) {
+        return realziranoDaNe ? "1" : "0.5";
+    }
+
  
     // prima api podatke za kalendar koje triba formatirati za title prikaz
-    // Ubrzo postaje DEPRECATED... 18.10.2019.
     public prepareCalendarEventsProfesor(data) {
         var events = [];
         var filtered = Object.values(Array.from(data).reduce( 
@@ -122,8 +140,6 @@ export class CalendarConfig {
                 if(!r[key]) {
                     r[key] = e;
                 } else { 
-                    // let a : string;
-                    //  a.includes()
                     r[key].StudijNazivKratica += !r[key].StudijNazivKratica.includes(e.StudijNazivKratica) ? ', ' + e.StudijNazivKratica : '';
                     r[key].PredmetNaziv += !r[key].PredmetNaziv.includes(e.PredmetNaziv) ? ', ' + e.PredmetNaziv : '';
                     r[key].PredmetKratica += !r[key].PredmetKratica.includes(e.PredmetKratica) ? ', ' + e.PredmetKratica : '';
@@ -131,19 +147,9 @@ export class CalendarConfig {
                 return r;
             }, {}));
         
-        
-        // filter(
-            // (e: any) => {
-                // return (
-                    // (!this[e.Datum] && (this[e.Datum] == true)) && 
-                    // (!this[e.PkSatnica] && (this[e.PkSatnica] == true)) && 
-                    // (!this[e.PkPredavaonica] && (this[e.PkPredavaonica])) &&
-                    // (!this[e.PkNastavnikSuradnik] && (this[e.PkNastavnikSuradnik]))
-                // )
-            // }, Object.create(null));
-        console.log("FILTER",filtered);
+    
             filtered.forEach((e:any) => {
-            // let predmetRefactured = ;
+
             let event: CalendarEvent = {
                 id: e.PkNastavaPlan,
                 groupId: e.BrojSkupine,
@@ -173,20 +179,3 @@ export class CalendarConfig {
     }
 }
 
-
-// title: 
-// this.checkDeviceWidth(screen.width)
-//                     ? this.parseTitleLargeDevice(e, [
-//                           e.PredmetNaziv,
-//                           e.PodTipPredavanjaNaziv,
-//                           e.PredmetKratica,
-//                           e.SifraPredavaonice
-//                       ])
-//                     : this.parseTitleSmallDevice(
-//                           e.PredmetNaziv,
-//                           [
-//                               e.PodTipPredavanjaNaziv,
-//                               e.PredmetKratica,
-//                               e.SifraPredavaonice
-//                           ]
-//                       )
