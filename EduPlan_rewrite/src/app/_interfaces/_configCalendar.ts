@@ -9,6 +9,9 @@ export class CalendarConfig {
     constructor() {
         this.setupDefaultDateTime();
     }
+    public getColors() {
+        return EventColor;
+    }
 
     public chooseColor(tipPredavanja): string {
         switch (true) {
@@ -64,6 +67,14 @@ export class CalendarConfig {
                 .join(" ") + data.join("\n").trim()
         );
     }
+    public parsePredmetSmallDevice(predmet) {
+        return ( predmet
+            .split(" ")
+            .map(s => (s.length > 3 ? (s += "</br>") : s))
+            .join(" ").trim()
+        );
+    }
+
     /// changeDay => opcionalan, pozitivna vrijednost gura datum naprid
     ///                          negativna vrijednost gura datum nazad
 
@@ -87,6 +98,13 @@ export class CalendarConfig {
             date.getDate()
         );
     }
+    public formatDateShort(date: Date):string {
+        return (
+            date.getHours() +
+            ":" +
+            date.getMinutes()
+        );
+    }
 
     private setupDefaultDateTime() {
         this.DatumOd = this.getDateTimeCurrent(-365);
@@ -98,7 +116,33 @@ export class CalendarConfig {
     // Ubrzo postaje DEPRECATED... 18.10.2019.
     public prepareCalendarEventsProfesor(data) {
         var events = [];
-        data.forEach(e => {
+        var filtered = Object.values(Array.from(data).reduce( 
+            (r:any,e:any) => {
+                var key = e.Datum + '|' + e.PkSatnica + '|' + e.PkPredavaonica + '|' + e.PkNastavnikSuradnik;
+                if(!r[key]) {
+                    r[key] = e;
+                } else { 
+                    // let a : string;
+                    //  a.includes()
+                    r[key].StudijNazivKratica += !r[key].StudijNazivKratica.includes(e.StudijNazivKratica) ? ', ' + e.StudijNazivKratica : '';
+                    r[key].PredmetNaziv += !r[key].PredmetNaziv.includes(e.PredmetNaziv) ? ', ' + e.PredmetNaziv : '';
+                    r[key].PredmetKratica += !r[key].PredmetKratica.includes(e.PredmetKratica) ? ', ' + e.PredmetKratica : '';
+                }
+                return r;
+            }, {}));
+        
+        
+        // filter(
+            // (e: any) => {
+                // return (
+                    // (!this[e.Datum] && (this[e.Datum] == true)) && 
+                    // (!this[e.PkSatnica] && (this[e.PkSatnica] == true)) && 
+                    // (!this[e.PkPredavaonica] && (this[e.PkPredavaonica])) &&
+                    // (!this[e.PkNastavnikSuradnik] && (this[e.PkNastavnikSuradnik]))
+                // )
+            // }, Object.create(null));
+        console.log("FILTER",filtered);
+            filtered.forEach((e:any) => {
             // let predmetRefactured = ;
             let event: CalendarEvent = {
                 id: e.PkNastavaPlan,
@@ -109,15 +153,16 @@ export class CalendarConfig {
                 allDay: false,
                 color: this.chooseColor(e.PodTipPredavanjaNaziv),
                 extendedProps: {
-                    PredmetNaziv: e.PredmetNaziv,
-                    PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv,
-                    PodTipPredavanjaSifra: e.PodTipPredavanjaSifra,
-                    PredmetKratica: e.PredmetKratica,
-                    SifraPredavaonice: e.SifraPredavaonice,
-                    Realizirano: e.Realizirano,
-                    PkPredmet: e.PkPredmet,
-                    PkStudij: e.PkStudij,
-                    StudijNaziv: e.StudijNaziv
+                    PredmetNaziv: e.PredmetNaziv || null,
+                    PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
+                    PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
+                    PredmetKratica: e.PredmetKratica || null,
+                    SifraPredavaonice: e.SifraPredavaonice || null,
+                    Realizirano: e.Realizirano || null,
+                    PkPredmet: e.PkPredmet || null,
+                    PkStudij: e.PkStudij || null,
+                    StudijNaziv: e.StudijNaziv || null,
+                    StudijNazivKratica: e.StudijNazivKratica || null
                 }
                 
             };

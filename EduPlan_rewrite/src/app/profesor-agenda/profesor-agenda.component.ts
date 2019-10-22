@@ -9,6 +9,7 @@ import { StudentiService } from "../_services/studenti.service";
 import { CalendarEvent } from "../_interfaces/CalendarEvent";
 import { AppVariables } from '../_interfaces/_configAppVariables';
 import { CalendarConfig } from '../_interfaces/_configCalendar';
+import { ProfesorService } from '../_services/profesori.service';
 
 @Component({
     selector: "app-profesor-agenda",
@@ -18,18 +19,40 @@ import { CalendarConfig } from '../_interfaces/_configCalendar';
 export class ProfesorAgendaComponent implements OnInit {
     events: any[];
     apiData: any;
+    calendar: Calendar;
+    rangeDates: Date[];
+    params = {
+        //  PkStudent: 1312,
+        // PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
+        PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
+        DatumOd: this.calendarConfig.DatumOd,
+        DatumDo: this.calendarConfig.DatumDo
+    };
 
     constructor(
         private translate: TranslateService,
         private languageHandler: LanguageHandler,
-        private studentiService: StudentiService,
+        private profesorSerivce: ProfesorService,
         private appVariables: AppVariables,
         private calendarConfig: CalendarConfig
     ) {
         this.translate = translate;
-        this.translate.use(
-            this.languageHandler.setDefaultLanguage().getCurrentLanguage()
-        );
+        this.translate.use(this.languageHandler.setDefaultLanguage().getCurrentLanguage());
+    }
+    handleSelectedDate() {
+        if (this.rangeDates) {
+            this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
+            this.params.DatumDo = this.calendarConfig.formatDate(this.rangeDates[1]);
+
+            this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
+                var events = this.calendarConfig.prepareCalendarEventsProfesor(data);
+                this.calendar.removeAllEventSources();
+
+                this.calendar.addEventSource(events);
+                this.calendar.rerenderEvents();
+                this.calendar.gotoDate(this.rangeDates[0]);
+            });
+        }
     }
 
     ngOnInit() {
@@ -41,104 +64,118 @@ export class ProfesorAgendaComponent implements OnInit {
                 "STUDENT_KALENDAR_TJEDAN"
             ])
             .subscribe(res => {
-                const params = {
-                    //  PkStudent: 1312,
-                    PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
-                    PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
-                    DatumOd: this.calendarConfig.DatumOd,
-                    DatumDo: this.calendarConfig.DatumDo
-                };
-                this.studentiService
-                    .getStudentRaspored(params)
-                    .subscribe(data => {
-                        this.events = [];
-                        this.apiData = data;
-                        // console.log(data);
-                        this.apiData.forEach(e => {
-                            let event: CalendarEvent = {
-                                id: e.PkNastavaPlan,
-                                groupId: e.BrojSkupine,
-                                title:
-                                    e.PredmetNaziv +
-                                    "\n" +
-                                    e.PodTipPredavanjaNaziv +
-                                    "\n" +
-                                    // "Kratica &bull;" +
-                                    e.PredmetKratica +
-                                    "\n" +
-                                    // "Predavaonica &bull;" +
-                                    e.SifraPredavaonice,
-                                start: e.DatumVrijemeOd,
-                                end: e.DatumVrijemeDo,
-                                allDay: false,
-                                color: this.calendarConfig.chooseColor(
-                                    e.PodTipPredavanjaNaziv
-                                )
-                            };
-                            this.events.push(event);
-                        });
+                this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
+                    this.events = [];
+                    // console.log(data);
+                    this.events = this.calendarConfig.prepareCalendarEventsProfesor(data);
 
+                    var calendarEl = document.getElementById("agenda");
 
-                        var calendarEl = document.getElementById("agenda");
-
-                        var calendar = new Calendar(calendarEl, {
-                            plugins: [listPlugin, interactionPlugin],
-                            defaultView: "listWeek",
-                            defaultDate: this.calendarConfig.getDateTimeCurrent(),
-                            firstDay: 1,
-                            navLinks: true,
-                            locales: allLocales,
-                            locale: res.STUDENT_KALENDAR_LOCALE,
-                            // customize the button names,
-                            // otherwise they'd all just say "list"
-                            views: {
-                                listDay: {
-                                    buttonText: res.STUDENT_KALENDAR_DAN
-                                },
-                                listWeek: {
-                                    buttonText: res.STUDENT_KALENDAR_TJEDAN
-                                },
-                                listMonth: {
-                                    buttonText: res.STUDENT_KALENDAR_MJESEC
-                                }
+                    this.calendar = new Calendar(calendarEl, {
+                        plugins: [listPlugin, interactionPlugin],
+                        defaultView: "listWeek",
+                        defaultDate: this.calendarConfig.getDateTimeCurrent(),
+                        firstDay: 1,
+                        navLinks: true,
+                        locales: allLocales,
+                        locale: res.STUDENT_KALENDAR_LOCALE,
+                        // customize the button names,
+                        // otherwise they'd all just say "list"
+                        views: {
+                            listDay: {
+                                buttonText: res.STUDENT_KALENDAR_DAN
                             },
-                            // eventRender: function(info) {
-                            // let title = info.event.title as string;
-                            // if(title.match("$")) {
-                            // title = title.split("$")
-                            // .map(
-                            // s => s.match("&bull;") ?
-                            // "<b>"
-                            // .concat(s.split("&bull;")[0])
-                            // .concat(" </b>")
-                            // .concat(' ' + s.split("&bull;")[1]) : s
-                            // )
-                            // .join("<br/>");
-                            // info.el.innerHTML = title;
-                            // console.log(title);
-                            // }
-                            // },
-                            height: "auto",
-                            contentHeight: screen.height - 337 - 57.25,
-                            header: {
-                                left: "prev,next",
-                                center: "today",
-                                right: "listWeek,listMonth"
+                            listWeek: {
+                                buttonText: res.STUDENT_KALENDAR_TJEDAN
                             },
-                            events: this.events,
-                            windowResize: function(view) {
-                                view.calendar.setOption(
-                                    "contentHeight",
-                                    screen.height - 337 - 57.25
-                                );
-                            },
-                            datesRender: arg => {
-                                this.calendarConfig.passedDate = arg.view.calendar.getDate();
-                                // arg.view.calendar.
+                            listMonth: {
+                                buttonText: res.STUDENT_KALENDAR_MJESEC
                             }
-                        });
-                        calendar.render();
+                        },
+                        // eventRender: function(info) {
+                        // let title = info.event.title as string;
+                        // if(title.match("$")) {
+                        // title = title.split("$")
+                        // .map(
+                        // s => s.match("&bull;") ?
+                        // "<b>"
+                        // .concat(s.split("&bull;")[0])
+                        // .concat(" </b>")
+                        // .concat(' ' + s.split("&bull;")[1]) : s
+                        // )
+                        // .join("<br/>");
+                        // info.el.innerHTML = title;
+                        // console.log(title);
+                        // }
+                        // },
+                        height: "auto",
+                        contentHeight: screen.height - 337 - 57.25,
+                        header: {
+                            left: "prev,next",
+                            center: "today",
+                            right: "listWeek,listMonth"
+                        },
+                        events: this.events,
+                        windowResize: function(view) {
+                            view.calendar.setOption("contentHeight", screen.height - 337 - 57.25);
+                        },
+                         eventRender: arg => {
+                            /*******************HTML***********************/
+                            // console.log("BCKGRNDcolor:", arg.event.backgroundColor);
+                            // console.log("BORDERcolor:", arg.event.borderColor);
+                            // console.log("PROPS", arg.event.extendedProps);
+                            // console.log(arg.view.viewSpec);
+                        
+                            arg.el.innerHTML +=
+                                `<div class="fc-content">
+                                    <div class="ui-g-12">
+                                        <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
+                                            <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.start) + `</span>
+                                            -
+                                            <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.end) + `</span> 
+                                            <span class="fc-time">` + this.parseRealizacija(arg.event.extendedProps.Realizirano) +`</span>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-lg-4 ui-md-4 ui-sm-4" style="padding:0.1em;">
+                                            <span class="fc-time">` + arg.event.title + `</span>
+
+                                        </div>
+
+                                        <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
+                                            <span class="fc-title">` + arg.event.extendedProps.PredmetNaziv + `</span>
+
+                                        </div>
+                                        <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
+                                            <span class="fc-title">` + arg.event.extendedProps.PredmetKratica + `</span>
+
+                                        </div>
+                                        <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
+                                            <span class="fc-title">` + arg.event.extendedProps.StudijNazivKratica + `</span>
+
+                                        </div>
+                                    </div>
+
+                                    
+
+
+                                </div>
+                                    `
+                        },
+
+                        datesRender: arg => {
+                            this.calendarConfig.passedDate = arg.view.calendar.getDate();
+                            // arg.view.calendar.
+                        }
                     });
+                    this.calendar.render();
+                });
             });
+    }
+
+     parseRealizacija(realizirano?) {
+        return realizirano
+            ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
+            : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
+         ;
     }
 }
