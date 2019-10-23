@@ -116,15 +116,18 @@
         <div *ngIf="podaciStudij; else loader">
             <p-table [columns]="colsSmall" [value]="podaciStudij" selectionMode="single" [scrollable]="true"
             scrollHeight="77vh" dataKey="SifraUpisnogLista" [resizableColumns]="true">
+            
             <ng-template pTemplate="caption">
                 <!--Podaci o predmetima-->
                 {{ 'STUDENT_STUDENTKARTICA_PODACI_NA_STUDIJU' | translate }}
             </ng-template>
+            
             <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
                     <col *ngFor="let col of columns" [style.width]="col.width">
                 </colgroup>
             </ng-template>
+            
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th *ngFor="let col of columns" colspan="2" [pSortableColumn]="col.field" pResizableColumn
@@ -134,6 +137,7 @@
                     </th>
                 </tr>
             </ng-template>
+            
             <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
                 <tr [pSelectableRow]="rowData">
                     <td width="20%" class="ui-resizable-column">
@@ -147,6 +151,7 @@
                     </td>
                 </tr>
             </ng-template>
+           
             <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
                 <tr>
                     <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
