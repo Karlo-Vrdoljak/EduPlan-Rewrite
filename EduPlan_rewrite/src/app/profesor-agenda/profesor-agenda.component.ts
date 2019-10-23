@@ -39,6 +39,12 @@ export class ProfesorAgendaComponent implements OnInit {
         this.translate = translate;
         this.translate.use(this.languageHandler.setDefaultLanguage().getCurrentLanguage());
     }
+    /**
+     * 
+     * @returns void
+     * @description Kartica Agenda, Ovisno o odabranome DatumOd i DatumDo, api poziva getNastavnikRaspored i kalendar obnavlja dogadaje 
+     * @param None     
+     */
     handleSelectedDate() {
         if (this.rangeDates) {
             this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
@@ -92,22 +98,7 @@ export class ProfesorAgendaComponent implements OnInit {
                                 buttonText: res.STUDENT_KALENDAR_MJESEC
                             }
                         },
-                        // eventRender: function(info) {
-                        // let title = info.event.title as string;
-                        // if(title.match("$")) {
-                        // title = title.split("$")
-                        // .map(
-                        // s => s.match("&bull;") ?
-                        // "<b>"
-                        // .concat(s.split("&bull;")[0])
-                        // .concat(" </b>")
-                        // .concat(' ' + s.split("&bull;")[1]) : s
-                        // )
-                        // .join("<br/>");
-                        // info.el.innerHTML = title;
-                        // console.log(title);
-                        // }
-                        // },
+                        
                         height: "auto",
                         contentHeight: screen.height - 337 - 57.25,
                         header: {
@@ -119,27 +110,18 @@ export class ProfesorAgendaComponent implements OnInit {
                         windowResize: function(view) {
                             view.calendar.setOption("contentHeight", screen.height - 337 - 57.25);
                         },
-                         eventRender: arg => {
+                        eventRender: arg => {
                             /*******************HTML***********************/
-                            // console.log("BCKGRNDcolor:", arg.event.backgroundColor);
-                            // console.log("BORDERcolor:", arg.event.borderColor);
-                            // console.log("PROPS", arg.event.extendedProps);
-                            // console.log(arg.view.viewSpec);
-                        
-                            arg.el.innerHTML +=
-                                `<div class="fc-content">
+                            
+                            arg.el.style.opacity = this.calendarConfig.checkRealizacijaDaNe(arg.event.extendedProps.Realizirano)
+
+                            arg.el.lastElementChild.previousElementSibling.innerHTML +=
+                                `<br><span>` + this.parseRealizacija(arg.event.extendedProps.Realizirano) +`</span>`;
+
+                            arg.el.lastElementChild.innerHTML +=
+                                `<td class="fc-list-item-title fc-widget-content">
                                     <div class="ui-g-12">
-                                        <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                            <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.start) + `</span>
-                                            -
-                                            <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.end) + `</span> 
-                                            <span class="fc-time">` + this.parseRealizacija(arg.event.extendedProps.Realizirano) +`</span>
-                                        </div>
 
-                                        <div class="ui-g-12 ui-lg-4 ui-md-4 ui-sm-4" style="padding:0.1em;">
-                                            <span class="fc-time">` + arg.event.title + `</span>
-
-                                        </div>
 
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                             <span class="fc-title">` + arg.event.extendedProps.PredmetNaziv + `</span>
@@ -154,17 +136,13 @@ export class ProfesorAgendaComponent implements OnInit {
 
                                         </div>
                                     </div>
-
-                                    
-
-
-                                </div>
-                                    `
+                                </td>
+                                    `;
                         },
 
                         datesRender: arg => {
                             this.calendarConfig.passedDate = arg.view.calendar.getDate();
-                            // arg.view.calendar.
+                            this.rangeDates = [arg.view.calendar.getDate(),null];
                         }
                     });
                     this.calendar.render();
@@ -172,10 +150,15 @@ export class ProfesorAgendaComponent implements OnInit {
             });
     }
 
-     parseRealizacija(realizirano?) {
+    /**
+     * @returns string: ovisno o realizaciji jeli true ili false.
+     * @description Kartica Agenda i Kalendar, postavlja 'kvacicu' za realiziranu nastavu, a 'X' za nerealiziranu
+     * @param realizirano 
+     */
+    parseRealizacija(realizirano?) {
         return realizirano
-            ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
-            : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
+            ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `;  font-size:1.1em; "></span>`
+            : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; font-size:1.1em; "></span>`
          ;
     }
 }

@@ -23,7 +23,7 @@
 <div *ngIf="events; else loader">
     <!-- <p-fullCalendar id="calendar"  [events]="events" [options]="calendarOptions" ></p-fullCalendar> -->
 </div>
-<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="margin-top: -15px;">
     <div id="calendar"></div>
 </div>
 
@@ -31,4 +31,50 @@
     <p-progressBar mode="indeterminate"></p-progressBar>
 </ng-template>
 
-
+<p-dialog [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="100" 
+                [maximizable]="true" [baseZIndex]="10000">
+                <div class="ui-g ui-fluid form-group" *ngIf="eventDetalji">
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
+                            <label for="detaljiTermin">Termin
+                            </label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <input id="detaljiPredmetNaziv" type="text" size="30" [ngModel]="eventDetalji.PredmetNaziv" pInputText disabled> 
+                            <label for="detaljiPredmetNaziv">{{ eventDetalji.PredmetKratica }}
+                            </label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <input id="detaljiPodTipPredavanjaNaziv" type="text" size="30" [ngModel]="eventDetalji.PodTipPredavanjaNaziv" pInputText disabled> 
+                            <label for="detaljiPodTipPredavanjaNaziv">Podtip predavanja
+                            </label>
+                        </span>
+                    </div>
+                    <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <input id="detaljiSifraPredavaonice" type="text" size="30" [ngModel]="eventDetalji.SifraPredavaonice" pInputText disabled> 
+                            <label for="detaljiSifraPredavaonice">Predavaonica
+                            </label>
+                        </span>
+                    </div>
+                    <!-- <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                        <span class="ui-float-label">
+                            <h5>Realizacija</h5>
+                            <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch>
+                             <label for="detaljiRealizirano">Realizacija
+                            </label> 
+                        </span>
+                    </div> -->
+                    
+                    
+                </div>
+                <p-footer>
+                    <button type="button" pButton icon="fa fa-fw fa-check" (click)="displayEventDialog=false" label="Spremi"></button>
+                    <button type="button" pButton icon="fa fa-fw fa-times" (click)="displayEventDialog=false" label="Odustani" class="ui-button-secondary"></button>
+                </p-footer>
+            </p-dialog>
