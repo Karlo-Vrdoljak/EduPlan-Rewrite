@@ -19,6 +19,7 @@ export class ProfesorPredmetComponent implements OnInit {
   colsStudenti: any[];
   colsStudentiSmall: any[];
   colsNastavneCjeline: any[];
+  colsNastavneCjelineSmall: any[];
   actionItems: MenuItem[];
 
 
@@ -30,11 +31,21 @@ export class ProfesorPredmetComponent implements OnInit {
       pkPredmet: this.route.snapshot.paramMap.get("pkPredmet"),
       pkStudijskaGodina: this.appVariable.PkSkolskaGodina
     };
-
-    this.actionItems = [
-        { label: 'Dodaj', icon: 'fa fa-plus' },
-        { label: 'Izmjeni', icon: 'fa fa-pencil' },
-        { label: 'Izbriši', icon: 'fa fa-trash' }];
+    
+    // prijevod i inicijalizacija za botun s crud operacijama
+    this.translate
+    .get([
+      "PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA",
+      "PROFESOR_NASATVNECJELINE_IZMJENINASTAVNUCJELINU",
+      "PROFESOR_NASATVNECJELINE_IZBRISINASTAVNUCJELINU"
+    ]).subscribe(res => {
+      this.actionItems = [
+        { label: res.PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA, icon: 'fa fa-plus' },
+        { label: res.PROFESOR_NASATVNECJELINE_IZMJENINASTAVNUCJELINU, icon: 'fa fa-pencil' },
+        { label: res.PROFESOR_NASATVNECJELINE_IZBRISINASTAVNUCJELINU, icon: 'fa fa-trash' }
+      ];
+    })
+   
 
     // Poziv servisa za dohvacanje osnovnih podataka o predmetu
     this.profesorService.getPredmetOsnovniPodaci().subscribe((data) => {
@@ -131,44 +142,59 @@ export class ProfesorPredmetComponent implements OnInit {
       })
 
     // Poziv servisa za dohvacanje nastavnih cjelina na predmetu
-    this.profesorService.getPredmetNastavneCjeline().subscribe((data) => {
-      this.predmetNastavneCjeline = data;
-
-      this.colsNastavneCjeline = [
-        {
-          header: "Nastavna cjelina",
-          field: "imeNastavneCjeline"
+    this.translate
+      .get([
+        "KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA",
+        "SERVICES_GENERALSERVICE_KORISNIKUNOSA",
+        "SERVICES_GENERALSERVICE_KORISNIK",
+        "SERVICES_GENERALSERVICE_DATUMUNOSA",
+        "KATALOZI_STATUSUGOVORA_ZADNJAPROMJENA",
+        "KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE"
+      ]).subscribe(res => {
+        this.profesorService.getPredmetNastavneCjeline().subscribe((data) => {
+          this.predmetNastavneCjeline = data;
+    
+          this.colsNastavneCjeline = [
+            {
+              header: res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
+              field: "imeNastavneCjeline"
+            },
+            {
+              header: res.SERVICES_GENERALSERVICE_KORISNIKUNOSA,
+              field: "korisnikUnosa"
+            },
+            {
+              header: res.SERVICES_GENERALSERVICE_DATUMUNOSA,
+              field: "datumUnosa"
+            },
+            {
+              header: res.SERVICES_GENERALSERVICE_KORISNIK,
+              field: "korisnik"
+            },
+            {
+              header: res.KATALOZI_STATUSUGOVORA_ZADNJAPROMJENA,
+              field: "zadnjaPromjena"
+            },
+            {
+              header: res.KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE,
+              field: "koristiSe"
+            }];
+    
+          this.colsNastavneCjelineSmall = [
+            {
+              header: res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
+              field: "imeNastavneCjeline"
+            }];
         },
-        {
-          header: "Korisnik unosa",
-          field: "korisnikUnosa"
-        },
-        {
-          header: "Datum unosa",
-          field: "datumUnosa"
-        },
-        {
-          header: "Korisnik",
-          field: "korisnik"
-        },
-        {
-          header: "Zadnja promjena",
-          field: "zadnjaPromjena"
-        },
-        {
-          header: "Koristi se",
-          field: "koristiSe"
-        }];
-    },
-
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('Client-side error occured.');
-        } else {
-          console.log('Server-side error occured.');
-        }
-      }, () => { });
-
+    
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              console.log('Client-side error occured.');
+            } else {
+              console.log('Server-side error occured.');
+            }
+          }, () => { });
+      })
   }
 
   formatAllDates() { //Triat ce prilagodit funkciju kada se dobiju stvarni podaci, ovo je vise podsjetik da ce bit potrebna

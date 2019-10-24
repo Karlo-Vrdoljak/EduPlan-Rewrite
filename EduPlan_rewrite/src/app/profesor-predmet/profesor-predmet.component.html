@@ -62,7 +62,7 @@
                                 <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
                                 </h1>
                                 <p-table [value]="studentiNaPredmetu" [columns]="colsStudenti" selectionMode="single"
-                                    [scrollable]="true" scrollHeight="77vh" [resizableColumns]="true"
+                                    [scrollable]="true" scrollHeight="61.5vh" [resizableColumns]="true"
                                     dataKey="pkStudentNaPredmetu">
 
                                     <ng-template pTemplate="colgroup" let-columns>
@@ -196,14 +196,16 @@
                         <span style="opacity:0;">.</span>
                     </p-tabPanel>
 
-                    <p-tabPanel header="Nastavne cjeline" leftIcon="fa fa-book">
+                    <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" leftIcon="fa fa-book">
                         <ng-container>
                             <div class="card card-w-title ">
                                 <h1>
                                     {{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
                                     <div class="actionsContainer" style="float: right;">
-                                            <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [popup]="true" [model]="actionItems"></p-menu>
-                                            <button type="button" pButton icon="fa fa-fw fa-list" label="Show" (click)="menu.toggle($event)"></button>
+                                        <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu
+                                            [popup]="true" [model]="actionItems"></p-menu>
+                                        <button type="button" pButton icon="fa fa-fw fa-list" label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
+                                            (click)="menu.toggle($event)"></button>
                                     </div>
                                 </h1>
 
@@ -254,10 +256,10 @@
 </div>
 
 <div class="card smallMedium" hidden>
-    <div *ngIf="predmetOsnovniPodaci && studentiNaPredmetu; else loader">
+    <div *ngIf="predmetOsnovniPodaci && studentiNaPredmetu; else loader" style="margin-left: -1em; margin-right: -1em;">
         <div class="ui-g ui-fluid">
             <div class="ui-g-12">
-                <p-tabView>
+                <p-tabView> 
                     <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}"
                         leftIcon="fa fa-info-circle">
                         <ng-container>
@@ -311,13 +313,13 @@
                         <span style="opacity:0;">.</span>
                     </p-tabPanel>
 
-                    <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' |translate}}" leftIcon="fa fa-users">
+                    <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" leftIcon="fa fa-users">
                         <ng-container>
                             <div class="card card-w-title ">
                                 <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
                                 </h1>
                                 <p-table [value]="studentiNaPredmetu" [columns]="colsStudentiSmall"
-                                    selectionMode="single" [scrollable]="true" scrollHeight="70vh"
+                                    selectionMode="single" [scrollable]="true" scrollHeight="50vh"
                                     [resizableColumns]="true" dataKey="pkStudentNaPredmetu">
 
                                     <ng-template pTemplate="colgroup" let-columns>
@@ -339,10 +341,10 @@
                                     <ng-template pTemplate="body" let-rowData let-expanded="expanded"
                                         let-columns="columns">
                                         <tr [pSelectableRow]="rowData">
-                                            <td width="20%" class="ui-resizable-column">
+                                            <td width="0.1em" class="ui-resizable-column">
                                                 <a href="#" [pRowToggler]="rowData">
                                                     <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                                                        style="font-size: 2em; margin-left: -0.4em;"></i>
+                                                        style="font-size: 1.5em; margin-left: -0.4em;"></i>
                                                 </a>
                                             </td>
                                             <td *ngFor="let col of columns" class="ui-resizable-column"
@@ -515,9 +517,107 @@
                         <span style="opacity:0;">.</span>
                     </p-tabPanel>
 
-                    <p-tabPanel header="Nastavne cjeline" leftIcon="fa fa-calendar-o">
+                    <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" leftIcon="fa fa-calendar-o">
                         <ng-container>
-                            ovdje idu nastavne cjeline
+                            <div class="card card-w-title ">
+                                <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
+                                </h1>
+                                <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjelineSmall"
+                                    selectionMode="single" [scrollable]="true" scrollHeight="50vh"
+                                    dataKey="pkNastavneCjeline">
+
+                                    <ng-template pTemplate="colgroup" let-columns>
+                                        <colgroup>
+                                            <col *ngFor="let col of columns" [style.width]="col.width">
+                                        </colgroup>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th *ngFor="let col of columns" [pSortableColumn]="col.field"
+                                                pResizableColumn style="text-align: center;">
+                                                {{col.header}}
+                                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="body" let-rowData let-expanded="expanded"
+                                        let-columns="columns">
+                                        <tr [pSelectableRow]="rowData">
+                                            <td width="0.1em" class="ui-resizable-column">
+                                                <a href="#" [pRowToggler]="rowData">
+                                                    <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                                        style="font-size: 1.5em; margin-left: -0.5em;"></i>
+                                                </a>
+                                            </td>
+                                            <td *ngFor="let col of columns" class="ui-resizable-column"
+                                                style="text-align: center;">
+                                                {{rowData[col.field]}}
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                                        <tr>
+                                            <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                                                <div class="card card-w-title">
+                                                    <h1 style="text-align: center;">
+                                                        Opširnije
+                                                    </h1>
+                                                    <div class="ui-g">
+                                                        <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                            <div class="ui-g">
+                                                                <div class="ui-g-12">
+                                                                    <b>
+                                                                        Korisnik unosa:
+                                                                    </b>
+                                                                    {{rowData.korisnikUnosa}}
+                                                                </div>
+
+                                                                <div class="ui-g-12">
+                                                                    <b>
+                                                                        Datum unosa:
+                                                                    </b>
+                                                                    {{rowData.datumUnosa}}
+                                                                </div>
+
+                                                                <div class="ui-g-12">
+                                                                    <b>
+                                                                        Korisnik:
+                                                                    </b>
+                                                                    {{rowData.korisnik}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                            <div class="ui-g">
+                                                                <div class="ui-g-12">
+                                                                    <b>
+                                                                        Zadnja promjena:
+                                                                    </b>
+                                                                    {{rowData.zadnjaPromjena}}
+                                                                </div>
+
+                                                                <div class="ui-g-12">
+                                                                    <b>
+                                                                        Koristi se:
+                                                                    </b>
+                                                                    <span
+                                                                        [style.color]="rowData.koristiSe == 'true' ? 'green' : 'red' "><i
+                                                                            [ngClass]="rowData.koristiSe == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+
+                                </p-table>
+                            </div>
                         </ng-container>
                         <span style="opacity:0;">.</span>
                     </p-tabPanel>

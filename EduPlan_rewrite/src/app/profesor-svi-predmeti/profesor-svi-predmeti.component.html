@@ -10,14 +10,13 @@
                 <th>{{'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate}}</th>
                 <th>{{'NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA' | translate}}</th>
                 <th>Broj studenata</th>
-                <th>Broj studija</th>
                 <th style="width:5em">{{'KATALOZI_PREDMET_DETALJI' | translate}}</th>
             </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded" let-columns="columns">
             <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PredmetNaziv].index === rowIndex">
-                <td colspan="5">
+                <td colspan="4">
                     <a href="#" [pRowToggler]="rowData">
                         <i
                             [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
@@ -32,7 +31,6 @@
                 <td>{{rowData.PredmetKratica}}</td>
                 <td>{{rowData.Studij}}</td>
                 <td>{{rowData.brojStudenata}}</td>
-                <td>{{rowData.brojStudija}}</td>
                 <td> <a routerLink="/vPredmet/{{rowData.PkPredmet}}"> <i class="fa fa-angle-double-right fa-2x" style="margin-left: 0.4em;"></i></a>
                 </td>
             </tr>
