@@ -7,7 +7,7 @@ import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { AppVariables } from "../_interfaces/_configAppVariables";
 import { CalendarConfig } from "../_interfaces/_configCalendar";
-import { Calendar } from "@fullcalendar/core";
+import { Calendar, View } from "@fullcalendar/core";
 import { ProfesorService } from '../_services/profesori.service';
 
 @Component({
@@ -21,7 +21,9 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     apiData: any;
     calendar: Calendar;
     rangeDates: Date[];
-    selectedViewButton: boolean = false;
+    monthButton: boolean = false;
+    weekButton: boolean = false;
+    dayButton: boolean = false;
     displayEventDialog: boolean = false;
     eventDetalji:any;
     params = {
@@ -110,7 +112,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                 start: start,
                                 end: end,
                                 // datum: datum,
-                                termin : start + '-' + end
+                                termin : start + '-' + end,
+                                Prisutan: arg.event.extendedProps.Prisutan
                             };
                             
                             this.displayEventDialog = true;
@@ -119,13 +122,10 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                             arg.el.style.opacity = this.calendarConfig.checkRealizacijaDaNe(
                                 arg.event.extendedProps.Realizirano
                             );
+                            this.getSelectedButton(arg.view);
 
-                            let button = document.getElementsByClassName(
-                                "fc-dayGridMonth-button fc-button fc-button-primary fc-button-active"
-                            );
-                            this.selectedViewButton = button.length > 0 ? true : false;
 
-                            if (this.selectedViewButton === true) {
+                            if (this.monthButton === true) {
                                 arg.el.innerHTML =
                                     `<div class="fc-content">
                                         <div class="ui-g-12">
@@ -163,6 +163,34 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                     </div>
                                         `;
                             }
+                            
+                            else if(this.weekButton === true || this.dayButton === true) {
+                                arg.el.innerHTML =
+                                    `<div class="fc-content ui-g ui-fluid">
+                                        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+                                            <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.start) + `</span>
+                                            -
+                                            <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.end) + `</span> 
+                                            <span class="fc-time">` + this.parseRealizacija(arg.event.extendedProps.Realizirano) + `</span>`+
+                                            (
+                                                this.dayButton === true ? 
+                                                `<span class="fc-title" style="padding-left:1.25em;">` + this.parsePredmet(arg.event.extendedProps.PredmetNaziv) + `</span>`+
+                                                `<span class="fc-title" style="padding-left:1.25em;"> Kratica &bull; ` + arg.event.extendedProps.PredmetKratica + `</span>`+
+                                                `<span class="fc-title" style="padding-left:1.25em;"> ` 
+                                                    + this.parseStudijLabel(arg.event.extendedProps.StudijNazivKratica) + arg.event.extendedProps.StudijNazivKratica + 
+                                                `</span>` : ``
+                                            ) +
+                                        
+                                            `<span class="fc-time">` + this.parseEducard(arg.event.extendedProps.Prisutan) + `</span>
+                                        
+                                        </div>
+
+                                    </div>`;
+                            }
+                            this.monthButton = false;
+                            this.weekButton = false;
+                            this.dayButton = false;
+
                         },
                         datesRender: arg => {
                             this.calendarConfig.passedDate = arg.view.calendar.getDate();
@@ -176,15 +204,25 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {}
 
+     getSelectedButton(view: View) {
+         
+         this.monthButton = view.type == "dayGridMonth" ? true : false;
+
+         this.weekButton = view.type == "timeGridWeek" ? true : false;
+
+         this.dayButton = view.type == "timeGridDay" ? true : false;
+
+     }
+
      parseEducard(timbran){
         // this.appVariables.EducardAktivan = 0;
         if (this.appVariables.EducardAktivan) {
             return timbran ? 
-            `<span class="fc-title" style="float:right; padding-right:1em;">
-                <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().Realizirano + `"></i>
+            `<span class="fc-title" style="float:right; padding-right:1em; padding-top:0.2em;">
+                <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().Realizirano + `; font-size:1.3em;"></i>
             </span>` :
-            `<span class="fc-title" style="float:right; padding-right:1em;">
-                <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `"></i>
+            `<span class="fc-title" style="float:right; padding-right:1em; padding-top:0.2em;">
+                <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; font-size:1.3em;"></i>
             </span>`
             ;
         }
@@ -192,6 +230,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
          
     }
+
+
 
     /**
      * @returns string: formatirani predmet ili prazan string.
@@ -207,6 +247,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         }
         return "";
     }
+
 
     listBoxStudiji(studiji:string) { return studiji.split(','); }
     

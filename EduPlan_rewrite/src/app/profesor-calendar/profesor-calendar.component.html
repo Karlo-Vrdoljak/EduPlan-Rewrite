@@ -2,7 +2,7 @@
     <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-3">
         <p-calendar [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()" aria-placeholder="Asdf" selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
     </div>
-    <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6">
+    <div class="ui-g-12 ui-sm-9 ui-md-9 ui-lg-9">
         <div style="padding-top:0.5em; text-align:center;">
             <span class="fc-event-dot" style="background-color:#004e8a"></span>  {{ 'STUDENTCALENDAR_PREDAVANJA' | translate }} &nbsp; &nbsp;
             <span class="fc-event-dot" style="background-color:#4caf50"></span>  {{ 'STUDENTCALENDAR_SEMINAR' | translate }} &nbsp; &nbsp;
@@ -16,8 +16,7 @@
             </div>   
         </div>
     </div> 
-        <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-3">
-    </div>
+    
 
     <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
         
@@ -54,7 +53,7 @@
                             </label>
                         </span>
                     </div>
-                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                    <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
                         <span class="ui-float-label">
                             <input id="detaljiPodTipPredavanjaNaziv" type="text" size="30" [ngModel]="eventDetalji.PodTipPredavanjaNaziv" pInputText disabled> 
                             <label for="detaljiPodTipPredavanjaNaziv">Podtip predavanja
@@ -68,12 +67,16 @@
                             </label>
                         </span>
                     </div>
-                    <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                    <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left: 10px;">
                             <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
                             <p-toggleButton onLabel="Realizirano" offLabel="Realiziraj" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
                     </div>
-                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
-                            <p-chips disabled id="detaljiStudijNaziv" [(ngModel)]="eventDetalji.StudijNaziv"></p-chips>
+                    <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left:10px;">
+                            <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
+                            <p-toggleButton disabled onLabel="Prisutan" offLabel="Odsutan" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Prisutan"></p-toggleButton>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding-left:10px;">
+                            <p-chips  disabled id="detaljiStudijNaziv" [(ngModel)]="eventDetalji.StudijNaziv"></p-chips>
                     </div>
                     
                     
