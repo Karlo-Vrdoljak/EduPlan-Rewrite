@@ -35,14 +35,14 @@ export class ProfesorPredmetComponent implements OnInit {
     // prijevod i inicijalizacija za botun s crud operacijama
     this.translate
     .get([
-      "PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA",
-      "PROFESOR_NASATVNECJELINE_IZMJENINASTAVNUCJELINU",
-      "PROFESOR_NASATVNECJELINE_IZBRISINASTAVNUCJELINU"
+      "KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS",
+      "NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS",
+      "NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS"
     ]).subscribe(res => {
       this.actionItems = [
-        { label: res.PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA, icon: 'fa fa-plus' },
-        { label: res.PROFESOR_NASATVNECJELINE_IZMJENINASTAVNUCJELINU, icon: 'fa fa-pencil' },
-        { label: res.PROFESOR_NASATVNECJELINE_IZBRISINASTAVNUCJELINU, icon: 'fa fa-trash' }
+        { label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS, icon: 'fa fa-plus', },
+        { label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS, icon: 'fa fa-pencil' },
+        { label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS, icon: 'fa fa-trash' }
       ];
     })
    

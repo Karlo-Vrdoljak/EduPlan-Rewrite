@@ -3,8 +3,20 @@
         display: none;
     }
 
-    .smallMedium {
+    .smallMedium {        
         display: block;
+    }
+   
+    :host >>> .ui-menuitem-icon.fa.fa-plus.ng-star-inserted{
+        color: green;
+    }
+
+    :host >>> .ui-menuitem-icon.fa.fa-pencil.ng-star-inserted{
+        color: #8c8c81;
+    }
+
+    :host >>> .ui-menuitem-icon.fa.fa-trash.ng-star-inserted{
+        color: #fc3503;
     }
 }
 
@@ -31,3 +43,9 @@
 :host >>> .ui-menu .ui-menuitem-link:hover {
     color: #6ec5ff;
 }
+
+.ui-fluid .ui-button-icon-only {
+    width: 2em;
+    background-color: #6ec5ff;
+}
+
