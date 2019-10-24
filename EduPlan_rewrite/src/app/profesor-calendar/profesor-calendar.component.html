@@ -8,6 +8,12 @@
             <span class="fc-event-dot" style="background-color:#4caf50"></span>  {{ 'STUDENTCALENDAR_SEMINAR' | translate }} &nbsp; &nbsp;
             <span class="fc-event-dot" style="background-color:#ff9800"></span>  {{ 'STUDENTCALENDAR_VJEZBE' | translate }} &nbsp; &nbsp;
             <span class="fc-event-dot" style="background-color:#f44336"></span>  {{ 'STUDENTCALENDAR_ISPITI' | translate }} &nbsp; &nbsp;
+            <div *ngIf="appVariables.EducardAktivan">
+                <i class="fa fa-rss" style="color:#35de38"></i> Prisutan &nbsp; &nbsp;
+                <i class="fa fa-rss" style="color:#ff3300"></i> Odustan &nbsp; &nbsp;
+                <span class="fa fa-check" style="color:#35de38; padding-left:0.2em; font-size:1.5em; "></span> Realizirano &nbsp; &nbsp;
+                <span class="fa fa-times" style="color:#ff3300; padding-left:0.2em; font-size:1.5em;"></span> Nije realizirano &nbsp; &nbsp;
+            </div>   
         </div>
     </div> 
         <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-3">
@@ -62,19 +68,17 @@
                             </label>
                         </span>
                     </div>
-                    <!-- <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
-                        <span class="ui-float-label">
-                            <h5>Realizacija</h5>
-                            <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch>
-                             <label for="detaljiRealizirano">Realizacija
-                            </label> 
-                        </span>
-                    </div> -->
+                    <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                            <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
+                            <p-toggleButton onLabel="Realizirano" offLabel="Realiziraj" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                            <p-chips disabled id="detaljiStudijNaziv" [(ngModel)]="eventDetalji.StudijNaziv"></p-chips>
+                    </div>
                     
                     
                 </div>
                 <p-footer>
-                    <button type="button" pButton icon="fa fa-fw fa-check" (click)="displayEventDialog=false" label="Spremi"></button>
-                    <button type="button" pButton icon="fa fa-fw fa-times" (click)="displayEventDialog=false" label="Odustani" class="ui-button-secondary"></button>
+                    <button type="button" pButton icon="fa fa-fw fa-times" (click)="displayEventDialog=false" label="Zatvori" class="ui-button-secondary"></button>
                 </p-footer>
             </p-dialog>

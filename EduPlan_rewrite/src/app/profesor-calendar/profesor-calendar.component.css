@@ -1,3 +1,11 @@
 .fc-title {
     word-break: break-all;
 }
+
+:host >>> .ui-state-disabled {
+    opacity: 1;
+}
+
+:host >>> .ui-widget:disabled {
+    opacity: 1;
+}

@@ -14,28 +14,23 @@ export class OpciService {
         this.config = new Config();
     }
 
-    /*
-     *  Selecta sve akademske godine. Temp service (tria filtrirat po pkUsera, za sta treba procedura)
-     *  Params: null
-     *  Returns: Niz objekata
+
+    /**
+     * @Opis Selecta sve akademske godine. Temp service (tria filtrirat po pkUsera, za sta treba procedura)
+     * @Params null
+     * @Returns Niz objekata
      */
     getAkademskeGodine() {
-        return this.http
-            .get(this.config.API_URL + "AkademskaGodinaCombo", {})
-            .pipe(
-                retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "OpciService.getAkademskeGodine"
-                    )
-                )
-            );
+        return this.http.get(this.config.API_URL + "AkademskaGodinaCombo", {}).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("OpciService.getAkademskeGodine"))
+        );
     }
 
-    /*
-     *  Selecta pkStudent i pkNastavnikSuradnik na osnovu logiranog pkUsera
-     *  Params: pkUsera
-     *  Returns: niz od jednog objekta
+    /**
+     *  @Opis Selecta pkStudent i pkNastavnikSuradnik na osnovu logiranog pkUsera
+     *  @Params pkUsera
+     *  @Returns niz od jednog objekta
      */
     getKorisnikPodaci(data) {
         return this.http
@@ -44,11 +39,18 @@ export class OpciService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "OpciService.getKorisnikPodaci"
-                    )
-                )
+                catchError(this.appService.handleError("OpciService.getKorisnikPodaci"))
             );
+    }
+
+    getDohvatDomicilnihVrijednostiEduCard(data) {
+        return this.http
+        .get(this.config.API_URL + "DohvatDomicilnihVrijednostiEduCard", {
+            params: data
+        })
+        .pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("OpciService.getDohvatDomicilnihVrijednostiEduCard"))
+        );
     }
 }

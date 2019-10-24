@@ -4,9 +4,11 @@ import { TranslateService } from "@ngx-translate/core";
 import { LOCAL_STORAGE, WebStorageService } from "angular-webstorage-service";
 import { LanguageHandler } from './app.languageHandler';
 import { EmailMessage } from './_interfaces/EmailMessage';
-import { AppVariables } from './_interfaces/_configAppVariables';
+import { AppVariables } from "./_interfaces/_configAppVariables";
+import { DocimilneVrijednosti } from './_interfaces/DocimilneVrijednosti';
 import { CalendarConfig } from './_interfaces/_configCalendar';
 import { LoginComponent } from 'src/assets/pages/login.component';
+import { OpciService } from './_services/opci.service';
 
 enum MenuOrientation {
     STATIC,
@@ -52,74 +54,94 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     public data: any = [];
     theme = "green";
 
+    DomicilneVrijednostiParams = {};
+
     constructor(
         public renderer: Renderer2,
         public router: Router,
         private translate: TranslateService,
         @Inject(LOCAL_STORAGE) private storage: WebStorageService,
         private languageHandler: LanguageHandler,
-        private calendarConfig: CalendarConfig,
         private appVariables: AppVariables,
+        private opciService: OpciService
     ) {}
 
     ngOnInit(): void {
         // Dummy podaci
         this.emailSend = this.appVariables.emailSend;
-        const lang = this.languageHandler
-            .setDefaultLanguage()
-            .getCurrentLanguage();
+
+        const lang = this.languageHandler.setDefaultLanguage().getCurrentLanguage();
         this.translate.use(lang);
-        if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null){
-            this.router.navigate(["/login"]) ;   
+
+        if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null) {
+            this.router.navigate(["/login"]);
         }
+
         this.setupCalendarOrientationEvent();
+
+        this.setupDomicilneVrijednostiEduCard();
     }
 
     ngAfterViewInit() {
-        this.documentClickListener = this.renderer.listen(
-            "body",
-            "click",
-            event => {
-                if (!this.topbarItemClick) {
-                    this.activeTopbarItem = null;
-                    this.topbarMenuActive = false;
-                }
-
-                if (
-                    !this.menuButtonClick &&
-                    !this.sidebarClick &&
-                    (this.overlay || !this.isDesktop())
-                ) {
-                    this.sidebarActive = false;
-                }
-
-                this.topbarItemClick = false;
-                this.sidebarClick = false;
-                this.menuButtonClick = false;
+        this.documentClickListener = this.renderer.listen("body", "click", event => {
+            if (!this.topbarItemClick) {
+                this.activeTopbarItem = null;
+                this.topbarMenuActive = false;
             }
-        );
+
+            if (
+                !this.menuButtonClick &&
+                !this.sidebarClick &&
+                (this.overlay || !this.isDesktop())
+            ) {
+                this.sidebarActive = false;
+            }
+
+            this.topbarItemClick = false;
+            this.sidebarClick = false;
+            this.menuButtonClick = false;
+        });
     }
 
+    /**
+     * @Opis Api poziv za dohvat Domicilnih vrijednosti
+     * @Params DomicilneVrijednostiParams null
+     * @Returns Objekt koji definira domicilne vrijednosti
+     */
+    setupDomicilneVrijednostiEduCard() {
+        this.opciService.getDohvatDomicilnihVrijednostiEduCard(this.DomicilneVrijednostiParams)
+            .subscribe((data:DocimilneVrijednosti[]) => {
+                this.appVariables.domicilneVrijednostiEducard = data;
+                this.appVariables.EducardAktivan = Array.from(data).find(
+                    (e: DocimilneVrijednosti) => {
+                        return e.NazivDomicilneVrijednosti == "EducardAktivanDaNe";
+                    }
+                ).VrijednostPkDomicilneVrijednosti
+            });
+    }
+
+    /**
+     * @Opis reroute-a u Agendu ili Kalendar ovisno o rotaciji ekrana mobitela
+     * @Params null
+     * @Returns null
+     * @callback orientationchange
+     */
     setupCalendarOrientationEvent() {
         window.addEventListener("orientationchange", () => {
             switch (true) {
-                case screen.width <= 600 &&
-                    this.router.url == "/vStudentKalendar": {
+                case screen.width <= 600 && this.router.url == "/vStudentKalendar": {
                     this.router.navigate(["/vStudentAgenda", "sm"]);
                     break;
                 }
-                case screen.width >= 600 &&
-                    this.router.url == "/vStudentAgenda/sm": {
+                case screen.width >= 600 && this.router.url == "/vStudentAgenda/sm": {
                     this.router.navigate(["/vStudentKalendar"]);
                     break;
                 }
-                case screen.width <= 600 &&
-                    this.router.url == "/vProfesorKalendar": {
+                case screen.width <= 600 && this.router.url == "/vProfesorKalendar": {
                     this.router.navigate(["/vProfesorAgenda", "sm"]);
                     break;
                 }
-                case screen.width >= 600 &&
-                    this.router.url == "/vProfesorAgenda/sm": {
+                case screen.width >= 600 && this.router.url == "/vProfesorAgenda/sm": {
                     this.router.navigate(["/vProfesorKalendar"]);
                     break;
                 }
@@ -168,8 +190,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             this.overlayMenuActive = !this.overlayMenuActive;
         } else {
             if (this.isDesktop()) {
-                this.staticMenuDesktopInactive = !this
-                    .staticMenuDesktopInactive;
+                this.staticMenuDesktopInactive = !this.staticMenuDesktopInactive;
             } else {
                 this.staticMenuMobileActive = !this.staticMenuMobileActive;
             }
