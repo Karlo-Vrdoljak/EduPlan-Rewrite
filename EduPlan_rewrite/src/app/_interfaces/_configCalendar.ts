@@ -51,7 +51,10 @@ export class CalendarConfig {
             }
         }
     }
-
+    /**
+     * @Opis Vraca true ili false ovisno o tome jel ekran veci od 1280px
+     * @param screenWidth 
+     */
     public checkDeviceWidth(screenWidth): boolean {
         return screenWidth >= 1280 ? true : false;
     }
@@ -143,6 +146,8 @@ export class CalendarConfig {
                     r[key].StudijNazivKratica += !r[key].StudijNazivKratica.includes(e.StudijNazivKratica) ? ', ' + e.StudijNazivKratica : '';
                     r[key].PredmetNaziv += !r[key].PredmetNaziv.includes(e.PredmetNaziv) ? ', ' + e.PredmetNaziv : '';
                     r[key].PredmetKratica += !r[key].PredmetKratica.includes(e.PredmetKratica) ? ', ' + e.PredmetKratica : '';
+                    r[key].StudijNaziv += !r[key].StudijNaziv.includes(e.StudijNaziv) ? ', ' + e.StudijNaziv : '';
+                    
                 }
                 return r;
             }, {}));
@@ -168,7 +173,8 @@ export class CalendarConfig {
                     PkPredmet: e.PkPredmet || null,
                     PkStudij: e.PkStudij || null,
                     StudijNaziv: e.StudijNaziv || null,
-                    StudijNazivKratica: e.StudijNazivKratica || null
+                    StudijNazivKratica: e.StudijNazivKratica || null,
+                    Prisutan: e.Prisutan || 0
                 }
                 
             };

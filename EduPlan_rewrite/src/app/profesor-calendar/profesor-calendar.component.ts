@@ -5,10 +5,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import allLocales from "@fullcalendar/core/locales-all";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
-import {InputSwitchModule} from 'primeng/inputswitch';
 import { AppVariables } from "../_interfaces/_configAppVariables";
 import { CalendarConfig } from "../_interfaces/_configCalendar";
-import { Calendar, View } from "@fullcalendar/core";
+import { Calendar } from "@fullcalendar/core";
 import { ProfesorService } from '../_services/profesori.service';
 
 @Component({
@@ -72,9 +71,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             .toPromise()
             .then(res => {
                 this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
-                    // this._calendarService.getCalendarData().then(res => {
-                    //     console.log(res);
-                    // });
+                    
                     // console.log(data);
                     this.events = this.calendarConfig.prepareCalendarEventsProfesor(data);
                     // console.log(this.events);
@@ -109,7 +106,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                 PredmetKratica: arg.event.extendedProps.PredmetKratica,
                                 SifraPredavaonice: arg.event.extendedProps.SifraPredavaonice,
                                 Realizirano: arg.event.extendedProps.Realizirano,
-                                StudijNaziv: arg.event.extendedProps.StudijNaziv,
+                                StudijNaziv: this.listBoxStudiji(arg.event.extendedProps.StudijNaziv),
                                 start: start,
                                 end: end,
                                 // datum: datum,
@@ -133,45 +130,31 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                     `<div class="fc-content">
                                         <div class="ui-g-12">
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                                <span class="fc-time">` +
-                                    this.calendarConfig.formatDateShort(arg.event.start) +
-                                    `</span>
+                                                <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.start) + `</span>
                                                 -
-                                                <span class="fc-time">` +
-                                    this.calendarConfig.formatDateShort(arg.event.end) +
-                                    `</span> 
-                                                <span class="fc-time">` +
-                                    this.parseRealizacija(arg.event.extendedProps.Realizirano) +
-                                    `</span>
+                                                <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.end) + `</span> 
+                                                <span class="fc-time">` + this.parseRealizacija(arg.event.extendedProps.Realizirano) + `</span>
                                             </div>
 
                                             <div class="ui-g-12 ui-lg-4 ui-md-4 ui-sm-4" style="padding:0.1em;">
-                                                <span class="fc-time">` +
-                                    arg.event.title +
-                                    `</span>
+                                                <span class="fc-time">` + arg.event.title + `</span>
 
                                             </div>
 
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                                <span class="fc-title">` +
-                                    this.parsePredmet(arg.event.extendedProps.PredmetNaziv) +
-                                    `</span>
+                                                <span class="fc-title">` + this.parsePredmet(arg.event.extendedProps.PredmetNaziv) + `</span>
 
                                             </div>
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                                <span class="fc-title">` +
-                                    arg.event.extendedProps.PredmetKratica +
-                                    `</span>
+                                                <span class="fc-title">Kratica &bull; ` + arg.event.extendedProps.PredmetKratica + `</span>
 
                                             </div>
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                                <span class="fc-title">` +
-                                    this.parseStudijKratica(
-                                        arg.event.extendedProps.StudijNazivKratica
-                                    ) +
-                                    `</span>
-
-                                            </div>
+                                                <span class="fc-title">` 
+                                                    + this.parseStudijLabel(arg.event.extendedProps.StudijNazivKratica) + this.parseStudijKratica( arg.event.extendedProps.StudijNazivKratica ) + 
+                                                `</span>`
+                                                + this.parseEducard(arg.event.extendedProps.Prisutan) +
+                                            `</div>
                                         </div>
 
                                         
@@ -193,6 +176,23 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {}
 
+     parseEducard(timbran){
+        // this.appVariables.EducardAktivan = 0;
+        if (this.appVariables.EducardAktivan) {
+            return timbran ? 
+            `<span class="fc-title" style="float:right; padding-right:1em;">
+                <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().Realizirano + `"></i>
+            </span>` :
+            `<span class="fc-title" style="float:right; padding-right:1em;">
+                <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `"></i>
+            </span>`
+            ;
+        }
+        return '';
+
+         
+    }
+
     /**
      * @returns string: formatirani predmet ili prazan string.
      * @description Kartica Kalendar, formatira ispis predmeta na kartici ovisno o sirini ekrana
@@ -208,19 +208,27 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         return "";
     }
 
+    listBoxStudiji(studiji:string) { return studiji.split(','); }
+    
+
+   
     /**
      * @returns string: ovisno o realizaciji jeli true ili false.
      * @description Kartica Agenda i Kalendar, postavlja 'kvacicu' za realiziranu nastavu, a 'X' za nerealiziranu
      * @param realizirano boolean
      */
-    parseRealizacija(realizirano?) {
+    parseRealizacija(realizirano?: boolean) {
         return realizirano
-            ? `<span class="fa fa-check" style="color:` +
-                  this.calendarConfig.getColors().Realizirano +
-                  `; padding-left:0.2em; font-size:1.5em; "></span>`
-            : `<span class="fa fa-times" style="color:` +
-                  this.calendarConfig.getColors().NijeRealizirano +
-                  `; padding-left:0.2em; font-size:1.5em; "></span>`;
+            ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
+            : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`;
+    }
+    /**
+     * @returns string: 'Studij' ili 'Studiji' 
+     * @description ovisno kolko ih je za predmet u satnici
+     * @param studiji string
+     */
+    parseStudijLabel(studiji?: string ) :string{
+        return studiji.split(',').length == 1 ? 'Studij &bull; ': 'Studiji &bull; ';
     }
 
     /**
@@ -229,15 +237,19 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
      * @param studiji string
      */
     parseStudijKratica(studiji?: string) {
+        let length = studiji.split(",").length -1;
         return studiji
             .split(",")
             .map((e: string, index: number) => {
-                return e.concat(index % 2 == 0 && index != 0 ? ",<br> " : ", ").slice(0, -1);
-                // console.log(e);
+                
+                if(index != length){
+                    return e.concat(",<br>");
+                } else {
+                    return e;
+                }
             })
             .join(" ")
-            .trim()
-            .slice(0, -1);
+            .trim();
     }
 }
 

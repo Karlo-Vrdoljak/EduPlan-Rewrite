@@ -19,5 +19,6 @@ export interface CalendarEvent {
         PkStudij;
         StudijNaziv;
         StudijNazivKratica;
+        Prisutan;
     };
 }

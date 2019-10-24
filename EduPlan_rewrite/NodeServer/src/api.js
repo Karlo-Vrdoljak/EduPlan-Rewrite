@@ -145,10 +145,18 @@ router.get("/PrikazPredmetaOsnovniPodaci", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
-//dohvat podataka o studentima na odredenom predmetu 
+//dohvat podataka o studentima na odredenom predmetu
 router.get("/PrikazStudenataPoPredmetu", function(req, res) {
     var conn = db.createConnection();
     var request = db.createRequest( "PregledKartice.spPredmetStudenti_selectDummy", conn); //Dummy api
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+// dohvat domiclinih podataka za EduCard
+router.get("/DohvatDomicilnihVrijednostiEduCard", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spKonfiguracijaDomicilnihVrijednostiEduCard_Select", conn);
 
     db.execStoredProc(request, conn, res, "{}");
 }); 
