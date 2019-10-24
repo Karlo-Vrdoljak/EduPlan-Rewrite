@@ -3,6 +3,9 @@ import { ActivatedRoute } from "@angular/router";
 import { AppVariables } from '../_interfaces/_configAppVariables';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProfesorService } from '../_services/profesori.service';
+import { TranslateService } from "@ngx-translate/core";
+import { MenuItem } from 'primeng/api';
+
 
 @Component({
   selector: 'app-profesor-predmet',
@@ -12,9 +15,14 @@ import { ProfesorService } from '../_services/profesori.service';
 export class ProfesorPredmetComponent implements OnInit {
   predmetOsnovniPodaci: any;
   studentiNaPredmetu: any;
-  cols: any[];
+  predmetNastavneCjeline: any;
+  colsStudenti: any[];
+  colsStudentiSmall: any[];
+  colsNastavneCjeline: any[];
+  actionItems: MenuItem[];
 
-  constructor(private route: ActivatedRoute, private profesorService: ProfesorService, private appVariable: AppVariables) { }
+
+  constructor(private route: ActivatedRoute, private profesorService: ProfesorService, private appVariable: AppVariables, private translate: TranslateService) { }
 
   ngOnInit() {
 
@@ -22,6 +30,11 @@ export class ProfesorPredmetComponent implements OnInit {
       pkPredmet: this.route.snapshot.paramMap.get("pkPredmet"),
       pkStudijskaGodina: this.appVariable.PkSkolskaGodina
     };
+
+    this.actionItems = [
+        { label: 'Dodaj', icon: 'fa fa-plus' },
+        { label: 'Izmjeni', icon: 'fa fa-pencil' },
+        { label: 'Izbriši', icon: 'fa fa-trash' }];
 
     // Poziv servisa za dohvacanje osnovnih podataka o predmetu
     this.profesorService.getPredmetOsnovniPodaci().subscribe((data) => {
@@ -38,49 +51,114 @@ export class ProfesorPredmetComponent implements OnInit {
       }, () => { });
 
     // Poziv servisa za dohvacanje svih studenata koji slušaju zadani predmet
-    this.profesorService.getPredmetStudenti().subscribe((data) => {
-      this.studentiNaPredmetu = data;    
-      this.cols = [
+    this.translate
+      .get([
+        "VIEWS_APLIKACIJA_HOME_IME",
+        "VIEWS_APLIKACIJA_HOME_PREZIME",
+        "NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA",
+        "VIEWS_KATALOZI_PREDMET_SEMESTAR",
+        "VIEWS_GRUPEZANASTAVUDIALOG_GRUPAZANASTAVU",
+        "VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA",
+        "KATALOZI_NASTAVNIKSURADNIKPREDMETI_OSLOBODEN",
+        "KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN",
+        "KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA",
+        "PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC"
+      ]).subscribe(res => {
+        this.profesorService.getPredmetStudenti().subscribe((data) => {
+          this.studentiNaPredmetu = data;
+
+          this.colsStudenti = [
+            {
+              field: "ime",
+              header: res.VIEWS_APLIKACIJA_HOME_IME
+            },
+            {
+              field: "prezime",
+              header: res.VIEWS_APLIKACIJA_HOME_PREZIME
+            },
+            {
+              field: "studijNaziv",
+              header: res.NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA
+            },
+            {
+              field: "semestar",
+              header: res.VIEWS_KATALOZI_PREDMET_SEMESTAR
+            },
+            {
+              field: "grupaZaNastavu",
+              header: res.VIEWS_GRUPEZANASTAVUDIALOG_GRUPAZANASTAVU
+            },
+            {
+              field: "studijskaGodina",
+              header: res.VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA
+            },
+            {
+              field: "osloboden",
+              header: res.KATALOZI_NASTAVNIKSURADNIKPREDMETI_OSLOBODEN
+            },
+            {
+              field: "polozen",
+              header: res.KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN
+            },
+            {
+              field: "ocjena",
+              header: res.KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA
+            },
+            {
+              field: "ocjenjivac",
+              header: res.PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC
+            }];
+
+          this.colsStudentiSmall = [
+            {
+              field: "ime",
+              header: res.VIEWS_APLIKACIJA_HOME_IME
+            },
+            {
+              field: "prezime",
+              header: res.VIEWS_APLIKACIJA_HOME_PREZIME
+            }
+          ];
+        },
+
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              console.log('Client-side error occured.');
+            } else {
+              console.log('Server-side error occured.');
+            }
+          }, () => { });
+      })
+
+    // Poziv servisa za dohvacanje nastavnih cjelina na predmetu
+    this.profesorService.getPredmetNastavneCjeline().subscribe((data) => {
+      this.predmetNastavneCjeline = data;
+
+      this.colsNastavneCjeline = [
         {
-            field: "ime",
-            header: "Ime"
+          header: "Nastavna cjelina",
+          field: "imeNastavneCjeline"
         },
         {
-            field: "prezime",
-            header: "Prezime"
+          header: "Korisnik unosa",
+          field: "korisnikUnosa"
         },
         {
-            field: "studijNaziv",
-            header: "Naziv studija"
+          header: "Datum unosa",
+          field: "datumUnosa"
         },
         {
-            field: "semestar",
-            header: "Semestar"
+          header: "Korisnik",
+          field: "korisnik"
         },
         {
-            field: "grupaZaNastavu",
-            header: "Grupa za nastavu"
+          header: "Zadnja promjena",
+          field: "zadnjaPromjena"
         },
         {
-            field: "studijskaGodina",
-            header: "Studijska godina"
-        },
-        {
-            field: "osloboden",
-            header:"Oslobođen"
-        },
-        {
-            field: "polozen",
-            header: "Položen"
-        },
-        {
-          field: "ocjena",
-          header: "Ocjena"
-      },
-      {
-        field: "ocjenjivac",
-        header: "Ocjenjivač"
-      }];
+          header: "Koristi se",
+          field: "koristiSe"
+        }];
     },
 
       (err: HttpErrorResponse) => {
@@ -90,19 +168,13 @@ export class ProfesorPredmetComponent implements OnInit {
           console.log('Server-side error occured.');
         }
       }, () => { });
+
   }
 
-  formatAllDates() {
+  formatAllDates() { //Triat ce prilagodit funkciju kada se dobiju stvarni podaci, ovo je vise podsjetik da ce bit potrebna
     this.predmetOsnovniPodaci.pocetakTurnusa ? this.predmetOsnovniPodaci.pocetakTurnusa = new Date(this.predmetOsnovniPodaci.pocetakTurnusa) : this.predmetOsnovniPodaci.pocetakTurnusa = null;
     this.predmetOsnovniPodaci.krajTurnusa ? this.predmetOsnovniPodaci.krajTurnusa = new Date(this.predmetOsnovniPodaci.krajTurnusa) : this.predmetOsnovniPodaci.krajTurnusa = null;
 
   }
-
-  isBoolean(val) {
-    if (typeof val === "number") {
-        return false;
-    }
-    return typeof val === "boolean";
-}
 
 }

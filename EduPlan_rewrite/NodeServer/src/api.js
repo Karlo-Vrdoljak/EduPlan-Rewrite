@@ -161,4 +161,12 @@ router.get("/DohvatDomicilnihVrijednostiEduCard", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+//dohvat podataka o nastavnim cjelinama na odredenom predmetu 
+router.get("/PrikazNastavnihCjelina", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spPredmetNastavneCjeline_selectDummy", conn); //Dummy api
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 module.exports = router;

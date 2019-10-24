@@ -1,3 +1,12 @@
+@media only screen and (max-width: 950px) {
+    .largeMedium {
+        display: none;
+    }
+
+    .smallMedium {
+        display: block;
+    }
+}
 
 :host >>>  .ui-state-disabled  {    
     opacity: 1.0;
@@ -13,4 +22,12 @@
 
 .card h1 {
     font-size: 1.3em;
+}
+
+:host >>> .ui-menu .ui-menuitem-link {
+    font-size: 0.8em;
+}
+
+:host >>> .ui-menu .ui-menuitem-link:hover {
+    color: #6ec5ff;
 }

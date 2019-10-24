@@ -134,4 +134,22 @@ export class ProfesorService {
             )
         );
     }
+
+    /*
+     *  Select svih Nastavnih cjelina koje se obrađuju na predmetu.
+     *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
+     *  Returns: Niz od  jednog ili više objekata
+     */
+    getPredmetNastavneCjeline() { //Dummy service
+        return this.http
+        .get(this.config.API_URL + "PrikazNastavnihCjelina")
+        .pipe(
+            retry(this.config.APIRetryCount),
+            catchError(
+                this.appService.handleError(
+                    "ProfesorService.getPredmetNastavneCjeline"
+                )
+            )
+        );
+    }
 }
