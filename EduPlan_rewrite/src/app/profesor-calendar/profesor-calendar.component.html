@@ -1,24 +1,20 @@
 <div class="ui-g ui-fluid">
-    <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-3">
+    <div class="ui-g-12 ui-sm-8 ui-md-6 ui-lg-3">
         <p-calendar [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()" aria-placeholder="Asdf" selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
+        
     </div>
-    <div class="ui-g-12 ui-sm-9 ui-md-9 ui-lg-9">
-        <div style="padding-top:0.5em; text-align:center;">
-            <span class="fc-event-dot" style="background-color:#004e8a"></span>  {{ 'STUDENTCALENDAR_PREDAVANJA' | translate }} &nbsp; &nbsp;
-            <span class="fc-event-dot" style="background-color:#4caf50"></span>  {{ 'STUDENTCALENDAR_SEMINAR' | translate }} &nbsp; &nbsp;
-            <span class="fc-event-dot" style="background-color:#ff9800"></span>  {{ 'STUDENTCALENDAR_VJEZBE' | translate }} &nbsp; &nbsp;
-            <span class="fc-event-dot" style="background-color:#f44336"></span>  {{ 'STUDENTCALENDAR_ISPITI' | translate }} &nbsp; &nbsp;
-            <div *ngIf="appVariables.EducardAktivan">
-                <i class="fa fa-rss" style="color:#35de38"></i> Prisutan &nbsp; &nbsp;
-                <i class="fa fa-rss" style="color:#ff3300"></i> Odustan &nbsp; &nbsp;
-                <span class="fa fa-check" style="color:#35de38; padding-left:0.2em; font-size:1.5em; "></span> Realizirano &nbsp; &nbsp;
-                <span class="fa fa-times" style="color:#ff3300; padding-left:0.2em; font-size:1.5em;"></span> Nije realizirano &nbsp; &nbsp;
-            </div>   
+    <div class="ui-g-12 ui-sm-4 ui-md-6 ui-lg-9">
+        <div style="float: right;">
+            <p-menu  styleClass="menuCss" [showTransitionOptions]="'5ms'" [hideTransitionOptions]="'5ms'" #menu
+                [popup]="true" [model]="legend"></p-menu>
+            <button type="button" pButton icon="fa fa-fw fa-info" label="{{ 'STUDENTCALENDAR_LEGENDA' | translate }}"
+                (click)="menu.toggle($event)"></button>
         </div>
-    </div> 
+    </div>
+
     
 
-    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="margin-top: -10px;">
         
         <hr style="color: #c2dfd5; padding-right: 10px;"><br/>
     </div>
@@ -28,7 +24,7 @@
 <div *ngIf="events; else loader">
     <!-- <p-fullCalendar id="calendar"  [events]="events" [options]="calendarOptions" ></p-fullCalendar> -->
 </div>
-<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="margin-top: -15px;">
+<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="margin-top: -30px;">
     <div id="calendar"></div>
 </div>
 
@@ -37,12 +33,13 @@
 </ng-template>
 
 <p-dialog [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="100" 
-                [maximizable]="true" [baseZIndex]="10000">
+                 [baseZIndex]="10000">
                 <div class="ui-g ui-fluid form-group" *ngIf="eventDetalji">
                     <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
                         <span class="ui-float-label">
                             <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
-                            <label for="detaljiTermin">Termin
+                            <label for="detaljiTermin">{{ 'SERVICES_AP_SATNICA_SATNICA' | translate }}
+                                <!-- Termin -->
                             </label>
                         </span>
                     </div>
@@ -56,27 +53,29 @@
                     <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
                         <span class="ui-float-label">
                             <input id="detaljiPodTipPredavanjaNaziv" type="text" size="30" [ngModel]="eventDetalji.PodTipPredavanjaNaziv" pInputText disabled> 
-                            <label for="detaljiPodTipPredavanjaNaziv">Podtip predavanja
+                            <label for="detaljiPodTipPredavanjaNaziv">{{ 'KATALOZI_PODTIPPREDAVANJA_PODTIPNASTAVE' | translate }}
+                                <!-- Podtip predavanja -->
                             </label>
                         </span>
                     </div>
                     <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
                         <span class="ui-float-label">
                             <input id="detaljiSifraPredavaonice" type="text" size="30" [ngModel]="eventDetalji.SifraPredavaonice" pInputText disabled> 
-                            <label for="detaljiSifraPredavaonice">Predavaonica
+                            <label for="detaljiSifraPredavaonice">{{ 'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_PREDAVAONICA' | translate }}
+                                <!-- Predavaonica -->
                             </label>
                         </span>
                     </div>
                     <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left: 10px;">
                             <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
-                            <p-toggleButton onLabel="Realizirano" offLabel="Realiziraj" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
+                            <p-toggleButton [onLabel]="'NASTAVA_AUTOMATSKAREALIZACIJA_REALIZIRANO' | translate" [offLabel]="'NASTAVA_NASTAVAREALIZACIJAGRUPNA_REALIZIRAJ' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
                     </div>
                     <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left:10px;">
                             <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
-                            <p-toggleButton disabled onLabel="Prisutan" offLabel="Odsutan" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Prisutan"></p-toggleButton>
+                            <p-toggleButton disabled [onLabel]="'KATALOZI_BDNASTAVNIKSURADNIKRASPORED_PRISUTAN' | translate" [offLabel]="'STUDENTCALENDAR_ODSUTAN' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Prisutan"></p-toggleButton>
                     </div>
                     <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding-left:10px;">
-                            <p-chips  disabled id="detaljiStudijNaziv" [(ngModel)]="eventDetalji.StudijNaziv"></p-chips>
+                            <p-chips disabled id="detaljiStudijNaziv" [(ngModel)]="eventDetalji.StudijNaziv"></p-chips>
                     </div>
                     
                     

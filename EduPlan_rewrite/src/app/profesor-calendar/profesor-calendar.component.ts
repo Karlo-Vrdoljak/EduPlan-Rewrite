@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit, ɵisListLikeIterable } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -7,8 +7,9 @@ import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { AppVariables } from "../_interfaces/_configAppVariables";
 import { CalendarConfig } from "../_interfaces/_configCalendar";
-import { Calendar, View } from "@fullcalendar/core";
+import { Calendar, View, cssToStr } from "@fullcalendar/core";
 import { ProfesorService } from '../_services/profesori.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: "app-profesor-calendar",
@@ -26,6 +27,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     dayButton: boolean = false;
     displayEventDialog: boolean = false;
     eventDetalji:any;
+    legend: MenuItem[];
     params = {
         // PkStudent: 1312,
         // PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
@@ -69,9 +71,56 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             this.router.navigate(["/vProfesorAgenda", "sm"]);
         }
         this.translate
-            .get("STUDENT_KALENDAR_LOCALE")
+            .get([
+                "STUDENT_KALENDAR_LOCALE",
+                "STUDENTCALENDAR_PREDAVANJA",
+                "STUDENTCALENDAR_SEMINAR",
+                "STUDENTCALENDAR_VJEZBE",
+                "STUDENTCALENDAR_ISPITI",
+                "STUDENTCALENDAR_REALIZIRANO",
+                "STUDENTCALENDAR_NIJE_REALIZIRANO",
+                "STUDENTCALENDAR_PRISUTAN",
+                "STUDENTCALENDAR_ODSUTAN"
+            ])
             .toPromise()
             .then(res => {
+
+                this.legend = [
+                    {
+                        label: res.STUDENTCALENDAR_PREDAVANJA,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_SEMINAR,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_VJEZBE,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_ISPITI,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_REALIZIRANO,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_NIJE_REALIZIRANO,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_PRISUTAN,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_ODSUTAN,
+                        icon: "fa fa-circle"
+                    }
+                ];
+
+
                 this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
                     
                     // console.log(data);
@@ -86,7 +135,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                         locales: allLocales,
                         selectable: true,
                         defaultView: "timeGridWeek",
-                        locale: res,
+                        locale: res.STUDENT_KALENDAR_LOCALE,
                         height: "auto",
                         contentHeight: screen.height - 70 - 57.25 - 19.5 - 90,
                         firstDay: 1,
