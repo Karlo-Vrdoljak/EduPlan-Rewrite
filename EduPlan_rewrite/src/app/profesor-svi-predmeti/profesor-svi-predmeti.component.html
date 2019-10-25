@@ -17,10 +17,9 @@
         <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded" let-columns="columns">
             <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PredmetNaziv].index === rowIndex">
                 <td colspan="4">
-                    <a href="#" [pRowToggler]="rowData">
-                        <i
-                            [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
-                        <span>{{rowData.PredmetNaziv}}</span>
+                    <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
+                      <span class="groupAlign"><i [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fade' : 'pi pi-chevron-circle-right usesTransition fade'"
+                         style="margin-left:-0.2em;"></i> {{rowData.PredmetNaziv}}</span>
                     </a>
                 </td>
             </tr>
