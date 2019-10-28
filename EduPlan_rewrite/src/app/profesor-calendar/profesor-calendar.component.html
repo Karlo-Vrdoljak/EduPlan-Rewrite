@@ -1,9 +1,11 @@
+
 <div class="ui-g ui-fluid">
-    <div class="ui-g-12 ui-sm-8 ui-md-6 ui-lg-3">
-        <p-calendar [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()" aria-placeholder="Asdf" selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
-        
+    <div class="ui-g-12 ui-sm-1 ui-md-3 ui-lg-4">
     </div>
-    <div class="ui-g-12 ui-sm-4 ui-md-6 ui-lg-9">
+    <div class="ui-g-12 ui-sm-10 ui-md-6 ui-lg-4">
+        <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2100" [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()"  selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
+    </div>
+    <div class="ui-g-12 ui-sm-1 ui-md-3 ui-lg-4">
         <div style="float: right;">
             <p-menu  styleClass="menuCss" [showTransitionOptions]="'5ms'" [hideTransitionOptions]="'5ms'" #menu
                 [popup]="true" [model]="legend"></p-menu>
@@ -11,6 +13,7 @@
                 (click)="menu.toggle($event)"></button>
         </div>
     </div>
+</div>
 
     
 
@@ -18,8 +21,6 @@
         
         <hr style="color: #c2dfd5; padding-right: 10px;"><br/>
     </div>
-
-</div>
 
 <div *ngIf="events; else loader">
     <!-- <p-fullCalendar id="calendar"  [events]="events" [options]="calendarOptions" ></p-fullCalendar> -->

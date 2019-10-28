@@ -157,7 +157,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                 PredmetKratica: arg.event.extendedProps.PredmetKratica,
                                 SifraPredavaonice: arg.event.extendedProps.SifraPredavaonice,
                                 Realizirano: arg.event.extendedProps.Realizirano,
-                                StudijNaziv: this.listBoxStudiji(arg.event.extendedProps.StudijNaziv),
+                                StudijNaziv: this.calendarConfig.listBoxStudiji(arg.event.extendedProps.StudijNaziv),
                                 start: start,
                                 end: end,
                                 // datum: datum,
@@ -168,9 +168,10 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                             this.displayEventDialog = true;
                         },
                         eventRender: arg => {
-                            arg.el.style.opacity = this.calendarConfig.checkRealizacijaDaNe(
-                                arg.event.extendedProps.Realizirano
-                            );
+                            // arg.el.style.opacity = this.calendarConfig.checkRealizacijaDaNe(
+                            //     arg.event.extendedProps.Realizirano
+                            // );
+                            
                             this.getSelectedButton(arg.view);
 
 
@@ -200,7 +201,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                             </div>
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                                 <span class="fc-title">` 
-                                                    + this.parseStudijLabel(arg.event.extendedProps.StudijNazivKratica) + this.parseStudijKratica( arg.event.extendedProps.StudijNazivKratica ) + 
+                                                    + this.calendarConfig.parseStudijLabel(arg.event.extendedProps.StudijNazivKratica) + this.parseStudijKratica( arg.event.extendedProps.StudijNazivKratica ) + 
                                                 `</span>`
                                                 + this.parseEducard(arg.event.extendedProps.Prisutan) +
                                             `</div>
@@ -221,18 +222,25 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                             -
                                             <span class="fc-time">` + this.calendarConfig.formatDateShort(arg.event.end) + `</span> 
                                             <span class="fc-time">` + this.parseRealizacija(arg.event.extendedProps.Realizirano) + `</span>`+
+                                            `<span class="fc-time">` + this.parseEducard(arg.event.extendedProps.Prisutan) + `</span>` + 
                                             (
-                                                this.dayButton === true ? 
+                                                this.dayButton ? 
+                                                `<span class="fc-title" style="padding-left:1.25em;"> Predavaonica &bull; ` + arg.event.title + `</span>`+
                                                 `<span class="fc-title" style="padding-left:1.25em;">` + this.parsePredmet(arg.event.extendedProps.PredmetNaziv) + `</span>`+
                                                 `<span class="fc-title" style="padding-left:1.25em;"> Kratica &bull; ` + arg.event.extendedProps.PredmetKratica + `</span>`+
                                                 `<span class="fc-title" style="padding-left:1.25em;"> ` 
-                                                    + this.parseStudijLabel(arg.event.extendedProps.StudijNazivKratica) + arg.event.extendedProps.StudijNazivKratica + 
+                                                    + this.calendarConfig.parseStudijLabel(arg.event.extendedProps.StudijNazivKratica) + arg.event.extendedProps.StudijNazivKratica + 
+                                                `</span>` : ``
+                                            ) +
+                                            (
+                                                this.weekButton ? 
+                                                `<span class="fc-title" style="padding-left:0.2em;">` + arg.event.title +
+                                                `<span class="fc-title" style="padding-left:0.2em;"> &bull; ` + arg.event.extendedProps.PredmetKratica + `</span>`+
                                                 `</span>` : ``
                                             ) +
                                         
-                                            `<span class="fc-time">` + this.parseEducard(arg.event.extendedProps.Prisutan) + `</span>
                                         
-                                        </div>
+                                        `</div>
 
                                     </div>`;
                             }
@@ -267,12 +275,13 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         // this.appVariables.EducardAktivan = 0;
         if (this.appVariables.EducardAktivan) {
             return timbran ? 
-            `<span class="fc-title" style="float:right; padding-right:1em; padding-top:0.2em;">
+            `<span class="fc-title" style="float:right; `+ (this.monthButton? `padding-right:1.2em;` : `` )+` padding-top:0.2em;">
                 <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().Realizirano + `; font-size:1.3em;"></i>
             </span>` :
-            `<span class="fc-title" style="float:right; padding-right:1em; padding-top:0.2em;">
-                <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; font-size:1.3em;"></i>
-            </span>`
+            // `<span class="fc-title" style="float:right; `+ (this.monthButton? `padding-right:1.2em;` : `` )+` padding-top:0.2em;">
+            //     <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; font-size:1.3em;"></i>
+            // </span>`
+            ``
             ;
         }
         return '';
@@ -298,7 +307,6 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     }
 
 
-    listBoxStudiji(studiji:string) { return studiji.split(','); }
     
 
    
@@ -309,17 +317,11 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
      */
     parseRealizacija(realizirano?: boolean) {
         return realizirano
-            ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`
-            : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; padding-left:0.2em; font-size:1.5em; "></span>`;
-    }
-    /**
-     * @returns string: 'Studij' ili 'Studiji' 
-     * @description ovisno kolko ih je za predmet u satnici
-     * @param studiji string
-     */
-    parseStudijLabel(studiji?: string ) :string{
-        return studiji.split(',').length == 1 ? 'Studij &bull; ': 'Studiji &bull; ';
-    }
+            ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `; float:right; `+ (this.monthButton? ` padding-right:0.75em;` : `` ) + ` font-size:1.5em; "></span>`
+            // : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; float:right; `+ (this.monthButton? ` padding-right:0.75em;` : `` ) + ` font-size:1.5em; "></span>`;
+            : ``
+        }
+    
 
     /**
      * @returns string

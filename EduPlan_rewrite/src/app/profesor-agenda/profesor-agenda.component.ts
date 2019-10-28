@@ -10,6 +10,7 @@ import { CalendarEvent } from "../_interfaces/CalendarEvent";
 import { AppVariables } from '../_interfaces/_configAppVariables';
 import { CalendarConfig } from '../_interfaces/_configCalendar';
 import { ProfesorService } from '../_services/profesori.service';
+import { MenuItem } from 'primeng/api';
 
 @Component({
     selector: "app-profesor-agenda",
@@ -21,6 +22,13 @@ export class ProfesorAgendaComponent implements OnInit {
     apiData: any;
     calendar: Calendar;
     rangeDates: Date[];
+    eventDetalji: any;
+    legend: MenuItem[];
+    monthButton: boolean = false;
+    weekButton: boolean = false;
+    dayButton: boolean = false;
+    displayEventDialog: boolean = false;
+
     params = {
         //  PkStudent: 1312,
         // PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
@@ -40,10 +48,10 @@ export class ProfesorAgendaComponent implements OnInit {
         this.translate.use(this.languageHandler.setDefaultLanguage().getCurrentLanguage());
     }
     /**
-     * 
+     *
      * @returns void
-     * @description Kartica Agenda, Ovisno o odabranome DatumOd i DatumDo, api poziva getNastavnikRaspored i kalendar obnavlja dogadaje 
-     * @param None     
+     * @description Kartica Agenda, Ovisno o odabranome DatumOd i DatumDo, api poziva getNastavnikRaspored i kalendar obnavlja dogadaje
+     * @param None
      */
     handleSelectedDate() {
         if (this.rangeDates) {
@@ -67,9 +75,52 @@ export class ProfesorAgendaComponent implements OnInit {
                 "STUDENT_KALENDAR_LOCALE",
                 "STUDENT_KALENDAR_DAN",
                 "STUDENT_KALENDAR_MJESEC",
-                "STUDENT_KALENDAR_TJEDAN"
+                "STUDENT_KALENDAR_TJEDAN",
+                "STUDENTCALENDAR_PREDAVANJA",
+                "STUDENTCALENDAR_SEMINAR",
+                "STUDENTCALENDAR_VJEZBE",
+                "STUDENTCALENDAR_ISPITI",
+                "STUDENTCALENDAR_REALIZIRANO",
+                "STUDENTCALENDAR_NIJE_REALIZIRANO",
+                "STUDENTCALENDAR_PRISUTAN",
+                "STUDENTCALENDAR_ODSUTAN"
             ])
             .subscribe(res => {
+                this.legend = [
+                    {
+                        label: res.STUDENTCALENDAR_PREDAVANJA,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_SEMINAR,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_VJEZBE,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_ISPITI,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_REALIZIRANO,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_NIJE_REALIZIRANO,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_PRISUTAN,
+                        icon: "fa fa-circle"
+                    },
+                    {
+                        label: res.STUDENTCALENDAR_ODSUTAN,
+                        icon: "fa fa-circle"
+                    }
+                ];
+
                 this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
                     this.events = [];
                     // console.log(data);
@@ -98,7 +149,7 @@ export class ProfesorAgendaComponent implements OnInit {
                                 buttonText: res.STUDENT_KALENDAR_MJESEC
                             }
                         },
-                        
+
                         height: "auto",
                         contentHeight: screen.height - 337 - 57.25,
                         header: {
@@ -110,13 +161,44 @@ export class ProfesorAgendaComponent implements OnInit {
                         windowResize: function(view) {
                             view.calendar.setOption("contentHeight", screen.height - 337 - 57.25);
                         },
+                        eventClick: arg => {
+                            var start = this.calendarConfig.formatDateShort(arg.event.start);
+                            var end = this.calendarConfig.formatDateShort(arg.event.end);
+                            // var datum = this.calendarConfig.formatDateFull(arg.event.extendedProps.start);
+                            // var vrijeme =
+                            this.eventDetalji = {
+                                PredmetNaziv: arg.event.extendedProps.PredmetNaziv,
+                                PodTipPredavanjaNaziv:
+                                    arg.event.extendedProps.PodTipPredavanjaNaziv,
+                                PredmetKratica: arg.event.extendedProps.PredmetKratica,
+                                SifraPredavaonice: arg.event.extendedProps.SifraPredavaonice,
+                                Realizirano: arg.event.extendedProps.Realizirano,
+                                StudijNaziv: this.calendarConfig.listBoxStudiji(
+                                    arg.event.extendedProps.StudijNaziv
+                                ),
+                                start: start,
+                                end: end,
+                                // datum: datum,
+                                termin: start + "-" + end,
+                                Prisutan: arg.event.extendedProps.Prisutan
+                            };
+
+                            this.displayEventDialog = true;
+                        },
                         eventRender: arg => {
                             /*******************HTML***********************/
-                            
-                            arg.el.style.opacity = this.calendarConfig.checkRealizacijaDaNe(arg.event.extendedProps.Realizirano)
+
+                            arg.el.style.opacity = this.calendarConfig.checkRealizacijaDaNe(
+                                arg.event.extendedProps.Realizirano
+                            );
 
                             arg.el.lastElementChild.previousElementSibling.innerHTML +=
-                                `<br><span>` + this.parseRealizacija(arg.event.extendedProps.Realizirano) +`</span>`;
+                                `<br><span>` +
+                                this.parseRealizacija(arg.event.extendedProps.Realizirano) +
+                                `</span>` +
+                                `<span>` +
+                                // this.parseEducard(arg.event.extendedProps.Prisutan) +
+                                `</span>`;
 
                             arg.el.lastElementChild.innerHTML +=
                                 `<td class="fc-list-item-title fc-widget-content">
@@ -124,15 +206,24 @@ export class ProfesorAgendaComponent implements OnInit {
 
 
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                            <span class="fc-title">` + arg.event.extendedProps.PredmetNaziv + `</span>
+                                            <span class="fc-title">` +
+                                arg.event.extendedProps.PredmetNaziv +
+                                `</span>
 
                                         </div>
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                            <span class="fc-title">` + arg.event.extendedProps.PredmetKratica + `</span>
+                                            <span class="fc-title">Kratica predmeta &bull; ` +
+                                arg.event.extendedProps.PredmetKratica +
+                                `</span>
 
                                         </div>
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                            <span class="fc-title">` + arg.event.extendedProps.StudijNazivKratica + `</span>
+                                            <span class="fc-title">` +
+                                this.calendarConfig.parseStudijLabel(
+                                    arg.event.extendedProps.StudijNazivKratica
+                                ) +
+                                arg.event.extendedProps.StudijNazivKratica +
+                                `</span>
 
                                         </div>
                                     </div>
@@ -142,7 +233,7 @@ export class ProfesorAgendaComponent implements OnInit {
 
                         datesRender: arg => {
                             this.calendarConfig.passedDate = arg.view.calendar.getDate();
-                            this.rangeDates = [arg.view.calendar.getDate(),null];
+                            this.rangeDates = [arg.view.calendar.getDate(), null];
                         }
                     });
                     this.calendar.render();
@@ -153,12 +244,17 @@ export class ProfesorAgendaComponent implements OnInit {
     /**
      * @returns string: ovisno o realizaciji jeli true ili false.
      * @description Kartica Agenda i Kalendar, postavlja 'kvacicu' za realiziranu nastavu, a 'X' za nerealiziranu
-     * @param realizirano 
+     * @param realizirano
      */
     parseRealizacija(realizirano?) {
         return realizirano
-            ? `<span class="fa fa-check" style="color:` + this.calendarConfig.getColors().Realizirano + `;  font-size:1.1em; "></span>`
-            : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; font-size:1.1em; "></span>`
-         ;
+            ? `<span class="fa fa-check" style="color:` +
+                  this.calendarConfig.getColors().Realizirano +
+                  `;  font-size:1.1em; "></span>`
+            : `<span class="fa fa-times" style="color:` +
+                  this.calendarConfig.getColors().NijeRealizirano +
+                  `; font-size:1.1em; "></span>`;
     }
+
+    // parseEducard()
 }
