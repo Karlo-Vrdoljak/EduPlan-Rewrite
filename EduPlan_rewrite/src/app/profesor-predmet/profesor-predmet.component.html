@@ -249,7 +249,7 @@
                             </h1>
 
                             <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjeline"
-                                selectionMode="single" [scrollable]="true" scrollHeight="77vh">
+                                selectionMode="single" [scrollable]="true" scrollHeight="77vh" [(selection)]="selectedNastavniMaterijali">
 
                                 <ng-template pTemplate="colgroup" let-columns>
                                     <colgroup>
@@ -350,6 +350,7 @@
                     </ng-container>
                 </p-panel>
                 <br>
+              
                 <p-panel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" [toggleable]="true"
                     [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
                     toggler="header">
@@ -550,6 +551,7 @@
                     </ng-container>
                 </p-panel>
                 <br>
+               
                 <p-panel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" [toggleable]="true"
                     [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
                     toggler="header">
@@ -652,6 +654,18 @@
         </div>
     </div>
 </div>
+
+<p-dialog [(visible)]="nastavneCjelineDodajNovuDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div class="ui-g ui-fluid form-group">
+            Dodaj formu za novi nastavni materijal
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+        <div class="ui-g ui-fluid form-group">
+                dodaj formu za editanej odabranog nastavnog materijala
+        </div>
+    </p-dialog>
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>

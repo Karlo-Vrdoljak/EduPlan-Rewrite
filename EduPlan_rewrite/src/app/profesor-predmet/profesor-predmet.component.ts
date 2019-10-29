@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ProfesorService } from '../_services/profesori.service';
 import { TranslateService } from "@ngx-translate/core";
 import { MenuItem } from 'primeng/api';
+import { TouchSequence } from 'selenium-webdriver';
 
 
 @Component({
@@ -27,6 +28,9 @@ export class ProfesorPredmetComponent implements OnInit {
   prolaznost: number;
   prosjekOcjena: string;
   brojOslobodenihStudenata: number;
+  nastavneCjelineDodajNovuDialog: boolean = false;
+  nastavneCjelineEditDialog: boolean = false;
+  selectedNastavniMaterijali: any;
 
 
   constructor(private route: ActivatedRoute, private profesorService: ProfesorService, private appVariable: AppVariables, private translate: TranslateService) { }
@@ -94,15 +98,18 @@ export class ProfesorPredmetComponent implements OnInit {
         this.actionItemsOsnovniPodaciNastavneCjeline = [
           {
             label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS,
-            icon: 'fa fa-plus'
+            icon: 'fa fa-plus',
+            command: () => this.showNastavneCjelineDodajNovuDialog() 
           },
           {
             label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
-            icon: 'fa fa-pencil'
+            icon: 'fa fa-pencil',
+            command: () => this.showNastavneCjelineEditDialog() 
           },
           {
             label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS,
-            icon: 'fa fa-trash-o'
+            icon: 'fa fa-trash-o',
+            command: () => this.deleteNastavneCjeline() 
           }];
 
         this.actionItemsStudenti = [{
@@ -296,4 +303,17 @@ export class ProfesorPredmetComponent implements OnInit {
     this.brojOslobodenihStudenata = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
       return currentValue.osloboden == 'true' ? accumulator + 1 : accumulator + 0 }, 0)
   }
+
+  showNastavneCjelineDodajNovuDialog() { //Otvaranje Modalne forme za dodavanje novog nastavnog materijala
+    this.nastavneCjelineDodajNovuDialog = true;
+  }
+
+  showNastavneCjelineEditDialog() { //Otvaranje modalne forme za editanje odabranog nastavnog materijala
+    this.nastavneCjelineEditDialog = true;
+  }
+
+  deleteNastavneCjeline() { //Dummy funkcija za brisanje odabranog nastavnog materijala
+    console.log(this.selectedNastavniMaterijali);
+  }
+
 }
