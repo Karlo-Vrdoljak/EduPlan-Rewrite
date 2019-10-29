@@ -6,18 +6,18 @@
     .smallMedium {        
         display: block;
     }
-   
-    :host >>> .ui-menuitem-icon.fa.fa-plus.ng-star-inserted{
-        color: green;
-    }
+}
 
-    :host >>> .ui-menuitem-icon.fa.fa-pencil.ng-star-inserted{
-        color: #8c8c81;
-    }
+:host >>> .ui-menuitem-icon.fa.fa-plus.ng-star-inserted{
+    color: green;
+}
 
-    :host >>> .ui-menuitem-icon.fa.fa-trash.ng-star-inserted{
-        color: #fc3503;
-    }
+:host >>> .ui-menuitem-icon.fa.fa-pencil.ng-star-inserted{
+    color: #8c8c81;
+}
+
+:host >>> .ui-menuitem-icon.fa.fa-trash-o.ng-star-inserted{
+    color: #fc3503;
 }
 
 :host >>>  .ui-state-disabled  {    
@@ -29,7 +29,7 @@
 }
 
 .card {
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 .card h1 {
@@ -48,4 +48,29 @@
     width: 2em;
     background-color: #6ec5ff;
 }
+
+:host >>> .ui-slidemenu-wrapper {
+    height: 162px !important;
+}
+
+:host >>> .ui-slidemenu-content {
+    height: 155px !important;
+}
+
+.ui-inputgroup {
+    height: 1.7em;
+}
+
+
+/*input[type="text"] {
+    width: 15em
+}
+
+:host >>> .ui-fluid .ui-calendar.ui-calendar-w-btn .ui-inputtext{
+    width: 13em;
+}
+
+.ui-inputgroup {
+    width: 12.6em;
+}*/
 

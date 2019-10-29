@@ -1,4 +1,4 @@
-.groupAlign {
+/*.groupAlign {
     margin-top: -0.2em;
     font-size: 1.3em;
 }
@@ -12,4 +12,23 @@
 .fade:active
 {
     font-size:1.5em;
+}*/
+
+@media only screen and (max-width: 400px) {
+    .largeMedium {
+        display: none;
+    }
+
+    .smallMedium {        
+        display: block;
+    }
+}
+
+.fade
+{
+    font-size:1.2em;
+}
+
+.dataContent {
+    text-align: center;
 }

@@ -20,7 +20,13 @@ export class ProfesorPredmetComponent implements OnInit {
   colsStudentiSmall: any[];
   colsNastavneCjeline: any[];
   colsNastavneCjelineSmall: any[];
-  actionItems: MenuItem[];
+  actionItemsSmall: MenuItem[];
+  actionItemsOsnovniPodaciNastavneCjeline: MenuItem[];
+  actionItemsStudenti: MenuItem[];
+  ukupanBrojStudenata: number;
+  prolaznost: number;
+  prosjekOcjena: string;
+  brojOslobodenihStudenata: number;
 
 
   constructor(private route: ActivatedRoute, private profesorService: ProfesorService, private appVariable: AppVariables, private translate: TranslateService) { }
@@ -31,21 +37,80 @@ export class ProfesorPredmetComponent implements OnInit {
       pkPredmet: this.route.snapshot.paramMap.get("pkPredmet"),
       pkStudijskaGodina: this.appVariable.PkSkolskaGodina
     };
-    
-    // prijevod i inicijalizacija za botun s crud operacijama
+
+    // prijevod i inicijalizacija za botune s crud operacijama
     this.translate
-    .get([
-      "KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS",
-      "NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS",
-      "NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS"
-    ]).subscribe(res => {
-      this.actionItems = [
-        { label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS, icon: 'fa fa-plus', },
-        { label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS, icon: 'fa fa-pencil' },
-        { label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS, icon: 'fa fa-trash' }
-      ];
-    })
-   
+      .get([
+        "VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI",
+        "VIEWS_KATALOZI_PREDMET_STUDENTI",
+        "VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE",
+        "KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS",
+        "NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS",
+        "NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS"
+      ]).subscribe(res => {
+        this.actionItemsSmall = [{
+          label: res.VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI,
+          items: [{
+            label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS,
+            icon: 'fa fa-plus'
+          },
+          {
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+            icon: 'fa fa-pencil'
+          },
+          {
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS,
+            icon: 'fa fa-trash-o'
+          }]
+        },
+        {
+          label: res.VIEWS_KATALOZI_PREDMET_STUDENTI,
+          items: [
+          {
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+            icon: 'fa fa-pencil'
+          }]
+        },
+        {
+          label: res.VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE,
+          items: [{
+            label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS,
+            icon: 'fa fa-plus'
+          },
+          {
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+            icon: 'fa fa-pencil'
+          },
+          {
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS,
+            icon: 'fa fa-trash-o'
+          }]
+        },
+        {separator:true},
+        {
+            label: 'Quit', icon: 'pi pi-fw pi-times'
+        }];
+        
+        this.actionItemsOsnovniPodaciNastavneCjeline = [
+          {
+            label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS,
+            icon: 'fa fa-plus'
+          },
+          {
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+            icon: 'fa fa-pencil'
+          },
+          {
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS,
+            icon: 'fa fa-trash-o'
+          }];
+
+        this.actionItemsStudenti = [{
+          label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+          icon: 'fa fa-pencil'     
+        }]
+      })
+
 
     // Poziv servisa za dohvacanje osnovnih podataka o predmetu
     this.profesorService.getPredmetOsnovniPodaci().subscribe((data) => {
@@ -77,6 +142,10 @@ export class ProfesorPredmetComponent implements OnInit {
       ]).subscribe(res => {
         this.profesorService.getPredmetStudenti().subscribe((data) => {
           this.studentiNaPredmetu = data;
+          this.setUkupanBrojStudenata();
+          this.setPostotakProlaznosti();
+          this.setProsjekOcjena();
+          this.setBrojOslobodenihStudenata();
 
           this.colsStudenti = [
             {
@@ -153,7 +222,7 @@ export class ProfesorPredmetComponent implements OnInit {
       ]).subscribe(res => {
         this.profesorService.getPredmetNastavneCjeline().subscribe((data) => {
           this.predmetNastavneCjeline = data;
-    
+
           this.colsNastavneCjeline = [
             {
               header: res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
@@ -179,14 +248,14 @@ export class ProfesorPredmetComponent implements OnInit {
               header: res.KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE,
               field: "koristiSe"
             }];
-    
+
           this.colsNastavneCjelineSmall = [
             {
               header: res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
               field: "imeNastavneCjeline"
             }];
         },
-    
+
           (err: HttpErrorResponse) => {
             if (err.error instanceof Error) {
               console.log('Client-side error occured.');
@@ -203,4 +272,28 @@ export class ProfesorPredmetComponent implements OnInit {
 
   }
 
+  setUkupanBrojStudenata() { //Računa kolko ima studenata na odabranom predmetu
+    this.ukupanBrojStudenata = this.studentiNaPredmetu.length;
+  }
+
+  setPostotakProlaznosti() { //Računa postotak prolaznosti (uzima u obzir broj upisanih studenata i onih koji su položili)
+    var rez = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
+      return currentValue.polozen == 'true' ? accumulator + 1 : accumulator + 0 }, 0)
+
+    this.prolaznost = (rez / this.studentiNaPredmetu.length) * 100;
+  }
+
+  setProsjekOcjena() { //Računa prosjek ocjena svih studenata na dvi decimale
+    var rez = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue.ocjena;
+    },0)
+
+    var prosjek = (rez / this.studentiNaPredmetu.length);
+    this.prosjekOcjena = prosjek.toFixed(2);
+  }
+
+  setBrojOslobodenihStudenata() { //Računa broj studenata koji su oslobodeni polaganja predmeta
+    this.brojOslobodenihStudenata = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
+      return currentValue.osloboden == 'true' ? accumulator + 1 : accumulator + 0 }, 0)
+  }
 }

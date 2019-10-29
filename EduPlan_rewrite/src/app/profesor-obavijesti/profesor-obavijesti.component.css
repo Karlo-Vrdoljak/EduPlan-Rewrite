@@ -28,10 +28,10 @@
 .card.obavijestContainer {
     padding-left: 1.2em;
     padding-right: 1.2em;
-    border-width: 1.5px;  
+    border-width: 2px;  
     border-style: groove;
     border-radius: 5px;
-    border-color: #c9c9c9;
+    border-color: #f7efd7;
 
 }
 

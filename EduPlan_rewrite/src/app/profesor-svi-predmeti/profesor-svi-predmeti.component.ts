@@ -45,13 +45,13 @@ export class ProfesorSviPredmetiComponent implements OnInit { //U proceduri koju
     if (this.ProfesorPredmeti) {
       for (let i = 0; i < this.ProfesorPredmeti.length; i++) {
         let rowData = this.ProfesorPredmeti[i];
-        let predmet = rowData.PredmetNaziv;
+        let predmet = rowData.PkPredmet;
         if (i === 0) {
           this.rowGroupMetadata[predmet] = { index: 0, size: 1 };
         }
         else {
           let previousRowData = this.ProfesorPredmeti[i - 1];
-          let previousRowGroup = previousRowData.PredmetNaziv;
+          let previousRowGroup = previousRowData.PkPredmet;
           if (predmet === previousRowGroup)
             this.rowGroupMetadata[predmet].size++;
           else
