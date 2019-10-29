@@ -1,6 +1,28 @@
 import { EventColor } from "./ColorEventEnum";
 import { CalendarEvent } from "./CalendarEvent";
 
+//Dummy interface za fake api
+interface PrisutnostDummy {
+    JMBAG: number;
+    PkNastavaPlan: number;
+    ime: string;
+    prezime: string;
+    PredmetKratica: string;
+    PredmetNaziv: string;
+    DatumVrijemeDo: string;
+    DatumVrijemeOd: string;
+    PkPredmet: number;
+    PkStudij: number;
+    PodTipPredavanjaNazi: string;
+    PredavaonicaNaziv: string;
+    Prisutan: number;
+    Semestar: number;
+    SifraPredavaonice: string;
+    StudijNaziv: string;
+    StudijNazivKratica: string;
+    PkNastavnikSuradnik: number;
+}
+
 export class CalendarConfig {
            passedDate: Date = null;
            DatumOd: string; // = "2017-10-10";
@@ -193,6 +215,7 @@ export class CalendarConfig {
                        allDay: false,
                        color: this.chooseColor(e.PodTipPredavanjaNaziv),
                        extendedProps: {
+                           PkNastavaPlan: e.PkNastavaPlan || null,
                            PredmetNaziv: e.PredmetNaziv || null,
                            PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
                            PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
@@ -220,9 +243,70 @@ export class CalendarConfig {
            parseStudijLabel(studiji?: string): string {
                return studiji.split(",").length == 1 ? "Studij &bull; " : "Studiji &bull; ";
            }
-           
+
            listBoxStudiji(studiji: string) {
                return studiji.split(",");
            }
-       }
 
+           setupColsPrisutnostStudenata(prijevod) {
+               return [
+                   {
+                       field: "JMBAG",
+                       header: prijevod.KATALOZI_NASTAVNIKSURADNIKPREDMETI_JMBAG
+                   },
+                   {
+                       field: "ime",
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_IME
+                   },
+                   {
+                       field: "prezime",
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_PREZIME
+                   },
+                   {
+                       field: "StudijNazivKratica",
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA
+                   },
+                   {
+                       field: "Prisutan",
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
+                   }
+               ];
+           }
+           setupKalendarAgendaLegenda(prijevod) {
+               return [
+                   {
+                       label: prijevod.STUDENTCALENDAR_PREDAVANJA,
+                       icon: "fa fa-circle"
+                   },
+                   {
+                       label: prijevod.STUDENTCALENDAR_SEMINAR,
+                       icon: "fa fa-circle"
+                   },
+                   {
+                       label: prijevod.STUDENTCALENDAR_VJEZBE,
+                       icon: "fa fa-circle"
+                   },
+                   {
+                       label: prijevod.STUDENTCALENDAR_ISPITI,
+                       icon: "fa fa-circle"
+                   },
+                   {
+                       label: prijevod.STUDENTCALENDAR_REALIZIRANO,
+                       icon: "fa fa-circle"
+                   },
+                   {
+                       label: prijevod.STUDENTCALENDAR_PRISUTAN,
+                       icon: "fa fa-circle"
+                   }
+               ];
+           }
+
+           calculatePrisutnost(studenti: PrisutnostDummy[]) {
+               let prisutan = studenti
+                   .map(e => e.Prisutan)
+                   .reduce((res, val) => {
+                       return res + val;
+                   });
+               return ((prisutan / studenti.length) * 100).toFixed(2);
+           }
+       }

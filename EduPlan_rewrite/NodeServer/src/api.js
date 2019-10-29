@@ -169,4 +169,13 @@ router.get("/PrikazNastavnihCjelina", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+
+//Dummy procedura koja vraca moguci oblik podataka na frontend.
+router.get("/StudentPrisutnostPredmet", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spStudentPrisutnostPredmet_selectDummy", conn); 
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 module.exports = router;

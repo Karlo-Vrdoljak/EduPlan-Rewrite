@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { CalendarService } from "../demo/service/calendarService";
 import allLocales from "@fullcalendar/core/locales-all";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
@@ -25,7 +24,6 @@ export class StudentCalendarComponent implements OnInit {
     translate: TranslateService;
     
     constructor(
-        private _calendarService: CalendarService,
         public router: Router,
         translate: TranslateService,
         private studentiService: StudentiService,

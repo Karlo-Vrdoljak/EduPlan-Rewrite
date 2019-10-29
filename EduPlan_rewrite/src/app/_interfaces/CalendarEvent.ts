@@ -9,6 +9,7 @@ export interface CalendarEvent {
     allDay;
     color;
     extendedProps?: {
+        PkNastavaPlan;
         PredmetNaziv;
         PodTipPredavanjaNaziv;
         PodTipPredavanjaSifra;

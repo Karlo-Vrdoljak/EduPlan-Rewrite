@@ -111,6 +111,7 @@ import { EventService } from "./demo/service/eventservice";
 import { NodeService } from "./demo/service/nodeservice";
 import { SubjectService } from "./demo/service/subjectService";
 import { StudentService } from "./demo/service/studentService";
+import { CalendarService } from "./_services/calendar.service";
 import { StudentPodaciStudijService } from "./demo/service/studentPodaciStudijService";
 import { StudentPodaciNaAkGodiniService } from "./demo/service/studentPodaciNaAkGodiniService";
 import { StudentSviPredmetiComponent } from "./student-svi-predmeti/student-svi-predmeti.component";
@@ -119,7 +120,6 @@ import { StudentProsjeciComponent } from "./student-prosjeci/student-prosjeci.co
 import { StudentOsobniPodaciComponent } from "./student-osobni-podaci/student-osobni-podaci.component";
 import { StudentAgendaComponent } from "./student-agenda/student-agenda.component";
 import { StudentCalendarComponent } from "./student-calendar/student-calendar.component";
-import { CalendarService } from "./demo/service/calendarService";
 import { TranslateSidebarComponent } from "./translate-sidebar/translate-sidebar.component";
 import { StorageServiceModule } from "angular-webstorage-service";
 import { LanguageHandler } from "./app.languageHandler";

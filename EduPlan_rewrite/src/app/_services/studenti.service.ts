@@ -20,14 +20,10 @@ export class StudentiService {
      *  Returns: Niz od jednog objekta ili niz vise objekata
      */
     getStudent(data) {
-        return this.http
-            .get(this.config.API_URL + "Student", { params: data })
-            .pipe(
-                retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError("StudentiService.getStudent")
-                )
-            );
+        return this.http.get(this.config.API_URL + "Student", { params: data }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("StudentiService.getStudent"))
+        );
     }
 
     /*
@@ -61,11 +57,7 @@ export class StudentiService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "StudentiService.getStudentStudij"
-                    )
-                )
+                catchError(this.appService.handleError("StudentiService.getStudentStudij"))
             );
     }
     /*
@@ -80,11 +72,7 @@ export class StudentiService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "StudentiService.getStudentNaAkGodini"
-                    )
-                )
+                catchError(this.appService.handleError("StudentiService.getStudentNaAkGodini"))
             );
     }
     /*
@@ -94,26 +82,20 @@ export class StudentiService {
      */
     getStudentRaspored(data) {
         // const headerdata = {
-            // 'Content-Type':'application/json',
-            // 'Authorization':'Basic c3R1ZDpzdHVk'
+        // 'Content-Type':'application/json',
+        // 'Authorization':'Basic c3R1ZDpzdHVk'
         // }
         return this.http
-            .get(this.config.API_URL + "PrikazRasporedaStudent",
-                {
-                    params: data
-                    // headers: headerdata
-                }
-            )
+            .get(this.config.API_URL + "PrikazRasporedaStudent", {
+                params: data
+                // headers: headerdata
+            })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "StudentiService.getStudentRaspored"
-                    )
-                )
+                catchError(this.appService.handleError("StudentiService.getStudentRaspored"))
             );
     }
-    
+
     /*
      *  Selecta sve obavijesti filtrirane po studentima.
      *  Params: int (pkUsera -> iz logina) ili null
@@ -126,11 +108,17 @@ export class StudentiService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "StudentiService.getStudentObavijesti"
-                    )
-                )
+                catchError(this.appService.handleError("StudentiService.getStudentObavijesti"))
             );
+    }
+
+    /**
+     * @Opis Dummy procedura koja vraca moguci oblik podataka na frontend.
+     */
+    getStudentiPrisutnostPredmet() {
+        return this.http.get(this.config.API_URL + "StudentPrisutnostPredmet").pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("CalendarService.getPredmetStudenti"))
+        );
     }
 }
