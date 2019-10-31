@@ -2,7 +2,7 @@
     (click)="app.onSidebarClick($event)">
     <div class="layout-tabmenu">
         <ul class="layout-tabmenu-nav">
-            <li [ngClass]="{'active-item':app.activeTabIndex === 0}">
+            <li *ngIf="app.appVariables.PkStudent" [ngClass]="{'active-item':app.activeTabIndex === 0}">
                 <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 0)"><i class="pi pi-user"
                         style="font-size: 3em"></i></a>
                 <div class="layout-tabmenu-tooltip">
@@ -11,7 +11,7 @@
                 </div>
             </li>
            
-            <li [ngClass]="{'active-item':app.activeTabIndex === 1}">
+            <li *ngIf="app.appVariables.PkNastavnikSuradnik" [ngClass]="{'active-item':app.activeTabIndex === 1}">
                 <a href="#" class="tabmenuitem-link" (click)="app.onTabClick($event, 1)"><i class="pi pi-user"
                         style="font-size: 3em"></i></a>
                 <div class="layout-tabmenu-tooltip">
@@ -20,7 +20,7 @@
                 </div>
             </li>
            
-            <li [ngClass]="{'active-item':app.activeTabIndex === 2}">
+            <li *ngIf="app.appVariables.PkStudent" [ngClass]="{'active-item':app.activeTabIndex === 2}">
                 <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 2)"><i
                         class="fa fa-calendar"></i></a>
                 <div class="layout-tabmenu-tooltip">
@@ -29,7 +29,7 @@
                 </div>
             </li>
             
-            <li [ngClass]="{'active-item':app.activeTabIndex === 3}">
+            <li *ngIf="app.appVariables.PkNastavnikSuradnik" [ngClass]="{'active-item':app.activeTabIndex === 3}">
                 <a href="#" class="ripplelink tabmenuitem-link" (click)="app.onTabClick($event, 3)"><i class="fa fa-calendar"></i></a>
                 <div class="layout-tabmenu-tooltip">
                     <div class="layout-tabmenu-tooltip-arrow"></div>

@@ -4,7 +4,9 @@ export enum EventColor {
     Vjezbe = "#ff9800",
     Ispiti = "#f44336",
     NijeRealizirano = "#ff3300",
-    Realizirano = "#35de38"
+    Realizirano = "#35de38",
+    Background = "#FAFAFA",
+    Dark = "#292929"
     // KlinickeVjezbe = "#ffb300",
     // PretKlinickeVjezbe = "#a8913f",
     // VjezbeTjelesniOdgoj = "#00fcad",

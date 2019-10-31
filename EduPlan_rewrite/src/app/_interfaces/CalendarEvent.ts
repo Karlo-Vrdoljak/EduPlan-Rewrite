@@ -7,7 +7,10 @@ export interface CalendarEvent {
     // startTime;
     // endTime;
     allDay;
-    color;
+    // borderColor?;
+    // backgroundColor?;
+    // textColor?;
+    color?;
     extendedProps?: {
         PkNastavaPlan;
         PredmetNaziv;
@@ -21,5 +24,8 @@ export interface CalendarEvent {
         StudijNaziv;
         StudijNazivKratica;
         Prisutan;
+        NastavnikSuradnikNaziv;
+        PkNastavnikSuradnik;
+        NastavnikSuradnikInicijali;
     };
 }

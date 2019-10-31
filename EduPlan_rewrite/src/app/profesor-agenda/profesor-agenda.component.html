@@ -6,7 +6,7 @@
         <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2100" [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()"  selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
     </div>
     <div class="ui-g-12 ui-sm-1 ui-md-3 ui-lg-4">
-        <div style="float: right;">
+        <div style="float: right;" *ngIf="legend">
             <p-menu  styleClass="menuCss" [showTransitionOptions]="'5ms'" [hideTransitionOptions]="'5ms'" #menu
                 [popup]="true" [model]="legend"></p-menu>
             <button type="button" pButton icon="fa fa-fw fa-info" label="{{ 'STUDENTCALENDAR_LEGENDA' | translate }}"

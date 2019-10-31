@@ -45,38 +45,44 @@ export class CalendarConfig {
             * @Opis Boja kalendarove eventove ovisno o podtipu predavanja
             * @param tipPredavanja
             */
-           public chooseColor(tipPredavanja): string {
+           public chooseColor(tipPredavanja:string): string {
                switch (true) {
-                   case tipPredavanja == "Predavanja": {
+                   case tipPredavanja.toLowerCase().includes("predav"): {
                        return EventColor.Predavanja;
                    }
-                   case tipPredavanja == "Seminar": {
+                   case tipPredavanja.toLowerCase().includes("seminar"): {
                        return EventColor.Seminar;
                    }
-                   case tipPredavanja == "Vježbe": {
+                   case tipPredavanja.toLowerCase().includes("vje"): {
                        return EventColor.Vjezbe;
                    }
-                   case tipPredavanja == "Ispiti": {
+                   case tipPredavanja.toLowerCase().includes("ispit"): {
                        return EventColor.Ispiti;
                    }
-                   case tipPredavanja == "Kliničke vježbe": {
-                       return EventColor.Vjezbe;
+                   case tipPredavanja.toLowerCase().includes("background"): {
+                       return EventColor.Background;
                    }
-                   case tipPredavanja == "Pretkliničke vježbe": {
-                       return EventColor.Vjezbe;
-                   }
-                   case tipPredavanja == "Vježbe tjelesnog odgoja": {
-                       return EventColor.Vjezbe;
-                   }
-                   case tipPredavanja == "Vježbe u praktikumu": {
-                       return EventColor.Vjezbe;
-                   }
-                   case tipPredavanja == "Laboratorijske vježbe": {
-                       return EventColor.Vjezbe;
-                   }
-                   case tipPredavanja == "Terenske vježbe": {
-                       return EventColor.Vjezbe;
-                   }
+                   //    case tipPredavanja == "Vježbe": {
+                   //        return EventColor.Vjezbe;
+                   //    }
+                   //    case tipPredavanja == "Kliničke vježbe": {
+                   //        return EventColor.Vjezbe;
+                   //    }
+                   //    case tipPredavanja == "Pretkliničke vježbe": {
+                   //        return EventColor.Vjezbe;
+                   //    }
+                   //    case tipPredavanja == "Vježbe tjelesnog odgoja": {
+                   //        return EventColor.Vjezbe;
+                   //    }
+                   //    case tipPredavanja == "Vježbe u praktikumu": {
+                   //        return EventColor.Vjezbe;
+                   //    }
+                   //    case tipPredavanja == "Laboratorijske vježbe": {
+                   //        return EventColor.Vjezbe;
+                   //    }
+                   //    case tipPredavanja == "Terenske vježbe": {
+                   //        return EventColor.Vjezbe;
+                   //    }
 
                    default: {
                        return EventColor.Predavanja;
@@ -144,7 +150,7 @@ export class CalendarConfig {
             * @param date vraca string datum 'hh:mm'
             */
            public formatDateShort(date: Date): string {
-               return date.getHours() + ":" + date.getMinutes();
+               return date.getHours() + ":" + ("0" + date.getMinutes()).slice(-2);
            }
            /**
             * @Opis postavlja default raspon api poziva za prikaz kalendara
@@ -213,8 +219,14 @@ export class CalendarConfig {
                        start: e.DatumVrijemeOd,
                        end: e.DatumVrijemeDo,
                        allDay: false,
+                    //    backgroundColor: EventColor.Background,
+                    //    borderColor: this.chooseColor(e.PodTipPredavanjaNaziv),
+                    //    textColor: EventColor.Dark,
                        color: this.chooseColor(e.PodTipPredavanjaNaziv),
                        extendedProps: {
+                           NastavnikSuradnikNaziv: e.NastavnikSuradnikNaziv || null,
+                           PkNastavnikSuradnik: e.PkNastavnikSuradnik || null,
+                           NastavnikSuradnikInicijali: e.NastavnikSuradnikInicijali || null,
                            PkNastavaPlan: e.PkNastavaPlan || null,
                            PredmetNaziv: e.PredmetNaziv || null,
                            PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,

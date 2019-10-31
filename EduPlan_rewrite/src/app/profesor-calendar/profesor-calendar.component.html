@@ -14,21 +14,13 @@
         </div>
     </div>
 </div>
-
-    
-
-    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="margin-top: -10px;">
-        
-        <hr style="color: #c2dfd5; padding-right: 10px;"><br/>
-    </div>
+<!-- <hr style="color: #c2dfd5; padding-right: 10px;"><br/> -->
 
 <div *ngIf="!events">
     <p-progressBar mode="indeterminate"></p-progressBar>
 </div> 
 
-<div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="margin-top: -30px;">
-    <div id="calendar"></div>
-</div>
+<div id="calendar"></div>
 
 
 <p-dialog [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
@@ -90,9 +82,6 @@
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
-
-
-
 
 <p-dialog [header]="'NASTVA_UNOSREALIZACIJE_PRISUSTVOSTUDENATA' | translate " [(visible)]="displayStudentiEventDialog" [modal]="true" [responsive]="true" [style]="{width: '500px', minWidth: '300px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
     <div class="ui-g ui-fluid">

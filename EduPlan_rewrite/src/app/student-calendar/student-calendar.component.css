@@ -1,0 +1,46 @@
+.fc-title {
+    word-break: break-all;
+}
+
+:host >>> .ui-state-disabled {
+    opacity: 1;
+}
+
+:host >>> .ui-widget:disabled {
+    opacity: 1;
+}
+:host >>> .menuCss  {
+    background-color: #f1f3f5;
+}
+:host >>> .menuCss ul li:nth-child(1) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #004e8a;
+}
+:host >>> .menuCss ul li:nth-child(2) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #4caf50;
+}
+:host >>> .menuCss ul li:nth-child(3) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #ff9800;
+}
+:host >>> .menuCss ul li:nth-child(4) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #f44336;
+}
+:host >>> .menuCss ul li:nth-child(5) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #35de38;
+}
+:host >>> .menuCss ul li:nth-child(6) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #ff3300;
+}
+:host >>> .menuCss ul li:nth-child(7) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #35de38;
+}
+:host >>> .menuCss ul li:nth-child(8) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #ff3300;
+}

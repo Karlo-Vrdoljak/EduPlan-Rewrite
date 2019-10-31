@@ -44,7 +44,6 @@ export class AppTopBarComponent {
 
   setPkSkolskaGodina() {
     this.appVariables.PkSkolskaGodina = this.akademskaGodinaSelected.PkSkolskaGodina;
-    console.log(this.router.url);
     let url = this.router.url;
 
     this.router
