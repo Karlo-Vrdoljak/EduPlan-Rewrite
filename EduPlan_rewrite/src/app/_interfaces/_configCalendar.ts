@@ -24,13 +24,17 @@ interface PrisutnostDummy {
 }
 
 export class CalendarConfig {
-           passedDate: Date = null;
+           passedDate: Date[] = null;
            DatumOd: string; // = "2017-10-10";
            DatumDo: string; // = "2019-10-30";
            DefaultRasponDatuma: number = 365;
            RealizacijaOpacity: any;
 
            constructor() {
+               if(this.passedDate) {
+                   this.DatumOd = this.passedDate[0].toISOString();
+                   this.DatumDo = this.passedDate[1].toISOString();
+               }
                this.setupDefaultDateTime();
                this.RealizacijaOpacity = { fUll: "1", reduced: "0.6" };
            }
@@ -40,6 +44,17 @@ export class CalendarConfig {
             */
            public getColors() {
                return EventColor;
+           }
+           /**
+            * @Opis vraca css value string za font-size ovisno o sirini ekrana uredaja
+            */
+           public chooseFontSize(screenSize:number) {
+                if( screenSize >= 1650) {
+                        return "1em";
+                } else {
+                    return "0.85em";
+                }
+
            }
            /**
             * @Opis Boja kalendarove eventove ovisno o podtipu predavanja
@@ -127,7 +142,7 @@ export class CalendarConfig {
                    date.setDate(date.getDate() + changeDay);
                }
                if (this.passedDate) {
-                   date = this.passedDate;
+                   date = this.passedDate[0];
                }
                return this.formatDate(date);
            }

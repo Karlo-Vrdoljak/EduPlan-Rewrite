@@ -1,11 +1,12 @@
 
 <div class="ui-g ui-fluid">
-    <div class="ui-g-12 ui-sm-1 ui-md-3 ui-lg-4">
-    </div>
-    <div class="ui-g-12 ui-sm-10 ui-md-6 ui-lg-4">
+    
+    <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-3 clearPadding">
         <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2100" [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()"  selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
     </div>
-    <div class="ui-g-12 ui-sm-1 ui-md-3 ui-lg-4">
+    <div class="ui-g-12 ui-sm-5 ui-md-5 ui-lg-5 clearPadding">
+    </div>
+    <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4 clearPadding">
         <div style="float: right;" *ngIf="legend">
             <p-menu  styleClass="menuCss" [showTransitionOptions]="'5ms'" [hideTransitionOptions]="'5ms'" #menu
                 [popup]="true" [model]="legend"></p-menu>

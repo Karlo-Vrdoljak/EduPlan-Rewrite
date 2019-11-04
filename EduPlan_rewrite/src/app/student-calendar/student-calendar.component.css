@@ -1,6 +1,29 @@
 .fc-title {
     word-break: break-all;
 }
+.clearPadding {
+    padding:0em!important;
+    padding-bottom: 0.5em!important;
+}
+
+@media only screen and (max-width: 700px) {
+    :host >>> .fc-toolbar h2 {
+    font-size:1.2em;
+    margin:0;
+    }
+}
+@media only screen and (min-width: 701px) {
+    :host >>> .fc-toolbar h2 {
+    font-size:1.5em;
+    margin:0;
+    }
+}
+@media only screen and (min-width: 800px) {
+    :host >>> .fc-toolbar h2 {
+    font-size:1.75em;
+    margin:0;
+    } 
+}
 
 :host >>> .ui-state-disabled {
     opacity: 1;

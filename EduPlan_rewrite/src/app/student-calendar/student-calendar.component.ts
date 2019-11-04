@@ -45,6 +45,12 @@ export class StudentCalendarComponent implements OnInit {
         private appVariables: AppVariables
     ) {
         this.translate = translate;
+        
+        if(!this.calendarConfig.passedDate) {
+            this.rangeDates = [new Date(this.calendarConfig.DatumOd), new Date(this.calendarConfig.DatumDo)];
+        }else {
+            this.rangeDates = this.calendarConfig.passedDate;
+        }
     }
 
     /**
@@ -62,9 +68,10 @@ export class StudentCalendarComponent implements OnInit {
                 return e == true;
             });
         if (dateTrue) {
+            this.calendarConfig.passedDate = this.rangeDates;
             this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
             this.params.DatumDo = this.calendarConfig.formatDate(this.rangeDates[1]);
-
+            
             this.studentiService.getStudentRaspored(this.params).subscribe(data => {
                 var events = this.calendarConfig.prepareCalendarEventsProfesor(data);
                 this.calendar.removeAllEventSources();
@@ -152,13 +159,8 @@ export class StudentCalendarComponent implements OnInit {
                             this.getSelectedButton(arg.view);
 
                             if (this.monthButton === true) {
-                                console.log(arg.el);
-                                // arg.el.style.borderTop =
-                                //     "17px solid " +
-                                //     this.calendarConfig.chooseColor(
-                                //         arg.event.extendedProps.PodTipPredavanjaNaziv
-                                //     );
-                                // arg.el.style.borderRadius = "40px 17px 17px 0px";
+                                // console.log(arg);
+                                arg.el.style.fontSize = this.calendarConfig.chooseFontSize(screen.width);
                                 arg.el.innerHTML =
                                     `<div class="fc-content">
                                         <div class="ui-g-12">
@@ -283,10 +285,6 @@ export class StudentCalendarComponent implements OnInit {
                             this.monthButton = false;
                             this.weekButton = false;
                             this.dayButton = false;
-                        },
-                        datesRender: arg => {
-                            this.calendarConfig.passedDate = arg.view.calendar.getDate();
-                            this.rangeDates = [arg.view.calendar.getDate(), null];
                         }
                     });
                     this.calendar.render();
