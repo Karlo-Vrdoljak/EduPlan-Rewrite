@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { ProfesorService } from '../_services/profesori.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -10,7 +11,7 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
 })
 export class ProfesorSviPredmetiComponent implements OnInit { //U proceduri koju koristi su hardkodirane neke vrijednosti
   ProfesorPredmeti: any;
-  rowGroupMetadata: any;
+  rowGroupMetadata: any = {};
 
   constructor(private profesorService: ProfesorService, private appVariables: AppVariables) { }
 
@@ -39,7 +40,6 @@ export class ProfesorSviPredmetiComponent implements OnInit { //U proceduri koju
     this.updateRowGroupMetaData();
   }
 
-
   updateRowGroupMetaData() {
     this.rowGroupMetadata = {};
     if (this.ProfesorPredmeti) {
@@ -52,8 +52,12 @@ export class ProfesorSviPredmetiComponent implements OnInit { //U proceduri koju
         else {
           let previousRowData = this.ProfesorPredmeti[i - 1];
           let previousRowGroup = previousRowData.PkPredmet;
-          if (predmet === previousRowGroup)
+          if (predmet === previousRowGroup) {
             this.rowGroupMetadata[predmet].size++;
+            this.rowGroupMetadata[predmet].naslov = ''; // zbog undefined kad concata
+            this.rowGroupMetadata[predmet].naslov += ', ' + rowData.StudijKratica;
+      
+          }
           else
             this.rowGroupMetadata[predmet] = { index: i, size: 1 };
         }

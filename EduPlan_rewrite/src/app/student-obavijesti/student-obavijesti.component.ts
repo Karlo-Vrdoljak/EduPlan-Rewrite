@@ -11,7 +11,6 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
 export class StudentObavijestiComponent implements OnInit {
   
   StudentObavijesti: any;
-  NemaObavijestiSve: boolean = true;
   NemaObavijestiDogadanja : boolean = true;
   NemaObavijestiSluzbeno : boolean = true;
   NemaObavijestiOstalo : boolean = true;
@@ -30,8 +29,6 @@ export class StudentObavijestiComponent implements OnInit {
       
       this.studentiService.getStudentObavijesti(params).subscribe((data) => {
       this.StudentObavijesti = data;
-
-      if(this.StudentObavijesti.length ==! 0) {this.NemaObavijestiSve = false};
 
       for (let s of this.StudentObavijesti) {
         if(s.PkTipObavijesti === 1) { this.NemaObavijestiDogadanja = false }

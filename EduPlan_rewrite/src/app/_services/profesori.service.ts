@@ -101,12 +101,16 @@ export class ProfesorService {
 
      /*
      *  Select odabranog predmeta na studiju i prikaz osnovnih iformacija.
-     *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
+     *  Params: PkSkolskaGodinaStudijPredmetKatedra
      *  Returns: Niz od  jednog objekta
      */
-    getPredmetOsnovniPodaci() { //Dummy service
+    getPredmetOsnovniPodaci(data) { //Dummy service
         return this.http
-        .get(this.config.API_URL + "PrikazPredmetaOsnovniPodaci")
+        .get(this.config.API_URL + "PrikazPredmetaOsnovniPodaci", 
+            {
+                params: data
+            }
+        )
         .pipe(
             retry(this.config.APIRetryCount),
             catchError(
@@ -119,12 +123,16 @@ export class ProfesorService {
 
     /*
      *  Select svih studenata koji slušaju odabrani predmet.
-     *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
+     *  Params: PkSkolskaGodinaStudijPredmetKatedra
      *  Returns: Niz od  jednog ili više objekata
      */
-    getPredmetStudenti() { //Dummy service
+    getPredmetStudenti(data) { //Dummy service
         return this.http
-        .get(this.config.API_URL + "PrikazStudenataPoPredmetu")
+        .get(this.config.API_URL + "PrikazStudenataPoPredmetu",
+            {
+                params: data
+            }
+        )
         .pipe(
             retry(this.config.APIRetryCount),
             catchError(
@@ -140,9 +148,13 @@ export class ProfesorService {
      *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
      *  Returns: Niz od  jednog ili više objekata
      */
-    getPredmetNastavneCjeline() { //Dummy service
+    getPredmetNastavneCjeline(data) { //Dummy service
         return this.http
-        .get(this.config.API_URL + "PrikazNastavnihCjelina")
+        .get(this.config.API_URL + "PrikazNastavnihCjelina",
+            {
+                params: data
+            }
+        )
         .pipe(
             retry(this.config.APIRetryCount),
             catchError(

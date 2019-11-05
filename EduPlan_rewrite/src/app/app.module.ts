@@ -5,6 +5,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { AppRoutes } from "./app.routes";
+import { DatePipe } from '@angular/common'
 
 import { Config } from "./config";
 import { AccordionModule } from "primeng/accordion";
@@ -280,7 +281,8 @@ import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.co
         MessageService,
         AppVariables,
         CalendarConfig,
-        LoginComponent
+        LoginComponent,
+        DatePipe
     ],
     bootstrap: [AppComponent]
 })

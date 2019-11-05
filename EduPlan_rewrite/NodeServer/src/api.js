@@ -140,7 +140,9 @@ router.get("/PrikazPredmetaProfesor", function(req, res) {
 //dohvat podataka o predmetu na odredenom studiju 
 router.get("/PrikazPredmetaOsnovniPodaci", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest( "PregledKartice.spPredmetOsnovniPodaci_selectDummy", conn); //Dummy api
+    var request = db.createRequest( "PregledKartice.spPredmetOsnovniPodaci_select", conn); 
+
+    request.addParameter("PkSkolskaGodinaStudijPredmetKatedra", TYPES.Int, req.query.PkSkolskaGodinaStudijPredmetKatedra);
 
     db.execStoredProc(request, conn, res, "{}");
 }); 
@@ -148,7 +150,9 @@ router.get("/PrikazPredmetaOsnovniPodaci", function(req, res) {
 //dohvat podataka o studentima na odredenom predmetu
 router.get("/PrikazStudenataPoPredmetu", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest( "PregledKartice.spPredmetStudenti_selectDummy", conn); //Dummy api
+    var request = db.createRequest( "PregledKartice.spPredmetStudenti_select", conn); 
+
+    request.addParameter("PkSkolskaGodinaStudijPredmetKatedra", TYPES.Int, req.query.PkSkolskaGodinaStudijPredmetKatedra);
 
     db.execStoredProc(request, conn, res, "{}");
 }); 
@@ -164,7 +168,9 @@ router.get("/DohvatDomicilnihVrijednostiEduCard", function(req, res) {
 //dohvat podataka o nastavnim cjelinama na odredenom predmetu 
 router.get("/PrikazNastavnihCjelina", function(req, res) {
     var conn = db.createConnection();
-    var request = db.createRequest( "PregledKartice.spPredmetNastavneCjeline_selectDummy", conn); //Dummy api
+    var request = db.createRequest( "PregledKartice.spPredmetNastavneCjeline_select", conn); 
+
+    request.addParameter("PkPredmet", TYPES.Int, req.query.PkPredmet);
 
     db.execStoredProc(request, conn, res, "{}");
 }); 

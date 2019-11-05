@@ -28,12 +28,18 @@
 .card.obavijestContainer {
     padding-left: 1.2em;
     padding-right: 1.2em;
-    border-width: 2px;  
+    border-width: 1.5px;  
     border-style: groove;
     border-radius: 5px;
-    border-color: #f7efd7;
+    border-color: #c9c9c9;
 
 }
+
+.card.obavijestContainer:hover {
+  
+    border-color: black;
+}
+
 
 .nemaObavijesti {
     width: 100%;

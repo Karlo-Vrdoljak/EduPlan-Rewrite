@@ -14,21 +14,25 @@
     font-size:1.5em;
 }*/
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 450px) {
     .largeMedium {
         display: none;
     }
 
-    .smallMedium {        
+    .smallMedium {
         display: block;
     }
 }
 
-.fade
-{
-    font-size:1.2em;
+.fade {
+    font-size: 1.2em;
+}
+
+.fadeSmall {
+    font-size: 1em;
 }
 
 .dataContent {
     text-align: center;
 }
+
