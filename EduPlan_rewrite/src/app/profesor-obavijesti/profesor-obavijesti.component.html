@@ -229,7 +229,7 @@
 <div *ngIf="ProfesorObavijesti; else loader">
     <div class="ui-g ui-fluid bigDevice">
 
-        <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
+        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
             <div class="card card-w-title">
                 <h1 style="border-left: 6px solid red;">&nbsp; {{'STUDENTOBAVIJESTI_DOGADANJA' | translate}}</h1>
                 <ng-container *ngIf="NemaObavijestiDogadanja === false; else nemaObavijesti">
@@ -254,7 +254,7 @@
             </div>
         </div>
 
-        <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
+        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
             <div class="card card-w-title">
                 <h1 style="border-left: 6px solid green;">&nbsp; {{'STUDENTOBAVIJESTI_SLUZBENO' | translate}}</h1>
                 <ng-container *ngIf="NemaObavijestiSluzbeno === false; else nemaObavijesti">
@@ -279,7 +279,7 @@
             </div>
         </div>
 
-        <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
+        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
             <div class="card card-w-title">
                 <h1 style="border-left: 6px solid orange;">&nbsp; {{'STUDENTOBAVIJESTI_OSTALO' | translate}}</h1>
                 <ng-container *ngIf="NemaObavijestiOstalo === false; else nemaObavijesti">
@@ -304,37 +304,13 @@
             </div>
         </div>
 
-        <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
-            <div class="card card-w-title">
-                <h1 style="border-left: 6px solid #1e73be; ">&nbsp; {{'STUDENTOBAVIJESTI_SVE' | translate}}</h1>
-                <ng-container *ngIf="NemaObavijestiSve === false; else nemaObavijesti">
-                    <p-scrollPanel [style]="{width: '100%'}">
-                        <div *ngFor="let obavijest of ProfesorObavijesti">
-                            <div class="obavijestContainer card card-w-title">
-                                <h1>{{obavijest.Obavijest}}</h1>
-                                <div class="obavijest">
-                                    {{obavijest.Obavijest}}
-                                </div>
-                                <hr style="color: #c2dfd5;">
-                                <div class="kreatorObavijesti">
-                                    {{obavijest.ImePrezimeUseraUnos}}
-                                    &bull;
-                                    03/09/19 13:15h
-                                </div>
-                            </div>
-                        </div>
-                    </p-scrollPanel>
-                </ng-container>
-                <span style="opacity:0;">.</span>
-            </div>
-        </div>
     </div>
 
 <!--Za mobilne verzije-->
     <div class="ui-g ui-fluid smallDevice">
         <div class="ui-g-12">
             <p-accordion>
-                <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
+                <div class="ui-g-12">
                     <div class="card card-w-title">
                         <h1 style="border-left: 6px solid green;">&nbsp;
                             {{'STUDENTOBAVIJESTI_SLUZBENO' | translate}}</h1>
@@ -363,7 +339,7 @@
                     </div>
                 </div>
 
-                <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
+                <div class="ui-g-12">
                     <div class="card card-w-title">
                         <h1 style="border-left: 6px solid red;">&nbsp; {{'STUDENTOBAVIJESTI_DOGADANJA' | translate}}
                         </h1>
@@ -392,8 +368,7 @@
                     </div>
                 </div>
 
-
-                <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
+                <div class="ui-g-12">
                     <div class="card card-w-title">
                         <h1 style="border-left: 6px solid orange;">&nbsp; {{'STUDENTOBAVIJESTI_OSTALO' | translate}}
                         </h1>
@@ -403,34 +378,6 @@
                                     <div *ngFor="let obavijest of ProfesorObavijesti">
                                         <div class="obavijestContainer card card-w-title"
                                             *ngIf="obavijest.PkTipObavijesti === 3">
-                                            <h1>{{obavijest.Obavijest}}</h1>
-                                            <div class="obavijest">
-                                                {{obavijest.Obavijest}}
-                                            </div>
-                                            <hr style="color: #c2dfd5;">
-                                            <div class="kreatorObavijesti">
-                                                {{obavijest.ImePrezimeUseraUnos}}
-                                                &bull;
-                                                03/09/19 13:15h
-                                            </div>
-                                        </div>
-                                    </div>
-                                </p-scrollPanel>
-                            </ng-container>
-                            <span style="opacity:0;">.</span>
-                        </p-accordionTab>
-                    </div>
-                </div>
-
-                <div class="ui-g-12 ui-lg-3 ui-md-6 ui-sm-12">
-                    <div class="card card-w-title">
-                        <h1 style="border-left: 6px solid #1e73be;">&nbsp; {{'STUDENTOBAVIJESTI_SVE' | translate}}
-                        </h1>
-                        <p-accordionTab header="{{'STUDENT-OBAVIJESTI_PRIKAZIVISE' | translate}}">
-                            <ng-container *ngIf="NemaObavijestiSve === false; else nemaObavijesti">
-                                <p-scrollPanel [style]="{width: '100%'}">
-                                    <div *ngFor="let obavijest of ProfesorObavijesti">
-                                        <div class="obavijestContainer card card-w-title">
                                             <h1>{{obavijest.Obavijest}}</h1>
                                             <div class="obavijest">
                                                 {{obavijest.Obavijest}}

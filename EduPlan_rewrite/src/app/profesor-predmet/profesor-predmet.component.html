@@ -1,31 +1,33 @@
 <div class="largeMedium" *ngIf="predmetOsnovniPodaci && studentiNaPredmetu && predmetNastavneCjeline; else loader">
     <div class="ui-g ui-fluid">
-            <a routerLink="/vProfesorPredmeti" [title]="'PROFESOR-PREDMET_NATRAG' | translate">
-                <img src="../../assets/layout/images/left.svg" alt="Go back" style="height: 2.5em; width: 3em;"> 
-            </a> 
+        <p-toast position="top-center"></p-toast>
+        <a routerLink="/vProfesorPredmeti" [title]="'PROFESOR-PREDMET_NATRAG' | translate">
+            <img src="../../assets/layout/images/left.svg" alt="Go back" style="height: 2.5em; width: 3em;">
+        </a>
         <div class="ui-g-12">
             <p-tabView>
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}"
                     leftIcon="fa fa-info-circle">
                     <ng-container>
                         <div class="card card-w-title ">
-                            <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
-                                <div class="actionsContainer" style="float: right;">
+                            <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                <!--<div class="actionsContainer" style="float: right;">
                                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuPodaci
                                         [popup]="true" [model]="actionItemsOsnovniPodaciNastavneCjeline"></p-menu>
                                     <button type="button" pButton icon="fa fa-fw fa-list"
                                         label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
                                         (click)="menuPodaci.toggle($event)"></button>
-                                </div>
+                                </div>-->
                             </h1>
                             <div class="ui-g form-group">
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                    {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}} <br><input
-                                        type="text" [ngModel]="predmetOsnovniPodaci.Katedra" pInputText disabled />
+                                    {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}
+                                    <br><input type="text" [ngModel]="predmetOsnovniPodaci.Katedra" pInputText
+                                        disabled />
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}<br><input type="text"
-                                        [ngModel]="predmetOsnovniPodaci.studijskaGodina" pInputText disabled />
+                                        [ngModel]="predmetOsnovniPodaci.StudijskaGodina" pInputText disabled />
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}<br><input type="text"
@@ -41,16 +43,18 @@
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     {{'VIEWS_KATALOZI_PREDMET_ECTS' | translate}}<br><input type="text"
-                                        [ngModel]="predmetOsnovniPodaci.ectsBodovi" pInputText disabled>
+                                        [ngModel]="predmetOsnovniPodaci.EctsBodovi" pInputText disabled>
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                    {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<br><p-calendar showIcon="true"
-                                        [ngModel]="predmetOsnovniPodaci.pocetakTurnusa" disabled="true">
+                                    {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<br>
+                                    <p-calendar showIcon="true" [ngModel]="predmetOsnovniPodaci.PocetakTurnusa"
+                                        disabled="true">
                                     </p-calendar>
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                    {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<br><p-calendar showIcon="true"
-                                        [ngModel]="predmetOsnovniPodaci.krajTurnusa" disabled="true"></p-calendar>
+                                    {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<br>
+                                    <p-calendar showIcon="true" [ngModel]="predmetOsnovniPodaci.KrajTurnusa"
+                                        disabled="true"></p-calendar>
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     <p-checkbox label="{{'VIEWS_KATALOZI_PREDMET_ULAZIUPROSJEK' | translate}}"
@@ -68,15 +72,16 @@
                         <div class="card card-w-title ">
                             <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
                                 <div class="actionsContainer" style="float: right;">
-                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuStudenti
-                                        [popup]="true" [model]="actionItemsStudenti"></p-menu>
+                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                        #menuStudenti [popup]="true" [model]="actionItemsStudenti"></p-menu>
                                     <button type="button" pButton icon="fa fa-fw fa-list"
                                         label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
                                         (click)="menuStudenti.toggle($event)"></button>
                                 </div>
                             </h1>
                             <p-table [value]="studentiNaPredmetu" [columns]="colsStudenti" selectionMode="single"
-                                [scrollable]="true"  scrollHeight="38.5vh" dataKey="pkStudentNaPredmetu">
+                                [scrollable]="true" scrollHeight="38.5vh" [(selection)]="selectedStudent"
+                                dataKey="PkStudentnaVisokomUcilistuPredmet">
 
                                 <ng-template pTemplate="colgroup" let-columns>
                                     <colgroup>
@@ -206,30 +211,30 @@
                     </ng-container>
 
                     <ng-container>
-                            <div class="card card-w-title ">
-                                <h1>Rekapitulacija</h1>
-                                <div class="ui-g form-group">
-                                        <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                            Ukupan broj studenata<br><input type="text"
-                                                [ngModel]="ukupanBrojStudenata" pInputText disabled >
-                                        </div>
-                                        <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                                <span>Prolaznost</span> <br>
-                                                <div class="ui-inputgroup">
-                                                    <input type="text" [ngModel]="prolaznost" pInputText disabled >
-                                                    <span class="ui-inputgroup-addon" style="padding-top: 0.2em;">%</span>  
-                                                </div>               
-                                        </div>
-                                        <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                            Prosjek ocjena<br><input type="text"
-                                                [ngModel]="prosjekOcjena" pInputText disabled="true">
-                                        </div>
-                                        <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                            Broj oslobođenih studenata<br><input type="text"
-                                                [ngModel]="brojOslobodenihStudenata" pInputText disabled="true"> 
-                                        </div>
+                        <div class="card card-w-title ">
+                            <h1>Rekapitulacija</h1>
+                            <div class="ui-g form-group">
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    Ukupan broj studenata<br><input type="text" [ngModel]="ukupanBrojStudenata"
+                                        pInputText disabled>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    <span>Prolaznost</span> <br>
+                                    <div class="ui-inputgroup">
+                                        <input type="text" [ngModel]="prolaznost" pInputText disabled>
+                                        <span class="ui-inputgroup-addon" style="padding-top: 0.2em;">%</span>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    Prosjek ocjena<br><input type="text" [ngModel]="prosjekOcjena" pInputText
+                                        disabled="true">
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                    Broj oslobođenih studenata<br><input type="text"
+                                        [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
+                                </div>
                             </div>
-                            </div>
+                        </div>
                     </ng-container>
                     <span style="opacity:0;">.</span>
                 </p-tabPanel>
@@ -238,10 +243,11 @@
                     <ng-container>
                         <div class="card card-w-title ">
                             <h1>
-                                {{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
+                                {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.NazivStudija_HR}}
                                 <div class="actionsContainer" style="float: right;">
-                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuNastavneCjeline
-                                        [popup]="true" [model]="actionItemsOsnovniPodaciNastavneCjeline"></p-menu>
+                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                        #menuNastavneCjeline [popup]="true" [model]="actionItemsNastavneCjeline">
+                                    </p-menu>
                                     <button type="button" pButton icon="fa fa-fw fa-list"
                                         label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
                                         (click)="menuNastavneCjeline.toggle($event)"></button>
@@ -249,7 +255,8 @@
                             </h1>
 
                             <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjeline"
-                                selectionMode="single" [scrollable]="true" scrollHeight="77vh" [(selection)]="selectedNastavniMaterijali">
+                                selectionMode="single" [scrollable]="true" scrollHeight="77vh"
+                                [(selection)]="selectedNastavniMaterijali">
 
                                 <ng-template pTemplate="colgroup" let-columns>
                                     <colgroup>
@@ -272,9 +279,9 @@
                                         <td *ngFor="let col of columns" class="ui-resizable-column"
                                             style="text-align: center;">
                                             <span
-                                                *ngIf="rowData[col.field] == 'true' || rowData[col.field] == 'false'; else textOutput">
-                                                <span [style.color]="rowData[col.field] == 'true' ? 'green' : 'red' "><i
-                                                        [ngClass]="rowData[col.field] == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                                *ngIf="rowData[col.field] == true || rowData[col.field] == false; else textOutput">
+                                                <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                                        [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                                             </span>
                                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                                         </td>
@@ -295,15 +302,16 @@
 <div class="smallMedium" *ngIf="predmetOsnovniPodaci && studentiNaPredmetu && predmetNastavneCjeline; else loader"
     style="margin-left: -1em; margin-right: -1em;" hidden>
     <div class="ui-g ui-fluid">
+        <p-toast position="top-center"></p-toast>
         <div class="ui-g-12">
             <div class="card card-w-title ">
                 <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
                     <div class="actionsContainer" style="float: right; font-size: 0.8em;">
-                            <button #btn type="button" pButton icon="pi pi-bars"  (click)="menu.toggle($event)"></button>
-                            <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
+                        <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
+                        <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
                     </div>
                 </h1>
-                
+
                 <p-panel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}" [toggleable]="true"
                     expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
                     <ng-container>
@@ -314,7 +322,7 @@
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
                                 {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}<input type="text"
-                                    [ngModel]="predmetOsnovniPodaci.studijskaGodina" pInputText disabled />
+                                    [ngModel]="predmetOsnovniPodaci.StudijskaGodina" pInputText disabled />
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
                                 {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}<input type="text"
@@ -330,16 +338,16 @@
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
                                 {{'VIEWS_KATALOZI_PREDMET_ECTS' | translate}}<input type="text"
-                                    [ngModel]="predmetOsnovniPodaci.ectsBodovi" pInputText disabled>
+                                    [ngModel]="predmetOsnovniPodaci.EctsBodovi" pInputText disabled>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
                                 {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<p-calendar showIcon="true"
-                                    [ngModel]="predmetOsnovniPodaci.pocetakTurnusa" disabled="true">
+                                    [ngModel]="predmetOsnovniPodaci.PocetakTurnusa" disabled="true">
                                 </p-calendar>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
                                 {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<p-calendar showIcon="true"
-                                    [ngModel]="predmetOsnovniPodaci.krajTurnusa" disabled="true"></p-calendar>
+                                    [ngModel]="predmetOsnovniPodaci.KrajTurnusa" disabled="true"></p-calendar>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
                                 <p-checkbox label="{{'VIEWS_KATALOZI_PREDMET_ULAZIUPROSJEK' | translate}}" binary="true"
@@ -350,14 +358,14 @@
                     </ng-container>
                 </p-panel>
                 <br>
-              
+
                 <p-panel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" [toggleable]="true"
                     [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
                     toggler="header">
                     <ng-container>
                         <p-table [value]="studentiNaPredmetu" [columns]="colsStudentiSmall" selectionMode="single"
                             [scrollable]="true" scrollHeight="50vh" [resizableColumns]="true"
-                            dataKey="pkStudentNaPredmetu">
+                            [(selection)]="selectedStudent" dataKey="pkStudentNaPredmetu">
 
                             <ng-template pTemplate="colgroup" let-columns>
                                 <colgroup>
@@ -551,13 +559,14 @@
                     </ng-container>
                 </p-panel>
                 <br>
-               
+
                 <p-panel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" [toggleable]="true"
                     [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
                     toggler="header">
                     <ng-container>
                         <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjelineSmall"
-                            selectionMode="single" [scrollable]="true" scrollHeight="50vh" dataKey="pkNastavneCjeline">
+                            selectionMode="single" [scrollable]="true" scrollHeight="50vh" dataKey="pkNastavneCjeline"
+                            [(selection)]="selectedNastavniMaterijali">
                             <ng-template pTemplate="colgroup" let-columns>
                                 <colgroup>
                                     <col *ngFor="let col of columns" [style.width]="col.width">
@@ -655,17 +664,130 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="nastavneCjelineDodajNovuDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+<p-dialog header="{{'PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA' | translate}}"
+    [(visible)]="nastavneCjelineDodajNovuDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '500px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
     <div class="ui-g ui-fluid form-group">
-            Dodaj formu za novi nastavni materijal
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input type="text" size="30" [(ngModel)]="NastavneCjelineModel.imeNastavneCjeline" pInputText>
+                <label>{{'KATALOZI_NOVINASTAVNIKSURADNIKNASTAVNECJELINE' | translate}}</label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input type="text" size="30" [(ngModel)]="NastavneCjelineModel.korisnik" pInputText>
+                <label>{{'KATALOZI_STATUSUGOVORA_KORISNIK' | translate}}</label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input type="text" size="30" [(ngModel)]="NastavneCjelineModel.korisnikUnosa" pInputText>
+                <label>{{'SERVICES_GENERALSERVICE_KORISNIKUNOSA' | translate}}</label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <span class="ui-float-label">
+                <p-checkbox label="{{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}"
+                    [(ngModel)]="NastavneCjelineModel.koristiSe" binary="true"></p-checkbox>
+            </span>
+        </div>
     </div>
+
+    <p-footer>
+        <button type="button" pButton icon="fa fa-check" (click)="setNastavneCjelineModel()"
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_SPREMI' | translate}}" class="ui-button-success"></button>
+
+        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeNastavneCjelineDodajNovuDialog()"
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+    </p-footer>
 </p-dialog>
 
-<p-dialog [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+<p-dialog header="Uredite nastavnu cjelinu" [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div *ngIf=selectedNastavniMaterijali>
         <div class="ui-g ui-fluid form-group">
-                dodaj formu za editanej odabranog nastavnog materijala
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="selectedNastavniMaterijali.imeNastavneCjeline" pInputText>
+                    <label>{{'KATALOZI_NOVINASTAVNIKSURADNIKNASTAVNECJELINE' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="selectedNastavniMaterijali.korisnik" pInputText>
+                    <label>{{'KATALOZI_STATUSUGOVORA_KORISNIK' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="selectedNastavniMaterijali.korisnikUnosa" pInputText>
+                    <label>{{'SERVICES_GENERALSERVICE_KORISNIKUNOSA' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-checkbox label="{{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}"
+                        [(ngModel)]="selectedNastavniMaterijali.koristiSe" binary="true">
+                    </p-checkbox>
+                </span>
+            </div>
         </div>
-    </p-dialog>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-check" (click)="editNastavniMaterijali()" label="Uredi"
+            class="ui-button-success"></button>
+
+        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeNastavneCjelineEditNovuDialog()"
+            label="Zatvori" class="ui-button-secondary"></button>
+    </p-footer>
+
+</p-dialog>
+
+<p-dialog header="Uredite podatke o studentu" [(visible)]="StudentEditDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div *ngIf=selectedStudent>
+        <div class="ui-g ui-fluid form-group">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="selectedStudent.ime" pInputText disabled>
+                    <label>Ime</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="selectedStudent.prezime" pInputText disabled>
+                    <label>Prezime</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="selectedStudent.ocjena" pInputText>
+                    <label>Ocjena</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-checkbox label="Položen" [(ngModel)]="selectedStudent.polozen" binary="true">
+                    </p-checkbox>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-checkbox label="Oslobođen" [(ngModel)]="selectedStudent.osloboden" binary="true">
+                    </p-checkbox>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-check" (click)="editStudent()" label="Uredi"
+            class="ui-button-success"></button>
+
+        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeStudentEditDialog()" label="Zatvori"
+            class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>

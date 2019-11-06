@@ -35,6 +35,11 @@
 
 }
 
+.card.obavijestContainer:hover {
+  
+    border-color: black;
+}
+
 .nemaObavijesti {
     width: 100%;
     text-align: center;

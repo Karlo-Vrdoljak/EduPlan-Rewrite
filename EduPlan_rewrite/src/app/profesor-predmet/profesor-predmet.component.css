@@ -50,17 +50,20 @@
 }
 
 :host >>> .ui-slidemenu-wrapper {
-    height: 162px !important;
+    height: 143px !important;
 }
 
 :host >>> .ui-slidemenu-content {
-    height: 155px !important;
+    height: 175px !important;
 }
 
 .ui-inputgroup {
     height: 1.7em;
 }
 
+:host >>> .ui-slidemenu .ui-slidemenu-backward {
+    padding: 0.2em;
+}
 
 /*input[type="text"] {
     width: 15em

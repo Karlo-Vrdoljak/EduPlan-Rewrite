@@ -24,6 +24,7 @@ export class ProfesorOsobniPodaciComponent implements OnInit {
     this.nastavnikService.getNastavnik(params).subscribe((data) => {
       this.nastavnikPodaci = data[0];
       this.formatAllDates();
+      console.log(this.nastavnikPodaci)
     },
 
       (err: HttpErrorResponse) => {

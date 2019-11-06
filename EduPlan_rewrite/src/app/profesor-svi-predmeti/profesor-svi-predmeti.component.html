@@ -1,90 +1,94 @@
 <div class="largeMedium">
-        <div *ngIf="ProfesorPredmeti; else loader">
-            <p-table [value]="ProfesorPredmeti" dataKey="PkPredmet" sortField="PredmetNaziv" sortMode="single"
-                (onSort)="onSort()" rowExpandMode="multiple" expandableRows="true">
-                <ng-template pTemplate="caption">
-                    {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
-                </ng-template>
-    
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th><span>{{'NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA' | translate}}</span></th>
-                        <th><span>{{'STUDENT_BDSTUDENTPREDMETI_KRATICA_STUDIJA' | translate}}</span></th>
-                        <th><span>{{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}</span></th>
-                        <th style="width: 5em;"><span>{{'KATALOZI_PREDMET_DETALJI' | translate}}</span></th>
-                    </tr>
-                </ng-template>
-    
-                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"
-                    let-columns="columns">
-                    <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PkPredmet].index === rowIndex">
-                        <td colspan="4">
-                            <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
-                                <span class="groupAlign"><i
-                                        [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fade' : 'pi pi-chevron-circle-right usesTransition fade'"
-                                        style="margin-left: -0.4em;"></i> {{rowData.PredmetNaziv}} &bull;
-                                    {{rowData.PredmetKratica}}</span>
-                            </a>
-                        </td>
-                    </tr>
-                </ng-template>
-    
-                <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
-                    <tr>
-                        <td class="dataContent"><span>{{rowData.StudijNaziv}}</span></td>
-                        <td class="dataContent"><span>{{rowData.StudijKratica}}</span></td>
-                        <td class="dataContent"><span>{{rowData.brojStudenata}}</span></td>
-                        <td class="dataContent"> <a routerLink="/vPredmet/{{rowData.PkPredmet}}"> 
-                        <i class="fa fa-angle-double-right fa-2x"></i></a>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
+    <div *ngIf="ProfesorPredmeti; else loader">
+        <p-table [value]="ProfesorPredmeti" dataKey="PkPredmet" sortField="PredmetNaziv" sortMode="single"
+            (onSort)="onSort()" rowExpandMode="single" expandableRows="true">
+            <ng-template pTemplate="caption">
+                {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
+            </ng-template>
+
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex"  let-expanded="expanded"
+                let-columns="columns">
+                <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PkPredmet].index === rowIndex">
+                    <td colspan="4">
+                        <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
+                            <span class="groupAlign">
+                                <i
+                                    [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fade' : 'pi pi-chevron-circle-right usesTransition fade'"
+                                    style="margin-left: -0.4em;">
+                                </i> 
+                                {{rowData.PredmetNaziv}} &bull; {{rowData.PredmetKratica}} &bull; {{rowData.StudijKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
+                <tr>
+                    <th><span>{{'NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA' | translate}}</span></th>
+                    <th><span>{{'STUDENT_BDSTUDENTPREDMETI_KRATICA_STUDIJA' | translate}}</span></th>
+                    <th><span>{{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}</span></th>
+                    <th style="width: 5em;"><span>{{'KATALOZI_PREDMET_DETALJI' | translate}}</span></th>
+                </tr>
+
+                <tr>
+                    <td class="dataContent"><span>{{rowData.StudijNaziv}}</span></td>
+                    <td class="dataContent"><span>{{rowData.StudijKratica}}</span></td>
+                    <td class="dataContent"><span *ngIf="rowData.BrojStudenata != null; else noStudentsToShow">{{rowData.BrojStudenata}}</span></td>
+                    <td class="dataContent"> <a routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}">
+                            <i class="fa fa-angle-double-right fa-2x"></i></a>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
 
 <div class="smallMedium" hidden>
-        <div *ngIf="ProfesorPredmeti; else loader">
-            <p-table [value]="ProfesorPredmeti" dataKey="PkPredmet" sortField="PredmetNaziv" sortMode="single"
-                (onSort)="onSort()" rowExpandMode="multiple" expandableRows="true">
-                <ng-template pTemplate="caption">
-                    {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
-                </ng-template>
-    
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width: 8em;"><span>{{'NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA' | translate}}</span>
-                        </th>
-                        <th><span>{{'STUDENT_BDSTUDENTPREDMETI_KRATICA_STUDIJA' | translate}}</span></th>
-                        <th style="width:6em;"><span>{{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}</span></th>
+    <div *ngIf="ProfesorPredmeti; else loader">
+        <p-table [value]="ProfesorPredmeti" dataKey="PkPredmet" sortField="PredmetNaziv" sortMode="single"
+            (onSort)="onSort()" rowExpandMode="single"  expandableRows="true">
+            <ng-template pTemplate="caption">
+                {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
+            </ng-template>
 
-                    </tr>
-                </ng-template>
-    
-                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"
-                    let-columns="columns">
-                    <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PkPredmet].index === rowIndex">
-                        <td colspan="3">
-                            <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
-                                <span class="groupAlign"><i
-                                        [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fade' : 'pi pi-chevron-circle-right usesTransition fade'"
-                                        style="margin-left:-0.2em;"></i> {{rowData.PredmetNaziv}} &bull;
-                                    {{rowData.PredmetKratica}}</span>
-                            </a>
-                        </td>
-                    </tr>
-                </ng-template>
-    
-                <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
-                    <tr>
-                        <td class="dataContent"><b><a routerLink="/vPredmet/{{rowData.PkPredmet}}">{{rowData.StudijNaziv}}</a></b></td>
-                        <td class="dataContent"><span>{{rowData.StudijKratica}}</span></td>
-                        <td class="dataContent"><span>{{rowData.brojStudenata}}</span></td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"
+                let-columns="columns">
+                <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PkPredmet].index === rowIndex">
+                    <td colspan="3">
+                        <a href="#" class="usesTransition fadeSmall" [pRowToggler]="rowData" style="text-align: center;">
+                            <span class="groupAlign"><i
+                                    [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fadeSmall' : 'pi pi-chevron-circle-right usesTransition fadeSmall'"
+                                    style="margin-left:-0.2em;"></i> {{rowData.PredmetNaziv}} &bull;
+                                {{rowData.PredmetKratica}}</span>
+                        </a>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="rowexpansion" let-rowData let-rowIndex="rowIndex">
+                <tr>
+                    <th><span>{{'NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA' | translate}}</span>
+                    </th>
+                    <th><span>{{'STUDENT_BDSTUDENTPREDMETI_KRATICA_STUDIJA' | translate}}</span></th>
+                    <th>
+                        <span>{{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}</span></th>
+
+                </tr>
+                
+                <tr>
+                    <td class="dataContent">
+                        <b><a routerLink="/vPredmet/{{rowData.PkPredmet}}" style="font-size: 0.9em; font-style: italic;">{{rowData.StudijNaziv}}</a></b>
+                    </td>
+                    <td class="dataContent"><span>{{rowData.StudijKratica}}</span></td>
+                    <td class="dataContent"><span *ngIf="rowData.BrojStudenata != null; else noStudentsToShow">{{rowData.BrojStudenata}}</span></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
+
+<ng-template #noStudentsToShow>0</ng-template>
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>
