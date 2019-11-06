@@ -2,8 +2,12 @@
 :host >>> .ui-state-disabled {
     opacity: 1;
 }
+.clearPadding {
+    padding:0em!important;
+    padding-bottom: 0.5em!important;
+}
 
-:host >>> .ui-widget:disabled {
+:host >>> .ui-widget:disabled { 
     opacity: 1;
 }
 :host >>> .menuCss  {

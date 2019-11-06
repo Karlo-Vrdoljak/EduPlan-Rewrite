@@ -43,6 +43,8 @@ export class StudentAgendaComponent implements OnInit {
         private appVariables: AppVariables
     ) {
         this.translate.use(this.languageHandler.setDefaultLanguage().getCurrentLanguage());
+        
+        
     }
 
     /**
@@ -60,6 +62,7 @@ export class StudentAgendaComponent implements OnInit {
                 return e == true;
             });
         if (dateTrue) {
+            this.calendarConfig.passedDate = this.rangeDates;
             this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
             this.params.DatumDo = this.calendarConfig.formatDate(this.rangeDates[1]);
 
@@ -91,6 +94,9 @@ export class StudentAgendaComponent implements OnInit {
                 "STUDENTCALENDAR_ODSUTAN"
             ])
             .subscribe(res => {
+                this.legend = this.calendarConfig.setupKalendarAgendaLegenda(res).filter((e:MenuItem) => {
+                    return e.label != res.STUDENTCALENDAR_REALIZIRANO;
+                });
                 this.legend = this.calendarConfig.setupKalendarAgendaLegenda(res);
 
                 this.studentiService.getStudentRaspored(this.params).subscribe(data => {
@@ -121,7 +127,6 @@ export class StudentAgendaComponent implements OnInit {
                                 buttonText: res.STUDENT_KALENDAR_MJESEC
                             }
                         },
-
                         height: "auto",
                         contentHeight: screen.height - 337 - 57.25,
                         header: {
@@ -147,12 +152,16 @@ export class StudentAgendaComponent implements OnInit {
                                 StudijNaziv: this.calendarConfig.listBoxStudiji(
                                     arg.event.extendedProps.StudijNaziv
                                 ),
+                                KraticaStudija: this.calendarConfig.listBoxStudiji(
+                                    arg.event.extendedProps.StudijNazivKratica
+                                ),
                                 start: start,
                                 end: end,
                                 // datum: datum,
                                 termin: start + "-" + end,
                                 Prisutan: arg.event.extendedProps.Prisutan,
-                                NastavnikSuradnikNaziv: arg.event.extendedProps.NastavnikSuradnikNaziv
+                                NastavnikSuradnikNaziv:
+                                    arg.event.extendedProps.NastavnikSuradnikNaziv
                             };
 
                             this.displayEventDialog = true;
@@ -160,14 +169,10 @@ export class StudentAgendaComponent implements OnInit {
                         eventRender: arg => {
                             /*******************HTML***********************/
 
-                            // arg.el.style.opacity = this.calendarConfig.checkRealizacijaDaNe(
-                            //     arg.event.extendedProps.Realizirano
-                            // );
-
                             arg.el.lastElementChild.previousElementSibling.innerHTML +=
-                                `<br><span>` +
-                                this.parseRealizacija(arg.event.extendedProps.Realizirano) +
-                                `</span>` +
+                                // `<br><span>` +
+                                // this.parseRealizacija(arg.event.extendedProps.Realizirano) +
+                                // `</span>` +
                                 `<span>` +
                                 this.parseEducard(arg.event.extendedProps.Prisutan) +
                                 `</span>`;
@@ -178,42 +183,51 @@ export class StudentAgendaComponent implements OnInit {
 
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                             <span class="fc-title">Kratica predmeta &bull; ` +
-                                               arg.event.extendedProps.PredmetKratica +
-                                            `</span>
+                                arg.event.extendedProps.PredmetKratica +
+                                `</span>
 
                                         </div>
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                             <span class="fc-title">` +
-                                                arg.event.extendedProps.PredmetNaziv +
-                                            `</span>
+                                arg.event.extendedProps.PredmetNaziv +
+                                `</span>
 
                                         </div>
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                             <span class="fc-title">Nastavnik &bull; ` +
-                                                arg.event.extendedProps.NastavnikSuradnikNaziv +
-                                            `</span>
+                                arg.event.extendedProps.NastavnikSuradnikNaziv +
+                                `</span>
 
                                         </div>
                                         
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                             <span class="fc-title">` +
-                                               this.calendarConfig.parseStudijLabel(arg.event.extendedProps.StudijNazivKratica) +
-                                               arg.event.extendedProps.StudijNazivKratica +
-                                            `</span>
+                                this.calendarConfig.parseStudijLabel(
+                                    arg.event.extendedProps.StudijNazivKratica
+                                ) +
+                                arg.event.extendedProps.StudijNazivKratica +
+                                `</span>
                                         </div>
                                     </div>
                                 </td>
                                     `;
-                        },
-
-                        datesRender: arg => {
-                            this.calendarConfig.passedDate = arg.view.calendar.getDate();
-                            this.rangeDates = [arg.view.calendar.getDate(), null];
                         }
                     });
                     this.calendar.render();
+
+                    if (!this.calendarConfig.passedDate) {
+                        this.rangeDates = [
+                            new Date(this.calendarConfig.DatumOd),
+                            new Date(this.calendarConfig.DatumDo)
+                        ];
+                        this.calendarConfig.passedDate = this.rangeDates;
+                    } else {
+                        this.rangeDates = this.calendarConfig.passedDate;
+                    }
                 });
             });
+
+            
     }
 
     /**
@@ -240,9 +254,9 @@ export class StudentAgendaComponent implements OnInit {
         // this.appVariables.EducardAktivan = 0;
         if (this.appVariables.EducardAktivan) {
             return timbran
-                ? `<span class="fa fa-rss" style="color:` +
+                ? `<br><span class="fa fa-rss" style="color:` +
                       this.calendarConfig.getColors().Realizirano +
-                      `; font-size:1.3em;"></span><br>`
+                      `; font-size:1.3em;"></span>`
                 : ``;
         }
     }

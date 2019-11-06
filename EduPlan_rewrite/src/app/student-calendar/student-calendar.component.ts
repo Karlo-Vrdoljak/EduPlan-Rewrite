@@ -46,11 +46,6 @@ export class StudentCalendarComponent implements OnInit {
     ) {
         this.translate = translate;
         
-        if(!this.calendarConfig.passedDate) {
-            this.rangeDates = [new Date(this.calendarConfig.DatumOd), new Date(this.calendarConfig.DatumDo)];
-        }else {
-            this.rangeDates = this.calendarConfig.passedDate;
-        }
     }
 
     /**
@@ -102,7 +97,9 @@ export class StudentCalendarComponent implements OnInit {
             ])
             .toPromise()
             .then(res => {
-                this.legend = this.calendarConfig.setupKalendarAgendaLegenda(res);
+                this.legend = this.calendarConfig.setupKalendarAgendaLegenda(res).filter((e:MenuItem) => {
+                    return e.label != res.STUDENTCALENDAR_REALIZIRANO;
+                });
 
                 this.studentiService.getStudentRaspored(this.params).subscribe(data => {
                     this.apiData = data;
@@ -139,9 +136,8 @@ export class StudentCalendarComponent implements OnInit {
                                 PredmetKratica: arg.event.extendedProps.PredmetKratica,
                                 SifraPredavaonice: arg.event.extendedProps.SifraPredavaonice,
                                 Realizirano: arg.event.extendedProps.Realizirano,
-                                StudijNaziv: this.calendarConfig.listBoxStudiji(
-                                    arg.event.extendedProps.StudijNaziv
-                                ),
+                                StudijNaziv: this.calendarConfig.listBoxStudiji(arg.event.extendedProps.StudijNaziv),
+                                KraticaStudija: this.calendarConfig.listBoxStudiji(arg.event.extendedProps.StudijNazivKratica),
                                 start: start,
                                 end: end,
                                 // datum: datum,
@@ -166,17 +162,16 @@ export class StudentCalendarComponent implements OnInit {
                                         <div class="ui-g-12">
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                                 <span class="fc-time">` +
-                                    this.calendarConfig.formatDateShort(arg.event.start) +
-                                    `</span>
-                                                -
-                                                <span class="fc-time">` +
-                                    this.calendarConfig.formatDateShort(arg.event.end) +
-                                    `</span> 
-                                                <span class="fc-time">` +
-                                    this.parseRealizacija(arg.event.extendedProps.Realizirano) +
-                                    `</span>
-                                            </div>
-
+                                                    this.calendarConfig.formatDateShort(arg.event.start) +
+                                                `</span>
+                                                            -
+                                                            <span class="fc-time">` +
+                                                    this.calendarConfig.formatDateShort(arg.event.end) +
+                                                `</span>` +
+                                                // `<span class="fc-time">` +
+                                                //     this.parseRealizacija(arg.event.extendedProps.Realizirano) +
+                                                // `</span>`
+                                            `</div>
                                             <div class="ui-g-12 ui-lg-4 ui-md-4 ui-sm-4" style="padding:0.1em;">
                                                 <span class="fc-time">` +
                                     arg.event.title +
@@ -226,11 +221,11 @@ export class StudentCalendarComponent implements OnInit {
                                                 <span class="fc-time">` +
                                           this.calendarConfig.formatDateShort(arg.event.end) +
                                           `</span>` +
-                                          `<span class="fc-time">` +
-                                          this.parseRealizacija(
-                                              arg.event.extendedProps.Realizirano
-                                          ) +
-                                          `</span>` +
+                                        //   `<span class="fc-time">` +
+                                        //   this.parseRealizacija(
+                                        //       arg.event.extendedProps.Realizirano
+                                        //   ) +
+                                        //   `</span>` +
                                           `<span class="fc-time">` +
                                           this.parseEducard(arg.event.extendedProps.Prisutan) +
                                           `</span>` +
@@ -269,11 +264,11 @@ export class StudentCalendarComponent implements OnInit {
                                           `<span class="fc-title" style="font-size:0.85em;">&bull; ` +
                                           arg.event.extendedProps.PredmetKratica +
                                           `</span>` +
-                                          `<span class="fc-time" style="font-size:0.65em;">` +
-                                          this.parseRealizacija(
-                                              arg.event.extendedProps.Realizirano
-                                          ) +
-                                          `</span>` +
+                                        //   `<span class="fc-time" style="font-size:0.65em;">` +
+                                        //   this.parseRealizacija(
+                                        //       arg.event.extendedProps.Realizirano
+                                        //   ) +
+                                        //   `</span>` +
                                           `<span class="fc-time" style="font-size:0.65em; padding-top:"0.4em;">` +
                                           this.parseEducard(arg.event.extendedProps.Prisutan) +
                                           `</span>`
@@ -288,8 +283,20 @@ export class StudentCalendarComponent implements OnInit {
                         }
                     });
                     this.calendar.render();
+
+                    if (!this.calendarConfig.passedDate) {
+                        this.rangeDates = [
+                            new Date(this.calendarConfig.DatumOd),
+                            new Date(this.calendarConfig.DatumDo)
+                        ];
+                        this.calendarConfig.passedDate = this.rangeDates;
+                    } else {
+                        this.rangeDates = this.calendarConfig.passedDate;
+                    }
                 });
             });
+
+        
     }
 
     getSelectedButton(view: View) {

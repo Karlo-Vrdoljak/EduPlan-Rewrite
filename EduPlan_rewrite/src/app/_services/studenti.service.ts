@@ -113,12 +113,16 @@ export class StudentiService {
     }
 
     /**
-     * @Opis Dummy procedura koja vraca moguci oblik podataka na frontend.
+     * @Opis Vraca sliku, otimbrane studente koji slusaju taj predmet, neprisutni su oni koje je prof izbacio
      */
-    getStudentiPrisutnostPredmet() {
-        return this.http.get(this.config.API_URL + "StudentPrisutnostPredmet").pipe(
-            retry(this.config.APIRetryCount),
-            catchError(this.appService.handleError("CalendarService.getPredmetStudenti"))
-        );
+    getStudentPrisutnostNaNastavi(data) {
+        return this.http
+            .get(this.config.API_URL + "StudentPrisutnostNaNastavi", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("CalendarService.getPredmetStudenti"))
+            );
     }
 }

@@ -1,9 +1,12 @@
 .fc-title {
     word-break: break-all;
 }
-.clearPadding {
+.clearPaddingLeft {
     padding:0em!important;
     padding-bottom: 0.5em!important;
+}
+.clearPadding {
+    padding:0em!important;
 }
 
 @media only screen and (max-width: 700px) {
@@ -54,16 +57,4 @@
 :host >>> .menuCss ul li:nth-child(5) a:nth-child(1) {
     /* background-color: #dee0e3; */
     color: #35de38;
-}
-:host >>> .menuCss ul li:nth-child(6) a:nth-child(1) {
-    /* background-color: #dee0e3; */
-    color: #ff3300;
-}
-:host >>> .menuCss ul li:nth-child(7) a:nth-child(1) {
-    /* background-color: #dee0e3; */
-    color: #35de38;
-}
-:host >>> .menuCss ul li:nth-child(8) a:nth-child(1) {
-    /* background-color: #dee0e3; */
-    color: #ff3300;
 }

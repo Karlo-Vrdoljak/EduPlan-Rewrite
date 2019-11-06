@@ -103,7 +103,7 @@ export class StudentSviPredmetiComponent implements OnInit {
                                     //                    width: "7%"
                                 }
                             ];
-                            console.log(this.studentData);
+                            // console.log(this.studentData);
                         },
                         (err: HttpErrorResponse) => {
                             if (err.error instanceof Error) {

@@ -12,28 +12,6 @@ import { CalendarConfig } from "../_interfaces/_configCalendar";
 import { ProfesorService } from "../_services/profesori.service";
 import { MenuItem } from "primeng/api";
 
-//Dummy interface za fake api
-interface PrisutnostDummy {
-    JMBAG: number;
-    PkNastavaPlan: number;
-    ime: string;
-    prezime: string;
-    PredmetKratica: string;
-    PredmetNaziv: string;
-    DatumVrijemeDo: string;
-    DatumVrijemeOd: string;
-    PkPredmet: number;
-    PkStudij: number;
-    PodTipPredavanjaNazi: string;
-    PredavaonicaNaziv: string;
-    Prisutan: number;
-    Semestar: number;
-    SifraPredavaonice: string;
-    StudijNaziv: string;
-    StudijNazivKratica: string;
-    PkNastavnikSuradnik: number;
-}
-
 @Component({
     selector: "app-profesor-agenda",
     templateUrl: "./profesor-agenda.component.html",
@@ -51,7 +29,7 @@ export class ProfesorAgendaComponent implements OnInit {
     dayButton: boolean = false;
     displayEventDialog: boolean = false;
     displayStudentiEventDialog: boolean = false;
-    studentiPredmet: PrisutnostDummy[];
+    prisutniStudenti: any[];
     prisutnostStudenata: any[];
 
     params = {
@@ -88,6 +66,8 @@ export class ProfesorAgendaComponent implements OnInit {
                 return e == true;
             });
         if (dateTrue) {
+            this.calendarConfig.passedDate = this.rangeDates;
+
             this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
             this.params.DatumDo = this.calendarConfig.formatDate(this.rangeDates[1]);
 
@@ -171,18 +151,15 @@ export class ProfesorAgendaComponent implements OnInit {
                             var start = this.calendarConfig.formatDateShort(arg.event.start);
                             var end = this.calendarConfig.formatDateShort(arg.event.end);
 
+                            let params = {
+                                PkNastavaPlan: arg.event.extendedProps.PkNastavaPlan,
+                                PkNastavaRealizacija: arg.event.extendedProps.PkNastavaRealizacija
+                            };
                             this.studentiService
-                                .getStudentiPrisutnostPredmet()
-                                .subscribe((data: PrisutnostDummy[]) => {
-                                    // console.log("FROM_DB",data);
-                                    // console.log("EVENT",arg.event.extendedProps);
-
-                                    this.studentiPredmet = data.filter(e => {
-                                        return (
-                                            e.PkNastavaPlan == arg.event.extendedProps.PkNastavaPlan
-                                        );
-                                    });
-
+                                .getStudentPrisutnostNaNastavi(params)
+                                .subscribe((data: any[]) => {
+                                    this.prisutniStudenti = data;
+                                    
                                     this.eventDetalji = {
                                         PredmetNaziv: arg.event.extendedProps.PredmetNaziv,
                                         PodTipPredavanjaNaziv:
@@ -194,16 +171,17 @@ export class ProfesorAgendaComponent implements OnInit {
                                         StudijNaziv: this.calendarConfig.listBoxStudiji(
                                             arg.event.extendedProps.StudijNaziv
                                         ),
+                                        KraticaStudija: this.calendarConfig.listBoxStudiji(
+                                            arg.event.extendedProps.StudijNazivKratica
+                                        ),
                                         start: start,
                                         end: end,
                                         // datum: datum,
                                         termin: start + "-" + end,
                                         Prisutan: arg.event.extendedProps.Prisutan,
                                         Prisutnost:
-                                            this.studentiPredmet.length > 0
-                                                ? this.calendarConfig.calculatePrisutnost(
-                                                      this.studentiPredmet
-                                                  )
+                                            this.prisutniStudenti.length > 0
+                                                ? this.prisutniStudenti.length
                                                 : null
                                     };
 
@@ -256,12 +234,17 @@ export class ProfesorAgendaComponent implements OnInit {
                                     `;
                         },
 
-                        datesRender: arg => {
-                            this.calendarConfig.passedDate = arg.view.calendar.getDate();
-                            this.rangeDates = [arg.view.calendar.getDate(), null];
-                        }
                     });
                     this.calendar.render();
+
+                    if (!this.calendarConfig.passedDate) {
+                        this.rangeDates = [
+                            new Date(this.calendarConfig.DatumOd),
+                            new Date(this.calendarConfig.DatumDo)
+                        ];
+                    } else {
+                        this.rangeDates = this.calendarConfig.passedDate;
+                    }
                 });
             });
     }
@@ -295,11 +278,11 @@ export class ProfesorAgendaComponent implements OnInit {
 
     closeDialogPrisutnost() {
         this.displayStudentiEventDialog = false;
-        this.studentiPredmet = null;
     }
     closeDialogEvent() {
         this.displayEventDialog = false;
         this.eventDetalji = null;
+        this.prisutniStudenti = null;
     }
     isBoolean(val) {
         return [0, 1].includes(val);

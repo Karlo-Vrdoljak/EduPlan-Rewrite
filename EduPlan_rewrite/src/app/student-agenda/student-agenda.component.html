@@ -1,11 +1,11 @@
-
 <div class="ui-g ui-fluid">
-    <div class="ui-g-12 ui-sm-1 ui-md-3 ui-lg-4">
-    </div>
-    <div class="ui-g-12 ui-sm-10 ui-md-6 ui-lg-4">
+    
+    <div class="ui-g-12 ui-sm-7 ui-md-3 ui-lg-3 clearPaddingLeft">
         <p-calendar [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2100" [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()"  selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
     </div>
-    <div class="ui-g-12 ui-sm-1 ui-md-3 ui-lg-4">
+    <div class="ui-g-12 ui-sm-1 ui-md-5 ui-lg-5 clearPaddingLeft">
+    </div>
+    <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4 clearPaddingLeft">
         <div style="float: right;" *ngIf="legend">
             <p-menu  styleClass="menuCss" [showTransitionOptions]="'5ms'" [hideTransitionOptions]="'5ms'" #menu
                 [popup]="true" [model]="legend"></p-menu>
@@ -21,7 +21,7 @@
 
 <div id="agenda"></div>
 
-<p-dialog [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+<p-dialog [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [resizable]="false" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [baseZIndex]="10000">
     <div *ngIf="!eventDetalji">
         <p-progressBar mode="indeterminate"></p-progressBar>
     </div> 
@@ -65,22 +65,35 @@
                 </label>
             </span>
         </div>
-        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left: 10px;">
-                <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
-                <p-toggleButton disabled [onLabel]="'NASTAVA_AUTOMATSKAREALIZACIJA_REALIZIRANO' | translate" [offLabel]="'STUDENTCALENDAR_NIJE_REALIZIRANO' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding:10px;">
+            <span class="ui-float-label">
+                <textarea id="detaljiStudijNaziv" disabled autoResize="autoResize" pInputTextarea [ngModel]="eventDetalji.StudijNaziv"></textarea>
+                <label for="detaljiStudijNaziv">{{ 'VIEWS_GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_STUDIJI' | translate }}
+                <!-- Studiji -->
+                </label>
+            </span>
         </div>
-        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left:10px;">
-                <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
-                <p-toggleButton disabled [onLabel]="'KATALOZI_BDNASTAVNIKSURADNIKRASPORED_PRISUTAN' | translate" [offLabel]="'STUDENTCALENDAR_ODSUTAN' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Prisutan"></p-toggleButton>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding:10px;">
+            <span class="ui-float-label">
+                <textarea id="detaljiStudijKratica" disabled autoResize="autoResize" pInputTextarea [ngModel]="eventDetalji.KraticaStudija"></textarea>
+                <label for="detaljiStudijKratica">{{ 'VIEWS_KATALOZI_STUDIJ_KRATICA' | translate }}
+                    <!-- Kratica Studija -->
+                </label>
+            </span>
         </div>
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding-left:10px;">
-                <p-chips disabled id="detaljiStudijNaziv" [(ngModel)]="eventDetalji.StudijNaziv"></p-chips>
-        </div>
-        
-        
     </div>
 
     <p-footer>
-        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+        <div *ngIf="eventDetalji" class="ui-g ui-g-nopad clearPadding">
+            <div class="ui-g-12 ui-sm-2 ui-md-2 ui-lg-2 clearPadding" >
+                <p-toggleButton  disabled [onLabel]="'KATALOZI_BDNASTAVNIKSURADNIKRASPORED_PRISUTAN' | translate" [offLabel]="'STUDENTCALENDAR_ODSUTAN' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Prisutan"></p-toggleButton>
+            </div>
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6 clearPadding"></div>
+            <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4 clearPadding">
+                <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+            </div>
+        </div>
     </p-footer>
 </p-dialog>
+
+

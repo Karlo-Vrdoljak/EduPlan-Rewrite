@@ -171,9 +171,15 @@ router.get("/PrikazNastavnihCjelina", function(req, res) {
 
 
 //Dummy procedura koja vraca moguci oblik podataka na frontend.
-router.get("/StudentPrisutnostPredmet", function(req, res) {
+router.get("/StudentPrisutnostNaNastavi", function(req, res) {
+    req.query.PkNastavaPlan = req.query.PkNastavaPlan == "null" ? null : req.query.PkNastavaPlan;
+    req.query.PkNastavaRealizacija = req.query.PkNastavaRealizacija == "null" ? null : req.query.PkNastavaRealizacija;
+
     var conn = db.createConnection();
-    var request = db.createRequest("PregledKartice.spStudentPrisutnostPredmet_selectDummy", conn); 
+    var request = db.createRequest("PregledKartice.spStudentPrisutnostNaNastavi_Select", conn); 
+    
+    request.addParameter("PkNastavaPlan", TYPES.Int, req.query.PkNastavaPlan);
+    request.addParameter("PkNastavaRealizacija", TYPES.Int, req.query.PkNastavaRealizacija);
 
     db.execStoredProc(request, conn, res, "{}");
 }); 

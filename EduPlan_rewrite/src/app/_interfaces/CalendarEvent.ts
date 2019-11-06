@@ -13,6 +13,7 @@ export interface CalendarEvent {
     color?;
     extendedProps?: {
         PkNastavaPlan;
+        PkNastavaRealizacija;
         PredmetNaziv;
         PodTipPredavanjaNaziv;
         PodTipPredavanjaSifra;

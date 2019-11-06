@@ -2,6 +2,14 @@
 :host >>> .ui-state-disabled {
     opacity: 1;
 }
+.clearPaddingLeft {
+    padding:0em!important;
+    padding-bottom: 0.5em!important;
+}
+.clearPadding {
+    padding:0em!important;
+}
+
 
 :host >>> .ui-widget:disabled {
     opacity: 1;
@@ -28,16 +36,4 @@
 :host >>> .menuCss ul li:nth-child(5) a:nth-child(1) {
     /* background-color: #dee0e3; */
     color: #35de38;
-}
-:host >>> .menuCss ul li:nth-child(6) a:nth-child(1) {
-    /* background-color: #dee0e3; */
-    color: #ff3300;
-}
-:host >>> .menuCss ul li:nth-child(7) a:nth-child(1) {
-    /* background-color: #dee0e3; */
-    color: #35de38;
-}
-:host >>> .menuCss ul li:nth-child(8) a:nth-child(1) {
-    /* background-color: #dee0e3; */
-    color: #ff3300;
 }

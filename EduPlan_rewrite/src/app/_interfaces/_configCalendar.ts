@@ -1,27 +1,7 @@
 import { EventColor } from "./ColorEventEnum";
 import { CalendarEvent } from "./CalendarEvent";
 
-//Dummy interface za fake api
-interface PrisutnostDummy {
-    JMBAG: number;
-    PkNastavaPlan: number;
-    ime: string;
-    prezime: string;
-    PredmetKratica: string;
-    PredmetNaziv: string;
-    DatumVrijemeDo: string;
-    DatumVrijemeOd: string;
-    PkPredmet: number;
-    PkStudij: number;
-    PodTipPredavanjaNazi: string;
-    PredavaonicaNaziv: string;
-    Prisutan: number;
-    Semestar: number;
-    SifraPredavaonice: string;
-    StudijNaziv: string;
-    StudijNazivKratica: string;
-    PkNastavnikSuradnik: number;
-}
+
 
 export class CalendarConfig {
            passedDate: Date[] = null;
@@ -205,22 +185,19 @@ export class CalendarConfig {
                        if (!r[key]) {
                            r[key] = e;
                        } else {
-                           r[key].StudijNazivKratica += !r[key].StudijNazivKratica.includes(
-                               e.StudijNazivKratica
-                           )
-                               ? ", " + e.StudijNazivKratica
-                               : "";
+                        //    r[key].StudijNazivKratica += !r[key].StudijNazivKratica.includes(e.StudijNazivKratica)
+                        //        ? ", " + e.StudijNazivKratica
+                        //        : "";
+                           r[key].StudijNazivKratica += (", " + e.StudijNazivKratica)
+                              
                            r[key].PredmetNaziv += !r[key].PredmetNaziv.includes(e.PredmetNaziv)
                                ? ", " + e.PredmetNaziv
                                : "";
-                           r[key].PredmetKratica += !r[key].PredmetKratica.includes(
-                               e.PredmetKratica
-                           )
+                              
+                           r[key].PredmetKratica += !r[key].PredmetKratica.includes(e.PredmetKratica)
                                ? ", " + e.PredmetKratica
                                : "";
-                           r[key].StudijNaziv += !r[key].StudijNaziv.includes(e.StudijNaziv)
-                               ? ", " + e.StudijNaziv
-                               : "";
+                           r[key].StudijNaziv += (", " + e.StudijNaziv);
                        }
                        return r;
                    }, {})
@@ -239,6 +216,7 @@ export class CalendarConfig {
                     //    textColor: EventColor.Dark,
                        color: this.chooseColor(e.PodTipPredavanjaNaziv),
                        extendedProps: {
+                           PkNastavaRealizacija: e.PkNastavaRealizacija || null,
                            NastavnikSuradnikNaziv: e.NastavnikSuradnikNaziv || null,
                            PkNastavnikSuradnik: e.PkNastavnikSuradnik || null,
                            NastavnikSuradnikInicijali: e.NastavnikSuradnikInicijali || null,
@@ -270,9 +248,16 @@ export class CalendarConfig {
            parseStudijLabel(studiji?: string): string {
                return studiji.split(",").length == 1 ? "Studij &bull; " : "Studiji &bull; ";
            }
+           /**
+            * @Opis Concata studije za prikaz u textarea u dialogu eventDetalja
+            */
+           listBoxStudiji(studijiConcat: string) {
+               let studiji = studijiConcat.split(",").map((e: string) => {
+                   return e.trim().concat("\n");
+               });
+               studiji[studiji.length - 1] = studiji[studiji.length - 1].slice(0, -1);
 
-           listBoxStudiji(studiji: string) {
-               return studiji.split(",");
+               return studiji.join("");
            }
 
            setupColsPrisutnostStudenata(prijevod) {
@@ -282,11 +267,11 @@ export class CalendarConfig {
                        header: prijevod.KATALOZI_NASTAVNIKSURADNIKPREDMETI_JMBAG
                    },
                    {
-                       field: "ime",
+                       field: "Ime",
                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_IME
                    },
                    {
-                       field: "prezime",
+                       field: "Prezime",
                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PREZIME
                    },
                    {
@@ -328,7 +313,7 @@ export class CalendarConfig {
                ];
            }
 
-           calculatePrisutnost(studenti: PrisutnostDummy[]) {
+           calculatePrisutnost(studenti) {
                let prisutan = studenti
                    .map(e => e.Prisutan)
                    .reduce((res, val) => {
