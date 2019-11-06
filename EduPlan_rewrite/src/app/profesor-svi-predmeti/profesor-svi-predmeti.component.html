@@ -59,8 +59,8 @@
                         <a href="#" class="usesTransition fadeSmall" [pRowToggler]="rowData" style="text-align: center;">
                             <span class="groupAlign"><i
                                     [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fadeSmall' : 'pi pi-chevron-circle-right usesTransition fadeSmall'"
-                                    style="margin-left:-0.2em;"></i> {{rowData.PredmetNaziv}} &bull;
-                                {{rowData.PredmetKratica}}</span>
+                                    style="margin-left:-0.2em;"></i> {{rowData.PredmetNaziv}} &bull; {{rowData.PredmetKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                            </span>
                         </a>
                     </td>
                 </tr>
@@ -78,7 +78,9 @@
                 
                 <tr>
                     <td class="dataContent">
-                        <b><a routerLink="/vPredmet/{{rowData.PkPredmet}}" style="font-size: 0.9em; font-style: italic;">{{rowData.StudijNaziv}}</a></b>
+                        <b><a routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}" style="font-size: 0.9em; font-style: italic;">
+                            {{rowData.StudijNaziv}}
+                        </a></b>
                     </td>
                     <td class="dataContent"><span>{{rowData.StudijKratica}}</span></td>
                     <td class="dataContent"><span *ngIf="rowData.BrojStudenata != null; else noStudentsToShow">{{rowData.BrojStudenata}}</span></td>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StudentiService } from '../_services/studenti.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppVariables } from '../_interfaces/_configAppVariables';
-
+import { OpciService } from './../_services/opci.service';
 
 @Component({
   selector: 'app-student-osobni-podaci',
@@ -14,8 +14,8 @@ export class StudentOsobniPodaciComponent implements OnInit {
 
   constructor(
     private studentiService: StudentiService,
-    private appVariables: AppVariables
-    
+    private opciService: OpciService,
+    private appVariables: AppVariables    
     ) { }
 
   ngOnInit() {
@@ -25,8 +25,7 @@ export class StudentOsobniPodaciComponent implements OnInit {
     };
 
     this.studentiService.getStudent(params).subscribe((data) => {
-      this.studentPodaci = data[0];
-      this.formatAllDates();
+      this.studentPodaci = this.opciService.formatDates(data)[0];
     },
 
     (err: HttpErrorResponse) => {
@@ -38,14 +37,6 @@ export class StudentOsobniPodaciComponent implements OnInit {
     }, () => { });
   }
 
-  formatAllDates() {
-    this.studentPodaci.DatumRodjenja ? this.studentPodaci.DatumRodjenja = new Date(this.studentPodaci.DatumRodjenja) :  this.studentPodaci.DatumRodjenja = null;
-    this.studentPodaci.DatumPravaDo ? this.studentPodaci.DatumPravaDo = new Date(this.studentPodaci.DatumPravaDo) :  this.studentPodaci.DatumPravaDo = null;
-    this.studentPodaci.DatumPravaOd ? this.studentPodaci.DatumPravaOd = new Date(this.studentPodaci.DatumPravaOd) :  this.studentPodaci.DatumPravaOd = null;
-    this.studentPodaci.DatumUpisa ? this.studentPodaci.DatumUpisa = new Date(this.studentPodaci.DatumUpisa) :  this.studentPodaci.DatumUpisa = null;
-    this.studentPodaci.DatumIspisa ? this.studentPodaci.DatumIspisa = new Date(this.studentPodaci.DatumIspisa) : this.studentPodaci.DatumIspisa = null;
-    this.studentPodaci.DatumPodizanjaDokumenta ? this.studentPodaci.DatumPodizanjaDokumenta = new Date(this.studentPodaci.DatumPodizanjaDokumenta) : this.studentPodaci.DatumPodizanjaDokumenta = null;
-  }
 }
 
 

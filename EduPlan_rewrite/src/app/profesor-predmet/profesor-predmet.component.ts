@@ -1,3 +1,4 @@
+import { OpciService } from './../_services/opci.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { HttpErrorResponse } from '@angular/common/http';
@@ -6,8 +7,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { formatDate } from '@angular/common';
-import { isString } from 'util';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 
 interface predmetNastavneCjelineDummy {
   imeNastavneCjeline: string;
@@ -36,7 +36,8 @@ export class ProfesorPredmetComponent implements OnInit {
   actionItemsNastavneCjeline: MenuItem[];
   actionItemsStudenti: MenuItem[];
   ukupanBrojStudenata: number;
-  prolaznost: number;
+  prolaznost: string;
+  brojPolozenih: number;
   prosjekOcjena: string;
   brojOslobodenihStudenata: number;
   nastavneCjelineDodajNovuDialog: boolean = false;
@@ -57,6 +58,7 @@ export class ProfesorPredmetComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private profesorService: ProfesorService,
+    private opciService: OpciService,
     private translate: TranslateService,
     private messageService: MessageService,
     private datepipe: DatePipe) { }
@@ -143,7 +145,7 @@ export class ProfesorPredmetComponent implements OnInit {
 
     // Poziv servisa za dohvacanje osnovnih podataka o predmetu
     this.profesorService.getPredmetOsnovniPodaci(params).subscribe((data) => {
-      this.predmetOsnovniPodaci = data[0];
+      this.predmetOsnovniPodaci = this.opciService.formatDates(data)[0]; //znamo da je uvijek niz od jednog objekta pa možemo pisati [0]
     },
 
       (err: HttpErrorResponse) => {
@@ -169,11 +171,12 @@ export class ProfesorPredmetComponent implements OnInit {
         "PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC"
       ]).subscribe(res => {
         this.profesorService.getPredmetStudenti(params).subscribe((data) => {
-          this.studentiNaPredmetu = data;
+          this.studentiNaPredmetu = this.opciService.formatDates(data);
           this.setUkupanBrojStudenata();
+          this.setBrojOslobodenihStudenata();
+          this.setBrojPolozenihStudenata()
           this.setPostotakProlaznosti();
           this.setProsjekOcjena();
-          this.setBrojOslobodenihStudenata();
 
           this.colsStudenti = [
             {
@@ -185,19 +188,15 @@ export class ProfesorPredmetComponent implements OnInit {
               header: res.VIEWS_APLIKACIJA_HOME_PREZIME
             },
             {
-              field: "studijNaziv",
+              field: "studijNaziv_HR",
               header: res.NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA
             },
             {
-              field: "semestar",
+              field: "Semestar",
               header: res.VIEWS_KATALOZI_PREDMET_SEMESTAR
             },
             {
-              field: "grupaZaNastavu",
-              header: res.VIEWS_GRUPEZANASTAVUDIALOG_GRUPAZANASTAVU
-            },
-            {
-              field: "studijskaGodina",
+              field: "StudijskaGodina",
               header: res.VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA
             },
             {
@@ -249,7 +248,7 @@ export class ProfesorPredmetComponent implements OnInit {
         "KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE"
       ]).subscribe(res => {
         this.profesorService.getPredmetNastavneCjeline(params).subscribe((data) => {
-          this.predmetNastavneCjeline = this.formatDates(data, this.datepipe);
+          this.predmetNastavneCjeline = this.opciService.formatDates(data);
   
           this.colsNastavneCjeline = [
             {
@@ -294,41 +293,31 @@ export class ProfesorPredmetComponent implements OnInit {
       })
   }
 
-  formatDates(datum: any, datepipe: DatePipe) { 
-    datum.forEach(element => {
-      Object.keys(element).map(function (key) {
-        if(!isNaN(Date.parse(element[key])) && isString(element[key])){
-          element[key] = datepipe.transform(new Date(element[key]), 'MM/dd/yyyy')
-        }
-      });
-    });
-    return datum;
-}
-
   setUkupanBrojStudenata() { //Računa kolko ima studenata na odabranom predmetu
     this.ukupanBrojStudenata = this.studentiNaPredmetu.length;
   }
 
-  setPostotakProlaznosti() { //Računa postotak prolaznosti (uzima u obzir broj upisanih studenata i onih koji su položili)
-    var rez = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
-      return currentValue.polozen == 'true' ? accumulator + 1 : accumulator + 0
-    }, 0)
-
-    this.prolaznost = (rez / this.studentiNaPredmetu.length) * 100;
+  setPostotakProlaznosti() { //Računa postotak prolaznosti (uzima u obzir (broj upisanih studenata - broj oslobodenih) i onih koji su položili)
+    this.prolaznost = ((this.brojPolozenih / (this.ukupanBrojStudenata - this.brojOslobodenihStudenata))* 100).toFixed(2);
   }
 
-  setProsjekOcjena() { //Računa prosjek ocjena svih studenata na dvi decimale
-    var rez = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue.ocjena;
+  setProsjekOcjena() { //Računa prosjek ocjena svih studenata na dvi decimale, oni koji nisu polozili ne ulaze u jednadzbu!!!???
+    var ukupanZbrojOcjena = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
+      return currentValue.polozen == true ? accumulator + currentValue.ocjena : accumulator + 0
     }, 0)
 
-    var prosjek = (rez / this.studentiNaPredmetu.length);
-    this.prosjekOcjena = prosjek.toFixed(2);
+    this.prosjekOcjena = (ukupanZbrojOcjena / (this.brojPolozenih)).toFixed(2);
+  }
+
+  setBrojPolozenihStudenata() { //funkcija vraća broj studenata koji su položili predmet
+     this.brojPolozenih = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
+      return currentValue.polozen == true ? accumulator + 1 : accumulator + 0
+    }, 0)
   }
 
   setBrojOslobodenihStudenata() { //Računa broj studenata koji su oslobodeni polaganja predmeta
     this.brojOslobodenihStudenata = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
-      return currentValue.osloboden == 'true' ? accumulator + 1 : accumulator + 0
+      return currentValue.osloboden == true ? accumulator + 1 : accumulator + 0
     }, 0)
   }
 
@@ -392,9 +381,15 @@ export class ProfesorPredmetComponent implements OnInit {
     this.showSuccessEdit();
   }
 
-
   closeStudentEditDialog() {
     this.StudentEditDialog = false;
   }
+
+  isBoolean(val) {
+    if (typeof val === "number") {
+        return false;
+    }
+    return typeof val === "boolean";
+}
 
 }

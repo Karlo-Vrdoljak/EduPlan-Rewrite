@@ -10,7 +10,8 @@
                     leftIcon="fa fa-info-circle">
                     <ng-container>
                         <div class="card card-w-title ">
-                            <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.NazivStudija_HR}}
+                            <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                {{predmetOsnovniPodaci.NazivStudija_HR}}
                                 <!--<div class="actionsContainer" style="float: right;">
                                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuPodaci
                                         [popup]="true" [model]="actionItemsOsnovniPodaciNastavneCjeline"></p-menu>
@@ -47,14 +48,19 @@
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<br>
-                                    <p-calendar showIcon="true" [ngModel]="predmetOsnovniPodaci.PocetakTurnusa"
-                                        disabled="true">
-                                    </p-calendar>
+                                    <div class="ui-inputgroup">
+                                        <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.PocetakTurnusa"
+                                            disabled="true">
+                                        <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<br>
-                                    <p-calendar showIcon="true" [ngModel]="predmetOsnovniPodaci.KrajTurnusa"
-                                        disabled="true"></p-calendar>
+                                    <div class="ui-inputgroup">
+                                        <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.KrajTurnusa"
+                                            disabled="true">
+                                        <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
                                 </div>
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     <p-checkbox label="{{'VIEWS_KATALOZI_PREDMET_ULAZIUPROSJEK' | translate}}"
@@ -70,7 +76,8 @@
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" leftIcon="fa fa-users">
                     <ng-container>
                         <div class="card card-w-title ">
-                            <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
+                            <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                {{predmetOsnovniPodaci.NazivStudija_HR}}
                                 <div class="actionsContainer" style="float: right;">
                                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
                                         #menuStudenti [popup]="true" [model]="actionItemsStudenti"></p-menu>
@@ -80,14 +87,8 @@
                                 </div>
                             </h1>
                             <p-table [value]="studentiNaPredmetu" [columns]="colsStudenti" selectionMode="single"
-                                [scrollable]="true" scrollHeight="38.5vh" [(selection)]="selectedStudent"
+                                [scrollable]="true" scrollHeight="45vh" [(selection)]="selectedStudent"
                                 dataKey="PkStudentnaVisokomUcilistuPredmet">
-
-                                <ng-template pTemplate="colgroup" let-columns>
-                                    <colgroup>
-                                        <col *ngFor="let col of columns" [style.width]="col.width">
-                                    </colgroup>
-                                </ng-template>
 
                                 <ng-template pTemplate="header" let-columns>
                                     <tr>
@@ -110,10 +111,9 @@
                                         </td>
                                         <td *ngFor="let col of columns" class="ui-resizable-column"
                                             style="text-align: center;">
-                                            <span
-                                                *ngIf="rowData[col.field] == 'true' || rowData[col.field] == 'false'; else textOutput">
-                                                <span [style.color]="rowData[col.field] == 'true' ? 'green' : 'red' "><i
-                                                        [ngClass]="rowData[col.field] == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                            <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                                                <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                                        [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                                             </span>
                                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                                         </td>
@@ -138,30 +138,21 @@
                                                             </div>
                                                             <div class="ui-g-12">
                                                                 <b>
-                                                                    {{'PROFESOR_PREDMET_STATUSUPISNOGLISTA' | translate}}:
+                                                                    {{'PREDMET_BDPREDMETSTUDENTI_STATUS_UPISANOG_PREDMETA' | translate}}:
                                                                 </b>
-                                                                {{rowData.statusUpisnogLista}}
+                                                                {{rowData.statusUpisanogPredmeta}}
                                                             </div>
                                                             <div class="ui-g-12">
                                                                 <b>
                                                                     {{'PROFESOR_PREDMET_NACINUPISAPREDMETA' | translate}}:
                                                                 </b>
-                                                                {{rowData.nacinUpisaPredmetax}}
-                                                            </div>
-                                                            <div class="ui-g-12">
-                                                                <b>
-                                                                    {{'NASTAVA_BDSKOLSKAGODINAPREDMETI_POLAZESE' | translate}}:
-                                                                </b>
-                                                                <span
-                                                                    [style.color]="rowData.polazeSe == 'true' ? 'green' : 'red' "><i
-                                                                        [ngClass]="rowData.polazeSe == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
-                                                                </span>
+                                                                {{rowData.nacinUpisaPredmeta}}
                                                             </div>
                                                             <div class="ui-g-12">
                                                                 <b>
                                                                     {{'PREDMET_BDPREDMETSTUDENTI_DATUM_ISPITA' | translate}}:
                                                                 </b>
-                                                                {{rowData.datumIspita}}
+                                                                {{rowData.DatumIspita}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -171,22 +162,22 @@
                                                                 <b>
                                                                     {{'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate}}:
                                                                 </b>
-                                                                {{rowData.datumPrijave}}
+                                                                {{rowData.DatumPrijaveIspita}}
                                                             </div>
                                                             <div class="ui-g-12">
                                                                 <b>
                                                                     {{'PREDMET_BDPREDMETSTUDENTI_DATUM_ROKA' | translate}}:
                                                                 </b>
-                                                                {{rowData.datumRoka}}
+                                                                {{rowData.DatumRoka}}
                                                             </div>
                                                             <div class="ui-g-12">
                                                                 <b>
                                                                     {{'PREDMET_BDPREDMETSTUDENTI_ULAZI_U_PROSJEK' | translate}}:
                                                                 </b>
                                                                 <span
-                                                                    [style.color]="rowData.ulaziUprosjek == 'true' ? 'green' : 'red' ">
+                                                                    [style.color]="rowData.ulaziUprosjek == true ? 'green' : 'red' ">
                                                                     <i
-                                                                        [ngClass]="rowData.ulaziUprosjek == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                                        [ngClass]="rowData.ulaziUprosjek == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
                                                                 </span>
                                                             </div>
                                                             <div class="ui-g-12">
@@ -194,8 +185,8 @@
                                                                     {{'PREDMET_BDPREDMETSTUDENTI_ULAZI_U_STJECANJE_KVALIFIKACIJE' | translate}}:
                                                                 </b>
                                                                 <span
-                                                                    [style.color]="rowData.ulaziUstjecanjeKvalifikacije == 'true' ? 'green' : 'red' "><i
-                                                                        [ngClass]="rowData.ulaziUstjecanjeKvalifikacije == 'true' ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                                    [style.color]="rowData.UlaziUstjecanjeKvalifikacije == true ? 'green' : 'red' "><i
+                                                                        [ngClass]="rowData.UlaziUstjecanjeKvalifikacije == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -214,24 +205,24 @@
                         <div class="card card-w-title ">
                             <h1>Rekapitulacija</h1>
                             <div class="ui-g form-group">
-                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <div class="ui-g-12 ui-md-6 ui-lg-3">
                                     Ukupan broj studenata<br><input type="text" [ngModel]="ukupanBrojStudenata"
                                         pInputText disabled>
                                 </div>
-                                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                    <span>Prolaznost</span> <br>
+                                <div class="ui-g-12 ui-md-6 ui-lg-3">
+                                    Broj oslobođenih studenata<br><input type="text"
+                                        [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-lg-3">
+                                    <span>Postotak prolaznosti studenata</span> <br>
                                     <div class="ui-inputgroup">
                                         <input type="text" [ngModel]="prolaznost" pInputText disabled>
                                         <span class="ui-inputgroup-addon" style="padding-top: 0.2em;">%</span>
                                     </div>
                                 </div>
-                                <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <div class="ui-g-12 ui-md-6 ui-lg-3">
                                     Prosjek ocjena<br><input type="text" [ngModel]="prosjekOcjena" pInputText
                                         disabled="true">
-                                </div>
-                                <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                    Broj oslobođenih studenata<br><input type="text"
-                                        [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
                                 </div>
                             </div>
                         </div>
@@ -243,7 +234,8 @@
                     <ng-container>
                         <div class="card card-w-title ">
                             <h1>
-                                {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                {{predmetOsnovniPodaci.NazivStudija_HR}}
                                 <div class="actionsContainer" style="float: right;">
                                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
                                         #menuNastavneCjeline [popup]="true" [model]="actionItemsNastavneCjeline">
@@ -278,8 +270,7 @@
                                     <tr [pSelectableRow]="rowData">
                                         <td *ngFor="let col of columns" class="ui-resizable-column"
                                             style="text-align: center;">
-                                            <span
-                                                *ngIf="rowData[col.field] == true || rowData[col.field] == false; else textOutput">
+                                            <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
                                                 <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
                                                         [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                                             </span>
@@ -305,49 +296,56 @@
         <p-toast position="top-center"></p-toast>
         <div class="ui-g-12">
             <div class="card card-w-title ">
-                <h1>{{predmetOsnovniPodaci.nazivPredmeta}} &bull; {{predmetOsnovniPodaci.nazivStudij}}
+                <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.KaticaStudij}}
                     <div class="actionsContainer" style="float: right; font-size: 0.8em;">
                         <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
                         <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
                     </div>
                 </h1>
-
+                
                 <p-panel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}" [toggleable]="true"
                     expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
                     <ng-container>
                         <div class="ui-g form-group">
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}<input
-                                    type="text" [ngModel]="predmetOsnovniPodaci.Katedra" pInputText disabled />
+                                {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}
+                                <br><input type="text" [ngModel]="predmetOsnovniPodaci.Katedra" pInputText disabled />
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}<input type="text"
+                                {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}<br><input type="text"
                                     [ngModel]="predmetOsnovniPodaci.StudijskaGodina" pInputText disabled />
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}<input type="text"
+                                {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}<br><input type="text"
                                     [ngModel]="predmetOsnovniPodaci.Semestar" pInputText disabled="true">
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate}}<input type="text"
+                                {{'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate}}<br><input type="text"
                                     [ngModel]="predmetOsnovniPodaci.voditeljPredmeta" pInputText disabled>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'KATALOZI_AKADEMSKISTUPANJ_ISVUOZNAKA' | translate}}<input type="text"
+                                {{'KATALOZI_AKADEMSKISTUPANJ_ISVUOZNAKA' | translate}}<br><input type="text"
                                     [ngModel]="predmetOsnovniPodaci.ISVUoznaka" pInputText disabled>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_ECTS' | translate}}<input type="text"
+                                {{'VIEWS_KATALOZI_PREDMET_ECTS' | translate}}<br><input type="text"
                                     [ngModel]="predmetOsnovniPodaci.EctsBodovi" pInputText disabled>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<p-calendar showIcon="true"
-                                    [ngModel]="predmetOsnovniPodaci.PocetakTurnusa" disabled="true">
-                                </p-calendar>
+                                {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<br>
+                                <div class="ui-inputgroup">
+                                    <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.PocetakTurnusa"
+                                        disabled="true">
+                                    <span class="ui-inputgroup-addon" style="padding-top:0.1em;"><i class="fa fa-calendar" style="padding-right:0.2em;"></i></span>
+                                </div>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<p-calendar showIcon="true"
-                                    [ngModel]="predmetOsnovniPodaci.KrajTurnusa" disabled="true"></p-calendar>
+                                {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<br>
+                                <div class="ui-inputgroup">
+                                    <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.KrajTurnusa"
+                                        disabled="true">
+                                    <span class="ui-inputgroup-addon" style="padding-top:0.1em;"><i class="fa fa-calendar" style="padding-right:0.2em;"></i></span>
+                                </div>
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
                                 <p-checkbox label="{{'VIEWS_KATALOZI_PREDMET_ULAZIUPROSJEK' | translate}}" binary="true"

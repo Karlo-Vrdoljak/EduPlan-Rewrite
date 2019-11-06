@@ -60,4 +60,12 @@
     font-size: 1.3em;
 }
 
+span.ui-inputgroup-addon {
+    color: white;
+    background-color: lightskyblue;
+}
+
+:host >>> i.fa.fa.calendar{
+    padding-top: 0.25em;
+}
 

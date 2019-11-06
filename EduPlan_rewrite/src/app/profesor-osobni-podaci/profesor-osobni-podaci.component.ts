@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProfesorService } from '../_services/profesori.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppVariables } from '../_interfaces/_configAppVariables';
+import { OpciService } from './../_services/opci.service';
+
 
 @Component({
   selector: 'app-profesor-osobni-podaci',
@@ -13,7 +15,8 @@ export class ProfesorOsobniPodaciComponent implements OnInit {
 
   constructor(
     private nastavnikService: ProfesorService,
-    private appVariables: AppVariables
+    private appVariables: AppVariables,
+    private opciService: OpciService,
     ) { }
 
   ngOnInit() {
@@ -22,9 +25,7 @@ export class ProfesorOsobniPodaciComponent implements OnInit {
     };
 
     this.nastavnikService.getNastavnik(params).subscribe((data) => {
-      this.nastavnikPodaci = data[0];
-      this.formatAllDates();
-      console.log(this.nastavnikPodaci)
+      this.nastavnikPodaci =this.opciService.formatDates(data)[0];
     },
 
       (err: HttpErrorResponse) => {
@@ -36,11 +37,6 @@ export class ProfesorOsobniPodaciComponent implements OnInit {
       }, () => { });
   }
 
-  formatAllDates() {
-    this.nastavnikPodaci.DatumRodenja ? this.nastavnikPodaci.DatumRodenja = new Date(this.nastavnikPodaci.DatumRodenja) :  this.nastavnikPodaci.DatumRodenja = null;
-    this.nastavnikPodaci.DatumZaposlenjaUVU ? this.nastavnikPodaci.DatumZaposlenjaUVU = new Date(this.nastavnikPodaci.DatumZaposlenjaUVU) :  this.nastavnikPodaci.DatumZaposlenjaUVU = null;
-
-  }
 }
 
 

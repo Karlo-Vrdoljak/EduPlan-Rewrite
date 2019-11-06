@@ -1,9 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
-import { StudentPodaciStudijService } from "../demo/service/studentPodaciStudijService";
-import { StudentPodaciStudij } from "../demo/domain/StudentPodaciStudij";
 import { StudentiService } from "../_services/studenti.service";
 import { AppVariables } from '../_interfaces/_configAppVariables';
+import { OpciService } from './../_services/opci.service';
 
 @Component({
     selector: "app-student-podaci-na-studiju",
@@ -17,9 +16,9 @@ export class StudentPodaciNaStudijuComponent implements OnInit {
 
     constructor(
         private translate: TranslateService,
-        private studentPodaciService: StudentPodaciStudijService,
         private studentiService: StudentiService,
-        private appVariables: AppVariables
+        private appVariables: AppVariables,
+        private opciService: OpciService
     ) {}
 
     ngOnInit() {
@@ -49,7 +48,7 @@ export class StudentPodaciNaStudijuComponent implements OnInit {
                 this.studentiService
                     .getStudentStudij(params)
                     .subscribe(data => {
-                        this.podaciStudij = this.formatAllDates(data);
+                        this.podaciStudij = this.opciService.formatDates(data);
                         this.cols = [
                             // 7, 25, 8,15,8,8,16,7
                             {
@@ -110,20 +109,6 @@ export class StudentPodaciNaStudijuComponent implements OnInit {
                         ];
                     });
             });
-    }
-
-      formatAllDates(ApiData) {
-
-        let locale = this.translate.instant("STUDENT_KALENDAR_LOCALE");
-        let formattedData = [];
-        ApiData.forEach(data => {
-            
-            data.DatumUpisaStudija ? data.DatumUpisaStudija = new Date(data.DatumUpisaStudija).toLocaleDateString(locale) :  data.DatumUpisaStudija = null;
-            data.StudentskaPravaNaStudijuOd ? data.StudentskaPravaNaStudijuOd = new Date(data.StudentskaPravaNaStudijuOd).toLocaleDateString(locale) :  data.StudentskaPravaNaStudijuOd = null;
-            data.StudentskaPravaNaStudijuDo ? data.StudentskaPravaNaStudijuDo = new Date(data.StudentskaPravaNaStudijuDo).toLocaleDateString(locale) :  data.StudentskaPravaNaStudijuDo = null;
-            formattedData.push(data);
-        });
-        return formattedData;
     }
 
     isBoolean(val) {
