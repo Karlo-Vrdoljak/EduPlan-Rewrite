@@ -17,4 +17,10 @@
 
 textarea {
     resize: none;
-  }
+}
+
+span.ui-inputgroup-addon {
+    color: white;
+    background-color: lightskyblue;
+}
+

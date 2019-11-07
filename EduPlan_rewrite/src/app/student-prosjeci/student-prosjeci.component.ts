@@ -1,10 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { MenuItem } from "primeng/primeng";
-import { SubjectService } from "../demo/service/subjectService";
-import { Subject } from "../demo/domain/subject";
 import { ProsjekGodine } from "../demo/domain/prosjeci";
 import { TranslateService } from "@ngx-translate/core";
-import { AccordionModule } from "primeng/accordion";
 import { StudentiService } from "../_services/studenti.service";
 import { AppVariables } from '../_interfaces/_configAppVariables';
 

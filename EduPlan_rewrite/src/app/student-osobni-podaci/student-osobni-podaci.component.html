@@ -15,7 +15,11 @@
                     {{'STUDENT_STUDENTOSOBNIPODACI_SPOL' | translate}}:<input type="text" pInputText [ngModel]="studentPodaci.Spol" disabled="true">
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_RODENJA' | translate}}:<p-calendar  showIcon="true" [ngModel]="studentPodaci.DatumRodjenja" disabled="true" ></p-calendar>
+                        {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_RODENJA' | translate}}:
+                    <div class="ui-inputgroup">
+                        <input type="text" pInputText [ngModel]="studentPodaci.DatumRodjenja" disabled="true"> 
+                        <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                     {{'STUDENT_STUDENTOSOBNIPODACI_OIB' | translate}}:<input type="text" pInputText  [ngModel]="studentPodaci.OIB" disabled>
@@ -76,10 +80,18 @@
                     {{'STUDENT_STUDENTOSOBNIPODACI_RAZINA_PRAVA_NA_PREHRANU' | translate}}:<input type="text" pInputText [ngModel]="studentPodaci.RazinaPravaNaPrehranuNaziv" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PRAVA_OD' | translate}}:<p-calendar  showIcon="true" disabled="true" [ngModel]="studentPodaci.DatumPravaOd"></p-calendar>
+                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PRAVA_OD' | translate}}:
+                    <div class="ui-inputgroup">
+                            <input type="text" pInputText [ngModel]="studentPodaci.DatumPravaOd" disabled="true"> 
+                            <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PRAVA_DO' | translate}}:<p-calendar  showIcon="true" disabled="true" [ngModel]="studentPodaci.DatumPravaDo"></p-calendar>
+                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PRAVA_DO' | translate}}:
+                    <div class="ui-inputgroup">
+                            <input type="text" pInputText [ngModel]="studentPodaci.DatumPravaDo" disabled="true"> 
+                            <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,13 +114,25 @@
                     {{'STUDENT_STUDENTOSOBNIPODACI_AAI_UID' | translate}}:<input type="text" pInputText [ngModel]="studentPodaci.AAIUid" disabled>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_UPISA' |translate}}:<p-calendar [ngModel]="studentPodaci.DatumUpisa" showIcon="true" disabled="true"></p-calendar>
+                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_UPISA' |translate}}:
+                    <div class="ui-inputgroup">
+                            <input type="text" pInputText [ngModel]="studentPodaci.DatumUpisa" disabled="true"> 
+                            <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg- myOverride">
-                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_ISPISA' |translate}}:<p-calendar [ngModel]="studentPodaci.DatumIspisa" showIcon="true" disabled="true"></p-calendar>
+                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_ISPISA' |translate}}:
+                    <div class="ui-inputgroup">
+                            <input type="text" pInputText [ngModel]="studentPodaci.DatumIspisa" disabled="true"> 
+                            <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
-                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PODIZANJA_DOKUMENTA' |translate}}:<p-calendar [ngModel]="studentPodaci.DatumPodizanjaDokumenta" showIcon="true" disabled="true"></p-calendar>
+                    {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_PODIZANJA_DOKUMENTA' |translate}}:
+                    <div class="ui-inputgroup">
+                            <input type="text" pInputText [ngModel]="studentPodaci.DatumPodizanjaDokumenta" disabled="true"> 
+                            <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                     {{'STUDENT_STUDENTOSOBNIPODACI_RAZLOG_PRESTANKA_STUDENTSKIH_PRAVA' |translate}}:<input type="text" pInputText [ngModel]="studentPodaci.RazlogPrestankaStudentskihPravaNaziv" disabled>

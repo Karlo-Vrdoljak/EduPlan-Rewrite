@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { SubjectService } from "../demo/service/subjectService";
-import { Subject } from "../demo/domain/subject";
 import { TranslateService } from "@ngx-translate/core";
 import { StudentiService } from "../_services/studenti.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AppVariables } from '../_interfaces/_configAppVariables';
+import { OpciService } from './../_services/opci.service';
+
 
 @Component({
     selector: "app-student-svi-predmeti",
@@ -17,10 +17,10 @@ export class StudentSviPredmetiComponent implements OnInit {
     studentData: any;
 
     constructor(
-        private subjectService: SubjectService,
         private translate: TranslateService,
         private studentiService: StudentiService,
-        private appVariables: AppVariables
+        private appVariables: AppVariables,
+        private opciService: OpciService
     ) {}
 
     ngOnInit() {
@@ -44,7 +44,7 @@ export class StudentSviPredmetiComponent implements OnInit {
                     .getStudentNaVisokomUcilistuPredmet(params)
                     .subscribe(
                         data => {
-                            this.studentData = data;
+                            this.studentData = this.opciService.formatDates(data);
                             this.cols = [
                                 // 7, 25, 8,15,8,8,16,7
                                 {

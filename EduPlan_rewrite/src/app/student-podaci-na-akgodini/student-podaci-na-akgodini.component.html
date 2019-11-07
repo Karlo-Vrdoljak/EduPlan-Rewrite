@@ -38,9 +38,11 @@
                             </div>
 
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DATUM_POTVRDE_PREBIVALISTA' | translate}}:<p-calendar
-                                    showIcon="true" disabled="true"
-                                    [ngModel]="studentPodaciNaAkGodiniFiltrirani.DatumIzdavanjaPotvrdeOPrebivalistu"></p-calendar>
+                                {{'STUDENT_BDSTUDENTPODACINASTUDIJU_DATUM_POTVRDE_PREBIVALISTA' | translate}}:
+                                <div class="ui-inputgroup">
+                                    <input type="text" pInputText [ngModel]="studentPodaciNaAkGodiniFiltrirani.DatumIzdavanjaPotvrdeOPrebivalistu" disabled="true"> 
+                                    <span class="ui-inputgroup-addon"><i class="fa fa-calendar" style="padding-top: 0.25em;"></i></span>
+                                </div>
                             </div>
 
                             <div class="ui-g-12 ui-md-6 ui-lg-6">

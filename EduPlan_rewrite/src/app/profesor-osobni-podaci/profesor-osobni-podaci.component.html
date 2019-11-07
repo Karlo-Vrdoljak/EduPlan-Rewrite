@@ -18,8 +18,11 @@
                                 [ngModel]="nastavnikPodaci.Spol" pInputText disabled="true">
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-6">
-                            {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_RODENJA' | translate}}:<p-calendar showIcon="true"
-                                [ngModel]="nastavnikPodaci.DatumRodenja" disabled="true"></p-calendar>
+                            {{'STUDENT_STUDENTOSOBNIPODACI_DATUM_RODENJA' | translate}}:
+                            <div class="ui-inputgroup">
+                                <input type="text" pInputText [ngModel]="nastavnikPodaci.DatumRodenja" disabled="true"> 
+                                <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                             </div>
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-6">
                             {{'STUDENT_STUDENTOSOBNIPODACI_OIB' | translate}}:<input type="text"
@@ -123,8 +126,11 @@
                     <h1>{{'VIEWS_APLIKACIJA_HOME_FINANCIJSKIPODACI' | translate}}</h1>
                     <div class="ui-g form-group">
                         <div class="ui-g-12 ui-md-6 ui-lg-6">
-                            {{'VIEWS_APLIKACIJA_HOME_DATUMZAPOSLENJA' | translate}}:<p-calendar showIcon="true" [ngModel]="nastavnikPodaci.DatumZaposlenjaUVU"
-                                disabled="true"></p-calendar>
+                            {{'VIEWS_APLIKACIJA_HOME_DATUMZAPOSLENJA' | translate}}:
+                            <div class="ui-inputgroup">
+                                <input type="text" pInputText [ngModel]="nastavnikPodaci.DatumZaposlenjaUVU" disabled="true"> 
+                                <span class="ui-inputgroup-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-6">
                             {{'VIEWS_APLIKACIJA_HOME_GODINEPRETHODNOGRADNOGSTAZA' | translate}}:<input type="text"
