@@ -2,7 +2,7 @@
     
     <div *ngIf="podaciStudij; else loader">
         <p-table [columns]="cols" [value]="podaciStudij" selectionMode="single" [scrollable]="true"
-            scrollHeight="60vh" dataKey="SifraUpisnogLista" [resizableColumns]="true">
+            scrollHeight="80vh" dataKey="SifraUpisnogLista" [resizableColumns]="true">
             <ng-template pTemplate="caption">
                 <!--Podaci o predmetima-->
                 {{ 'STUDENT_STUDENTKARTICA_PODACI_NA_STUDIJU' | translate }}
@@ -115,7 +115,7 @@
     <!-- small screen -->
         <div *ngIf="podaciStudij; else loader">
             <p-table [columns]="colsSmall" [value]="podaciStudij" selectionMode="single" [scrollable]="true"
-            scrollHeight="77vh" dataKey="SifraUpisnogLista" [resizableColumns]="true">
+             dataKey="SifraUpisnogLista" [resizableColumns]="true" rowExpandMode="single">
             
             <ng-template pTemplate="caption">
                 <!--Podaci o predmetima-->

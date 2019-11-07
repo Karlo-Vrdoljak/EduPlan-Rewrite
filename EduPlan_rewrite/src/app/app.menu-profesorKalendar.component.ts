@@ -21,19 +21,24 @@ export class AppMenuProfesorKalendarComponent implements OnInit {
     ngOnInit() {
         this.onTranslateChange();
         var result = this.translate
-            .get(["VIEWS_KATALOZI_PREDMET_RASPORED", "STUDENT_KALENDAR_AGENDA"])
+            .get(["VIEWS_KATALOZI_PREDMET_MOJRASPORED", "STUDENT_KALENDAR_MOJAAGENDA", "PROFESOR_KALENDAR_RASPORED"])
             .toPromise()
             .then(res => {
                 this.model = [
                     {
-                        label: res.VIEWS_KATALOZI_PREDMET_RASPORED,
+                        label: res.VIEWS_KATALOZI_PREDMET_MOJRASPORED,
                         icon: "fa fa-calendar",
                         routerLink: ["/vProfesorKalendar"]
                     },
                     {
-                        label: res.STUDENT_KALENDAR_AGENDA,
+                        label: res.STUDENT_KALENDAR_MOJAAGENDA,
                         icon: "fa fa-clipboard",
                         routerLink: ["/vProfesorAgenda"]
+                    },
+                    {
+                        label: res.PROFESOR_KALENDAR_RASPORED,
+                        icon: "fa fa-calendar-o",
+                        routerLink: ["/vPregledProfesorKalendar"]
                     }
                 ];
             });
@@ -44,14 +49,19 @@ export class AppMenuProfesorKalendarComponent implements OnInit {
         this.translate.onLangChange.subscribe((eventKalendar:LangChangeEvent)=> {
             this.model = [
                 {
-                    label: this.translate.instant("VIEWS_KATALOZI_PREDMET_RASPORED"),
+                    label: this.translate.instant("VIEWS_KATALOZI_PREDMET_MOJRASPORED"),
                     icon: "fa fa-calendar",
                     routerLink: ["/vProfesorKalendar"]
                 },
                 {
-                    label: this.translate.instant("STUDENT_KALENDAR_AGENDA"),
+                    label: this.translate.instant("STUDENT_KALENDAR_MOJAAGENDA"),
                     icon: "fa fa-clipboard",
                     routerLink: ["/vProfesorAgenda"]
+                },
+                {
+                    label: this.translate.instant("PROFESOR_KALENDAR_RASPORED"),
+                    icon: "fa fa-clipboard",
+                    routerLink: ["/vPregledProfesorKalendar"]
                 }
             ];
             

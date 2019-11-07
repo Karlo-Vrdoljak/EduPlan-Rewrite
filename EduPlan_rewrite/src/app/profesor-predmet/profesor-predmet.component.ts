@@ -46,6 +46,7 @@ export class ProfesorPredmetComponent implements OnInit {
   selectedNastavniMaterijali: any = null;
   selectedStudent: any = null;
   rout: any = null;
+  selectedLang: any;
   NastavneCjelineModel: predmetNastavneCjelineDummy = {
     imeNastavneCjeline: null,
     korisnikUnosa: null,
@@ -69,6 +70,12 @@ export class ProfesorPredmetComponent implements OnInit {
       PkSkolskaGodinaStudijPredmetKatedra: this.route.snapshot.paramMap.get('PkSkolskaGodinaStudijPredmetKatedra'),
       PkPredmet: 7 //this.route.snapshot.paramMap.get('PkPredmet')      
     };
+
+    this.translate //Gledamo koji je jezik odabran
+    .get(["STUDENT_KALENDAR_LOCALE"])
+    .subscribe(res => {
+    this.selectedLang = res.STUDENT_KALENDAR_LOCALE
+  })
 
     // prijevod i inicijalizacija za botune s crud operacijama
     this.translate

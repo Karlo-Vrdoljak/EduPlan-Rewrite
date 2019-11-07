@@ -1,7 +1,7 @@
 <div class="largeMedium">
     <div *ngIf="ProfesorPredmeti; else loader">
         <p-table [value]="ProfesorPredmeti" dataKey="PkPredmet" sortField="PredmetNaziv" sortMode="single"
-            (onSort)="onSort()" rowExpandMode="single" expandableRows="true">
+            (onSort)="onSort()" rowExpandMode="single" expandableRows="true" [scrollable]="true" scrollHeight="85vh">
             <ng-template pTemplate="caption">
                 {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
             </ng-template>

@@ -21,17 +21,17 @@ export class AppMenuKalendarComponent implements OnInit {
     ngOnInit() {
         this.onTranslateChange();
         var result = this.translate
-            .get(["VIEWS_KATALOZI_PREDMET_RASPORED", "STUDENT_KALENDAR_AGENDA"])
+            .get(["VIEWS_KATALOZI_PREDMET_MOJRASPORED", "STUDENT_KALENDAR_MOJAAGENDA"])
             .toPromise()
             .then(res => {
                 this.model = [
                     {
-                        label: res.VIEWS_KATALOZI_PREDMET_RASPORED,
+                        label: res.VIEWS_KATALOZI_PREDMET_MOJRASPORED,
                         icon: "fa fa-calendar",
                         routerLink: ["/vStudentKalendar"]
                     },
                     {
-                        label: res.STUDENT_KALENDAR_AGENDA,
+                        label: res.STUDENT_KALENDAR_MOJAAGENDA,
                         icon: "fa fa-clipboard",
                         routerLink: ["/vStudentAgenda"]
                     }
