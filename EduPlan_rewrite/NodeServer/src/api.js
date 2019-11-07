@@ -176,7 +176,7 @@ router.get("/PrikazNastavnihCjelina", function(req, res) {
 }); 
 
 
-//Dummy procedura koja vraca moguci oblik podataka na frontend.
+//Vraca sve otimbrane studente na nastavnoj satnici
 router.get("/StudentPrisutnostNaNastavi", function(req, res) {
     req.query.PkNastavaPlan = req.query.PkNastavaPlan == "null" ? null : req.query.PkNastavaPlan;
     req.query.PkNastavaRealizacija = req.query.PkNastavaRealizacija == "null" ? null : req.query.PkNastavaRealizacija;
@@ -188,6 +188,15 @@ router.get("/StudentPrisutnostNaNastavi", function(req, res) {
     request.addParameter("PkNastavaRealizacija", TYPES.Int, req.query.PkNastavaRealizacija);
 
     db.execStoredProc(request, conn, res, "{}");
+});
+
+// dohvat svih nastavnika suradnika
+router.get("/NastavnikSuradnikSvi", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spNastavnikSuradnikSvi_select", conn);
+
+    db.execStoredProc(request, conn, res, "{}");
 }); 
+
 
 module.exports = router;

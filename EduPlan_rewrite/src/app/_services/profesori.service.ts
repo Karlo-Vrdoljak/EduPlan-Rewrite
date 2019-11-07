@@ -14,22 +14,18 @@ export class ProfesorService {
         this.config = new Config();
     }
 
-     /*
+    /*
      *  Select sve podatke o profesoru.
      *  Params: int ili null
      *  Returns: Niz od jednog objekta ili niz vise objekata
      */
     getNastavnik(data) {
-        return this.http
-            .get(this.config.API_URL + "Nastavnik", { params: data })
-            .pipe(
-                retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError("ProfesorService.getNastavnik")
-                )
-            );
+        return this.http.get(this.config.API_URL + "Nastavnik", { params: data }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("ProfesorService.getNastavnik"))
+        );
     }
-    
+
     /*
      *  Selecta sve obavijesti filtrirane po studentima.
      *  Params: int (pkUsera -> iz logina) ili null
@@ -42,38 +38,28 @@ export class ProfesorService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "ProfesorService.getProfesorObavijesti"
-                    )
-                )
+                catchError(this.appService.handleError("ProfesorService.getProfesorObavijesti"))
             );
     }
 
-     /*
+    /*
      *  Select raspored nastavnika za odredeni period.
      *  Params: int,string `YYYY-MM-DD`, string `YYYY-MM-DD`
      *  Returns: Niz od više objekata ili jednog objekta
      */
     getNastavnikRaspored(data) {
         // const headerdata = {
-            // 'Content-Type':'application/json',
-            // 'Authorization':'Basic c3R1ZDpzdHVk'
+        // 'Content-Type':'application/json',
+        // 'Authorization':'Basic c3R1ZDpzdHVk'
         // }
         return this.http
-            .get(this.config.API_URL + "PrikazRasporedaProfesor",
-                {
-                    params: data
-                    // headers: headerdata
-                }
-            )
+            .get(this.config.API_URL + "PrikazRasporedaProfesor", {
+                params: data
+                // headers: headerdata
+            })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "ProfesorService.getNastavnikRaspored"
-                    )
-                )
+                catchError(this.appService.handleError("ProfesorService.getNastavnikRaspored"))
             );
     }
 
@@ -84,41 +70,30 @@ export class ProfesorService {
      */
     getNastavnikPredmeti(data) {
         return this.http
-            .get(this.config.API_URL + "PrikazPredmetaProfesor",
-                {
-                    params: data
-                }
-            )
+            .get(this.config.API_URL + "PrikazPredmetaProfesor", {
+                params: data
+            })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(
-                    this.appService.handleError(
-                        "ProfesorService.getNastavnikPredmeti"
-                    )
-                )
+                catchError(this.appService.handleError("ProfesorService.getNastavnikPredmeti"))
             );
     }
 
-     /*
+    /*
      *  Select odabranog predmeta na studiju i prikaz osnovnih iformacija.
      *  Params: PkSkolskaGodinaStudijPredmetKatedra
      *  Returns: Niz od  jednog objekta
      */
-    getPredmetOsnovniPodaci(data) { //Dummy service
+    getPredmetOsnovniPodaci(data) {
+        //Dummy service
         return this.http
-        .get(this.config.API_URL + "PrikazPredmetaOsnovniPodaci", 
-            {
+            .get(this.config.API_URL + "PrikazPredmetaOsnovniPodaci", {
                 params: data
-            }
-        )
-        .pipe(
-            retry(this.config.APIRetryCount),
-            catchError(
-                this.appService.handleError(
-                    "ProfesorService.getPredmetOsnovniPodaci"
-                )
-            )
-        );
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("ProfesorService.getPredmetOsnovniPodaci"))
+            );
     }
 
     /*
@@ -126,21 +101,16 @@ export class ProfesorService {
      *  Params: PkSkolskaGodinaStudijPredmetKatedra
      *  Returns: Niz od  jednog ili više objekata
      */
-    getPredmetStudenti(data) { //Dummy service
+    getPredmetStudenti(data) {
+        //Dummy service
         return this.http
-        .get(this.config.API_URL + "PrikazStudenataPoPredmetu",
-            {
+            .get(this.config.API_URL + "PrikazStudenataPoPredmetu", {
                 params: data
-            }
-        )
-        .pipe(
-            retry(this.config.APIRetryCount),
-            catchError(
-                this.appService.handleError(
-                    "ProfesorService.getPredmetStudenti"
-                )
-            )
-        );
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("ProfesorService.getPredmetStudenti"))
+            );
     }
 
     /*
@@ -148,20 +118,27 @@ export class ProfesorService {
      *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
      *  Returns: Niz od  jednog ili više objekata
      */
-    getPredmetNastavneCjeline(data) { //Dummy service
+    getPredmetNastavneCjeline(data) {
+        //Dummy service
         return this.http
-        .get(this.config.API_URL + "PrikazNastavnihCjelina",
-            {
+            .get(this.config.API_URL + "PrikazNastavnihCjelina", {
                 params: data
-            }
-        )
-        .pipe(
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("ProfesorService.getPredmetNastavneCjeline"))
+            );
+    }
+    /*
+     *  Select svih Nastavnih cjelina koje se obrađuju na predmetu.
+     *  Params: pkPredmet i pkStudijskaGodina (sa dummy procedurom nista)
+     *  Returns: Niz od  jednog ili više objekata
+     */
+    getNastavnikSuradnikSvi() {
+        //Dummy service
+        return this.http.get(this.config.API_URL + "NastavnikSuradnikSvi", {}).pipe(
             retry(this.config.APIRetryCount),
-            catchError(
-                this.appService.handleError(
-                    "ProfesorService.getPredmetNastavneCjeline"
-                )
-            )
+            catchError(this.appService.handleError("ProfesorService.getNastavnikSuradnikSvi"))
         );
     }
 }

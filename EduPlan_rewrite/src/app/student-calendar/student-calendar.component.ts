@@ -7,7 +7,6 @@ import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { StudentiService } from "../_services/studenti.service";
 import { Calendar, View } from "@fullcalendar/core";
-import { CalendarEvent } from "../_interfaces/CalendarEvent";
 import { AppVariables } from "../_interfaces/_configAppVariables";
 import { CalendarConfig } from "../_interfaces/_configCalendar";
 import { MenuItem } from "primeng/api";
@@ -84,7 +83,6 @@ export class StudentCalendarComponent implements OnInit {
         }
         this.translate
             .get([
-                "STUDENT_KALENDAR_LOCALE",
                 "STUDENT_KALENDAR_LOCALE",
                 "STUDENTCALENDAR_PREDAVANJA",
                 "STUDENTCALENDAR_SEMINAR",

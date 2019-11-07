@@ -137,6 +137,8 @@ import { ProfesorSviPredmetiComponent } from "./profesor-svi-predmeti/profesor-s
 import { AppVariables } from "./_interfaces/_configAppVariables";
 import { CalendarConfig } from "./_interfaces/_configCalendar";
 import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.component';
+import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component';
+import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
 
 @NgModule({
     imports: [
@@ -261,7 +263,9 @@ import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.co
         ProfesorObavijestiComponent,
         ProfesorOsobniPodaciComponent,
         ProfesorSviPredmetiComponent,
-        ProfesorPredmetComponent
+        ProfesorPredmetComponent,
+        ProfesorPregledKalendaraComponent,
+        ProfesorPregledAgendiComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

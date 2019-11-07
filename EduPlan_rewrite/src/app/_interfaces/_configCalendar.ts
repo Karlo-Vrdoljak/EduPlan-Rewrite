@@ -5,6 +5,7 @@ import { CalendarEvent } from "./CalendarEvent";
 
 export class CalendarConfig {
            passedDate: Date[] = null;
+           pregledNastavnikaPassedDate: Date[] = null;
            DatumOd: string; // = "2017-10-10";
            DatumDo: string; // = "2019-10-30";
            DefaultRasponDatuma: number = 365;

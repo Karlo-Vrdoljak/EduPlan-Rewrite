@@ -145,6 +145,14 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.router.navigate(["/vProfesorKalendar"]);
                     break;
                 }
+                case screen.width <= 600 && this.router.url == "/vPregledProfesorKalendar": {
+                    this.router.navigate(["/vPregledProfesorAgenda", "sm"]);
+                    break;
+                }
+                case screen.width >= 600 && this.router.url == "/vPregledProfesorAgenda/sm": {
+                    this.router.navigate(["/vPregledProfesorKalendar"]);
+                    break;
+                }
                 default: {
                     //none
                     break;

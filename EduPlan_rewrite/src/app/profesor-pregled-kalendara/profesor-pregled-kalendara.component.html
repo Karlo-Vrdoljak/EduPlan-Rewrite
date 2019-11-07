@@ -1,0 +1,109 @@
+<div class="ui-g ui-fluid">
+    
+    <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-2 clearPaddingLeft">
+            <button type="button" pButton icon="fa fa-fw fa-user" (click)="displayRasporedDialog=true" label="{{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_NASTAVNICISURADNICI' | translate }}" class="ui-button-primary"></button>
+    </div>
+    <div class="ui-g-12 ui-sm-5 ui-md-5 ui-lg-6 clearPaddingLeft">
+    </div>
+    <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4 clearPaddingLeft">
+        <div style="float: right;" *ngIf="legend">
+            <p-menu  styleClass="menuCss" [showTransitionOptions]="'5ms'" [hideTransitionOptions]="'5ms'" #menu
+                [popup]="true" [model]="legend"></p-menu>
+            <button type="button" pButton icon="fa fa-fw fa-info" label="{{ 'STUDENTCALENDAR_LEGENDA' | translate }}"
+                (click)="menu.toggle($event)"></button>
+        </div>
+    </div>
+</div>
+
+<div id="calendar"></div>
+
+<p-dialog [header]="'MOBILE_NASTASVA_OPCIJE_KALENDAR' | translate " [(visible)]="displayRasporedDialog" [modal]="true" [responsive]="true" [style]="{maxWidth: '400px', minWidth: '100px',minHeight: '100px'}" [positionTop]="20" [minY]="100" [baseZIndex]="1000">
+    <div class="ui-g ui-fluid" *ngIf="odabirKalendara && nastavniciList">
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="margin-top:-2.75em;">
+            <p-steps [model]="odabirKalendara" [(activeIndex)]="activeIndex" [readonly]="false"></p-steps>
+        </div>
+        <div *ngIf="activeIndex==0" class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+          <p-listbox [listStyle]="{'max-height':'100px'}" [options]="nastavniciList" [(ngModel)]="SelectedPkNastavnikSuradnik" filter="filter" optionLabel="display">
+            <p-header>
+              <i class="pi pi-user"></i>
+              <span *ngIf="SelectedPkNastavnikSuradnik">{{ SelectedPkNastavnikSuradnik.Ime }} {{ SelectedPkNastavnikSuradnik.Prezime }}</span>
+            </p-header>
+          </p-listbox>         
+        </div>
+        <div *ngIf="activeIndex==1" class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+          <p-calendar  [style]="{'overflow':'visible', 'z-index':'10000', 'opacity':'1'}" [monthNavigator]="true" [yearNavigator]="true" yearRange="1950:2100" [(ngModel)]="rangeDates" (onSelect)="handleSelectedDate()"  selectionMode="range" [showIcon]="true" [readonlyInput]="true"></p-calendar>
+        </div>
+    </div>
+    <p-footer>
+        <button [disabled]="(!SelectedPkNastavnikSuradnik || !dateReadySubmit)" type="button" pButton icon="fa fa-fw fa-check" (click)="submitRaspored()" label="Submit" class="ui-button-success"></button>
+        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeRasporedEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+
+
+<p-dialog [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [resizable]="false" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [baseZIndex]="10000">
+    <div *ngIf="!eventDetalji">
+        <p-progressBar mode="indeterminate"></p-progressBar>
+    </div> 
+    <div class="ui-g ui-fluid form-group" *ngIf="eventDetalji">
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
+                <label for="detaljiTermin">{{ 'SERVICES_AP_SATNICA_SATNICA' | translate }}
+                    <!-- Termin -->
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input id="detaljiNastavnik" type="text" size="30" [ngModel]="eventDetalji.NastavnikSuradnikNaziv" pInputText disabled> 
+                <label for="detaljiNastavnik">{{ 'KATALOZI_BDSTUDIJNASTAVNIKSURADNIK_NASTAVNIK' | translate }}
+                    <!-- Termin -->
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input id="detaljiPredmetNaziv" type="text" size="30" [ngModel]="eventDetalji.PredmetNaziv" pInputText disabled> 
+                <label for="detaljiPredmetNaziv">{{ eventDetalji.PredmetKratica }}
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input id="detaljiPodTipPredavanjaNaziv" type="text" size="30" [ngModel]="eventDetalji.PodTipPredavanjaNaziv" pInputText disabled> 
+                <label for="detaljiPodTipPredavanjaNaziv">{{ 'KATALOZI_PODTIPPREDAVANJA_PODTIPNASTAVE' | translate }}
+                    <!-- Podtip predavanja -->
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input id="detaljiSifraPredavaonice" type="text" size="30" [ngModel]="eventDetalji.SifraPredavaonice" pInputText disabled> 
+                <label for="detaljiSifraPredavaonice">{{ 'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_PREDAVAONICA' | translate }}
+                    <!-- Predavaonica -->
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding:10px;">
+            <span class="ui-float-label">
+                <textarea id="detaljiStudijNaziv" disabled autoResize="autoResize" pInputTextarea [ngModel]="eventDetalji.StudijNaziv"></textarea>
+                <label for="detaljiStudijNaziv">{{ 'VIEWS_GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_STUDIJI' | translate }}
+                <!-- Studiji -->
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding:10px;">
+            <span class="ui-float-label">
+                <textarea id="detaljiStudijKratica" disabled autoResize="autoResize" pInputTextarea [ngModel]="eventDetalji.KraticaStudija"></textarea>
+                <label for="detaljiStudijKratica">{{ 'VIEWS_KATALOZI_STUDIJ_KRATICA' | translate }}
+                    <!-- Kratica Studija -->
+                </label>
+            </span>
+        </div>
+    </div>
+
+    <p-footer>
+      <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
