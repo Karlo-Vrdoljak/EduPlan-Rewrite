@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProfesorPregledAgendiComponent implements OnInit {
 
   constructor() { }
-
+  //TODO
   ngOnInit() {
   }
 

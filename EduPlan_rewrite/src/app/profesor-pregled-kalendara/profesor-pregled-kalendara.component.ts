@@ -90,7 +90,10 @@ export class ProfesorPregledKalendaraComponent implements OnInit {
         if (screen.width <= 600) {
             this.router.navigate(["/vPregledProfesorKalendar", "sm"]);
         }
-        this.odabirKalendara = [{ label: "Nastavnik/Suradnik" }, { label: "Period rasporeda" }];
+        this.odabirKalendara = [
+            { label: this.translate.instant("KATALOZI_STUDIJ_NASTAVNIK_SURADNIK") },
+            { label: this.translate.instant("PROFESOR_PREGLEDKALENDARA_PERIOD_KALENDARA") }
+        ];
 
         this.translate
             .get([
@@ -102,14 +105,21 @@ export class ProfesorPregledKalendaraComponent implements OnInit {
                 "STUDENTCALENDAR_REALIZIRANO",
                 "STUDENTCALENDAR_NIJE_REALIZIRANO",
                 "STUDENTCALENDAR_PRISUTAN",
-                "STUDENTCALENDAR_ODSUTAN"
+                "STUDENTCALENDAR_ODSUTAN",
+                "NASTAVA_GRUPAPREDMETA_KRATICA",
+                "NASTAVA_NASTAVAPLANIRANJE_SEMESTRALNO_NASTAVNIK",
+                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ",
+                "GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI"
             ])
             .toPromise()
             .then(res => {
                 this.legend = this.calendarConfig
                     .setupKalendarAgendaLegenda(res)
                     .filter((e: MenuItem) => {
-                        return e.label != res.STUDENTCALENDAR_REALIZIRANO && e.label != res.STUDENTCALENDAR_PRISUTAN;
+                        return (
+                            e.label != res.STUDENTCALENDAR_REALIZIRANO &&
+                            e.label != res.STUDENTCALENDAR_PRISUTAN
+                        );
                     });
 
                 // this.profesoriService.getNastavnikRaspored(this.params).subscribe(data => {
@@ -121,9 +131,9 @@ export class ProfesorPregledKalendaraComponent implements OnInit {
                     .getNastavnikSuradnikSvi()
                     .subscribe((data: NastavnikSuradnik[]) => {
                         this.nastavniciList = data;
-                        this.nastavniciList.forEach((e:NastavnikSuradnik)=> {
-                          e.display ='';
-                          e.display += e.Ime + " " + e.Prezime + " " + (e.OIB ? e.OIB : '');
+                        this.nastavniciList.forEach((e: NastavnikSuradnik) => {
+                            e.display = "";
+                            e.display += e.Ime + " " + e.Prezime + " " + (e.OIB ? e.OIB : "");
                         });
                     });
 
@@ -212,7 +222,9 @@ export class ProfesorPregledKalendaraComponent implements OnInit {
 
                                             </div>
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                                <span class="fc-title">Kratica &bull; ` +
+                                                <span class="fc-title">` +
+                                res.NASTAVA_GRUPAPREDMETA_KRATICA +
+                                ` &bull; ` +
                                 arg.event.extendedProps.PredmetKratica +
                                 `</span>
 
@@ -220,7 +232,7 @@ export class ProfesorPregledKalendaraComponent implements OnInit {
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                                 <span class="fc-title">` +
                                 this.calendarConfig.parseStudijLabel(
-                                    arg.event.extendedProps.StudijNazivKratica
+                                    arg.event.extendedProps.StudijNazivKratica,res
                                 ) +
                                 this.parseStudijKratica(
                                     arg.event.extendedProps.StudijNazivKratica
@@ -255,7 +267,8 @@ export class ProfesorPregledKalendaraComponent implements OnInit {
                                       // `</span>` +
                                       `<span class="fc-title" style="padding-left:0.2em;"> Predavaonica &bull; ` +
                                       arg.event.title +
-                                      ` Nastavnik &bull; ` +
+                                      res.NASTAVA_NASTAVAPLANIRANJE_SEMESTRALNO_NASTAVNIK +
+                                      ` &bull; ` +
                                       arg.event.extendedProps.NastavnikSuradnikNaziv +
                                       `</span>` +
                                       `<span class="fc-title" style="padding-left:0.2em;">` +
@@ -267,7 +280,7 @@ export class ProfesorPregledKalendaraComponent implements OnInit {
                                       `</span>` +
                                       `<span class="fc-title" style="padding-left:0.2em;"> ` +
                                       this.calendarConfig.parseStudijLabel(
-                                          arg.event.extendedProps.StudijNazivKratica
+                                          arg.event.extendedProps.StudijNazivKratica,res
                                       ) +
                                       arg.event.extendedProps.StudijNazivKratica +
                                       `</span>`

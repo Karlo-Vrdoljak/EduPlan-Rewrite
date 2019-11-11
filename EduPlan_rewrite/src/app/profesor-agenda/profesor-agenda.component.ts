@@ -101,7 +101,10 @@ export class ProfesorAgendaComponent implements OnInit {
                 "PREDMET_BDPREDMETSTUDENTI_IME",
                 "PREDMET_BDPREDMETSTUDENTI_PREZIME",
                 "PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA",
-                "PREDMET_BDPREDMETSTUDENTI_PRISUTAN"
+                "PREDMET_BDPREDMETSTUDENTI_PRISUTAN",
+                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRA_PREDMETKRATICA",
+                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ",
+                "GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI"
             ])
             .subscribe(res => {
                 this.legend = this.calendarConfig.setupKalendarAgendaLegenda(res);
@@ -159,7 +162,7 @@ export class ProfesorAgendaComponent implements OnInit {
                                 .getStudentPrisutnostNaNastavi(params)
                                 .subscribe((data: any[]) => {
                                     this.prisutniStudenti = data;
-                                    
+
                                     this.eventDetalji = {
                                         PredmetNaziv: arg.event.extendedProps.PredmetNaziv,
                                         PodTipPredavanjaNaziv:
@@ -215,7 +218,9 @@ export class ProfesorAgendaComponent implements OnInit {
 
                                         </div>
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                            <span class="fc-title">Kratica predmeta &bull; ` +
+                                            <span class="fc-title">` +
+                                res.NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRA_PREDMETKRATICA +
+                                ` &bull; ` +
                                 arg.event.extendedProps.PredmetKratica +
                                 `</span>
 
@@ -223,7 +228,7 @@ export class ProfesorAgendaComponent implements OnInit {
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                             <span class="fc-title">` +
                                 this.calendarConfig.parseStudijLabel(
-                                    arg.event.extendedProps.StudijNazivKratica
+                                    arg.event.extendedProps.StudijNazivKratica,res
                                 ) +
                                 arg.event.extendedProps.StudijNazivKratica +
                                 `</span>
@@ -232,8 +237,7 @@ export class ProfesorAgendaComponent implements OnInit {
                                     </div>
                                 </td>
                                     `;
-                        },
-
+                        }
                     });
                     this.calendar.render();
 

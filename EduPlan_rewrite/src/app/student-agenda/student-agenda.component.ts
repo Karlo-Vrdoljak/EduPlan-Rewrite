@@ -91,12 +91,18 @@ export class StudentAgendaComponent implements OnInit {
                 "STUDENTCALENDAR_REALIZIRANO",
                 "STUDENTCALENDAR_NIJE_REALIZIRANO",
                 "STUDENTCALENDAR_PRISUTAN",
-                "STUDENTCALENDAR_ODSUTAN"
+                "STUDENTCALENDAR_ODSUTAN",
+                "NASTAVA_GRUPAPREDMETA_KRATICA",
+                "NASTAVA_NASTAVAPLANIRANJE_SEMESTRALNO_NASTAVNIK",
+                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ",
+                "GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI"
             ])
             .subscribe(res => {
-                this.legend = this.calendarConfig.setupKalendarAgendaLegenda(res).filter((e:MenuItem) => {
-                    return e.label != res.STUDENTCALENDAR_REALIZIRANO;
-                });
+                this.legend = this.calendarConfig
+                    .setupKalendarAgendaLegenda(res)
+                    .filter((e: MenuItem) => {
+                        return e.label != res.STUDENTCALENDAR_REALIZIRANO;
+                    });
                 this.legend = this.calendarConfig.setupKalendarAgendaLegenda(res);
 
                 this.studentiService.getStudentRaspored(this.params).subscribe(data => {
@@ -182,7 +188,9 @@ export class StudentAgendaComponent implements OnInit {
                                     <div class="ui-g-12">
 
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                            <span class="fc-title">Kratica predmeta &bull; ` +
+                                            <span class="fc-title">` +
+                                res.NASTAVA_GRUPAPREDMETA_KRATICA +
+                                ` &bull; ` +
                                 arg.event.extendedProps.PredmetKratica +
                                 `</span>
 
@@ -194,7 +202,9 @@ export class StudentAgendaComponent implements OnInit {
 
                                         </div>
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                            <span class="fc-title">Nastavnik &bull; ` +
+                                            <span class="fc-title">` +
+                                res.NASTAVA_NASTAVAPLANIRANJE_SEMESTRALNO_NASTAVNIK +
+                                ` &bull; ` +
                                 arg.event.extendedProps.NastavnikSuradnikNaziv +
                                 `</span>
 
@@ -203,7 +213,7 @@ export class StudentAgendaComponent implements OnInit {
                                         <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                             <span class="fc-title">` +
                                 this.calendarConfig.parseStudijLabel(
-                                    arg.event.extendedProps.StudijNazivKratica
+                                    arg.event.extendedProps.StudijNazivKratica,res
                                 ) +
                                 arg.event.extendedProps.StudijNazivKratica +
                                 `</span>

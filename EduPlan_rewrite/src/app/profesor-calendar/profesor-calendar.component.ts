@@ -107,7 +107,11 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                 "PREDMET_BDPREDMETSTUDENTI_IME",
                 "PREDMET_BDPREDMETSTUDENTI_PREZIME",
                 "PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA",
-                "PREDMET_BDPREDMETSTUDENTI_PRISUTAN"
+                "PREDMET_BDPREDMETSTUDENTI_PRISUTAN",
+                "NASTAVA_GRUPAPREDMETA_KRATICA",
+                "NASTAVA_NASTAVAREALIZACIJA_PREDAVAONICA",
+                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ",
+                "GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI"
             ])
             .toPromise()
             .then(res => {
@@ -213,7 +217,9 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
                                             </div>
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
-                                                <span class="fc-title">Kratica &bull; ` +
+                                                <span class="fc-title">` +
+                                    res.NASTAVA_GRUPAPREDMETA_KRATICA +
+                                    ` &bull; ` +
                                     arg.event.extendedProps.PredmetKratica +
                                     `</span>
 
@@ -221,7 +227,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                                 <span class="fc-title">` +
                                     this.calendarConfig.parseStudijLabel(
-                                        arg.event.extendedProps.StudijNazivKratica
+                                        arg.event.extendedProps.StudijNazivKratica,res
                                     ) +
                                     this.parseStudijKratica(
                                         arg.event.extendedProps.StudijNazivKratica
@@ -256,7 +262,9 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                           `<span class="fc-time">` +
                                           this.parseEducard(arg.event.extendedProps.Prisutan) +
                                           `</span>` +
-                                          `<span class="fc-title" style="padding-left:0.2em;"> Predavaonica &bull; ` +
+                                          `<span class="fc-title" style="padding-left:0.2em;"> ` +
+                                          res.NASTAVA_NASTAVAREALIZACIJA_PREDAVAONICA +
+                                          ` &bull; ` +
                                           arg.event.title +
                                           `</span>` +
                                           `<span class="fc-title" style="padding-left:0.2em;">` +
@@ -267,7 +275,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                           `</span>` +
                                           `<span class="fc-title" style="padding-left:0.2em;"> ` +
                                           this.calendarConfig.parseStudijLabel(
-                                              arg.event.extendedProps.StudijNazivKratica
+                                              arg.event.extendedProps.StudijNazivKratica,res
                                           ) +
                                           arg.event.extendedProps.StudijNazivKratica +
                                           `</span>`

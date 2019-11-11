@@ -1,5 +1,6 @@
 import { EventColor } from "./ColorEventEnum";
 import { CalendarEvent } from "./CalendarEvent";
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -58,27 +59,7 @@ export class CalendarConfig {
                    case tipPredavanja.toLowerCase().includes("background"): {
                        return EventColor.Background;
                    }
-                   //    case tipPredavanja == "Vježbe": {
-                   //        return EventColor.Vjezbe;
-                   //    }
-                   //    case tipPredavanja == "Kliničke vježbe": {
-                   //        return EventColor.Vjezbe;
-                   //    }
-                   //    case tipPredavanja == "Pretkliničke vježbe": {
-                   //        return EventColor.Vjezbe;
-                   //    }
-                   //    case tipPredavanja == "Vježbe tjelesnog odgoja": {
-                   //        return EventColor.Vjezbe;
-                   //    }
-                   //    case tipPredavanja == "Vježbe u praktikumu": {
-                   //        return EventColor.Vjezbe;
-                   //    }
-                   //    case tipPredavanja == "Laboratorijske vježbe": {
-                   //        return EventColor.Vjezbe;
-                   //    }
-                   //    case tipPredavanja == "Terenske vježbe": {
-                   //        return EventColor.Vjezbe;
-                   //    }
+                   
 
                    default: {
                        return EventColor.Predavanja;
@@ -246,8 +227,10 @@ export class CalendarConfig {
             * @description ovisno kolko ih je za predmet u satnici
             * @param studiji string
             */
-           parseStudijLabel(studiji?: string): string {
-               return studiji.split(",").length == 1 ? "Studij &bull; " : "Studiji &bull; ";
+           parseStudijLabel(studiji?: string,prijevod?): string {
+               return studiji.split(",").length == 1
+                   ? prijevod.NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ + "&bull; "
+                   : prijevod.GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI + "&bull; ";
            }
            /**
             * @Opis Concata studije za prikaz u textarea u dialogu eventDetalja
