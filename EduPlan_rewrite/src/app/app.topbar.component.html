@@ -22,11 +22,6 @@
                     <p-dropdown [options]="akademskeGodine"  [(ngModel)]="akademskaGodinaSelected"  optionLabel="SkolskaGodinaNaziv" (onChange)="setPkSkolskaGodina()"></p-dropdown>
             </div>
         </li>
-        <li >
-            <a routerLink="vStudentObavijesti">
-                <i class="topbar-icon fa fa-fw fa-dot-circle-o"></i>
-                <span class="topbar-item-name">Notifications</span>
-            </a>
             <!-- <ul class="fadeInDown">
                 <li role="menuitem">
                     <a href="#" (click)="app.onTopbarSubItemClick($event)">
@@ -54,7 +49,6 @@
                     </a>
                 </li>
             </ul> -->
-        </li>
         <!--<li #messages [ngClass]="{'active-topmenuitem':app.activeTopbarItem === messages}">
             <a href="#" (click)="app.onTopbarItemClick($event,messages)">
                 <i class="topbar-icon animated swing fa fa-fw fa-envelope-o"></i>

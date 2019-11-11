@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { AppRoutes } from "./app.routes";
 import { DatePipe } from '@angular/common'
+import { SwiperModule } from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 
 import { Config } from "./config";
 import { AccordionModule } from "primeng/accordion";
@@ -142,6 +144,7 @@ import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profes
 
 @NgModule({
     imports: [
+        SwiperModule,
         BrowserModule,
         FormsModule,
         AppRoutes,
@@ -268,7 +271,9 @@ import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profes
         ProfesorPregledAgendiComponent
     ],
     providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: {LocationStrategy, SWIPER_CONFIG },
+          useClass: HashLocationStrategy   
+        },
         SubjectService,
         StudentService,
         CalendarService,

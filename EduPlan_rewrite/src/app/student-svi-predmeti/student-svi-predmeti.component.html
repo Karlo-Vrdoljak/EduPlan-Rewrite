@@ -151,8 +151,8 @@
 
 <div class="card smallDevice" style="padding: 10px!important;">
     <div *ngIf="studentData; else loader">        
-        <p-table [columns]="colsSmall" [value]="studentData" selectionMode="single" [scrollable]="true" scrollHeight="50vh"
-        dataKey="PredmetKratica" [resizableColumns]="true">
+        <p-table [columns]="colsSmall" [value]="studentData" selectionMode="single" [scrollable]="true" 
+        dataKey="PredmetKratica" [resizableColumns]="true" rowExpandMode="single" >
         <ng-template pTemplate="caption">
             <!--Podaci o predmetima-->
             {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}

@@ -72,6 +72,10 @@ span.ui-inputgroup-addon {
 
 }
 
+.rekapitulacija {
+    font-size: 0.7em;
+}
+
 /*input[type="text"] {
     width: 15em
 }

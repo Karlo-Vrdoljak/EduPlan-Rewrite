@@ -1,8 +1,9 @@
-import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { ProfesorService } from '../_services/profesori.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppVariables } from '../_interfaces/_configAppVariables';
+import { LanguageHandler } from '../app.languageHandler'
+
 
 @Component({
   selector: 'app-profesor-svi-predmeti',
@@ -12,14 +13,19 @@ import { AppVariables } from '../_interfaces/_configAppVariables';
 export class ProfesorSviPredmetiComponent implements OnInit { //U proceduri koju koristi su hardkodirane neke vrijednosti
   ProfesorPredmeti: any;
   rowGroupMetadata: any = {};
+  selectedLang: string;
 
-  constructor(private profesorService: ProfesorService, private appVariables: AppVariables) { }
+  constructor ( private profesorService: ProfesorService 
+               ,private appVariables: AppVariables
+               ,private langHandler: LanguageHandler) { }
 
   ngOnInit() {
     const params = {
       PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
       PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik
     };
+
+    this.selectedLang = this.langHandler.getCurrentLanguage();
 
     this.profesorService.getNastavnikPredmeti(params).subscribe((data) => {
       this.ProfesorPredmeti = data;
