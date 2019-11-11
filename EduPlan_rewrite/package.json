@@ -33,6 +33,7 @@
         "flag-icon-css": "^3.4.0",
         "font-awesome": "4.7.0",
         "intl": "1.2.5",
+        "ngx-swiper-wrapper": "^8.0.2",
         "primeicons": "1.0.0",
         "primeng": "8.0.0",
         "quill": "^1.3.7",

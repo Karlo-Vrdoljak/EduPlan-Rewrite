@@ -6,17 +6,23 @@
                 {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
             </ng-template>
 
-            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex"  let-expanded="expanded"
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-expanded="expanded"
                 let-columns="columns">
                 <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PkPredmet].index === rowIndex">
                     <td colspan="4">
                         <a href="#" class="usesTransition fade" [pRowToggler]="rowData" style="text-align: center;">
                             <span class="groupAlign">
-                                <i
-                                    [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fade' : 'pi pi-chevron-circle-right usesTransition fade'"
+                                <i [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fade' : 'pi pi-chevron-circle-right usesTransition fade'"
                                     style="margin-left: -0.4em;">
-                                </i> 
-                                {{rowData.PredmetNaziv}} &bull; {{rowData.PredmetKratica}} &bull; {{rowData.StudijKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                                </i>
+                                <span *ngIf="selectedLang == 'hr'; else englishOutput">{{rowData.PredmetNaziv}} &bull;
+                                    {{rowData.PredmetKratica}} &bull;
+                                    {{rowData.StudijKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                                </span>
+                                <ng-template #englishOutput>
+                                    {{rowData.PredmetNazivEn}} &bull; {{rowData.PredmetKratica}} &bull;
+                                    {{rowData.StudijKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                                </ng-template>
                             </span>
                         </a>
                     </td>
@@ -32,10 +38,20 @@
                 </tr>
 
                 <tr>
-                    <td class="dataContent"><span>{{rowData.StudijNaziv}}</span></td>
+                    <td class="dataContent"><span
+                            *ngIf="selectedLang == 'hr'; else englishOutputStudijNaziv">{{rowData.StudijNaziv}}</span>
+                    </td>
+
+                    <ng-template #englishOutputStudijNaziv>
+                        {{rowData.StudijNazivEn}}
+                    </ng-template>
+
                     <td class="dataContent"><span>{{rowData.StudijKratica}}</span></td>
-                    <td class="dataContent"><span *ngIf="rowData.BrojStudenata != null; else noStudentsToShow">{{rowData.BrojStudenata}}</span></td>
-                    <td class="dataContent"> <a routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}">
+                    <td class="dataContent"><span
+                            *ngIf="rowData.BrojStudenata != null; else noStudentsToShow">{{rowData.BrojStudenata}}</span>
+                    </td>
+                    <td class="dataContent"> <a
+                            routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}">
                             <i class="fa fa-angle-double-right fa-2x"></i></a>
                     </td>
                 </tr>
@@ -47,7 +63,7 @@
 <div class="smallMedium" hidden>
     <div *ngIf="ProfesorPredmeti; else loader">
         <p-table [value]="ProfesorPredmeti" dataKey="PkPredmet" sortField="PredmetNaziv" sortMode="single"
-            (onSort)="onSort()" rowExpandMode="single"  expandableRows="true">
+            (onSort)="onSort()" rowExpandMode="single" expandableRows="true">
             <ng-template pTemplate="caption">
                 {{'VIEWS_GRUPEZANASTAVU_PREDMETI' | translate}}
             </ng-template>
@@ -56,10 +72,19 @@
                 let-columns="columns">
                 <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.PkPredmet].index === rowIndex">
                     <td colspan="3">
-                        <a href="#" class="usesTransition fadeSmall" [pRowToggler]="rowData" style="text-align: center;">
+                        <a href="#" class="usesTransition fadeSmall" [pRowToggler]="rowData"
+                            style="text-align: center;">
                             <span class="groupAlign"><i
                                     [ngClass]="expanded ? 'pi pi-chevron-circle-down usesTransition fadeSmall' : 'pi pi-chevron-circle-right usesTransition fadeSmall'"
-                                    style="margin-left:-0.2em;"></i> {{rowData.PredmetNaziv}} &bull; {{rowData.PredmetKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                                    style="margin-left:-0.2em;"></i>
+                                <span *ngIf="selectedLang == 'hr'; else englishOutputSmall">
+                                    {{rowData.PredmetNaziv}} &bull; {{rowData.PredmetKratica}} &bull;
+                                    {{rowData.StudijKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                                </span>
+                                <ng-template #englishOutputSmall>
+                                    {{rowData.PredmetNazivEn}} &bull; {{rowData.PredmetKratica}} &bull;
+                                    {{rowData.StudijKratica}} {{rowGroupMetadata[rowData.PkPredmet].naslov}}
+                                </ng-template>
                             </span>
                         </a>
                     </td>
@@ -75,15 +100,22 @@
                         <span>{{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}</span></th>
 
                 </tr>
-                
+
                 <tr>
                     <td class="dataContent">
-                        <b><a routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}" style="font-size: 0.9em; font-style: italic;">
-                            {{rowData.StudijNaziv}}
-                        </a></b>
+                        <b><a routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}"
+                                style="font-size: 0.9em; font-style: italic;">
+                                <span
+                                    *ngIf="selectedLang == 'hr'; else englishOutputStudijNazivSmall">{{rowData.StudijNaziv}}</span>
+                                <ng-template #englishOutputStudijNazivSmall>
+                                    {{rowData.StudijNazivEn}}
+                                </ng-template>
+                            </a></b>
                     </td>
                     <td class="dataContent"><span>{{rowData.StudijKratica}}</span></td>
-                    <td class="dataContent"><span *ngIf="rowData.BrojStudenata != null; else noStudentsToShow">{{rowData.BrojStudenata}}</span></td>
+                    <td class="dataContent"><span
+                            *ngIf="rowData.BrojStudenata != null; else noStudentsToShow">{{rowData.BrojStudenata}}</span>
+                    </td>
                 </tr>
             </ng-template>
         </p-table>

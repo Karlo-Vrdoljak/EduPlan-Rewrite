@@ -7,7 +7,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { formatDate } from '@angular/common';
-import { DatePipe } from '@angular/common';
+import { LanguageHandler } from '../app.languageHandler'
 
 interface predmetNastavneCjelineDummy {
   imeNastavneCjeline: string;
@@ -62,7 +62,7 @@ export class ProfesorPredmetComponent implements OnInit {
     private opciService: OpciService,
     private translate: TranslateService,
     private messageService: MessageService,
-    private datepipe: DatePipe) { }
+    private langHandler: LanguageHandler) { }
 
   ngOnInit() {
 
@@ -71,11 +71,7 @@ export class ProfesorPredmetComponent implements OnInit {
       PkPredmet: 7 //this.route.snapshot.paramMap.get('PkPredmet')      
     };
 
-    this.translate //Gledamo koji je jezik odabran
-    .get(["STUDENT_KALENDAR_LOCALE"])
-    .subscribe(res => {
-    this.selectedLang = res.STUDENT_KALENDAR_LOCALE
-  })
+    this.selectedLang = this.langHandler.getCurrentLanguage()
 
     // prijevod i inicijalizacija za botune s crud operacijama
     this.translate
@@ -87,6 +83,7 @@ export class ProfesorPredmetComponent implements OnInit {
         "NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS",
         "NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS"
       ]).subscribe(res => {
+
         this.actionItemsSmall = [
           {
             label: res.VIEWS_KATALOZI_PREDMET_STUDENTI,
@@ -193,10 +190,6 @@ export class ProfesorPredmetComponent implements OnInit {
             {
               field: "prezime",
               header: res.VIEWS_APLIKACIJA_HOME_PREZIME
-            },
-            {
-              field: "studijNaziv_HR",
-              header: res.NASTAVA_BDSKOLSKAGODINASTUDIJI_NAZIVSTUDIJA
             },
             {
               field: "Semestar",

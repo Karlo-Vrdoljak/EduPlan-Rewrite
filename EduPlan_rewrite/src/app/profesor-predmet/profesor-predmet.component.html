@@ -9,17 +9,12 @@
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}"
                     leftIcon="fa fa-info-circle">
                     <ng-container>
-                        <div class="card card-w-title ">
-                            <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                        <div class="card card-w-title">
+                            <h1 *ngIf="selectedLang == 'hr'; else englishOutput">
+                                {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
                                 {{predmetOsnovniPodaci.NazivStudija_HR}}
-                                <!--<div class="actionsContainer" style="float: right;">
-                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuPodaci
-                                        [popup]="true" [model]="actionItemsOsnovniPodaciNastavneCjeline"></p-menu>
-                                    <button type="button" pButton icon="fa fa-fw fa-list"
-                                        label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
-                                        (click)="menuPodaci.toggle($event)"></button>
-                                </div>-->
                             </h1>
+                             
                             <div class="ui-g form-group">
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}
@@ -76,7 +71,7 @@
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" leftIcon="fa fa-users">
                     <ng-container>
                         <div class="card card-w-title ">
-                            <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                            <h1 *ngIf="selectedLang == 'hr'; else englishOutput">{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
                                 {{predmetOsnovniPodaci.NazivStudija_HR}}
                                 <div class="actionsContainer" style="float: right;">
                                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
@@ -233,7 +228,7 @@
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" leftIcon="fa fa-book">
                     <ng-container>
                         <div class="card card-w-title ">
-                            <h1>
+                            <h1 *ngIf="selectedLang == 'hr'; else englishOutput">
                                 {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
                                 {{predmetOsnovniPodaci.NazivStudija_HR}}
                                 <div class="actionsContainer" style="float: right;">
@@ -296,7 +291,7 @@
         <p-toast position="top-center"></p-toast>
         <div class="ui-g-12">
             <div class="card card-w-title ">
-                <h1>{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.KaticaStudij}}
+                <h1 *ngIf="selectedLang == 'hr'; else englishOutput">{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.KaticaStudij}}
                     <div class="actionsContainer" style="float: right; font-size: 0.8em;">
                         <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
                         <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
@@ -436,16 +431,10 @@
                                                     <div class="ui-g">
                                                         <div class="ui-g-12">
                                                             <b>
-                                                                {{'STUDENT_BDSTUDENTPODACINASTUDIJU_KRATICA_STUDIJA' | translate}}:
-                                                            </b>
-                                                            {{rowData.kraticaStudija}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
                                                                 {{'VIEWS_KATALOZI_STUDIJ_NAZIV' | translate}}:
                                                             </b>
-                                                            {{rowData.studijNaziv_HR}}
+                                                            <span *ngIf="selectedLang == 'hr'; else englishOutputNaziv">  {{rowData.studijNaziv_HR}} </span>
+                                                            <ng-template #englishOutputNaziv> {{rowData.studijNaziv_EN}} </ng-template>                                                        
                                                         </div>
 
                                                         <div class="ui-g-12">
@@ -800,4 +789,9 @@
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>
+
+<ng-template #englishOutput>
+        {{predmetOsnovniPodaci.NazivPredmeta_EN}} &bull;
+        {{predmetOsnovniPodaci.NazivStudija_EN}}
 </ng-template>

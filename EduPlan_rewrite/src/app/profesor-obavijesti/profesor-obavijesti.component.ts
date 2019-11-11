@@ -14,6 +14,18 @@ export class ProfesorObavijestiComponent implements OnInit {
   NemaObavijestiDogadanja : boolean = true;
   NemaObavijestiSluzbeno : boolean = true;
   NemaObavijestiOstalo : boolean = true;
+  swiperIndex: number = 1;
+  swiperConfig: any = {
+    direction: 'horizontal',
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+    },
+    speed: 1500,
+    effect: 'cube',
+    loop: true,
+    loopedSlides: 3
+};
 
   constructor(
     private profesorService: ProfesorService,
