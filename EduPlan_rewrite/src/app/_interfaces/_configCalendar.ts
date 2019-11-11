@@ -12,7 +12,7 @@ export class CalendarConfig {
            DefaultRasponDatuma: number = 365;
            RealizacijaOpacity: any;
 
-           constructor(private translate:TranslateService) {
+           constructor() {
                if(this.passedDate) {
                    this.DatumOd = this.passedDate[0].toISOString();
                    this.DatumDo = this.passedDate[1].toISOString();
@@ -227,13 +227,10 @@ export class CalendarConfig {
             * @description ovisno kolko ih je za predmet u satnici
             * @param studiji string
             */
-           parseStudijLabel(studiji?: string): string {
+           parseStudijLabel(studiji?: string,prijevod?): string {
                return studiji.split(",").length == 1
-                   ? this.translate.instant(
-                         "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ"
-                     ) + "&bull; "
-                   : this.translate.instant("GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI") +
-                         "&bull; ";
+                   ? prijevod.NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ + "&bull; "
+                   : prijevod.GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI + "&bull; ";
            }
            /**
             * @Opis Concata studije za prikaz u textarea u dialogu eventDetalja

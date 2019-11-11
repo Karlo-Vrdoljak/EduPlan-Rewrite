@@ -95,7 +95,9 @@ export class StudentCalendarComponent implements OnInit {
                 "NASTAVA_GRUPAPREDMETA_KRATICA",
                 "NASTAVA_NASTAVAPLANIRANJE_SEMESTRALNO_NASTAVNIK",
                 "NASTAVA_NASTAVAREALIZACIJA_PREDAVAONICA",
-                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KRATICA"
+                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KRATICA",
+                "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_STUDIJ",
+                "GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDIJI"
             ])
             .toPromise()
             .then(res => {
@@ -207,7 +209,7 @@ export class StudentCalendarComponent implements OnInit {
                                             <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12" style="padding:0.1em;">
                                                 <span class="fc-title">` +
                                     this.calendarConfig.parseStudijLabel(
-                                        arg.event.extendedProps.StudijNazivKratica
+                                        arg.event.extendedProps.StudijNazivKratica,res
                                     ) +
                                     this.parseStudijKratica(
                                         arg.event.extendedProps.StudijNazivKratica
@@ -263,7 +265,7 @@ export class StudentCalendarComponent implements OnInit {
                                           `</span>` +
                                           `<span class="fc-title" style="padding-left:0.2em;"> ` +
                                           this.calendarConfig.parseStudijLabel(
-                                              arg.event.extendedProps.StudijNazivKratica
+                                              arg.event.extendedProps.StudijNazivKratica,res
                                           ) +
                                           arg.event.extendedProps.StudijNazivKratica +
                                           `</span>`
