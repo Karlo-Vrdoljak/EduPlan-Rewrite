@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { StudentiService } from '../_services/studenti.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppVariables } from '../_interfaces/_configAppVariables';
+import { OpciService } from './../_services/opci.service';
+
 
 @Component({
   selector: 'app-student-obavijesti',
@@ -18,7 +20,8 @@ export class StudentObavijestiComponent implements OnInit {
 
   constructor(
     private studentiService: StudentiService,
-    private appVariables: AppVariables
+    private appVariables: AppVariables,
+    private opciService: OpciService
     ) { }
 
   ngOnInit() {
@@ -28,7 +31,7 @@ export class StudentObavijestiComponent implements OnInit {
     };
       
       this.studentiService.getStudentObavijesti(params).subscribe((data) => {
-      this.StudentObavijesti = data;
+      this.StudentObavijesti = this.opciService.formatDates(data);
 
       for (let s of this.StudentObavijesti) {
         if(s.PkTipObavijesti === 1) { this.NemaObavijestiDogadanja = false }

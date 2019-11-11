@@ -14,7 +14,7 @@
                                 {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
                                 {{predmetOsnovniPodaci.NazivStudija_HR}}
                             </h1>
-                             
+
                             <div class="ui-g form-group">
                                 <div class="ui-g-12 ui-md-6 ui-lg-6">
                                     {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}
@@ -71,8 +71,11 @@
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" leftIcon="fa fa-users">
                     <ng-container>
                         <div class="card card-w-title ">
-                            <h1 *ngIf="selectedLang == 'hr'; else englishOutput">{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
-                                {{predmetOsnovniPodaci.NazivStudija_HR}}
+                            <h1>
+                                <span *ngIf="selectedLang == 'hr'; else englishOutput">
+                                    {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                    {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                </span>
                                 <div class="actionsContainer" style="float: right;">
                                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
                                         #menuStudenti [popup]="true" [model]="actionItemsStudenti"></p-menu>
@@ -200,24 +203,33 @@
                         <div class="card card-w-title ">
                             <h1>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_REKAPITULACIJA' | translate}}</h1>
                             <div class="ui-g form-group">
-                                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                    {{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}<br><input type="text" [ngModel]="ukupanBrojStudenata"
-                                        pInputText disabled>
+                                <div class="ui-g-12 ui-md-4 ui-lg-2">
+                                    {{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}<br><input
+                                        type="text" [ngModel]="ukupanBrojStudenata" pInputText disabled>
                                 </div>
-                                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                    {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJOSLOBODENIHSTUDENATA' | translate}}<br><input type="text"
-                                        [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
+                                <div class="ui-g-12 ui-md-4 ui-lg-2">
+                                    {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJOSLOBODENIHSTUDENATA' | translate}}<br><input
+                                        type="text" [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
                                 </div>
-                                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                    <span>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_POSTOTAKPROLAZNOSTI' | translate}}</span> <br>
+                                <div class="ui-g-12 ui-md-4 ui-lg-2">
+                                    {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJPOLOZENIH' | translate}}<br><input
+                                        type="text" [ngModel]="brojPolozenih" pInputText disabled="true">
+                                </div>
+                                <div class="ui-g-12 ui-md-4 ui-lg-2">
+                                    {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJNEPOLOZENIH' | translate}}<br><input
+                                        type="text" [ngModel]="brojNepolozenih" pInputText disabled="true">
+                                </div>
+                                <div class="ui-g-12 ui-md-4 ui-lg-2">
+                                    <span>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_POSTOTAKPROLAZNOSTI' | translate}}</span>
+                                    <br>
                                     <div class="ui-inputgroup">
                                         <input type="text" [ngModel]="prolaznost" pInputText disabled>
                                         <span class="ui-inputgroup-addon" style="padding-top: 0.2em;">%</span>
                                     </div>
                                 </div>
-                                <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                    {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_PROSJEKOCJENA' | translate}}<br><input type="text" [ngModel]="prosjekOcjena" pInputText
-                                        disabled="true">
+                                <div class="ui-g-12 ui-md-4 ui-lg-2">
+                                    {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_PROSJEKOCJENA' | translate}}<br><input
+                                        type="text" [ngModel]="prosjekOcjena" pInputText disabled="true">
                                 </div>
                             </div>
                         </div>
@@ -228,9 +240,11 @@
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" leftIcon="fa fa-book">
                     <ng-container>
                         <div class="card card-w-title ">
-                            <h1 *ngIf="selectedLang == 'hr'; else englishOutput">
-                                {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
-                                {{predmetOsnovniPodaci.NazivStudija_HR}}
+                            <h1>
+                                <span *ngIf="selectedLang == 'hr'; else englishOutput">
+                                    {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                    {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                </span>
                                 <div class="actionsContainer" style="float: right;">
                                     <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
                                         #menuNastavneCjeline [popup]="true" [model]="actionItemsNastavneCjeline">
@@ -291,7 +305,8 @@
         <p-toast position="top-center"></p-toast>
         <div class="ui-g-12">
             <div class="card card-w-title ">
-                <h1 *ngIf="selectedLang == 'hr'; else englishOutput">{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull; {{predmetOsnovniPodaci.KaticaStudij}}
+                <h1 *ngIf="selectedLang == 'hr'; else englishOutput">{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                    {{predmetOsnovniPodaci.KaticaStudij}}
                     <div class="actionsContainer" style="float: right; font-size: 0.8em;">
                         <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
                         <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
@@ -299,7 +314,8 @@
                 </h1>
 
                 <p-panel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}" [toggleable]="true"
-                    expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
+                    [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
+                    toggler="header">
                     <ng-container>
                         <div class="ui-g form-group">
                             <div class="ui-g-12 ui-md-6 ui-lg-6">
@@ -362,24 +378,33 @@
                             <div class="rekapitulacija card card-w-title ">
                                 <h1>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_REKAPITULACIJA' | translate}}</h1>
                                 <div class="ui-g form-group">
-                                    <div class="ui-g-12 ui-sm-12 ui-md-6">
-                                        {{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}<br><input type="text" [ngModel]="ukupanBrojStudenata"
-                                            pInputText disabled>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}<br><input
+                                            type="text" [ngModel]="ukupanBrojStudenata" pInputText disabled>
                                     </div>
-                                    <div class="ui-g-12 ui-sm-12 ui-md-6">
-                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJOSLOBODENIHSTUDENATA' | translate}}<br><input type="text"
-                                            [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJOSLOBODENIHSTUDENATA' | translate}}<br><input
+                                            type="text" [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
                                     </div>
-                                    <div class="ui-g-12 ui-sm-12 ui-md-6">
-                                        <span>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_POSTOTAKPROLAZNOSTI' | translate}}</span> <br>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        <span>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_POSTOTAKPROLAZNOSTI' | translate}}</span>
+                                        <br>
                                         <div class="ui-inputgroup" style="height: 2em;">
                                             <input type="text" [ngModel]="prolaznost" pInputText disabled>
                                             <span class="ui-inputgroup-addon" style="padding-top: 0.32em;">%</span>
                                         </div>
                                     </div>
-                                    <div class="ui-g-12 ui-sm-12 ui-md-6">
-                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_PROSJEKOCJENA' | translate}}<br><input type="text" [ngModel]="prosjekOcjena" pInputText
-                                            disabled="true">
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_PROSJEKOCJENA' | translate}}<br><input
+                                            type="text" [ngModel]="prosjekOcjena" pInputText disabled="true">
+                                    </div>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJPOLOZENIH' | translate}}<br><input
+                                            type="text" [ngModel]="brojPolozenih" pInputText disabled="true">
+                                    </div>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJNEPOLOZENIH' | translate}}<br><input
+                                            type="text" [ngModel]="brojNepolozenih" pInputText disabled="true">
                                     </div>
                                 </div>
                             </div>
@@ -433,8 +458,10 @@
                                                             <b>
                                                                 {{'VIEWS_KATALOZI_STUDIJ_NAZIV' | translate}}:
                                                             </b>
-                                                            <span *ngIf="selectedLang == 'hr'; else englishOutputNaziv">  {{rowData.studijNaziv_HR}} </span>
-                                                            <ng-template #englishOutputNaziv> {{rowData.studijNaziv_EN}} </ng-template>                                                        
+                                                            <span *ngIf="selectedLang == 'hr'; else englishOutputNaziv">
+                                                                {{rowData.studijNaziv_HR}} </span>
+                                                            <ng-template #englishOutputNaziv> {{rowData.studijNaziv_EN}}
+                                                            </ng-template>
                                                         </div>
 
                                                         <div class="ui-g-12">
@@ -563,7 +590,7 @@
                     toggler="header">
                     <ng-container>
                         <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjelineSmall"
-                            selectionMode="single" [scrollable]="true"  dataKey="PkPredmetNastavnaCjelina"
+                            selectionMode="single" [scrollable]="true" dataKey="PkPredmetNastavnaCjelina"
                             [(selection)]="selectedNastavniMaterijali" rowExpandMode="single">
                             <ng-template pTemplate="colgroup" let-columns>
                                 <colgroup>
@@ -701,7 +728,8 @@
     </p-footer>
 </p-dialog>
 
-<p-dialog header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITENASTAVNUCJELINU' | translate}}" [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true"
+<p-dialog header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITENASTAVNUCJELINU' | translate}}"
+    [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true"
     [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
     <div *ngIf=selectedNastavniMaterijali>
         <div class="ui-g ui-fluid form-group">
@@ -733,8 +761,8 @@
         </div>
     </div>
     <p-footer>
-        <button type="button" pButton icon="fa fa-check" (click)="editNastavniMaterijali()" label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}"
-            class="ui-button-success"></button>
+        <button type="button" pButton icon="fa fa-check" (click)="editNastavniMaterijali()"
+            label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}" class="ui-button-success"></button>
 
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeNastavneCjelineEditNovuDialog()"
             label="{{'KATALOZI_NASTAVNIKSURADNIK_SPREMI' | translate}}" class="ui-button-secondary"></button>
@@ -742,8 +770,9 @@
 
 </p-dialog>
 
-<p-dialog header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITEPODATKEOSTUDENTU' | translate}}" [(visible)]="StudentEditDialog" [modal]="true" [responsive]="true"
-    [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+<p-dialog header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITEPODATKEOSTUDENTU' | translate}}"
+    [(visible)]="StudentEditDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}"
+    [positionTop]="20" [minY]="100" [baseZIndex]="10000">
     <div *ngIf=selectedStudent>
         <div class="ui-g ui-fluid form-group">
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
@@ -766,24 +795,26 @@
             </div>
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <p-checkbox label="{{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN' | translate}}" [(ngModel)]="selectedStudent.polozen" binary="true">
+                    <p-checkbox label="{{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN' | translate}}"
+                        [(ngModel)]="selectedStudent.polozen" binary="true">
                     </p-checkbox>
                 </span>
             </div>
             <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <p-checkbox label="{{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OSLOBODEN' | translate}}" [(ngModel)]="selectedStudent.osloboden" binary="true">
+                    <p-checkbox label="{{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OSLOBODEN' | translate}}"
+                        [(ngModel)]="selectedStudent.osloboden" binary="true">
                     </p-checkbox>
                 </span>
             </div>
         </div>
     </div>
     <p-footer>
-        <button type="button" pButton icon="fa fa-check" (click)="editStudent()" label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}"
-            class="ui-button-success"></button>
+        <button type="button" pButton icon="fa fa-check" (click)="editStudent()"
+            label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}" class="ui-button-success"></button>
 
-        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeStudentEditDialog()" label="{{'KATALOZI_NASTAVNIKSURADNIK_SPREMI' | translate}}"
-            class="ui-button-secondary"></button>
+        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeStudentEditDialog()"
+            label="{{'KATALOZI_NASTAVNIKSURADNIK_SPREMI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
 
@@ -792,6 +823,6 @@
 </ng-template>
 
 <ng-template #englishOutput>
-        {{predmetOsnovniPodaci.NazivPredmeta_EN}} &bull;
-        {{predmetOsnovniPodaci.NazivStudija_EN}}
+    {{predmetOsnovniPodaci.NazivPredmeta_EN}} &bull;
+    {{predmetOsnovniPodaci.NazivStudija_EN}}
 </ng-template>

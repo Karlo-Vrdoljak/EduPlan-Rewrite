@@ -228,8 +228,8 @@
 <!--Za destop verziju-->
 <div *ngIf="ProfesorObavijesti; else loader">
     <div class="ui-g ui-fluid bigDevice">
-
-        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
+        <b style="float: right; font-size: 15px;">*Naslov isti kao i tekst obavjesti, a datum hardkodiran</b>
+        <div class="ui-g-12 ui-lg-4 ui-md-4 ui-sm-12">
             <div class="card card-w-title">
                 <h1 style="border-left: 6px solid red;">&nbsp; {{'STUDENTOBAVIJESTI_DOGADANJA' | translate}}</h1>
                 <ng-container *ngIf="NemaObavijestiDogadanja === false; else nemaObavijesti">
@@ -254,7 +254,7 @@
             </div>
         </div>
 
-        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
+        <div class="ui-g-12 ui-lg-4 ui-md-4 ui-sm-12">
             <div class="card card-w-title">
                 <h1 style="border-left: 6px solid green;">&nbsp; {{'STUDENTOBAVIJESTI_SLUZBENO' | translate}}</h1>
                 <ng-container *ngIf="NemaObavijestiSluzbeno === false; else nemaObavijesti">
@@ -279,7 +279,7 @@
             </div>
         </div>
 
-        <div class="ui-g-12 ui-lg-4 ui-md-12 ui-sm-12">
+        <div class="ui-g-12 ui-lg-4 ui-md-4 ui-sm-12">
             <div class="card card-w-title">
                 <h1 style="border-left: 6px solid orange;">&nbsp; {{'STUDENTOBAVIJESTI_OSTALO' | translate}}</h1>
                 <ng-container *ngIf="NemaObavijestiOstalo === false; else nemaObavijesti">

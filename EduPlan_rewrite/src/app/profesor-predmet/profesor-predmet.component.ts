@@ -39,6 +39,7 @@ export class ProfesorPredmetComponent implements OnInit {
   prolaznost: string;
   brojPolozenih: number;
   prosjekOcjena: string;
+  brojNepolozenih: number;
   brojOslobodenihStudenata: number;
   nastavneCjelineDodajNovuDialog: boolean = false;
   nastavneCjelineEditDialog: boolean = false;
@@ -89,7 +90,7 @@ export class ProfesorPredmetComponent implements OnInit {
             label: res.VIEWS_KATALOZI_PREDMET_STUDENTI,
             items: [
               {
-                label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+                label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS + '*',
                 icon: 'fa fa-pencil'
               }]
           },
@@ -121,18 +122,18 @@ export class ProfesorPredmetComponent implements OnInit {
 
         this.actionItemsNastavneCjeline = [
           {
-            label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS,
+            label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS + '*',
             icon: 'fa fa-plus',
             command: () => this.nastavneCjelineDodajNovuDialog = true //otvaranje modalne forme za dodavanje novih cjelina
           },
           {
-            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS + '*',
             icon: 'fa fa-pencil',
             command: () => this.selectedNastavniMaterijali ? this.nastavneCjelineEditDialog = true : this.showErrorZapisNijeOdabran()  //Otvaranje modalne forme za editanje odabranog nastavnog materijala
 
           },
           {
-            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS,
+            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS + '*',
             icon: 'fa fa-trash-o',
             command: () => this.selectedNastavniMaterijali ?
               this.showSuccessDeleteNastavneCjeline() :
@@ -140,7 +141,7 @@ export class ProfesorPredmetComponent implements OnInit {
           }];
 
         this.actionItemsStudenti = [{
-          label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+          label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS + '*',
           icon: 'fa fa-pencil',
           command: () => this.selectedStudent ? this.StudentEditDialog = true : this.showErrorZapisNijeOdabran()
         }]
@@ -178,7 +179,8 @@ export class ProfesorPredmetComponent implements OnInit {
           this.studentiNaPredmetu = this.opciService.formatDates(data);
           this.setUkupanBrojStudenata();
           this.setBrojOslobodenihStudenata();
-          this.setBrojPolozenihStudenata()
+          this.setBrojPolozenihStudenata();
+          this.setBrojNepolozenihStudenata();
           this.setPostotakProlaznosti();
           this.setProsjekOcjena();
 
@@ -313,6 +315,10 @@ export class ProfesorPredmetComponent implements OnInit {
      this.brojPolozenih = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
       return currentValue.polozen == true ? accumulator + 1 : accumulator + 0
     }, 0)
+  }
+
+  setBrojNepolozenihStudenata() {
+    this.brojNepolozenih = this.ukupanBrojStudenata - this.brojOslobodenihStudenata - this.brojPolozenih;
   }
 
   setBrojOslobodenihStudenata() { //Računa broj studenata koji su oslobodeni polaganja predmeta
