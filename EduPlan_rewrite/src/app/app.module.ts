@@ -141,6 +141,7 @@ import { CalendarConfig } from "./_interfaces/_configCalendar";
 import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.component';
 import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component';
 import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
     imports: [
@@ -291,7 +292,8 @@ import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profes
         AppVariables,
         CalendarConfig,
         LoginComponent,
-        DatePipe
+        DatePipe,
+        CookieService
     ],
     bootstrap: [AppComponent]
 })

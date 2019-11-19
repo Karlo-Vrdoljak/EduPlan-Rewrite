@@ -198,5 +198,10 @@ router.get("/NastavnikSuradnikSvi", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+// nedovrsen api za kopiranje tokena iz ex2 u ex3
+router.post('/setAuth',function(req, res) {
+    localStorage.setItem("AuthToken",res);
+}); 
+
 
 module.exports = router;

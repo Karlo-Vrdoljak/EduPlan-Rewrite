@@ -20,5 +20,15 @@
     .smallDevice {
         display:none;
     }   
+
+    .caption {
+        padding-inline-start: 44em; 
+        padding-inline-end: 44em; 
+        font-size: 1.2em;
+    }
+
+    .globalFilter {
+        display: inline-block;
+    }
 }
 

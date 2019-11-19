@@ -60,7 +60,9 @@ export class ProfesorSviPredmetiComponent implements OnInit { //U proceduri koju
           let previousRowGroup = previousRowData.PkPredmet;
           if (predmet === previousRowGroup) {
             this.rowGroupMetadata[predmet].size++;
-            this.rowGroupMetadata[predmet].naslov = ''; // zbog undefined kad concata
+            if (this.rowGroupMetadata[predmet].size <= 2){
+              this.rowGroupMetadata[predmet].naslov = ''; // zbog undefined kad concata
+            }  
             this.rowGroupMetadata[predmet].naslov += ', ' + rowData.StudijKratica;
       
           }

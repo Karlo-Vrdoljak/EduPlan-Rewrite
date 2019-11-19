@@ -1,340 +1,351 @@
 <div class="card largeMedium" style="padding: 10px!important;">
-    <div *ngIf="studentData; else loader">    
-        <p-table [columns]="cols" [value]="studentData" selectionMode="single" [scrollable]="true" scrollHeight="77vh"
-        dataKey="PredmetKratica" [resizableColumns]="true">
-        <ng-template pTemplate="caption">
-            <!--Podaci o predmetima-->
-            {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
-        </ng-template>
-        <ng-template pTemplate="colgroup" let-columns>
-            <colgroup>
-                <col *ngFor="let col of columns">
-            </colgroup>
-            <!--[style.width]="col.width"-->
-        </ng-template>
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th pResizableColumn></th>
-                <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
-                    style="text-align: center;">
-                    {{col.header}}
-                    <p-sortIcon [field]="col.field"></p-sortIcon>
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
-            <tr [pSelectableRow]="rowData">
-                <td class="ui-resizable-column">
-                    <a href="#" [pRowToggler]="rowData">
-                        <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                            style="font-size: 2em; margin-left: -0.2em;"></i>
-                    </a>
-                </td>
-                <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
-                    <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
-                        <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
-                                [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+    <div *ngIf="studentData; else loader">
+        <p-table #dt [columns]="cols" [value]="studentData" selectionMode="single" [scrollable]="true"
+            scrollHeight="77vh" dataKey="PredmetKratica" [resizableColumns]="true">
+            <ng-template pTemplate="caption">
+                <!--Podaci o predmetima-->
+                <div>
+                    <span class="caption">
+                        {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
                     </span>
-                    <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
-            <tr>
-                <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
-                    <div class="card card-w-title" style="font-size:16px; padding:5px!important;">
-                        <h1 style="text-align: center;">
-                            <!--Opširnije o predmetu-->
-                            {{ 'STUDENT_SVI_PREDMETI_OPSIRNIJE_O_PREDMETU' | translate }}
-                        </h1>
-                        <div class="ui-g">
-                            <div class="ui-lg-4 ui-md-6 ui-sm-12">
-                                <div class="ui-g">
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Kratica predmeta: -->
-                                            {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate }}:
-                                        </b>
-                                        {{rowData.PredmetKratica}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Vrsta predmeta: -->
-                                            {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_VRSTAPREDMETA' | translate }}:
-                                        </b>
-                                        {{rowData.PredmetVrstaNaziv}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Kratica studija: -->
-                                            {{ 'NASTAVA_BDSKOLSKAGODINASTUDIJI_KRATICASTUDIJA' | translate }}:
-                                        </b>
-                                        {{rowData.StudijKratica}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Katedra: -->
-                                            {{ 'VIEWS_KATALOZI_PREDMET_KATEDRA' | translate }}:
-                                        </b>
-                                        {{rowData.KatedraNaziv}}
+                    <div class="globalFilter">
+                        <i class="fa fa-search"></i>
+                        <input type="text" pInputText size="30" placeholder="Global Filter"
+                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                    <col *ngFor="let col of columns">
+                </colgroup>
+                <!--[style.width]="col.width"-->
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th pResizableColumn></th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
+                        style="text-align: center;">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td class="ui-resizable-column">
+                        <a href="#" [pRowToggler]="rowData">
+                            <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                style="font-size: 2em; margin-left: -0.2em;"></i>
+                        </a>
+                    </td>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                        <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                            <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                    [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                        </span>
+                        <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                <tr>
+                    <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                        <div class="card card-w-title" style="font-size:16px; padding:5px!important;">
+                            <h1 style="text-align: center;">
+                                <!--Opširnije o predmetu-->
+                                {{ 'STUDENT_SVI_PREDMETI_OPSIRNIJE_O_PREDMETU' | translate }}
+                            </h1>
+                            <div class="ui-g">
+                                <div class="ui-lg-4 ui-md-6 ui-sm-12">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Kratica predmeta: -->
+                                                {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate }}:
+                                            </b>
+                                            {{rowData.PredmetKratica}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Vrsta predmeta: -->
+                                                {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_VRSTAPREDMETA' | translate }}:
+                                            </b>
+                                            {{rowData.PredmetVrstaNaziv}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Kratica studija: -->
+                                                {{ 'NASTAVA_BDSKOLSKAGODINASTUDIJI_KRATICASTUDIJA' | translate }}:
+                                            </b>
+                                            {{rowData.StudijKratica}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Katedra: -->
+                                                {{ 'VIEWS_KATALOZI_PREDMET_KATEDRA' | translate }}:
+                                            </b>
+                                            {{rowData.KatedraNaziv}}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="ui-lg-4 ui-md-6 ui-sm-12">
-                                <div class="ui-g">
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Nacin upisa: -->
-                                            {{ 'STUDENT_STUDENTPREDMETEDIT_NACIN_UPISA_PREDMETA' | translate }}:
-                                        </b>
-                                        {{rowData.NacinUpisaPredmetNaziv}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Ocjenjivac: -->
-                                            {{ 'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate }}:
-                                        </b>
-                                        {{rowData.Ocjenjivac}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Polaze se: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_POLAZE_SE' | translate }}:
-                                        </b>
-                                        <span [style.color]="rowData.PolazeSeDaNe == true ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.PolazeSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Ulazi u prosjek: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_ULAZI_U_PROSJEK' | translate }}:
-                                        </b>
-                                        <span [style.color]="rowData.UlaziUProsjekDaNE == true ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.UlaziUProsjekDaNE == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                <div class="ui-lg-4 ui-md-6 ui-sm-12">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Nacin upisa: -->
+                                                {{ 'STUDENT_STUDENTPREDMETEDIT_NACIN_UPISA_PREDMETA' | translate }}:
+                                            </b>
+                                            {{rowData.NacinUpisaPredmetNaziv}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Ocjenjivac: -->
+                                                {{ 'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate }}:
+                                            </b>
+                                            {{rowData.Ocjenjivac}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Polaze se: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_POLAZE_SE' | translate }}:
+                                            </b>
+                                            <span [style.color]="rowData.PolazeSeDaNe == true ? 'green' : 'red' "><i
+                                                    [ngClass]="rowData.PolazeSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Ulazi u prosjek: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_ULAZI_U_PROSJEK' | translate }}:
+                                            </b>
+                                            <span
+                                                [style.color]="rowData.UlaziUProsjekDaNE == true ? 'green' : 'red' "><i
+                                                    [ngClass]="rowData.UlaziUProsjekDaNE == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="ui-lg-4 ui-md-6 ui-sm-12">
-                                <div class="ui-g">
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Datum prijave ispita: -->
-                                            {{ 'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate }}:
-                                        </b>
-                                        {{rowData.DatumPrijaveIspita}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Datum ispita: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ISPITA' | translate }}:
-                                        </b>
-                                        {{rowData.DatumIspita}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Datum roka: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ROKA' | translate }}:
-                                        </b>
-                                        {{rowData.DatumRoka}}
+                                <div class="ui-lg-4 ui-md-6 ui-sm-12">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Datum prijave ispita: -->
+                                                {{ 'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate }}:
+                                            </b>
+                                            {{rowData.DatumPrijaveIspita}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Datum ispita: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ISPITA' | translate }}:
+                                            </b>
+                                            {{rowData.DatumIspita}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Datum roka: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ROKA' | translate }}:
+                                            </b>
+                                            {{rowData.DatumRoka}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
+                    </td>
+                </tr>
+            </ng-template>
         </p-table>
     </div>
 </div>
 
 
 <div class="card smallDevice" style="padding: 10px!important;">
-    <div *ngIf="studentData; else loader">        
-        <p-table [columns]="colsSmall" [value]="studentData" selectionMode="single" [scrollable]="true" 
-        dataKey="PredmetKratica" [resizableColumns]="true" rowExpandMode="single" >
-        <ng-template pTemplate="caption">
-            <!--Podaci o predmetima-->
-            {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
-        </ng-template>
-        <ng-template pTemplate="colgroup" let-columns>
-            <colgroup>
-                <col *ngFor="let col of columns">
-            </colgroup>
-            <!--[style.width]="col.width"-->
-        </ng-template>
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <!--<th width="15%"  pResizableColumn></th>-->
-                <th *ngFor="let col of columns" colspan="2" [pSortableColumn]="col.field" pResizableColumn
-                    style="text-align: center;">
-                    {{col.header}}
-                    <p-sortIcon [field]="col.field"></p-sortIcon>
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
-            <tr [pSelectableRow]="rowData">
-                <td width="20%" class="ui-resizable-column">
-                    <a href="#" [pRowToggler]="rowData">
-                        <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                            style="font-size: 2em; margin-left: -0.2em;"></i>
-                    </a>
-                </td>
-                <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
-                    {{rowData[col.field]}}
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
-            <tr>
-                <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
-                    <div class="card card-w-title cardText" style="padding:5px!important;">
-                        <h1 style="text-align: center;">
-                            <!--Opširnije o predmetu-->
-                            {{ 'STUDENT_SVI_PREDMETI_OPSIRNIJE_O_PREDMETU' | translate }}
-                        </h1>
-                        <div class="ui-g">
-                            <div class="ui-lg-4 ui-md-6 ui-sm-12">
-                                <div class="ui-g">
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Kratica predmeta: -->
-                                            {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate }}:
-                                        </b>
-                                        {{rowData.PredmetKratica}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Vrsta predmeta: -->
-                                            {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_VRSTAPREDMETA' | translate }}:
-                                        </b>
-                                        {{rowData.PredmetVrstaNaziv}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Kratica studija: -->
-                                            {{ 'NASTAVA_BDSKOLSKAGODINASTUDIJI_KRATICASTUDIJA' | translate }}:
-                                        </b>
-                                        {{rowData.StudijKratica}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Katedra: -->
-                                            {{ 'VIEWS_KATALOZI_PREDMET_KATEDRA' | translate }}:
-                                        </b>
-                                        {{rowData.KatedraNaziv}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            {{ 'VIEWS_KATALOZI_PREDMET_STUDIJ' | translate }}:
-                                        </b>
-                                        {{rowData.StudijNaziv}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            {{ 'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate }}:
-                                        </b>
-                                        {{rowData.Semestar}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            {{ 'VIEWS_KATALOZI_PREDMET_ECTS' | translate }}:
-                                        </b>
-                                        {{rowData.EctsBodovi}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui-lg-4 ui-md-6 ui-sm-12">
-                                <div class="ui-g">
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Nacin upisa: -->
-                                            {{ 'STUDENT_STUDENTPREDMETEDIT_NACIN_UPISA_PREDMETA' | translate }}:
-                                        </b>
-                                        {{rowData.NacinUpisaPredmetNaziv}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Ocjenjivac: -->
-                                            {{ 'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate }}:
-                                        </b>
-                                        {{rowData.Ocjenjivac}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Polaze se: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_POLAZE_SE' | translate }}:
-                                        </b>
-                                        <span [style.color]="rowData.PolazeSeDaNe == true ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.PolazeSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Ulazi u prosjek: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_ULAZI_U_PROSJEK' | translate }}:
-                                        </b>
-                                        <span [style.color]="rowData.UlaziUProsjekDaNE == true ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.UlaziUProsjekDaNE == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            {{ 'KATALOZI_BDSTUDIJPREDMET_GODINA' | translate }}:
-                                        </b>
-                                        {{rowData.StudijskaGodina}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            {{ 'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate }}:
-                                        </b>
-                                        {{rowData.VoditeljPredmeta}}
+    <div *ngIf="studentData; else loader">
+        <p-table [columns]="colsSmall" [value]="studentData" selectionMode="single" [scrollable]="true"
+            dataKey="PredmetKratica" [resizableColumns]="true" rowExpandMode="single">
+            <ng-template pTemplate="caption">
+                <!--Podaci o predmetima-->
+                {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
+            </ng-template>
+            <ng-template pTemplate="colgroup" let-columns>
+                <colgroup>
+                    <col *ngFor="let col of columns">
+                </colgroup>
+                <!--[style.width]="col.width"-->
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <!--<th width="15%"  pResizableColumn></th>-->
+                    <th *ngFor="let col of columns" colspan="2" [pSortableColumn]="col.field" pResizableColumn
+                        style="text-align: center;">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td width="20%" class="ui-resizable-column">
+                        <a href="#" [pRowToggler]="rowData">
+                            <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                style="font-size: 2em; margin-left: -0.2em;"></i>
+                        </a>
+                    </td>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                <tr>
+                    <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                        <div class="card card-w-title cardText" style="padding:5px!important;">
+                            <h1 style="text-align: center;">
+                                <!--Opširnije o predmetu-->
+                                {{ 'STUDENT_SVI_PREDMETI_OPSIRNIJE_O_PREDMETU' | translate }}
+                            </h1>
+                            <div class="ui-g">
+                                <div class="ui-lg-4 ui-md-6 ui-sm-12">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Kratica predmeta: -->
+                                                {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_PREDMETKRATICA' | translate }}:
+                                            </b>
+                                            {{rowData.PredmetKratica}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Vrsta predmeta: -->
+                                                {{ 'NASTAVA_BDSKOLSKAGODINAPREDMETI_VRSTAPREDMETA' | translate }}:
+                                            </b>
+                                            {{rowData.PredmetVrstaNaziv}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Kratica studija: -->
+                                                {{ 'NASTAVA_BDSKOLSKAGODINASTUDIJI_KRATICASTUDIJA' | translate }}:
+                                            </b>
+                                            {{rowData.StudijKratica}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Katedra: -->
+                                                {{ 'VIEWS_KATALOZI_PREDMET_KATEDRA' | translate }}:
+                                            </b>
+                                            {{rowData.KatedraNaziv}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                {{ 'VIEWS_KATALOZI_PREDMET_STUDIJ' | translate }}:
+                                            </b>
+                                            {{rowData.StudijNaziv}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                {{ 'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate }}:
+                                            </b>
+                                            {{rowData.Semestar}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                {{ 'VIEWS_KATALOZI_PREDMET_ECTS' | translate }}:
+                                            </b>
+                                            {{rowData.EctsBodovi}}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="ui-lg-4 ui-md-6 ui-sm-12">
-                                <div class="ui-g">
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Datum prijave ispita: -->
-                                            {{ 'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate }}:
-                                        </b>
-                                        {{rowData.DatumPrijaveIspita}}
+                                <div class="ui-lg-4 ui-md-6 ui-sm-12">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Nacin upisa: -->
+                                                {{ 'STUDENT_STUDENTPREDMETEDIT_NACIN_UPISA_PREDMETA' | translate }}:
+                                            </b>
+                                            {{rowData.NacinUpisaPredmetNaziv}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Ocjenjivac: -->
+                                                {{ 'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate }}:
+                                            </b>
+                                            {{rowData.Ocjenjivac}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Polaze se: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_POLAZE_SE' | translate }}:
+                                            </b>
+                                            <span [style.color]="rowData.PolazeSeDaNe == true ? 'green' : 'red' "><i
+                                                    [ngClass]="rowData.PolazeSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Ulazi u prosjek: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_ULAZI_U_PROSJEK' | translate }}:
+                                            </b>
+                                            <span
+                                                [style.color]="rowData.UlaziUProsjekDaNE == true ? 'green' : 'red' "><i
+                                                    [ngClass]="rowData.UlaziUProsjekDaNE == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                {{ 'KATALOZI_BDSTUDIJPREDMET_GODINA' | translate }}:
+                                            </b>
+                                            {{rowData.StudijskaGodina}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                {{ 'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate }}:
+                                            </b>
+                                            {{rowData.VoditeljPredmeta}}
+                                        </div>
                                     </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Datum ispita: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ISPITA' | translate }}:
-                                        </b>
-                                        {{rowData.DatumIspita}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            <!--Datum roka: -->
-                                            {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ROKA' | translate }}:
-                                        </b>
-                                        {{rowData.DatumRoka}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            {{ 'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA' | translate }}:
-                                        </b>
-                                        {{rowData.Ocjena}}
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <b>
-                                            {{ 'KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN' | translate }}:
-                                        </b>
-                                        <span [style.color]="rowData.PolozenDaNe == true ? 'green' : 'red' "><i
-                                                [ngClass]="rowData.PolozenDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                </div>
+                                <div class="ui-lg-4 ui-md-6 ui-sm-12">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Datum prijave ispita: -->
+                                                {{ 'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate }}:
+                                            </b>
+                                            {{rowData.DatumPrijaveIspita}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Datum ispita: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ISPITA' | translate }}:
+                                            </b>
+                                            {{rowData.DatumIspita}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                <!--Datum roka: -->
+                                                {{ 'STUDENT_BDSTUDENTPREDMETI_DATUM_ROKA' | translate }}:
+                                            </b>
+                                            {{rowData.DatumRoka}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                {{ 'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA' | translate }}:
+                                            </b>
+                                            {{rowData.Ocjena}}
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <b>
+                                                {{ 'KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN' | translate }}:
+                                            </b>
+                                            <span [style.color]="rowData.PolozenDaNe == true ? 'green' : 'red' "><i
+                                                    [ngClass]="rowData.PolozenDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw fa-times'"></i></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-        
+                    </td>
+                </tr>
+            </ng-template>
+
         </p-table>
     </div>
 </div>
@@ -342,4 +353,3 @@
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>
 </ng-template>
-

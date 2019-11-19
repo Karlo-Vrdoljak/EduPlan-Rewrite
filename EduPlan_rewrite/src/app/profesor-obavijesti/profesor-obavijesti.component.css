@@ -11,8 +11,14 @@
     .smallDevice {
         display: none;
     }
+    
     .bigDevice {
         display: block;
+    }
+
+    
+    .card.obavijestContainer:hover {
+        border-color: black;
     }
 }
 
@@ -33,11 +39,6 @@
     border-radius: 5px;
     border-color: #c9c9c9;
 
-}
-
-.card.obavijestContainer:hover {
-  
-    border-color: black;
 }
 
 

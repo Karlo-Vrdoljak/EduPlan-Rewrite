@@ -1,4 +1,4 @@
-@media only screen and (max-width: 770px) {
+@media only screen and (max-width: 850px) {
     .smallDevice {
         display: block;
     }
@@ -7,12 +7,16 @@
     }
 }
 
-@media only screen and (min-width: 770px) {
+@media only screen and (min-width: 850px) {
     .smallDevice {
         display: none;
     }
     .bigDevice {
         display: block;
+    }
+
+    .card.obavijestContainer:hover {
+        border-color: black;
     }
 }
 
@@ -35,11 +39,6 @@
 
 }
 
-.card.obavijestContainer:hover {
-  
-    border-color: black;
-}
-
 .nemaObavijesti {
     width: 100%;
     text-align: center;
@@ -56,6 +55,16 @@
 .card h1 {
     font-size: 1em;
     padding: 0.71em 0;
+}
+
+:host >>> .swiper-wrapper {
+    padding-top: 2em;
+}
+
+:host >>> .swiper-pagination.swiper-pagination-bullets {
+    left: 0;
+    width: 100%;
+    top: 0;
 }
 
 

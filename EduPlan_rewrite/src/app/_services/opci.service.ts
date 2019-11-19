@@ -60,6 +60,14 @@ export class OpciService {
             catchError(this.appService.handleError("OpciService.getDohvatDomicilnihVrijednostiEduCard"))
         );
     }
+    postGetAuthToken() {
+        return this.http
+        .post(this.config.API_URL + "token", {})
+        .pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("OpciService.postGetAuthToken"))
+        );
+    }
 
      /**
      *  @Opis Formatira sve varijable zadanog niza objekata koje su iz baze dovucene kao string, a trebaju biti Date i format ovisi o odabranom jeziku
