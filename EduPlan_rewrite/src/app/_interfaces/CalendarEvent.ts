@@ -17,6 +17,7 @@ export interface CalendarEvent {
         PredmetNaziv;
         PodTipPredavanjaNaziv;
         PodTipPredavanjaSifra;
+        PkTipPredavanje;
         PredmetKratica;
         SifraPredavaonice;
         Realizirano;
@@ -28,6 +29,9 @@ export interface CalendarEvent {
         NastavnikSuradnikNaziv;
         PkNastavnikSuradnik;
         NastavnikSuradnikInicijali;
-        //PkPredavaonica, PkSatnica
+        PkPredavaonica;
+        PkSatnica;
+        PkGrupaZaNastavu;
+
     };
 }

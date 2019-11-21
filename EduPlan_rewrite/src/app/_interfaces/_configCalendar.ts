@@ -206,6 +206,7 @@ export class CalendarConfig {
                            PredmetNaziv: e.PredmetNaziv || null,
                            PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
                            PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
+                           PkTipPredavanje: e.PkTipPredavanje || null,
                            PredmetKratica: e.PredmetKratica || null,
                            SifraPredavaonice: e.SifraPredavaonice || null,
                            Realizirano: e.Realizirano || null,
@@ -213,7 +214,10 @@ export class CalendarConfig {
                            PkStudij: e.PkStudij || null,
                            StudijNaziv: e.StudijNaziv || null,
                            StudijNazivKratica: e.StudijNazivKratica || null,
-                           Prisutan: e.Prisutan || 0
+                           Prisutan: e.Prisutan || 0,
+                           PkPredavaonica: e.PkPredavaonica || 0,
+                           PkSatnica: e.PkSatnica || 0,
+                           PkGrupaZaNastavu: e.PkGrupaZaNastavu || 0,
                        }
                    };
                    events.push(event);
@@ -304,5 +308,12 @@ export class CalendarConfig {
                        return res + val;
                    });
                return ((prisutan / studenti.length) * 100).toFixed(2);
+           }
+           
+           /**
+            * 
+            */
+           tryFindLastRealizacija() {
+                
            }
        }

@@ -180,12 +180,15 @@ router.get("/PrikazNastavnihCjelina", function(req, res) {
 router.get("/StudentPrisutnostNaNastavi", function(req, res) {
     req.query.PkNastavaPlan = req.query.PkNastavaPlan == "null" ? null : req.query.PkNastavaPlan;
     req.query.PkNastavaRealizacija = req.query.PkNastavaRealizacija == "null" ? null : req.query.PkNastavaRealizacija;
+    req.query.PkNastavaRealizacijaBlokSat = req.query.PkNastavaRealizacijaBlokSat == "null" ? null : req.query.PkNastavaRealizacijaBlokSat;
+
 
     var conn = db.createConnection();
     var request = db.createRequest("PregledKartice.spStudentPrisutnostNaNastavi_Select", conn); 
     
     request.addParameter("PkNastavaPlan", TYPES.Int, req.query.PkNastavaPlan);
     request.addParameter("PkNastavaRealizacija", TYPES.Int, req.query.PkNastavaRealizacija);
+    request.addParameter("PkNastavaRealizacijaBlokSat", TYPES.Int, req.query.PkNastavaRealizacijaBlokSat);
 
     db.execStoredProc(request, conn, res, "{}");
 });
