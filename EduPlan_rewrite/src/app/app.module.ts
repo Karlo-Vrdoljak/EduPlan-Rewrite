@@ -9,9 +9,11 @@ import { DatePipe } from '@angular/common'
 import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 
+
 import { Config } from "./config";
 import { AccordionModule } from "primeng/accordion";
 import { AutoCompleteModule } from "primeng/autocomplete";
+import {TriStateCheckboxModule} from 'primeng/tristatecheckbox';
 import { BreadcrumbModule } from "primeng/breadcrumb";
 import { ButtonModule } from "primeng/button";
 import { CalendarModule } from "primeng/calendar";
@@ -155,6 +157,7 @@ import { CookieService } from 'ngx-cookie-service';
         AutoCompleteModule,
         BreadcrumbModule,
         ButtonModule,
+        TriStateCheckboxModule,
         CalendarModule,
         CardModule,
         CarouselModule,

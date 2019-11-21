@@ -33,6 +33,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     legend: MenuItem[];
     prisutniStudenti: any[];
     prisutnostStudenata: any[];
+    studentiZaBrisanje:any[];
     params = {
         // PkStudent: 1312,
         // PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
@@ -92,6 +93,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         if (screen.width <= 600) {
             this.router.navigate(["/vProfesorAgenda", "sm"]);
         }
+        this.studentiZaBrisanje = [];
         this.translate
             .get([
                 "STUDENT_KALENDAR_LOCALE",
@@ -122,6 +124,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
                 this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
                     this.apiData = data;
+                    // console.log("API:",this.apiData);
                     this.events = this.calendarConfig.prepareCalendarEventsProfesor(this.apiData);
                     // console.log(this.events);
                     var calendarEl = document.getElementById("calendar");
@@ -146,6 +149,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                         eventClick: arg => {
                             var start = this.calendarConfig.formatDateShort(arg.event.start);
                             var end = this.calendarConfig.formatDateShort(arg.event.end);
+
                             let params = {
                                 PkNastavaPlan: arg.event.extendedProps.PkNastavaPlan,
                                 PkNastavaRealizacija: arg.event.extendedProps.PkNastavaRealizacija
@@ -236,10 +240,6 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                     this.parseEducard(arg.event.extendedProps.Prisutan) +
                                     `</div>
                                         </div>
-
-                                        
-
-
                                     </div>
                                         `;
                             } else if (this.weekButton === true || this.dayButton === true) {
@@ -424,5 +424,24 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     }
     isBoolean(val) {
         return [0, 1].includes(val);
+    }
+    handleDeleteStudentsClick() {
+        // console.log('ARR',this.prisutniStudenti);
+        // console.log('DEL',this.studentiZaBrisanje);
+        this.studentiZaBrisanje.forEach(e => {
+            let index = this.prisutniStudenti.indexOf(e);
+            this.prisutniStudenti = this.prisutniStudenti.filter((val,i) => i != index);
+        });
+        this.studentiZaBrisanje = [];
+    }
+    togglePrisutnost(rowData, colField) {
+        console.log('rowData',rowData);
+        console.log('colField', colField);
+        console.log(this.prisutniStudenti);
+        let editedStudent = rowData;
+        editedStudent.Prisutan = editedStudent.Prisutan == 1 ? 0 : 1;
+        let studenti = [...this.prisutniStudenti];
+        studenti[this.prisutniStudenti.indexOf(rowData)] = editedStudent;
+        this.prisutniStudenti = studenti;         
     }
 }
