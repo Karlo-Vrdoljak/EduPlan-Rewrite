@@ -28,5 +28,6 @@ export interface CalendarEvent {
         NastavnikSuradnikNaziv;
         PkNastavnikSuradnik;
         NastavnikSuradnikInicijali;
+        //PkPredavaonica, PkSatnica
     };
 }

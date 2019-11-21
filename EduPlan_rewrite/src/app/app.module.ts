@@ -268,7 +268,7 @@ import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profes
         ProfesorSviPredmetiComponent,
         ProfesorPredmetComponent,
         ProfesorPregledKalendaraComponent,
-        ProfesorPregledAgendiComponent
+        ProfesorPregledAgendiComponent,
     ],
     providers: [
         { provide: {LocationStrategy, SWIPER_CONFIG },

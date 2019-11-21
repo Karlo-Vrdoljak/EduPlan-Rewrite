@@ -261,9 +261,10 @@ export class StudentAgendaComponent implements OnInit {
      * @param timbran
      */
     parseEducard(timbran) {
+
         // this.appVariables.EducardAktivan = 0;
         if (this.appVariables.EducardAktivan) {
-            return timbran
+            return timbran 
                 ? `<br><span class="fa fa-rss" style="color:` +
                       this.calendarConfig.getColors().Realizirano +
                       `; font-size:1.3em;"></span>`
