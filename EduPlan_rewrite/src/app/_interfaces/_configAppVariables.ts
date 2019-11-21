@@ -14,5 +14,9 @@ export class AppVariables {
            EducardAktivan: number;
            //    NazivDomicilneVrijednosti: string;
            //    VrijednostPkDomicilneVrijednosti:number;
+           minOcjena: number = 2;
+           maxOcjena: number = 5;
+           negativnaOcjena = 1;
+
            constructor() {}
        }

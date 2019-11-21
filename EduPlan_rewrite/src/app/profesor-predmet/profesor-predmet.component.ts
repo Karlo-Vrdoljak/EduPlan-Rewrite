@@ -1,3 +1,5 @@
+import { element } from 'protractor';
+import { AppVariables } from './../_interfaces/_configAppVariables';
 import { OpciService } from './../_services/opci.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
@@ -7,7 +9,8 @@ import { TranslateService } from "@ngx-translate/core";
 import { MenuItem } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { formatDate } from '@angular/common';
-import { LanguageHandler } from '../app.languageHandler'
+import { LanguageHandler } from '../app.languageHandler';
+import { editStudentModal } from '../_interfaces/EditStudent';
 
 interface predmetNastavneCjelineDummy {
   imeNastavneCjeline: string;
@@ -56,14 +59,20 @@ export class ProfesorPredmetComponent implements OnInit {
     zadnjaPromjena: null,
     koristiSe: false
   };
-
+  editStudentModel: editStudentModal;
+  selectedStudentIndex: number;
+  minOcjena: number = this.appVariables.minOcjena;
+  maxOcjena: number = this.appVariables.maxOcjena;
+  ocjenaOcjenjivacDisabled: boolean = false;
+  saveButtonDisabled: boolean = true;
 
   constructor(private route: ActivatedRoute,
     private profesorService: ProfesorService,
     private opciService: OpciService,
     private translate: TranslateService,
     private messageService: MessageService,
-    private langHandler: LanguageHandler) { }
+    private langHandler: LanguageHandler,
+    private appVariables: AppVariables) { }
 
   ngOnInit() {
 
@@ -141,9 +150,9 @@ export class ProfesorPredmetComponent implements OnInit {
           }];
 
         this.actionItemsStudenti = [{
-          label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS + '*',
+          label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
           icon: 'fa fa-pencil',
-          command: () => this.selectedStudent ? this.StudentEditDialog = true : this.showErrorZapisNijeOdabran()
+          command: () => this.selectedStudent ? this.openStudentEditDialog() : this.showErrorZapisNijeOdabran()
         }]
       })
 
@@ -251,7 +260,7 @@ export class ProfesorPredmetComponent implements OnInit {
       ]).subscribe(res => {
         this.profesorService.getPredmetNastavneCjeline(params).subscribe((data) => {
           this.predmetNastavneCjeline = this.opciService.formatDates(data);
-  
+
           this.colsNastavneCjeline = [
             {
               header: res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
@@ -300,7 +309,7 @@ export class ProfesorPredmetComponent implements OnInit {
   }
 
   setPostotakProlaznosti() { //Računa postotak prolaznosti (uzima u obzir (broj upisanih studenata - broj oslobodenih) i onih koji su položili)
-    this.prolaznost = ((this.brojPolozenih / (this.ukupanBrojStudenata - this.brojOslobodenihStudenata))* 100).toFixed(2);
+    this.prolaznost = ((this.brojPolozenih / (this.ukupanBrojStudenata - this.brojOslobodenihStudenata)) * 100).toFixed(2);
   }
 
   setProsjekOcjena() { //Računa prosjek ocjena svih studenata na dvi decimale, oni koji nisu polozili ne ulaze u jednadzbu!!!???
@@ -312,7 +321,7 @@ export class ProfesorPredmetComponent implements OnInit {
   }
 
   setBrojPolozenihStudenata() { //funkcija vraća broj studenata koji su položili predmet
-     this.brojPolozenih = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
+    this.brojPolozenih = this.studentiNaPredmetu.reduce((accumulator, currentValue) => {
       return currentValue.polozen == true ? accumulator + 1 : accumulator + 0
     }, 0)
   }
@@ -382,20 +391,113 @@ export class ProfesorPredmetComponent implements OnInit {
     this.nastavneCjelineEditDialog = false;
   }
 
-  editStudent() { //put request prema bazi, two-way binding nije dobar nacin rješavanja ovoga (vjerojatno)
+  editStudent() { //poziv funkcije klikom na botun spremi, funkcija mijenja podadke u tablici i okida put proceduru
+    if (this.editStudentModel.ocjenaEdit == null && this.editStudentModel.polozenOslobodenSelectedValue != 'ostalo') {
+      this.saveButtonDisabled = true;
+    }
+    
+    this.studentiNaPredmetu[this.selectedStudentIndex].ime = this.editStudentModel.imeEdit; 
+    this.studentiNaPredmetu[this.selectedStudentIndex].prezime = this.editStudentModel.prezimeEdit; 
+    this.studentiNaPredmetu[this.selectedStudentIndex].ocjena = this.editStudentModel.ocjenaEdit; 
+    this.studentiNaPredmetu[this.selectedStudentIndex].ocjenjivac = this.editStudentModel.ocjenjivacEdit; 
+    if ( this.editStudentModel.polozenOslobodenSelectedValue == 'polozen') {
+      this.studentiNaPredmetu[this.selectedStudentIndex].polozen = true;
+      this.studentiNaPredmetu[this.selectedStudentIndex].osloboden = false;
+    }
+    else if (this.editStudentModel.polozenOslobodenSelectedValue == 'osloboden') {
+      this.studentiNaPredmetu[this.selectedStudentIndex].polozen = false;
+      this.studentiNaPredmetu[this.selectedStudentIndex].osloboden = true;
+    }
+    else {
+      this.studentiNaPredmetu[this.selectedStudentIndex].polozen = false;
+      this.studentiNaPredmetu[this.selectedStudentIndex].osloboden = false;
+    }
+    
+    this.ocjenaOcjenjivacDisabled = false;
+    this.saveButtonDisabled = true;
+
     this.StudentEditDialog = false;
     this.showSuccessEdit();
   }
 
   closeStudentEditDialog() {
     this.StudentEditDialog = false;
+    this.ocjenaOcjenjivacDisabled = false;
+    this.saveButtonDisabled = true;
+
   }
 
   isBoolean(val) {
     if (typeof val === "number") {
-        return false;
+      return false;
     }
     return typeof val === "boolean";
-}
+  }
+
+  openStudentEditDialog() { //otvaranje edit dialoga i fillanje podacima
+    let polozenOslobodenTempValue: any;
+
+    if (this.selectedStudent.polozen == true && this.selectedStudent.osloboden == false) {
+      polozenOslobodenTempValue = 'polozen'
+    }
+    else if (this.selectedStudent.polozen == false && this.selectedStudent.osloboden == true) {
+      polozenOslobodenTempValue = 'osloboden'
+    }
+    else {
+      polozenOslobodenTempValue = 'ostalo';
+      this.ocjenaOcjenjivacDisabled = true;
+    }
+
+    this.editStudentModel = { 
+      imeEdit: this.selectedStudent.ime,
+      prezimeEdit: this.selectedStudent.prezime,
+      ocjenaEdit: this.selectedStudent.ocjena,
+      ocjenjivacEdit: this.selectedStudent.ocjenjivac,     
+      polozenOslobodenSelectedValue: polozenOslobodenTempValue,
+    }
+
+    this.StudentEditDialog = true;
+  }
+
+  onRowSelect(event) {
+    this.selectedStudentIndex = event.index;
+  }
+  
+  resetAndDisableOcjenaOcjenjivac() { //klikom na radio botun 'ostalo'
+    this.editStudentModel.ocjenaEdit = null;
+    this.editStudentModel.ocjenjivacEdit = null;
+    this.ocjenaOcjenjivacDisabled = true;
+    this.saveButtonDisabled = false;
+  }
+
+  onChangeSpinner() { //Funkcija koja ogranicava input view korisnika, koji je dosad moga pisat pizdarije u spinneru
+    let element = <HTMLInputElement> document.getElementById("spinnerContainer").childNodes[0].firstChild;
+    let insertedValue = +element.value;
+    
+    if (insertedValue > this.maxOcjena) {
+      (<HTMLInputElement> document.getElementById("spinnerContainer").childNodes[0].firstChild).value = this.maxOcjena.toString();
+    }
+
+    if (insertedValue < this.minOcjena) {
+      (<HTMLInputElement> document.getElementById("spinnerContainer").childNodes[0].firstChild).value = this.minOcjena.toString();
+    }
+
+    insertedValue != 0 ? this.saveButtonDisabled = false : this.saveButtonDisabled = true
+        
+  }
+
+  enableOcjenaOcjenjivac() { //klikom na radio botun 'polozen' ili 'osloboden'
+    this.ocjenaOcjenjivacDisabled = false;
+    this.editStudentModel.ocjenaEdit != null ? this.saveButtonDisabled = false : this.saveButtonDisabled = true
+
+  }
+
+  updateRekapitulacija() {
+    this.setBrojOslobodenihStudenata();
+    this.setBrojPolozenihStudenata();
+    this.setBrojNepolozenihStudenata();
+    this.setPostotakProlaznosti();
+    this.setProsjekOcjena();
+  }
 
 }

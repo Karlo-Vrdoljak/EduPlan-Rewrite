@@ -3,17 +3,9 @@
         <p-table #dt [columns]="cols" [value]="studentData" selectionMode="single" [scrollable]="true"
             scrollHeight="77vh" dataKey="PredmetKratica" [resizableColumns]="true">
             <ng-template pTemplate="caption">
-                <!--Podaci o predmetima-->
-                <div>
-                    <span class="caption">
-                        {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
-                    </span>
-                    <div class="globalFilter">
-                        <i class="fa fa-search"></i>
-                        <input type="text" pInputText size="30" placeholder="Global Filter"
-                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-                    </div>
-                </div>
+                <span class="captionContainer">
+                    {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
+                </span>
             </ng-template>
             <ng-template pTemplate="colgroup" let-columns>
                 <colgroup>
@@ -23,7 +15,14 @@
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th pResizableColumn></th>
+                    <th pResizableColumn>
+                        <div>
+                            <i class="fa fa-search"></i>
+                            <input type="text" pInputText size="30" placeholder="Global Filter"
+                                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:10.5em;">
+                        </div>
+
+                    </th>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
                         style="text-align: center;">
                         {{col.header}}

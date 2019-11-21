@@ -6,6 +6,8 @@
         </a>
         <div class="ui-g-12">
             <p-tabView>
+
+                <!-- OSNOVNI PODACI -->
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}"
                     leftIcon="fa fa-info-circle">
                     <ng-container>
@@ -68,24 +70,40 @@
                     <span style="opacity:0;">.</span>
                 </p-tabPanel>
 
+                <!-- POPIS STUDENATA -->
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" leftIcon="fa fa-users">
                     <ng-container>
                         <div class="card card-w-title ">
                             <h1>
-                                <span *ngIf="selectedLang == 'hr'; else englishOutput">
-                                    {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
-                                    {{predmetOsnovniPodaci.NazivStudija_HR}}
-                                </span>
-                                <div class="actionsContainer" style="float: right;">
-                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
-                                        #menuStudenti [popup]="true" [model]="actionItemsStudenti"></p-menu>
-                                    <button type="button" pButton icon="fa fa-fw fa-list"
-                                        label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
-                                        (click)="menuStudenti.toggle($event)"></button>
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-g-12">
+                                        <div class="ui-g-12 ui-lg-4" *ngIf="selectedLang == 'hr'; else englishOutput">
+                                            {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                            {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                        </div>
+
+                                        <div class="ui-g-12 ui-lg-4">
+                                            <div style="margin-left: 2em;">
+                                                <i class="fa fa-search"></i>
+                                                <input type="text" pInputText size="30" placeholder="Global Filter"
+                                                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                                    style="width:20em;">
+                                            </div>
+                                        </div>
+
+                                        <div class="ui-g-12 ui-lg-4">
+                                            <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                                #menuStudenti [popup]="true" [model]="actionItemsStudenti"></p-menu>
+                                            <button type="button" pButton icon="fa fa-fw fa-list"
+                                                label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
+                                                (click)="menuStudenti.toggle($event)"
+                                                style="width: 30%; float: right;"></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </h1>
-                            <p-table [value]="studentiNaPredmetu" [columns]="colsStudenti" selectionMode="single"
-                                [scrollable]="true" scrollHeight="45vh" [(selection)]="selectedStudent"
+                            <p-table #dt [value]="studentiNaPredmetu" [columns]="colsStudenti" selectionMode="single"
+                                [scrollable]="true" scrollHeight="45vh" [(selection)]="selectedStudent" (onRowSelect)="onRowSelect($event)" 
                                 dataKey="PkStudentnaVisokomUcilistuPredmet">
 
                                 <ng-template pTemplate="header" let-columns>
@@ -99,8 +117,8 @@
                                     </tr>
                                 </ng-template>
 
-                                <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
-                                    <tr [pSelectableRow]="rowData">
+                                <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
                                         <td width="1em" class="ui-resizable-column">
                                             <a href="#" [pRowToggler]="rowData">
                                                 <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
@@ -237,6 +255,7 @@
                     <span style="opacity:0;">.</span>
                 </p-tabPanel>
 
+                <!-- NASTAVNE CJELINE-->
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" leftIcon="fa fa-book">
                     <ng-container>
                         <div class="card card-w-title ">
@@ -773,48 +792,60 @@
 <p-dialog header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITEPODATKEOSTUDENTU' | translate}}"
     [(visible)]="StudentEditDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}"
     [positionTop]="20" [minY]="100" [baseZIndex]="10000">
-    <div *ngIf=selectedStudent>
+    <div *ngIf="selectedStudent && editStudentModel">
         <div class="ui-g ui-fluid form-group">
-            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <input type="text" size="30" [(ngModel)]="selectedStudent.ime" pInputText disabled>
+                    <input type="text" size="30" [(ngModel)]="editStudentModel.imeEdit" pInputText disabled>
                     <label>{{'VIEWS_APLIKACIJA_HOME_IME' | translate}}</label>
                 </span>
             </div>
-            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <input type="text" size="30" [(ngModel)]="selectedStudent.prezime" pInputText disabled>
+                    <input type="text" size="30" [(ngModel)]="editStudentModel.prezimeEdit" pInputText disabled>
                     <label>{{'VIEWS_APLIKACIJA_HOME_PREZIME' | translate}}</label>
                 </span>
             </div>
-            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <input type="text" size="30" [(ngModel)]="selectedStudent.ocjena" pInputText>
+                    <p-spinner id="spinnerContainer" [(ngModel)]="editStudentModel.ocjenaEdit" maxlength="1" pKeyFilter="int" [min]="minOcjena"
+                        [disabled]="ocjenaOcjenjivacDisabled"  [max]="maxOcjena" (onChange) = "onChangeSpinner()" required="true">
+                    </p-spinner>
                     <label>{{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OCJENA' | translate}}</label>
                 </span>
             </div>
-            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <p-checkbox label="{{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_POLOZEN' | translate}}"
-                        [(ngModel)]="selectedStudent.polozen" binary="true">
-                    </p-checkbox>
+                    <input type="text" size="30" [(ngModel)]="editStudentModel.ocjenjivacEdit" [disabled]="ocjenaOcjenjivacDisabled" pInputText>
+                    <label>{{'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate}}</label>
                 </span>
             </div>
-            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-4" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <p-checkbox label="{{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OSLOBODEN' | translate}}"
-                        [(ngModel)]="selectedStudent.osloboden" binary="true">
-                    </p-checkbox>
+                    <p-radioButton name="statusProlaznosti" value="polozen" label="Položen"
+                        [(ngModel)]="editStudentModel.polozenOslobodenSelectedValue" (onClick)="enableOcjenaOcjenjivac()"></p-radioButton>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-4" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-radioButton name="statusProlaznosti" value="osloboden" label="Oslobođen"
+                        [(ngModel)]="editStudentModel.polozenOslobodenSelectedValue" (onClick)="enableOcjenaOcjenjivac()"></p-radioButton>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-4" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-radioButton name="statusProlaznosti" value="ostalo" label="Ostalo"
+                        [(ngModel)]="editStudentModel.polozenOslobodenSelectedValue" (onClick)="resetAndDisableOcjenaOcjenjivac()"></p-radioButton>
                 </span>
             </div>
         </div>
     </div>
     <p-footer>
-        <button type="button" pButton icon="fa fa-check" (click)="editStudent()"
-            label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}" class="ui-button-success"></button>
+        <button type="button" pButton icon="fa fa-check" (click)="editStudent();updateRekapitulacija()"
+            label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}" class="ui-button-success" [disabled]="saveButtonDisabled"></button>
 
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeStudentEditDialog()"
-            label="{{'KATALOZI_NASTAVNIKSURADNIK_SPREMI' | translate}}" class="ui-button-secondary"></button>
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
 

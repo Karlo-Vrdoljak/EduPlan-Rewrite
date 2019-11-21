@@ -6,6 +6,27 @@
     .smallMedium {        
         display: block;
     }
+
+    .card h1 {
+        font-size: 1.3em;
+        padding: 0.3em;
+    }
+}
+
+@media only screen and (min-width: 950px) {
+    .largeMedium {
+        display: block;
+    }
+
+    .smallMedium {        
+        display: none;
+    }
+
+    .card h1 {
+        font-size: 1.3em;
+        padding: 0em;
+    }
+
 }
 
 :host >>> .ui-menuitem-icon.fa.fa-plus.ng-star-inserted{
@@ -33,10 +54,6 @@ background-color: blue;}
 
 .card {
     font-size: 1.2em;
-}
-
-.card h1 {
-    font-size: 1.3em;
 }
 
 :host >>> .ui-menu .ui-menuitem-link {
@@ -77,6 +94,14 @@ span.ui-inputgroup-addon {
 
 .rekapitulacija {
     font-size: 0.7em;
+}
+
+:host >>> #ui-tabpanel-1 > div:nth-child(1) > h1:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    padding: 0em;
+}
+
+.ui-button-success:disabled {
+    opacity: 0.5;
 }
 
 /*input[type="text"] {

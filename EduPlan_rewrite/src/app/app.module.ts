@@ -73,6 +73,7 @@ import { ToastModule } from "primeng/toast";
 import { ToggleButtonModule } from "primeng/togglebutton";
 import { ToolbarModule } from "primeng/toolbar";
 import { TooltipModule } from "primeng/tooltip";
+import {KeyFilterModule} from 'primeng/keyfilter';
 import { TreeModule } from "primeng/tree";
 import { TreeTableModule } from "primeng/treetable";
 import { VirtualScrollerModule } from "primeng/virtualscroller";
@@ -174,6 +175,7 @@ import { CookieService } from 'ngx-cookie-service';
         FullCalendarModule,
         GalleriaModule,
         GrowlModule,
+        KeyFilterModule,
         InplaceModule,
         InputMaskModule,
         InputSwitchModule,
