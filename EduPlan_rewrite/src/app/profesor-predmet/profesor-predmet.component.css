@@ -24,6 +24,9 @@
     opacity: 1.0;
 }
 
+:host >>> .ui-toast-message-error {
+background-color: blue;}
+
 :host >>> .ui-widget:disabled {
     opacity: 1.0;
 }

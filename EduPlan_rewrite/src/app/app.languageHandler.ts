@@ -6,8 +6,21 @@ export class LanguageHandler {
     private data: any = [];
     constructor(
         private translate: TranslateService,
-        @Inject(LOCAL_STORAGE) private storage: WebStorageService
-    ) {}
+        @Inject(LOCAL_STORAGE) private storage: WebStorageService,
+    ) {
+        // let auth = this.storage.get('EduPlanKarticeToken');
+         //let token = this.cookieService.get('EduPlanKarticeToken');
+         //let refToken = this.storage.get("authorizationData");
+        // console.log(token);
+   
+        // this.storage.set('token',token);
+        // this.storage.set('refToken',refToken);
+        // console.log( document.cookie.replace(/(?:(?:^|.*;s*)token*=s*([^;]*).*$)|^.*$/, '$1') ); 
+        //  localStorage.setItem('token', document.cookie.replace(/(?:(?:^|.*;s*)token*=s*([^;]*).*$)|^.*$/, '$1'));
+        //  localStorage.setItem('refToken', document.cookie.replace(/(?:(?:^|.*;s*)token*=s*([^;]*).*$)|^.*$/, '$1'));
+
+        
+    }
 
     private saveInLocal(key, val): void {
         this.storage.set(key, val);
