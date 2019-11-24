@@ -206,5 +206,28 @@ router.post('/setAuth',function(req, res) {
     localStorage.setItem("AuthToken",res);
 }); 
 
+//dohvat podataka o PodTipovima predavanja 
+router.get('/getPodTipovePredavanja', function (req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spTipPredavanjaZaPredmet_Select", conn); 
+
+    request.addParameter("PkSkolskaGodinaStudijPredmetKatedra", TYPES.Int, req.query.PkSkolskaGodinaStudijPredmetKatedra);
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+//dohvat podataka o nastavnim cjelinama na odredenom predmetu 
+router.get('/getGrupeZaNastavu', function (req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spGrupaZaNastavuSkolskaGodina_ComboSelect", conn); 
+
+    request.addParameter("PkPredmet", TYPES.Int, req.query.PkPredmet);
+    request.addParameter("PkStudij", TYPES.Int, req.query.PkStudij);
+    request.addParameter("PkSkolskaGodina", TYPES.Int, req.query.PkSkolskaGodina);
+    request.addParameter("PkPodTipPredavanja", TYPES.Int, req.query.PkPodTipPredavanja);
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 
 module.exports = router;

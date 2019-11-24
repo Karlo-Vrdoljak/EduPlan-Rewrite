@@ -10,13 +10,14 @@ export class AppVariables {
                subject: null,
                text: null
            };
-           domicilneVrijednostiEducard: any;
+           domicilneVrijednosti: any;
            EducardAktivan: number;
            //    NazivDomicilneVrijednosti: string;
            //    VrijednostPkDomicilneVrijednosti:number;
-           minOcjena: number = 2;
-           maxOcjena: number = 5;
-           negativnaOcjena = 1;
+           editOcjenaEnabled: number;
+           minOcjena: number;
+           maxOcjena: number;
+           negativnaOcjena: number;
 
            constructor() {}
        }

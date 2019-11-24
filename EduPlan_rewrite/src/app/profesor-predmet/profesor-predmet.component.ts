@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { AppVariables } from './../_interfaces/_configAppVariables';
 import { OpciService } from './../_services/opci.service';
 import { Component, OnInit } from '@angular/core';
@@ -31,6 +30,10 @@ export class ProfesorPredmetComponent implements OnInit {
   predmetOsnovniPodaci: any;
   studentiNaPredmetu: any;
   predmetNastavneCjeline: any;
+  podtipoviPredavanja: any;
+  grupeZanastavu: any;
+  colsGrupeZaNastavu: any;
+  colsPodTipoviPredavanja: any[];
   colsStudenti: any[];
   colsStudentiSmall: any[];
   colsNastavneCjeline: any[];
@@ -49,6 +52,7 @@ export class ProfesorPredmetComponent implements OnInit {
   StudentEditDialog: boolean = false;
   selectedNastavniMaterijali: any = null;
   selectedStudent: any = null;
+  selectedGrupeZaNastavu: any = null;
   rout: any = null;
   selectedLang: any;
   NastavneCjelineModel: predmetNastavneCjelineDummy = {
@@ -65,6 +69,8 @@ export class ProfesorPredmetComponent implements OnInit {
   maxOcjena: number = this.appVariables.maxOcjena;
   ocjenaOcjenjivacDisabled: boolean = false;
   saveButtonDisabled: boolean = true;
+  enableOcjenaEdit: number = this.appVariables.editOcjenaEnabled;
+  selectedPodTipPredavanja: any = null;
 
   constructor(private route: ActivatedRoute,
     private profesorService: ProfesorService,
@@ -77,8 +83,7 @@ export class ProfesorPredmetComponent implements OnInit {
   ngOnInit() {
 
     const params = {
-      PkSkolskaGodinaStudijPredmetKatedra: this.route.snapshot.paramMap.get('PkSkolskaGodinaStudijPredmetKatedra'),
-      PkPredmet: 7 //this.route.snapshot.paramMap.get('PkPredmet')      
+      PkSkolskaGodinaStudijPredmetKatedra: this.route.snapshot.paramMap.get('PkSkolskaGodinaStudijPredmetKatedra')
     };
 
     this.selectedLang = this.langHandler.getCurrentLanguage()
@@ -99,8 +104,9 @@ export class ProfesorPredmetComponent implements OnInit {
             label: res.VIEWS_KATALOZI_PREDMET_STUDENTI,
             items: [
               {
-                label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS + '*',
-                icon: 'fa fa-pencil'
+                label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
+                icon: 'fa fa-pencil',
+                command: () => this.selectedStudent ? this.openStudentEditDialog() : this.showErrorZapisNijeOdabran()
               }]
           },
           {
@@ -302,6 +308,52 @@ export class ProfesorPredmetComponent implements OnInit {
             }
           }, () => { });
       })
+
+    // Poziv servisa za dohvacanje podtipova nasatve
+    this.translate
+      .get([
+        "ISVU_APIPREDMETI_SIFRA",
+        "KATALOZI_PODTIPPREDAVANJA_PODTIPNASTAVE"
+      ]).subscribe(res => {
+        this.profesorService.getPodTipPredavanja(params).subscribe((data) => {
+          this.podtipoviPredavanja = data;
+
+          this.colsPodTipoviPredavanja = [
+            {
+              field: "PodTipPredavanjaSifra",
+              header: res.ISVU_APIPREDMETI_SIFRA
+            },
+            {
+              field: "PodTipPredavanjaNaziv",
+              header: res.KATALOZI_PODTIPPREDAVANJA_PODTIPNASTAVE
+            }
+          ];
+        },
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              console.log('Client-side error occured.');
+            } else {
+              console.log('Server-side error occured.');
+            }
+          }, () => { });
+      })
+    //Prijevod za Grupe za nastavu
+    this.translate
+      .get([
+        "VIEWS_GRUPEZANASTAVUDIALOG_OZNAKAGRUPE",
+        "VIEWS_GRUPEZANASTAVUDIALOG_KAPACITET"
+      ]).subscribe(res => {
+        this.colsGrupeZaNastavu = [
+          {
+            field: "OznakaGrupeZaNastavu",
+            header: res.VIEWS_GRUPEZANASTAVUDIALOG_OZNAKAGRUPE
+          },
+          {
+            field: "Kapacitet",
+            header: res.VIEWS_GRUPEZANASTAVUDIALOG_KAPACITET
+          }
+        ];
+      })
   }
 
   setUkupanBrojStudenata() { //Računa kolko ima studenata na odabranom predmetu
@@ -395,12 +447,12 @@ export class ProfesorPredmetComponent implements OnInit {
     if (this.editStudentModel.ocjenaEdit == null && this.editStudentModel.polozenOslobodenSelectedValue != 'ostalo') {
       this.saveButtonDisabled = true;
     }
-    
-    this.studentiNaPredmetu[this.selectedStudentIndex].ime = this.editStudentModel.imeEdit; 
-    this.studentiNaPredmetu[this.selectedStudentIndex].prezime = this.editStudentModel.prezimeEdit; 
-    this.studentiNaPredmetu[this.selectedStudentIndex].ocjena = this.editStudentModel.ocjenaEdit; 
-    this.studentiNaPredmetu[this.selectedStudentIndex].ocjenjivac = this.editStudentModel.ocjenjivacEdit; 
-    if ( this.editStudentModel.polozenOslobodenSelectedValue == 'polozen') {
+
+    this.studentiNaPredmetu[this.selectedStudentIndex].ime = this.editStudentModel.imeEdit;
+    this.studentiNaPredmetu[this.selectedStudentIndex].prezime = this.editStudentModel.prezimeEdit;
+    this.studentiNaPredmetu[this.selectedStudentIndex].ocjena = this.editStudentModel.ocjenaEdit;
+    this.studentiNaPredmetu[this.selectedStudentIndex].ocjenjivac = this.editStudentModel.ocjenjivacEdit;
+    if (this.editStudentModel.polozenOslobodenSelectedValue == 'polozen') {
       this.studentiNaPredmetu[this.selectedStudentIndex].polozen = true;
       this.studentiNaPredmetu[this.selectedStudentIndex].osloboden = false;
     }
@@ -412,7 +464,7 @@ export class ProfesorPredmetComponent implements OnInit {
       this.studentiNaPredmetu[this.selectedStudentIndex].polozen = false;
       this.studentiNaPredmetu[this.selectedStudentIndex].osloboden = false;
     }
-    
+
     this.ocjenaOcjenjivacDisabled = false;
     this.saveButtonDisabled = true;
 
@@ -448,11 +500,11 @@ export class ProfesorPredmetComponent implements OnInit {
       this.ocjenaOcjenjivacDisabled = true;
     }
 
-    this.editStudentModel = { 
+    this.editStudentModel = {
       imeEdit: this.selectedStudent.ime,
       prezimeEdit: this.selectedStudent.prezime,
       ocjenaEdit: this.selectedStudent.ocjena,
-      ocjenjivacEdit: this.selectedStudent.ocjenjivac,     
+      ocjenjivacEdit: this.selectedStudent.ocjenjivac,
       polozenOslobodenSelectedValue: polozenOslobodenTempValue,
     }
 
@@ -462,7 +514,7 @@ export class ProfesorPredmetComponent implements OnInit {
   onRowSelect(event) {
     this.selectedStudentIndex = event.index;
   }
-  
+
   resetAndDisableOcjenaOcjenjivac() { //klikom na radio botun 'ostalo'
     this.editStudentModel.ocjenaEdit = null;
     this.editStudentModel.ocjenjivacEdit = null;
@@ -471,19 +523,19 @@ export class ProfesorPredmetComponent implements OnInit {
   }
 
   onChangeSpinner() { //Funkcija koja ogranicava input view korisnika, koji je dosad moga pisat pizdarije u spinneru
-    let element = <HTMLInputElement> document.getElementById("spinnerContainer").childNodes[0].firstChild;
+    let element = <HTMLInputElement>document.getElementById("spinnerContainer").childNodes[0].firstChild;
     let insertedValue = +element.value;
-    
+
     if (insertedValue > this.maxOcjena) {
-      (<HTMLInputElement> document.getElementById("spinnerContainer").childNodes[0].firstChild).value = this.maxOcjena.toString();
+      (<HTMLInputElement>document.getElementById("spinnerContainer").childNodes[0].firstChild).value = this.maxOcjena.toString();
     }
 
     if (insertedValue < this.minOcjena) {
-      (<HTMLInputElement> document.getElementById("spinnerContainer").childNodes[0].firstChild).value = this.minOcjena.toString();
+      (<HTMLInputElement>document.getElementById("spinnerContainer").childNodes[0].firstChild).value = this.minOcjena.toString();
     }
 
     insertedValue != 0 ? this.saveButtonDisabled = false : this.saveButtonDisabled = true
-        
+
   }
 
   enableOcjenaOcjenjivac() { //klikom na radio botun 'polozen' ili 'osloboden'
@@ -500,4 +552,16 @@ export class ProfesorPredmetComponent implements OnInit {
     this.setProsjekOcjena();
   }
 
+  podTipPredavanjaRowSelection() {
+    let params = {
+      PkPredmet: this.route.snapshot.paramMap.get('PkPredmet'),
+      PkStudij: this.route.snapshot.paramMap.get('PkStudij'),
+      PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
+      PkPodTipPredavanja: this.selectedPodTipPredavanja.PkPodTipPredavanja
+    }
+
+    this.profesorService.getGrupeZaNastavu(params).subscribe((data) => {
+      console.log(data);
+    })
+  }
 }
