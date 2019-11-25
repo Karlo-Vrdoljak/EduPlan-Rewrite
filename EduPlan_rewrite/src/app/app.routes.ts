@@ -65,7 +65,7 @@ export const routes: Routes = [
            { path: "vProfesorObavijesti", component: ProfesorObavijestiComponent },
            { path: "vProfesorOsobniPodaci", component: ProfesorOsobniPodaciComponent },
            { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent },
-           { path: "vPredmet/:PkSkolskaGodinaStudijPredmetKatedra/:PkPredmet", component: ProfesorPredmetComponent },
+           { path: "vPredmet/:PkSkolskaGodinaStudijPredmetKatedra/:PkPredmet/:PkStudij", component: ProfesorPredmetComponent },
            { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent }   
 
        ];

@@ -111,10 +111,30 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     setupDomicilneVrijednostiEduCard() {
         this.opciService.getDohvatDomicilnihVrijednostiEduCard(this.DomicilneVrijednostiParams)
             .subscribe((data:DocimilneVrijednosti[]) => {
-                this.appVariables.domicilneVrijednostiEducard = data;
+                this.appVariables.domicilneVrijednosti = data;
                 this.appVariables.EducardAktivan = Array.from(data).find(
                     (e: DocimilneVrijednosti) => {
                         return e.NazivDomicilneVrijednosti == "EducardAktivanDaNe";
+                    }
+                ).VrijednostPkDomicilneVrijednosti
+                this.appVariables.minOcjena = Array.from(data).find(
+                    (e: DocimilneVrijednosti) => {
+                        return e.NazivDomicilneVrijednosti == "minOcjena";
+                    }
+                ).VrijednostPkDomicilneVrijednosti
+                this.appVariables.maxOcjena = Array.from(data).find(
+                    (e: DocimilneVrijednosti) => {
+                        return e.NazivDomicilneVrijednosti == "maxOcjena";
+                    }
+                ).VrijednostPkDomicilneVrijednosti
+                this.appVariables.negativnaOcjena = Array.from(data).find(
+                    (e: DocimilneVrijednosti) => {
+                        return e.NazivDomicilneVrijednosti == "negativnaOcjena";
+                    }
+                ).VrijednostPkDomicilneVrijednosti
+                this.appVariables.editOcjenaEnabled = Array.from(data).find(
+                    (e: DocimilneVrijednosti) => {
+                        return e.NazivDomicilneVrijednosti == "EditOcjenaDaNe";
                     }
                 ).VrijednostPkDomicilneVrijednosti
             });

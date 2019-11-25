@@ -102,7 +102,6 @@ export class ProfesorService {
      *  Returns: Niz od  jednog ili više objekata
      */
     getPredmetStudenti(data) {
-        //Dummy service
         return this.http
             .get(this.config.API_URL + "PrikazStudenataPoPredmetu", {
                 params: data
@@ -119,7 +118,6 @@ export class ProfesorService {
      *  Returns: Niz od  jednog ili više objekata
      */
     getPredmetNastavneCjeline(data) {
-        //Dummy service
         return this.http
             .get(this.config.API_URL + "PrikazNastavnihCjelina", {
                 params: data
@@ -149,6 +147,33 @@ export class ProfesorService {
         }).pipe(
             retry(this.config.APIRetryCount),
             catchError(this.appService.handleError("ProfesorService.postNastavaRealizacijaPlana"))
+            );
+        }
+    /*
+     *  Select svih Tipova nastave koje se izvode ovisno o studiju,godini i predmetu.
+     *  Params: PkSkolskaGodinaStudijPredmetKatedra
+     *  Returns: Niz od  jednog ili više objekata
+     */
+    getPodTipPredavanja(data) {
+        return this.http.get(this.config.API_URL + "getPodTipovePredavanja", {
+            params: data
+        }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("ProfesorService.getTipNastave"))
+        );
+    }
+
+    /*
+     *  Select svih Grupa za nastavu nastave koje se izvode ovisno o studiju,godini,predmetu i podtipu nastave.
+     *  Params: PkPredmet, PkStudij, PkSkolskaGodina, PkPodTipPredavanja
+     *  Returns: Niz od  jednog ili više objekata
+     */
+    getGrupeZaNastavu(data) {
+        return this.http.get(this.config.API_URL + "getGrupeZaNastavu", {
+            params: data
+        }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("ProfesorService.getGrupeZaNastavu"))
         );
     }
 }
