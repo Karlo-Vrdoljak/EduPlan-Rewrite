@@ -135,10 +135,20 @@ export class ProfesorService {
      *  Returns: Niz od  jednog ili više objekata
      */
     getNastavnikSuradnikSvi() {
-        //Dummy service
         return this.http.get(this.config.API_URL + "NastavnikSuradnikSvi", {}).pipe(
             retry(this.config.APIRetryCount),
             catchError(this.appService.handleError("ProfesorService.getNastavnikSuradnikSvi"))
+        );
+    }
+
+    postNastavaRealizacijaPlana(data) {
+        console.log("realiziran...");
+        console.log(data);
+        return this.http.post(this.config.API_URL + "NastavaRealizacijaPlana", {
+            params: data
+        }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("ProfesorService.postNastavaRealizacijaPlana"))
         );
     }
 }

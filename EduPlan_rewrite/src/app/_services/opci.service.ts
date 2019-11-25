@@ -6,6 +6,7 @@ import { AppService } from "./app.service";
 import { DatePipe } from '@angular/common'
 import { isString } from 'util';
 import { TranslateService } from "@ngx-translate/core";
+import { ProfesorService } from './profesori.service';
 
 
 
@@ -17,7 +18,9 @@ export class OpciService {
 
     constructor(private http: HttpClient, 
         private appService: AppService,
-        private translate: TranslateService) {    
+        private translate: TranslateService,
+        private profesorService: ProfesorService
+        ) {    
             this.config = new Config();
     }
 
@@ -85,6 +88,21 @@ export class OpciService {
           });
         });
         return data;
+    }
+    /**
+     *  @Opis Donese sve kalendarske događaje povezane na poslani datum + dan prije, ali u poslanoj predavaonici
+     *  @Params Datum, PkPredavaonica
+     *  @Returns niz od jednog ili više objekata
+     */
+    getPrikazDogadajaNaDatum(data) {
+        return this.http
+            .get(this.config.API_URL + "PrikazDogadajaNaDatum", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("OpciService.getPrikazDogadajaNaDatum"))
+            );
     }
 
 }

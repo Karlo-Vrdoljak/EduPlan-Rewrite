@@ -12,10 +12,12 @@ export interface CalendarEvent {
     // textColor?;
     color?;
     extendedProps?: {
+        Datum;
         PkNastavaPlan;
         PkNastavaRealizacija;
         PredmetNaziv;
         PodTipPredavanjaNaziv;
+        PkPodTipPredavanja;
         PodTipPredavanjaSifra;
         PkTipPredavanje;
         PredmetKratica;
@@ -26,6 +28,7 @@ export interface CalendarEvent {
         StudijNaziv;
         StudijNazivKratica;
         Prisutan;
+        ProfesorIskljucioDaNe;
         NastavnikSuradnikNaziv;
         PkNastavnikSuradnik;
         NastavnikSuradnikInicijali;

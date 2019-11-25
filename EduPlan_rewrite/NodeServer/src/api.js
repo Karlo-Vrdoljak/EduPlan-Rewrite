@@ -180,7 +180,6 @@ router.get("/PrikazNastavnihCjelina", function(req, res) {
 router.get("/StudentPrisutnostNaNastavi", function(req, res) {
     req.query.PkNastavaPlan = req.query.PkNastavaPlan == "null" ? null : req.query.PkNastavaPlan;
     req.query.PkNastavaRealizacija = req.query.PkNastavaRealizacija == "null" ? null : req.query.PkNastavaRealizacija;
-    req.query.PkNastavaRealizacijaBlokSat = req.query.PkNastavaRealizacijaBlokSat == "null" ? null : req.query.PkNastavaRealizacijaBlokSat;
 
 
     var conn = db.createConnection();
@@ -188,7 +187,6 @@ router.get("/StudentPrisutnostNaNastavi", function(req, res) {
     
     request.addParameter("PkNastavaPlan", TYPES.Int, req.query.PkNastavaPlan);
     request.addParameter("PkNastavaRealizacija", TYPES.Int, req.query.PkNastavaRealizacija);
-    request.addParameter("PkNastavaRealizacijaBlokSat", TYPES.Int, req.query.PkNastavaRealizacijaBlokSat);
 
     db.execStoredProc(request, conn, res, "{}");
 });
@@ -198,6 +196,70 @@ router.get("/NastavnikSuradnikSvi", function(req, res) {
     var conn = db.createConnection();
     var request = db.createRequest("PregledKartice.spNastavnikSuradnikSvi_select", conn);
 
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+// dohvat svih nastavnika suradnika 
+router.get("/PrikazDogadajaNaDatum", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spPrikazDogadajaNaDatum_Select", conn);
+
+    request.addParameter("Datum", TYPES.NVarChar, req.query.Datum);
+    request.addParameter("PkPredavaonica", TYPES.Int, req.query.PkPredavaonica);
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+function prepareStudentTableData(data) {
+    var tableParametar = {
+        columns: [
+            
+            {
+                name: 'PkStudent',
+                type: TYPES.Int
+            },
+            { //typo u db
+                name: 'PkEducardReaderData',
+                type: TYPES.Int
+            },
+            {
+                name: 'ProfesorIskljucioDaNe',
+                type: TYPES.Bit
+            },
+            {
+                name: 'PkStudij',
+                type: TYPES.Int
+            }
+            
+        ],
+        rows: []
+    };
+
+    data.forEach(e => {
+        tableParametar.rows.push([
+            e.PkStudent,
+            e.PkEduCardReaderData,
+            e.ProfesorIskljucioDaNe,
+            e.PkStudij
+        ])
+    });
+
+    return tableParametar;
+}
+//slika varbinary(MAX)
+
+router.post("/NastavaRealizacijaPlana", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spNastavaRealizacijaPlana_Insert", conn);
+    
+    var table = prepareStudentTableData(req.body.params.PrisutniStudenti);
+    request.addParameter("PkNastavaPlan", TYPES.Int, req.body.params.PkNastavaPlan);
+    request.addParameter("PkNastavnikSuradnik", TYPES.Int, req.body.params.PkNastavnikSuradnik);
+    request.addParameter("PkUsera", TYPES.Int, req.body.params.PkUsera);
+    // request.addParameter("PrisutniStudenti", TYPES.Int, req.query.PrisutniStudenti);
+
+    request.addParameter('PrisutniStudenti', TYPES.TVP, table);
+    
     db.execStoredProc(request, conn, res, "{}");
 }); 
 

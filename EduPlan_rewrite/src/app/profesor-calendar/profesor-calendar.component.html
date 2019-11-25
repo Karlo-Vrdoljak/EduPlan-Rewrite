@@ -60,7 +60,7 @@
             </span>
         </div>
         <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="appVariables.EducardAktivan" style="padding:5px 10px 10px 10px;">
-            {{ eventDetalji.Prisutan ? ('KATALOZI_BDNASTAVNIKSURADNIKRASPORED_PRISUTAN' | translate) : ('STUDENTCALENDAR_ODSUTAN' | translate)}}
+            {{ 'NASTVA_UNOSREALIZACIJE_OCITANEDUCARDOM' | translate }}
             <p-checkbox disabled  [(ngModel)]="eventDetalji.Prisutan" binary="true"></p-checkbox>
         </div>
         <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="appVariables.EducardAktivan" style="padding:0px 10px 10px 10px;">
@@ -88,7 +88,7 @@
 
     <p-footer *ngIf="eventDetalji">
 
-        <p-toggleButton (onChange)="handleRealizacija($event)" [onLabel]="'NASTAVA_AUTOMATSKAREALIZACIJA_REALIZIRANO' | translate" [offLabel]="'NASTAVA_NASTAVAREALIZACIJAGRUPNA_REALIZIRAJ' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano" [disabled]="eventDetalji.Realizirano"></p-toggleButton>
+        <p-toggleButton (onChange)="handleRealizacija()" [onLabel]="'NASTAVA_AUTOMATSKAREALIZACIJA_REALIZIRANO' | translate" [offLabel]="'NASTAVA_NASTAVAREALIZACIJAGRUPNA_REALIZIRAJ' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano" [disabled]="eventDetalji.Realizirano"></p-toggleButton>
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
@@ -165,8 +165,8 @@
                         <td *ngFor="let col of columns" class="ui-resizable-column"
                             style="text-align: center;">
                             <span (click)="togglePrisutnost(rowData, col.field)" *ngIf="isBoolean(rowData[col.field]); else textOutput">
-                                <span class="hoverMe" [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
-                                       style="padding: 5px 50px 5px 30px;" [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                <span class="hoverMe" [style.color]="rowData[col.field] == false ? 'green' : 'red' "><i
+                                       style="padding: 5px 50px 5px 30px;" [ngClass]="rowData[col.field] == false ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                             </span>
                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                         </td>

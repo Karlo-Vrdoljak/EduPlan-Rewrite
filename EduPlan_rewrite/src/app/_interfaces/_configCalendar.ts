@@ -1,6 +1,7 @@
 import { EventColor } from "./ColorEventEnum";
 import { CalendarEvent } from "./CalendarEvent";
 import { TranslateService } from '@ngx-translate/core';
+import { ProfesorService } from '../_services/profesori.service';
 
 
 
@@ -198,6 +199,7 @@ export class CalendarConfig {
                     //    textColor: EventColor.Dark,
                        color: this.chooseColor(e.PodTipPredavanjaNaziv),
                        extendedProps: {
+                           Datum: e.Datum || null,
                            PkNastavaRealizacija: e.PkNastavaRealizacija || null,
                            NastavnikSuradnikNaziv: e.NastavnikSuradnikNaziv || null,
                            PkNastavnikSuradnik: e.PkNastavnikSuradnik || null,
@@ -206,7 +208,8 @@ export class CalendarConfig {
                            PredmetNaziv: e.PredmetNaziv || null,
                            PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
                            PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
-                           PkTipPredavanje: e.PkTipPredavanje || null,
+                           PkTipPredavanje: e.PkTipPredavanje || null, //TRIBA SVE ZAMINIT CA SA DONJIN
+                           PkPodTipPredavanja: e.PkPodTipPredavanja ||null,
                            PredmetKratica: e.PredmetKratica || null,
                            SifraPredavaonice: e.SifraPredavaonice || null,
                            Realizirano: e.Realizirano || null,
@@ -215,6 +218,7 @@ export class CalendarConfig {
                            StudijNaziv: e.StudijNaziv || null,
                            StudijNazivKratica: e.StudijNazivKratica || null,
                            Prisutan: e.Prisutan || 0,
+                           ProfesorIskljucioDaNe: e.ProfesorIskljucioDaNe || 0,
                            PkPredavaonica: e.PkPredavaonica || 0,
                            PkSatnica: e.PkSatnica || 0,
                            PkGrupaZaNastavu: e.PkGrupaZaNastavu || 0,
@@ -266,9 +270,13 @@ export class CalendarConfig {
                        field: "StudijNazivKratica",
                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA
                    },
+                //    {
+                //        field: "Prisutan",
+                //        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
+                //    },
                    {
-                       field: "Prisutan",
-                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
+                        field: "ProfesorIskljucioDaNe",
+                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
                    }
                ];
            }
@@ -310,10 +318,5 @@ export class CalendarConfig {
                return ((prisutan / studenti.length) * 100).toFixed(2);
            }
            
-           /**
-            * 
-            */
-           tryFindLastRealizacija() {
-                
-           }
+           
        }

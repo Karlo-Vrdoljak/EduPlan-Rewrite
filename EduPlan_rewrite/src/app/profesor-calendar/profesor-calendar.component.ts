@@ -1,4 +1,18 @@
-import { Component, OnInit, AfterViewInit, ɵisListLikeIterable } from "@angular/core";
+/************************************************************************************************************************************************************
+** File
+** Name      :      [Registar].[spRegistarBrodovaProvjeraValidnostiSvjedodzbe]
+** DESC      :      
+**
+** Author    :      Srdan Druzeic
+** Date      :      28.08.2019.
+*************************************************************************************************************************************************************
+** Change history :
+*************************************************************************************************************************************************************
+** Date:                   Author:                    Description :
+**------------             ------------- -------------------------------------
+**
+*************************************************************************************************************************************************************/
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -12,6 +26,8 @@ import { ProfesorService } from "../_services/profesori.service";
 import { MenuItem } from "primeng/api";
 import { CalendarService } from "../_services/calendar.service";
 import { StudentiService } from "../_services/studenti.service";
+import { OpciService } from '../_services/opci.service';
+import { PrisutniStudenti } from '../_interfaces/PrisutniStudenti';
 
 @Component({
     selector: "app-profesor-calendar",
@@ -21,7 +37,7 @@ import { StudentiService } from "../_services/studenti.service";
 export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     calendarOptions: any;
     events: any[] = null;
-    apiData: any;
+    apiData: any[];
     calendar: Calendar;
     rangeDates: Date[];
     monthButton: boolean = false;
@@ -34,6 +50,10 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     prisutniStudenti: any[];
     prisutnostStudenata: any[];
     studentiZaBrisanje:any[];
+    studentiPrethodnihSatnica:any[];
+    blokSatDaNe:boolean = false;
+    studentiRealizacija:PrisutniStudenti[];
+
     params = {
         // PkStudent: 1312,
         // PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
@@ -49,11 +69,27 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         private profesorSerivce: ProfesorService,
         private appVariables: AppVariables,
         private calendarConfig: CalendarConfig, // private windowOrientation: WindowCalendarOrientation
-        private studentiService: StudentiService
+        private studentiService: StudentiService,
+        private opciService: OpciService
     ) {
         
     }
 
+    synchronizeCalendarEvents() {
+        this.calendarConfig.passedDate = this.rangeDates;
+
+            this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
+            this.params.DatumDo = this.calendarConfig.formatDate(this.rangeDates[1]);
+
+            this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
+                var events = this.calendarConfig.prepareCalendarEventsProfesor(data);
+                this.calendar.removeAllEventSources();
+
+                this.calendar.addEventSource(events);
+                this.calendar.rerenderEvents();
+                this.calendar.gotoDate(this.rangeDates[0]);
+            });
+    }
     /**
      *
      * @returns void
@@ -69,24 +105,34 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                 return e == true;
             });
         if (dateTrue) {
-            this.calendarConfig.passedDate = this.rangeDates;
-
-            this.params.DatumOd = this.calendarConfig.formatDate(this.rangeDates[0]);
-            this.params.DatumDo = this.calendarConfig.formatDate(this.rangeDates[1]);
-
-            this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
-                var events = this.calendarConfig.prepareCalendarEventsProfesor(data);
-                this.calendar.removeAllEventSources();
-
-                this.calendar.addEventSource(events);
-                this.calendar.rerenderEvents();
-                this.calendar.gotoDate(this.rangeDates[0]);
-            });
+            this.synchronizeCalendarEvents();
         }
     }
 
-    handleRealizacija(e: { originalEvent: MouseEvent; checked: boolean }, data?) {
-        console.log("KALCOMPONENT", e);
+    handleRealizacija() {
+
+        this.studentiRealizacija = [];
+
+        this.prisutniStudenti.forEach((e:any) => {
+            this.studentiRealizacija.push({
+                PkStudent: e.PkStudent,
+                PkEduCardReaderData: e.PkEduCardReaderData,
+                PkStudij: e.PkStudij,
+                ProfesorIskljucioDaNe: e.ProfesorIskljucioDaNe,
+            });
+        });
+        let params = {
+            PkNastavaPlan: this.eventDetalji.PkNastavaPlan,
+            PkNastavnikSuradnik: this.eventDetalji.PkNastavnikSuradnik,
+            PkUsera: this.appVariables.PkUsera,
+            PrisutniStudenti: this.studentiRealizacija
+        }
+        // console.log(this.prisutniStudenti);
+        this.profesorSerivce.postNastavaRealizacijaPlana(params).subscribe(data => {
+            console.log(data);
+            this.synchronizeCalendarEvents();
+        });
+        // console.log('ZA_REALIZACIJU',this.studentiRealizacija);
     }
     ngOnInit() {
         // console.log(this.appVariables.PkSkolskaGodina);
@@ -122,9 +168,11 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
                 this.prisutnostStudenata = this.calendarConfig.setupColsPrisutnostStudenata(res);
 
-                this.profesorSerivce.getNastavnikRaspored(this.params).subscribe(data => {
+                this.profesorSerivce.getNastavnikRaspored(this.params).subscribe((data:any[]) => {
                     this.apiData = data;
-                    // console.log("API:",this.apiData);
+                    // this.apiData.sort((a:any , b:any) => {
+                    //     return new Date(a.DatumVrijemeOd).getTime() > new Date(b.DatumVrijemeOd).getTime() ? 1 : -1;
+                    // });
                     this.events = this.calendarConfig.prepareCalendarEventsProfesor(this.apiData);
                     // console.log(this.events);
                     var calendarEl = document.getElementById("calendar");
@@ -149,19 +197,64 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                         eventClick: arg => {
                             var start = this.calendarConfig.formatDateShort(arg.event.start);
                             var end = this.calendarConfig.formatDateShort(arg.event.end);
-
+                            let parameters = {
+                                Datum: arg.event.extendedProps.Datum,
+                                PkPredavaonica: arg.event.extendedProps.PkPredavaonica
+                            };
+                            console.log(parameters);
+                            this.opciService.getPrikazDogadajaNaDatum(parameters).subscribe((data:any[]) => {
+                                // console.log(data);
+                            });
+                            
+                            
+                            // let blokSat = this.apiData.filter((a:any) => {
+                            //     return new Date(a.DatumVrijemeOd) < arg.event.start // <= ukljucuje i clicked event / < iskljucuje
+                            // }).reverse();
+                            // console.log("Filtrirani",blokSat);
+                            
+                            // let realizacijaPos:number[] = blokSat.map((e:any) => {
+                            //     return e.PkNastavaRealizacija ? e.PkNastavaRealizacija : -1
+                            // });
+                            // console.log("PKREAL",realizacijaPos);
+                            
+                            
+                            // let result = blokSat.filter((e:any) => {
+                            //     if ((e.Datum == arg.event.extendedProps.Datum) && (e.PkPredmet = arg.event.extendedProps.PkPredmet) && (e.PkPredavaonica == arg.event.extendedProps.PkPredavaonica) && (e.PkNastavnikSuradnik == this.appVariables.PkNastavnikSuradnik) && (e.PkPodTipPredavanja == arg.event.extendedProps.PkPodTipPredavanja) && (e.PkGrupaZaNastavu == arg.event.extendedProps.PkGrupaZaNastavu)) {
+                            //         return e
+                            //     }
+                            // });
+                            // console.log('RESULT', result );
+                            
+                            
+                            // let PkNastavaRealizacijaBlokSat = blokSat.map((e:any) => {
+                            //     if ((e.Datum == arg.event.extendedProps.Datum) && (e.PkPredmet = arg.event.extendedProps.PkPredmet) && (e.PkPredavaonica == arg.event.extendedProps.PkPredavaonica) && (e.PkNastavnikSuradnik == this.appVariables.PkNastavnikSuradnik) && (e.PkPodTipPredavanja == arg.event.extendedProps.PkPodTipPredavanja) && (e.PkGrupaZaNastavu == arg.event.extendedProps.PkGrupaZaNastavu)) {
+                            //         return e.PkNastavaRealizacija ? e.PkNastavaRealizacija : 'Blok Sat';
+                            //     } else {
+                            //         return -1
+                            //     }
+                            // });
+                            
+                            
+                            // console.log('RESULT_REALIZACIJA', PkNastavaRealizacijaBlokSat );
+                            
+                            
+                            
                             let params = {
                                 PkNastavaPlan: arg.event.extendedProps.PkNastavaPlan,
-                                PkNastavaRealizacija: arg.event.extendedProps.PkNastavaRealizacija
+                                PkNastavaRealizacija: arg.event.extendedProps.PkNastavaRealizacija,
+                                // PkNastavaRealizacijaBlokSat: 4
                             }
                             // console.log(params);
+
                             this.studentiService
                                 .getStudentPrisutnostNaNastavi(params)
                                 .subscribe((data:any[]) => {
                                     this.prisutniStudenti = data;
-                                    // console.log(this.prisutniStudenti);
-                                   
+                                    console.log(this.prisutniStudenti);
+                                    
                                     this.eventDetalji = {
+                                        PkNastavaPlan: arg.event.extendedProps.PkNastavaPlan,
+                                        PkNastavnikSuradnik: arg.event.extendedProps.PkNastavnikSuradnik,
                                         eventId: arg.event.id,
                                         PredmetNaziv: arg.event.extendedProps.PredmetNaziv,
                                         PodTipPredavanjaNaziv:
@@ -177,6 +270,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                         // datum: datum,
                                         termin: start + "-" + end,
                                         Prisutan: arg.event.extendedProps.Prisutan,
+                                        // ProfesorIskljucioDaNe: arg.event.extendedProps.ProfesorIskljucioDaNe,
                                         Prisutnost: this.prisutniStudenti.length > 0 ? this.prisutniStudenti.length : null
 
                                     };
@@ -435,10 +529,9 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         this.studentiZaBrisanje = [];
     }
     togglePrisutnost(rowData, colField) {
-        console.log('rowData',rowData);
-        console.log('colField', colField);
-        console.log(this.prisutniStudenti);
+
         let editedStudent = rowData;
+        editedStudent.ProfesorIskljucioDaNe = editedStudent.ProfesorIskljucioDaNe == 1 ? 0 : 1;
         editedStudent.Prisutan = editedStudent.Prisutan == 1 ? 0 : 1;
         let studenti = [...this.prisutniStudenti];
         studenti[this.prisutniStudenti.indexOf(rowData)] = editedStudent;
