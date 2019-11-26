@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.setupCalendarOrientationEvent();
 
-        this.setupDomicilneVrijednostiEduCard();
+        this.setupDomicilneVrijednosti();
     }
 
     ngAfterViewInit() {
@@ -108,35 +108,31 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
      * @Params DomicilneVrijednostiParams null
      * @Returns Objekt koji definira domicilne vrijednosti
      */
-    setupDomicilneVrijednostiEduCard() {
+    setupDomicilneVrijednosti() {
         this.opciService.getDohvatDomicilnihVrijednostiEduCard(this.DomicilneVrijednostiParams)
             .subscribe((data:DocimilneVrijednosti[]) => {
                 this.appVariables.domicilneVrijednosti = data;
-                this.appVariables.EducardAktivan = Array.from(data).find(
-                    (e: DocimilneVrijednosti) => {
-                        return e.NazivDomicilneVrijednosti == "EducardAktivanDaNe";
-                    }
-                ).VrijednostPkDomicilneVrijednosti
-                this.appVariables.minOcjena = Array.from(data).find(
-                    (e: DocimilneVrijednosti) => {
-                        return e.NazivDomicilneVrijednosti == "minOcjena";
-                    }
-                ).VrijednostPkDomicilneVrijednosti
-                this.appVariables.maxOcjena = Array.from(data).find(
-                    (e: DocimilneVrijednosti) => {
-                        return e.NazivDomicilneVrijednosti == "maxOcjena";
-                    }
-                ).VrijednostPkDomicilneVrijednosti
-                this.appVariables.negativnaOcjena = Array.from(data).find(
-                    (e: DocimilneVrijednosti) => {
-                        return e.NazivDomicilneVrijednosti == "negativnaOcjena";
-                    }
-                ).VrijednostPkDomicilneVrijednosti
-                this.appVariables.editOcjenaEnabled = Array.from(data).find(
-                    (e: DocimilneVrijednosti) => {
-                        return e.NazivDomicilneVrijednosti == "EditOcjenaDaNe";
-                    }
-                ).VrijednostPkDomicilneVrijednosti
+                //VAZNO! Treba ih u destruktiranju objekta ABECEDNO poslozit u niz od gori prema doli od a-z
+                [
+                    this.appVariables.editOcjenaEnabled,
+                    this.appVariables.EducardAktivan, 
+                    this.appVariables.maxOcjena,
+                    this.appVariables.minOcjena,
+                    this.appVariables.negativnaOcjena,
+                    this.appVariables.ObaveznoOcitavanjeSvakiSatDaNe
+                ]  = data
+                    .filter(e=> ["EducardAktivanDaNe","EditOcjenaDaNe","maxOcjena","minOcjena","negativnaOcjena","ObaveznoOcitavanjeSvakiSatDaNe"]
+                    .includes(e.NazivDomicilneVrijednosti))
+                    .sort((a,b) => {
+                        return a.NazivDomicilneVrijednosti.toLowerCase() < b.NazivDomicilneVrijednosti.toLowerCase() ? -1 : 1;
+                    })
+                    .map(e => e.VrijednostPkDomicilneVrijednosti);
+                
+                // this.appVariables.EducardAktivan = Array.from(data).find(
+                //     (e: DocimilneVrijednosti) => {
+                //         return e.NazivDomicilneVrijednosti == "EducardAktivanDaNe";  stara verzija pretrage gdje treba copy paste i prominit 'EducardAktivanDaNe' za drugu vrijednost 
+                //     }
+                
             });
     }
 

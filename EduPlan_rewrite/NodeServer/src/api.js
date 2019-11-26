@@ -256,9 +256,18 @@ router.post("/NastavaRealizacijaPlana", function(req, res) {
     request.addParameter("PkNastavaPlan", TYPES.Int, req.body.params.PkNastavaPlan);
     request.addParameter("PkNastavnikSuradnik", TYPES.Int, req.body.params.PkNastavnikSuradnik);
     request.addParameter("PkUsera", TYPES.Int, req.body.params.PkUsera);
-    // request.addParameter("PrisutniStudenti", TYPES.Int, req.query.PrisutniStudenti);
 
     request.addParameter('PrisutniStudenti', TYPES.TVP, table);
+    
+    db.execStoredProc(request, conn, res, "{}");
+});
+
+router.delete("/NastavaRealizacijaPlana", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spNastavaRealizacijaPlana_Delete", conn);
+    request.addParameter("PkNastavaRealizacija", TYPES.Int, req.query.PkNastavaRealizacija);
+    request.addParameter("PkUsera", TYPES.Int, req.query.PkUsera);
+
     
     db.execStoredProc(request, conn, res, "{}");
 }); 

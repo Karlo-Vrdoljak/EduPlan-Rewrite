@@ -13,6 +13,8 @@
                 (click)="menu.toggle($event)"></button>
         </div>
     </div>
+    <p-toast [style]="{marginTop: '50px'}" position="top-right" [baseZIndex]="100000"></p-toast>
+
 </div>
 <!-- <hr style="color: #c2dfd5; padding-right: 10px;"><br/> -->
 
@@ -61,7 +63,7 @@
         </div>
         <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="appVariables.EducardAktivan" style="padding:5px 10px 10px 10px;">
             {{ 'NASTVA_UNOSREALIZACIJE_OCITANEDUCARDOM' | translate }}
-            <p-checkbox disabled  [(ngModel)]="eventDetalji.Prisutan" binary="true"></p-checkbox>
+            <p-triStateCheckbox disabled  [(ngModel)]="eventDetalji.Prisutan" ></p-triStateCheckbox>
         </div>
         <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="appVariables.EducardAktivan" style="padding:0px 10px 10px 10px;">
             <p-button style="width: 100%;" icon="fa fa-fw fa-rss" (click)="displayStudentiEventDialog=true" label="{{ 'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" class="ui-button-primary"></p-button>
@@ -88,7 +90,7 @@
 
     <p-footer *ngIf="eventDetalji">
 
-        <p-toggleButton (onChange)="handleRealizacija()" [onLabel]="'NASTAVA_AUTOMATSKAREALIZACIJA_REALIZIRANO' | translate" [offLabel]="'NASTAVA_NASTAVAREALIZACIJAGRUPNA_REALIZIRAJ' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano" [disabled]="eventDetalji.Realizirano"></p-toggleButton>
+        <p-toggleButton (onChange)="handleRealizacija()" [onLabel]="'NASTVA_UNOSREALIZACIJE_UKLONIREALIZACIJU' | translate" [offLabel]="'NASTAVA_NASTAVAREALIZACIJAGRUPNA_REALIZIRAJ' | translate" offIcon="fa fa-check" onIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
@@ -128,7 +130,7 @@
         </div>
         <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding-left:0px 10px; opacity:0.5;"><hr/></div>
         <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 0px 10px;">
-            <p-toggleButton [style]="{'width':'25%', 'margin':'0px 5px 0px 0px'}" [onLabel]="'PROFESOR_KALENDAR_BLOKSAT' | translate" [offLabel]="'PROFESOR_KALENDAR_BLOKSAT' | translate" onIcon="fa fa-check" offIcon="fa fa-times" iconPos="left" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
+            <p-toggleButton *ngIf="!appVariables.ObaveznoOcitavanjeSvakiSatDaNe" [style]="{'width':'25%', 'margin':'0px 5px 0px 0px'}" [onLabel]="'PROFESOR_KALENDAR_BLOKSAT' | translate" [offLabel]="'PROFESOR_KALENDAR_BLOKSAT' | translate" onIcon="fa fa-check" offIcon="fa fa-times" iconPos="left" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
             <button (click)="handleDeleteStudentsClick()" style="width:35%; padding-left:5px; margin:0px 5px;" pButton type="button" [label]="'NASTVA_UNOSREALIZACIJE_UKLONIODABRANESTUDENTE' | translate" icon="fa fa-user-times" class="ui-button-danger"></button>    
             <button style="width:25%; padding-left:5px; margin:0px 5px;" pButton type="button" [label]="'NASTVA_UNOSREALIZACIJE_DODAJSTUDENTE' | translate" icon="fa fa-user-plus" class="ui-button-success"></button>      
         </div>
@@ -165,8 +167,8 @@
                         <td *ngFor="let col of columns" class="ui-resizable-column"
                             style="text-align: center;">
                             <span (click)="togglePrisutnost(rowData, col.field)" *ngIf="isBoolean(rowData[col.field]); else textOutput">
-                                <span class="hoverMe" [style.color]="rowData[col.field] == false ? 'green' : 'red' "><i
-                                       style="padding: 5px 50px 5px 30px;" [ngClass]="rowData[col.field] == false ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                <span class="hoverMe" [style.color]="rowData[col.field] == 0 ? 'green' : 'red' "><i
+                                       style="padding: 5px 50px 5px 30px;" [ngClass]="rowData[col.field] == 0 ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                             </span>
                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                         </td>
@@ -197,3 +199,4 @@
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogPrisutnost()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
+

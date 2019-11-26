@@ -138,10 +138,12 @@ export class ProfesorService {
             catchError(this.appService.handleError("ProfesorService.getNastavnikSuradnikSvi"))
         );
     }
-
+    /**
+     * 
+     * @Opis Realizira nastavu koja se odvila tocno po planu
+     * @Param PkNastavaPlan, PkNastavnikSuradnik, PkUsera, PrisutniStudenti: [{..},{..},...]
+     */
     postNastavaRealizacijaPlana(data) {
-        console.log("realiziran...");
-        console.log(data);
         return this.http.post(this.config.API_URL + "NastavaRealizacijaPlana", {
             params: data
         }).pipe(
@@ -149,6 +151,19 @@ export class ProfesorService {
             catchError(this.appService.handleError("ProfesorService.postNastavaRealizacijaPlana"))
             );
         }
+    /**
+     * @Opis Ponistava realizaciju nastave
+     * @param data PkNastavaRealizacija, PkUsera
+     * @returns []
+     */
+    deleteNastavaRealizacija(data) {
+        return this.http.delete(this.config.API_URL + "NastavaRealizacijaPlana", {
+            params: data
+        }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("ProfesorService.deleteNastavaRealizacijaPlana"))
+            );
+    }
     /*
      *  Select svih Tipova nastave koje se izvode ovisno o studiju,godini i predmetu.
      *  Params: PkSkolskaGodinaStudijPredmetKatedra
