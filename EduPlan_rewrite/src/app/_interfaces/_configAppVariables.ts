@@ -18,6 +18,7 @@ export class AppVariables {
            minOcjena: number;
            maxOcjena: number;
            negativnaOcjena: number;
+           ObaveznoOcitavanjeSvakiSatDaNe: number;
 
            constructor() {}
        }

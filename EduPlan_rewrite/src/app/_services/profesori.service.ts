@@ -161,7 +161,6 @@ export class ProfesorService {
      *  Returns: Niz od  jednog ili više objekata
      */
     getNastavnikSuradnikSvi() {
-        //Dummy service
         return this.http
             .get(this.config.API_URL + "NastavnikSuradnikSvi", {})
             .pipe(
@@ -171,6 +170,32 @@ export class ProfesorService {
                         "ProfesorService.getNastavnikSuradnikSvi"
                     )
                 )
+            );
+    }
+    /**
+     * 
+     * @Opis Realizira nastavu koja se odvila tocno po planu
+     * @Param PkNastavaPlan, PkNastavnikSuradnik, PkUsera, PrisutniStudenti: [{..},{..},...]
+     */
+    postNastavaRealizacijaPlana(data) {
+        return this.http.post(this.config.API_URL + "NastavaRealizacijaPlana", {
+            params: data
+        }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("ProfesorService.postNastavaRealizacijaPlana"))
+            );
+        }
+    /**
+     * @Opis Ponistava realizaciju nastave
+     * @param data PkNastavaRealizacija, PkUsera
+     * @returns []
+     */
+    deleteNastavaRealizacija(data) {
+        return this.http.delete(this.config.API_URL + "NastavaRealizacijaPlana", {
+            params: data
+        }).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("ProfesorService.deleteNastavaRealizacijaPlana"))
             );
     }
     /*
