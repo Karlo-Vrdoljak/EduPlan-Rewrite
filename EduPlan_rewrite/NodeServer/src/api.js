@@ -229,5 +229,17 @@ router.get('/getGrupeZaNastavu', function (req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+//dohvat podataka o nastavnim cjelinama na odredenom predmetu 
+router.get("/getStudentiRasporedeniPoGrupama", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spStudentiRasporedjeniPoGrupama",conn
+);
+
+    request.addParameter("PkSkolskaGodina",TYPES.Int, req.query.PkSkolskaGodina);
+    request.addParameter("PkSkolskaGodinaStudijGrupaZaNastavu", TYPES.Int, req.query.PkSkolskaGodinaStudijGrupaZaNastavu);
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 
 module.exports = router;

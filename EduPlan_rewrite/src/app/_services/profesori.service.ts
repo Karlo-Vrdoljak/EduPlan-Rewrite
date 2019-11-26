@@ -20,10 +20,14 @@ export class ProfesorService {
      *  Returns: Niz od jednog objekta ili niz vise objekata
      */
     getNastavnik(data) {
-        return this.http.get(this.config.API_URL + "Nastavnik", { params: data }).pipe(
-            retry(this.config.APIRetryCount),
-            catchError(this.appService.handleError("ProfesorService.getNastavnik"))
-        );
+        return this.http
+            .get(this.config.API_URL + "Nastavnik", { params: data })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError("ProfesorService.getNastavnik")
+                )
+            );
     }
 
     /*
@@ -38,7 +42,11 @@ export class ProfesorService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("ProfesorService.getProfesorObavijesti"))
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getProfesorObavijesti"
+                    )
+                )
             );
     }
 
@@ -59,7 +67,11 @@ export class ProfesorService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("ProfesorService.getNastavnikRaspored"))
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getNastavnikRaspored"
+                    )
+                )
             );
     }
 
@@ -75,7 +87,11 @@ export class ProfesorService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("ProfesorService.getNastavnikPredmeti"))
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getNastavnikPredmeti"
+                    )
+                )
             );
     }
 
@@ -92,7 +108,11 @@ export class ProfesorService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("ProfesorService.getPredmetOsnovniPodaci"))
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getPredmetOsnovniPodaci"
+                    )
+                )
             );
     }
 
@@ -108,7 +128,11 @@ export class ProfesorService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("ProfesorService.getPredmetStudenti"))
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getPredmetStudenti"
+                    )
+                )
             );
     }
 
@@ -124,7 +148,11 @@ export class ProfesorService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("ProfesorService.getPredmetNastavneCjeline"))
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getPredmetNastavneCjeline"
+                    )
+                )
             );
     }
     /*
@@ -134,10 +162,16 @@ export class ProfesorService {
      */
     getNastavnikSuradnikSvi() {
         //Dummy service
-        return this.http.get(this.config.API_URL + "NastavnikSuradnikSvi", {}).pipe(
-            retry(this.config.APIRetryCount),
-            catchError(this.appService.handleError("ProfesorService.getNastavnikSuradnikSvi"))
-        );
+        return this.http
+            .get(this.config.API_URL + "NastavnikSuradnikSvi", {})
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getNastavnikSuradnikSvi"
+                    )
+                )
+            );
     }
     /*
      *  Select svih Tipova nastave koje se izvode ovisno o studiju,godini i predmetu.
@@ -145,12 +179,16 @@ export class ProfesorService {
      *  Returns: Niz od  jednog ili više objekata
      */
     getPodTipPredavanja(data) {
-        return this.http.get(this.config.API_URL + "getPodTipovePredavanja", {
-            params: data
-        }).pipe(
-            retry(this.config.APIRetryCount),
-            catchError(this.appService.handleError("ProfesorService.getTipNastave"))
-        );
+        return this.http
+            .get(this.config.API_URL + "getPodTipovePredavanja", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError("ProfesorService.getTipNastave")
+                )
+            );
     }
 
     /*
@@ -159,11 +197,37 @@ export class ProfesorService {
      *  Returns: Niz od  jednog ili više objekata
      */
     getGrupeZaNastavu(data) {
-        return this.http.get(this.config.API_URL + "getGrupeZaNastavu", {
-            params: data
-        }).pipe(
-            retry(this.config.APIRetryCount),
-            catchError(this.appService.handleError("ProfesorService.getGrupeZaNastavu"))
-        );
+        return this.http
+            .get(this.config.API_URL + "getGrupeZaNastavu", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getGrupeZaNastavu"
+                    )
+                )
+            );
+    }
+
+    /*
+     *  Select svih stuenata raspoređenh po grupama za nastavu.
+     *  Params: 
+     *  Returns: Niz od  jednog ili više objekata
+     */
+    getStudentiRasporedeniPoGrupama(data) {
+        return this.http
+            .get(this.config.API_URL + "getStudentiRasporedeniPoGrupama", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getStudentiRasporedeniPoGrupama"
+                    )
+                )
+            );
     }
 }

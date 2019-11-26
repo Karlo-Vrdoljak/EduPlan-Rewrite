@@ -107,7 +107,7 @@
                             </h1>
                             <p-table #dt [value]="studentiNaPredmetu" [columns]="colsStudenti" selectionMode="single"
                                 [scrollable]="true" scrollHeight="45vh" [(selection)]="selectedStudent"
-                                (onRowSelect)="onRowSelect($event)" dataKey="PkStudentnaVisokomUcilistuPredmet">
+                                (onRowSelect)="onRowSelectStudent($event)" dataKey="PkStudentnaVisokomUcilistuPredmet">
 
                                 <ng-template pTemplate="header" let-columns>
                                     <tr>
@@ -262,8 +262,8 @@
                 <!-- NASTAVNE CJELINE-->
                 <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" leftIcon="fa fa-book">
                     <ng-container>
-                        <div class="card card-w-title ">
-                            <h1>
+                        <div class="card card-w-title">
+                            <h1 style="padding: 0.875em 0">
                                 <span *ngIf="selectedLang == 'hr'; else englishOutput">
                                     {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
                                     {{predmetOsnovniPodaci.NazivStudija_HR}}
@@ -280,7 +280,7 @@
 
                             <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjeline"
                                 selectionMode="single" [scrollable]="true" scrollHeight="77vh"
-                                [(selection)]="selectedNastavniMaterijali">
+                                [(selection)]="selectedNastavnaCjelina" (onRowSelect)="onRowSelectNastavnaCjelina($event)">
 
                                 <ng-template pTemplate="colgroup" let-columns>
                                     <colgroup>
@@ -298,8 +298,8 @@
                                     </tr>
                                 </ng-template>
 
-                                <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                    <tr [pSelectableRow]="rowData">
+                                <ng-template  pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
                                         <td *ngFor="let col of columns" class="ui-resizable-column"
                                             style="text-align: center;">
                                             <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
@@ -351,10 +351,10 @@
                             </div>
 
                             <div class="ui-g-12 ui-lg-4" *ngIf="selectedPodTipPredavanja">
-                                <p-table [value]="grupeZanastavu" [columns]="colsGrupeZaNastavu" selectionMode="single"
-                                    [(selection)]="selectedGrupeZaNastavu">
+                                <p-table [value]="grupeZaNastavu" [columns]="colsGrupeZaNastavu" selectionMode="single"
+                                    [(selection)]="selectedGrupeZaNastavu" (onRowSelect)="grupeZaNastavuRowSelection()">
                                     <ng-template pTemplate="caption">
-                                        Raspoređene grupe za nastavu
+                                        Grupe za nastavu
                                     </ng-template>
 
                                     <ng-template pTemplate="header" let-columns>
@@ -379,22 +379,27 @@
                             </div>
 
                             <div class="ui-g-12 ui-lg-4" *ngIf="selectedGrupeZaNastavu">
-                                <p-table>
+                                <p-table [value]="studentiRasporedeniPoGrupama" [columns]="colsStudentiRasporedeniPoGrupama">
                                     <ng-template pTemplate="caption">
-                                        Grupe za nastavu
+                                        Studenti raspoređeni po grupama
                                     </ng-template>
 
-                                    <ng-template pTemplate="header">
+                                    <ng-template pTemplate="header" let-columns>
                                         <tr>
-                                            <th>Oznaka grupe</th>
-                                            <th>Kapacitet</th>
-                                            <th>Semestar</th>
+                                            <th *ngFor="let col of columns" [pSortableColumn]="col.field"
+                                                pResizableColumn style="text-align: center;">
+                                                {{col.header}}
+                                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                                            </th>
                                         </tr>
                                     </ng-template>
 
-                                    <ng-template pTemplate="body" let-car>
+                                    <ng-template pTemplate="body" let-rowData let-columns="columns">
                                         <tr>
-
+                                            <td *ngFor="let col of columns" class="ui-resizable-column"
+                                                style="text-align: center;">
+                                                {{rowData[col.field]}}
+                                            </td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
@@ -759,7 +764,7 @@
 
                                                         <div class="ui-g-12">
                                                             <b>
-                                                                {{'SERVICES_GENERALSERVICE_KORISNIK' | translate}}:
+                                                                {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRAZAKLJUCAVANJE_KORISNIKPROMJENE' | translate}}:
                                                             </b>
                                                             {{rowData.KorisnikPromjena}}
                                                         </div>
@@ -802,35 +807,38 @@
 <p-dialog header="{{'PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA' | translate}}"
     [(visible)]="nastavneCjelineDodajNovuDialog" [modal]="true" [responsive]="true"
     [style]="{width: '500px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
-    <div class="ui-g ui-fluid form-group">
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
-            <span class="ui-float-label">
-                <input type="text" size="30" [(ngModel)]="NastavneCjelineModel.imeNastavneCjeline" pInputText>
-                <label>{{'KATALOZI_NOVINASTAVNIKSURADNIKNASTAVNECJELINE' | translate}}</label>
-            </span>
-        </div>
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
-            <span class="ui-float-label">
-                <input type="text" size="30" [(ngModel)]="NastavneCjelineModel.korisnik" pInputText>
-                <label>{{'KATALOZI_STATUSUGOVORA_KORISNIK' | translate}}</label>
-            </span>
-        </div>
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
-            <span class="ui-float-label">
-                <input type="text" size="30" [(ngModel)]="NastavneCjelineModel.korisnikUnosa" pInputText>
-                <label>{{'SERVICES_GENERALSERVICE_KORISNIKUNOSA' | translate}}</label>
-            </span>
-        </div>
-        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
-            <span class="ui-float-label">
-                <p-checkbox label="{{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}"
-                    [(ngModel)]="NastavneCjelineModel.koristiSe" binary="true"></p-checkbox>
-            </span>
+    <div *ngIf="addNastavneCjelineModel">
+        <div class="ui-g ui-fluid form-group">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" pKeyFilter="alpha" [(ngModel)]="addNastavneCjelineModel.NazivPredmetNastavnaCjelina" 
+                    pInputText required> <!--Bug kod komponente, uslijed prvog ulaza polje se ne crveni, tek kada se nešto napiše, pa izbriše-->
+                    <label>{{'KATALOZI_NOVINASTAVNIKSURADNIKNASTAVNECJELINE' | translate}}</label>
+                </span>
+            </div>
+            <!-- <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="addNastavneCjelineModel.korisnik" pInputText>
+                    <label>{{'KATALOZI_STATUSUGOVORA_KORISNIK' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" size="30" [(ngModel)]="addNastavneCjelineModel.korisnikUnosa" pInputText>
+                    <label>{{'SERVICES_GENERALSERVICE_KORISNIKUNOSA' | translate}}</label>
+                </span>
+            </div> -->
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-checkbox label="{{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}"
+                        [(ngModel)]="addNastavneCjelineModel.KoristiSeDaNe" binary="true"></p-checkbox>
+                </span>
+            </div>
         </div>
     </div>
 
     <p-footer>
-        <button type="button" pButton icon="fa fa-check" (click)="setNastavneCjelineModel()"
+        <button type="button" pButton icon="fa fa-check" (click)="dodajNovuNastavnuCjelinu()"
             label="{{'KATALOZI_PREDMETNASTAVNACJELINA_SPREMI' | translate}}" class="ui-button-success"></button>
 
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeNastavneCjelineDodajNovuDialog()"
@@ -841,41 +849,30 @@
 <p-dialog header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITENASTAVNUCJELINU' | translate}}"
     [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true"
     [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
-    <div *ngIf=selectedNastavniMaterijali>
+    <div *ngIf="editNastavneCjelineModel">
         <div class="ui-g ui-fluid form-group">
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <input type="text" size="30" [(ngModel)]="selectedNastavniMaterijali.imeNastavneCjeline" pInputText>
+                    <input type="text" size="30" pKeyFilter="alpha" [(ngModel)]="editNastavneCjelineModel.NazivPredmetNastavnaCjelina" 
+                    pInputText required>
                     <label>{{'KATALOZI_NOVINASTAVNIKSURADNIKNASTAVNECJELINE' | translate}}</label>
-                </span>
-            </div>
-            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
-                <span class="ui-float-label">
-                    <input type="text" size="30" [(ngModel)]="selectedNastavniMaterijali.korisnik" pInputText>
-                    <label>{{'KATALOZI_STATUSUGOVORA_KORISNIK' | translate}}</label>
-                </span>
-            </div>
-            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
-                <span class="ui-float-label">
-                    <input type="text" size="30" [(ngModel)]="selectedNastavniMaterijali.korisnikUnosa" pInputText>
-                    <label>{{'SERVICES_GENERALSERVICE_KORISNIKUNOSA' | translate}}</label>
                 </span>
             </div>
             <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
                     <p-checkbox label="{{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}"
-                        [(ngModel)]="selectedNastavniMaterijali.koristiSe" binary="true">
+                        [(ngModel)]="editNastavneCjelineModel.KoristiSeDaNe" binary="true">
                     </p-checkbox>
                 </span>
             </div>
         </div>
     </div>
     <p-footer>
-        <button type="button" pButton icon="fa fa-check" (click)="editNastavniMaterijali()"
+        <button type="button" pButton icon="fa fa-check" (click)="editNastavnuCjelinu()" 
             label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}" class="ui-button-success"></button>
 
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeNastavneCjelineEditNovuDialog()"
-            label="{{'KATALOZI_NASTAVNIKSURADNIK_SPREMI' | translate}}" class="ui-button-secondary"></button>
+            label="{{'VIEWS_GRUPEZANASTAVUDIALOG_ODUSTANI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 
 </p-dialog>
