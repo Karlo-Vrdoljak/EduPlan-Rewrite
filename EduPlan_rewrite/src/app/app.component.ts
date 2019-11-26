@@ -9,6 +9,7 @@ import { DocimilneVrijednosti } from './_interfaces/DocimilneVrijednosti';
 import { CalendarConfig } from './_interfaces/_configCalendar';
 import { LoginComponent } from 'src/assets/pages/login.component';
 import { OpciService } from './_services/opci.service';
+import { GranicneSatnice } from './_interfaces/GranicneSatnice';
 
 enum MenuOrientation {
     STATIC,
@@ -80,6 +81,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setupCalendarOrientationEvent();
 
         this.setupDomicilneVrijednosti();
+
+        this.setupSveSatnice();
     }
 
     ngAfterViewInit() {
@@ -100,6 +103,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             this.topbarItemClick = false;
             this.sidebarClick = false;
             this.menuButtonClick = false;
+        });
+    }
+
+    setupSveSatnice() {
+        this.opciService.getSveSatnicePoRednomBroju().subscribe((data:GranicneSatnice[]) => {
+            this.appVariables.granicneSatnice = [];
+            this.appVariables.granicneSatnice.push(data[0]);
+            this.appVariables.granicneSatnice.push(data[data.length -1]);
+            
         });
     }
 

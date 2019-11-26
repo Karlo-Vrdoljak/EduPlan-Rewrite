@@ -1,3 +1,5 @@
+import { GranicneSatnice } from './GranicneSatnice';
+
 export class AppVariables {
            PkStudent: number;
            PkSkolskaGodina: number;
@@ -19,6 +21,6 @@ export class AppVariables {
            maxOcjena: number;
            negativnaOcjena: number;
            ObaveznoOcitavanjeSvakiSatDaNe: number;
-
+           granicneSatnice:GranicneSatnice[];
            constructor() {}
        }

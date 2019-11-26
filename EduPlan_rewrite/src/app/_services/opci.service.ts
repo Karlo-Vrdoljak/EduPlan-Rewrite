@@ -104,5 +104,13 @@ export class OpciService {
                 catchError(this.appService.handleError("OpciService.getPrikazDogadajaNaDatum"))
             );
     }
-
+    /**
+     * @Opis Dohvaca sve nastavne satnice sa svojim rednim brojem i vremenom od/do
+     */
+    getSveSatnicePoRednomBroju() {
+        return this.http.get(this.config.API_URL + "SveSatnicePoRednomBroju", {}).pipe(
+            retry(this.config.APIRetryCount),
+            catchError(this.appService.handleError("OpciService.getSveSatnicePoRednomBroju"))
+        );
+    }
 }

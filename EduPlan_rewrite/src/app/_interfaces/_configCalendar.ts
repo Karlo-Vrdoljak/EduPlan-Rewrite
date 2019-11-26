@@ -200,6 +200,8 @@ export class CalendarConfig {
                        color: this.chooseColor(e.PodTipPredavanjaNaziv),
                        extendedProps: {
                            Datum: e.Datum || null,
+                           DatumVrijemeOd: e.DatumVrijemeOd || null,
+                           DatumVrijemeDo: e.DatumVrijemeDo || null,
                            PkNastavaRealizacija: e.PkNastavaRealizacija || null,
                            NastavnikSuradnikNaziv: e.NastavnikSuradnikNaziv || null,
                            PkNastavnikSuradnik: e.PkNastavnikSuradnik || null,
@@ -316,6 +318,56 @@ export class CalendarConfig {
                        return res + val;
                    });
                return ((prisutan / studenti.length) * 100).toFixed(2);
+           }
+
+           generateBloksatEvents(data, clickedEvent, maxRbrSatnice) {
+            data.forEach(e => {
+                if (!("PkGrupaZaNastavu" in e)) {
+                    e.PkGrupaZaNastavu = 0;
+                }
+            });
+            let kandidatiBloksat = data.filter(e => {
+                    return (
+                        e.PkPredmet == clickedEvent.PkPredmet &&
+                        e.PkNastavnikSuradnik == clickedEvent.PkNastavnikSuradnik &&
+                        e.PkPodTipPredavanja == clickedEvent.PkPodTipPredavanja && 
+                        e.PkGrupaZaNastavu == clickedEvent.PkGrupaZaNastavu && 
+                        Date.parse( e.DatumVrijemeOd ) < Date.parse( clickedEvent.DatumVrijemeOd ) 
+                    );
+                }).reverse();
+
+            // console.log(kandidatiBloksat);
+            let satnice = kandidatiBloksat.map( e => e.RbrSatnice );
+            let indexBloksat: number[] = [];
+            let size = -1;
+
+            if(satnice.length == 1) { // ako je 1 onda neovisno o svemu sta se moze iskombinirat je 100% bloksat
+                indexBloksat.push(satnice[0]);
+            } else {
+                for ( let index = 0; index < satnice.length - 1; index++ ) {
+                    if ( (satnice[index] == satnice[index + 1] + 1 ) || (satnice[index] == satnice[index + 1]) ) {
+                        if (indexBloksat.length == 0) {
+                            indexBloksat[++size] = satnice[0]; 
+                            indexBloksat[++size] = satnice[1]; 
+                        } else {
+                            indexBloksat[++size] = satnice[index + 1];
+                        }
+                    } else if ( satnice[index] == 1 && satnice[index + 1] ==  maxRbrSatnice) {
+                        if (indexBloksat.length == 0) {
+                            indexBloksat[++size] = satnice[0];
+                            indexBloksat[++size] = satnice[1];
+                        } else {
+                            indexBloksat[++size] = satnice[index + 1];
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            return kandidatiBloksat.filter(e => {
+                return satnice.includes(e.RbrSatnice)
+            });
            }
            
            
