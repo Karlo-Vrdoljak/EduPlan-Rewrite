@@ -10,16 +10,7 @@ import { MessageService } from 'primeng/api';
 import { formatDate } from '@angular/common';
 import { LanguageHandler } from '../app.languageHandler';
 import { editStudentModal } from '../_interfaces/EditStudent';
-
-interface predmetNastavneCjelineDummy {
-  imeNastavneCjeline: string;
-  korisnikUnosa: string;
-  datumUnosa: String;
-  korisnik: string;
-  zadnjaPromjena: String;
-  koristiSe: boolean;
-  //pkNastavneCjeline: number; sadrži, ali se on generira u bazi, valjda
-}
+import { NastavneCjelineModel } from '../_interfaces/NastavneCjelineModel';
 
 @Component({
   selector: 'app-profesor-predmet',
@@ -28,11 +19,14 @@ interface predmetNastavneCjelineDummy {
 })
 export class ProfesorPredmetComponent implements OnInit {
   predmetOsnovniPodaci: any;
+  user: any;
   studentiNaPredmetu: any;
   predmetNastavneCjeline: any;
   podtipoviPredavanja: any;
-  grupeZanastavu: any;
-  colsGrupeZaNastavu: any;
+  grupeZaNastavu: any;
+  studentiRasporedeniPoGrupama: any;
+  colsStudentiRasporedeniPoGrupama: any[];
+  colsGrupeZaNastavu: any[];
   colsPodTipoviPredavanja: any[];
   colsStudenti: any[];
   colsStudentiSmall: any[];
@@ -50,21 +44,16 @@ export class ProfesorPredmetComponent implements OnInit {
   nastavneCjelineDodajNovuDialog: boolean = false;
   nastavneCjelineEditDialog: boolean = false;
   StudentEditDialog: boolean = false;
-  selectedNastavniMaterijali: any = null;
+  selectedNastavnaCjelina: any = null;
   selectedStudent: any = null;
   selectedGrupeZaNastavu: any = null;
   rout: any = null;
   selectedLang: any;
-  NastavneCjelineModel: predmetNastavneCjelineDummy = {
-    imeNastavneCjeline: null,
-    korisnikUnosa: null,
-    datumUnosa: null,
-    korisnik: null,
-    zadnjaPromjena: null,
-    koristiSe: false
-  };
+  editNastavneCjelineModel: NastavneCjelineModel;
+  addNastavneCjelineModel: NastavneCjelineModel;
   editStudentModel: editStudentModal;
   selectedStudentIndex: number;
+  selectedNastavnaCjelinaIndex: number;
   minOcjena: number = this.appVariables.minOcjena;
   maxOcjena: number = this.appVariables.maxOcjena;
   ocjenaOcjenjivacDisabled: boolean = false;
@@ -83,7 +72,11 @@ export class ProfesorPredmetComponent implements OnInit {
   ngOnInit() {
 
     const params = {
-      PkSkolskaGodinaStudijPredmetKatedra: this.route.snapshot.paramMap.get('PkSkolskaGodinaStudijPredmetKatedra')
+        PkSkolskaGodinaStudijPredmetKatedra: this.route.snapshot.paramMap.get(
+            "PkSkolskaGodinaStudijPredmetKatedra"
+        ),
+        PkPredmet: 7, //this.route.snapshot.paramMap.get('PkPredmet')
+        PkNastavnik: this.appVariables.PkNastavnikSuradnik
     };
 
     this.selectedLang = this.langHandler.getCurrentLanguage()
@@ -114,17 +107,17 @@ export class ProfesorPredmetComponent implements OnInit {
             items: [{
               label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS,
               icon: 'fa fa-plus',
-              command: () => this.nastavneCjelineDodajNovuDialog = true
+              command: () => this.openNastavneCjelineDodajNovuDialog()
             },
             {
               label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
               icon: 'fa fa-pencil',
-              command: () => this.selectedNastavniMaterijali ? this.nastavneCjelineEditDialog = true : this.showErrorZapisNijeOdabran()
+              command: () => this.selectedNastavnaCjelina ? this.nastavneCjelineEditDialog = true : this.showErrorZapisNijeOdabran()
             },
             {
               label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS,
               icon: 'fa fa-trash-o',
-              command: () => this.selectedNastavniMaterijali ?
+              command: () => this.selectedNastavnaCjelina ?
                 this.showSuccessDeleteNastavneCjeline() :
                 this.showErrorZapisNijeOdabran()
             }]
@@ -136,24 +129,29 @@ export class ProfesorPredmetComponent implements OnInit {
         ];
 
         this.actionItemsNastavneCjeline = [
-          {
-            label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS + '*',
-            icon: 'fa fa-plus',
-            command: () => this.nastavneCjelineDodajNovuDialog = true //otvaranje modalne forme za dodavanje novih cjelina
-          },
-          {
-            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS + '*',
-            icon: 'fa fa-pencil',
-            command: () => this.selectedNastavniMaterijali ? this.nastavneCjelineEditDialog = true : this.showErrorZapisNijeOdabran()  //Otvaranje modalne forme za editanje odabranog nastavnog materijala
-
-          },
-          {
-            label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS + '*',
-            icon: 'fa fa-trash-o',
-            command: () => this.selectedNastavniMaterijali ?
-              this.showSuccessDeleteNastavneCjeline() :
-              this.showErrorZapisNijeOdabran() //Dummy funkcija za brisanje odabranog nastavnog materijala
-          }];
+            {
+                label: res.KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS + "*",
+                icon: "fa fa-plus",
+                //otvaranje modalne forme za dodavanje novih cjelina
+                command: () => this.openNastavneCjelineDodajNovuDialog()
+            },
+            {
+                label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS + "*",
+                icon: "fa fa-pencil",
+                command: () =>
+                    this.selectedNastavnaCjelina
+                        ? this.openEditNastavnaCjelina()
+                        : this.showErrorZapisNijeOdabran() //Otvaranje modalne forme za editanje odabranog nastavnog materijala
+            },
+            {
+                label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS + "*",
+                icon: "fa fa-trash-o",
+                command: () =>
+                    this.selectedNastavnaCjelina
+                        ? this.deleteSelectedNastavnaCjelina()
+                        : this.showErrorZapisNijeOdabran() //Dummy funkcija za brisanje odabranog nastavnog materijala
+            }
+        ];
 
         this.actionItemsStudenti = [{
           label: res.NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS,
@@ -169,6 +167,18 @@ export class ProfesorPredmetComponent implements OnInit {
     },
 
       (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('Client-side error occured.');
+        } else {
+          console.log('Server-side error occured.');
+        }
+      }, () => { });
+
+    // Poziv servisa za dohvacanje podataka o useru
+    this.profesorService.getNastavnik(params).subscribe((data) => {
+        this.user = data[0];
+    },
+     (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.log('Client-side error occured.');
         } else {
@@ -256,58 +266,70 @@ export class ProfesorPredmetComponent implements OnInit {
 
     // Poziv servisa za dohvacanje nastavnih cjelina na predmetu
     this.translate
-      .get([
-        "KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA",
-        "SERVICES_GENERALSERVICE_KORISNIKUNOSA",
-        "SERVICES_GENERALSERVICE_KORISNIK",
-        "SERVICES_GENERALSERVICE_DATUMUNOSA",
-        "KATALOZI_STATUSUGOVORA_ZADNJAPROMJENA",
-        "KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE"
-      ]).subscribe(res => {
-        this.profesorService.getPredmetNastavneCjeline(params).subscribe((data) => {
-          this.predmetNastavneCjeline = this.opciService.formatDates(data);
+        .get([
+            "KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA",
+            "SERVICES_GENERALSERVICE_KORISNIKUNOSA",
+            "NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRAZAKLJUCAVANJE_KORISNIKPROMJENE",
+            "SERVICES_GENERALSERVICE_DATUMUNOSA",
+            "KATALOZI_STATUSUGOVORA_ZADNJAPROMJENA",
+            "KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE"
+        ])
+        .subscribe(res => {
+            this.profesorService.getPredmetNastavneCjeline(params).subscribe(
+                data => {
+                    this.predmetNastavneCjeline = this.opciService.formatDates(
+                        data
+                    );
 
-          this.colsNastavneCjeline = [
-            {
-              header: res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
-              field: "NazivPredmetNastavnaCjelina"
-            },
-            {
-              header: res.SERVICES_GENERALSERVICE_KORISNIKUNOSA,
-              field: "KorisnikUnos"
-            },
-            {
-              header: res.SERVICES_GENERALSERVICE_DATUMUNOSA,
-              field: "DatumUnosa"
-            },
-            {
-              header: res.SERVICES_GENERALSERVICE_KORISNIK,
-              field: "KorisnikPromjena"
-            },
-            {
-              header: res.KATALOZI_STATUSUGOVORA_ZADNJAPROMJENA,
-              field: "DatumZadnjePromjene"
-            },
-            {
-              header: res.KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE,
-              field: "KoristiSeDaNe"
-            }];
+                    this.colsNastavneCjeline = [
+                        {
+                            header:
+                                res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
+                            field: "NazivPredmetNastavnaCjelina"
+                        },
+                        {
+                            header: res.SERVICES_GENERALSERVICE_KORISNIKUNOSA,
+                            field: "KorisnikUnos"
+                        },
+                        {
+                            header: res.SERVICES_GENERALSERVICE_DATUMUNOSA,
+                            field: "DatumUnosa"
+                        },
+                        {
+                            header:
+                                res.NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRAZAKLJUCAVANJE_KORISNIKPROMJENE,
+                            field: "KorisnikPromjena"
+                        },
+                        {
+                            header: res.KATALOZI_STATUSUGOVORA_ZADNJAPROMJENA,
+                            field: "DatumZadnjePromjene"
+                        },
+                        {
+                            header:
+                                res.KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE,
+                            field: "KoristiSeDaNe"
+                        }
+                    ];
 
-          this.colsNastavneCjelineSmall = [
-            {
-              header: res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
-              field: "NazivPredmetNastavnaCjelina"
-            }];
-        },
+                    this.colsNastavneCjelineSmall = [
+                        {
+                            header:
+                                res.KATALOZI_PREDMETNASTAVNACJELINA_NASTAVNACJELINA,
+                            field: "NazivPredmetNastavnaCjelina"
+                        }
+                    ];
+                },
 
-          (err: HttpErrorResponse) => {
-            if (err.error instanceof Error) {
-              console.log('Client-side error occured.');
-            } else {
-              console.log('Server-side error occured.');
-            }
-          }, () => { });
-      })
+                (err: HttpErrorResponse) => {
+                    if (err.error instanceof Error) {
+                        console.log("Client-side error occured.");
+                    } else {
+                        console.log("Server-side error occured.");
+                    }
+                },
+                () => {}
+            );
+        });
 
     // Poziv servisa za dohvacanje podtipova nasatve
     this.translate
@@ -337,6 +359,7 @@ export class ProfesorPredmetComponent implements OnInit {
             }
           }, () => { });
       })
+
     //Prijevod za Grupe za nastavu
     this.translate
       .get([
@@ -354,6 +377,29 @@ export class ProfesorPredmetComponent implements OnInit {
           }
         ];
       })
+
+    //Prijevod za studente raspoređene po grupama za nastavu
+    this.translate.get([
+        "VIEWS_GRUPEZANASTAVUDIALOG_OZNAKAGRUPE",
+        "VIEWS_GRUPEZANASTAVUDIALOG_KAPACITET",
+        "VIEWS_KATALOZI_PREDMET_SEMESTAR"
+    ]).subscribe(res => {
+      this.colsStudentiRasporedeniPoGrupama = [
+          {
+              field: "Ime",
+              header: res.VIEWS_APLIKACIJA_HOME_IME
+          },
+          {
+              field: "Prezime",
+              header: res.VIEWS_APLIKACIJA_HOME_PREZIME
+          },
+          {
+              field: "Semestar",
+              header: res.VIEWS_KATALOZI_PREDMET_SEMESTAR
+          }
+      ];
+    });
+
   }
 
   setUkupanBrojStudenata() { //Računa kolko ima studenata na odabranom predmetu
@@ -417,29 +463,86 @@ export class ProfesorPredmetComponent implements OnInit {
 
   closeNastavneCjelineDodajNovuDialog() {
     this.nastavneCjelineDodajNovuDialog = false;
+    this.addNastavneCjelineModel = null;
   }
 
-  setNastavneCjelineModel() { //Sada treba ucinis post request s objektom NastavneCjelineModel
-    this.NastavneCjelineModel.datumUnosa = formatDate(new Date(), 'yyyy/MM/dd', 'en');
-    this.NastavneCjelineModel.zadnjaPromjena = formatDate(new Date(), 'yyyy/MM/dd', 'en');
+  dodajNovuNastavnuCjelinu() { //Sada treba ucinis post request s objektom NastavneCjelineModel
+     if (this.addNastavneCjelineModel.NazivPredmetNastavnaCjelina == null || 
+         this.addNastavneCjelineModel.NazivPredmetNastavnaCjelina.length == 0) {
+         //Mozda dodati neku poruku
+         return;
+     }
+    this.addNastavneCjelineModel.DatumUnosa = new Date().toLocaleDateString(this.translate.instant("STUDENT_KALENDAR_LOCALE"));
+    this.addNastavneCjelineModel.DatumZadnjePromjene =new Date().toLocaleDateString(this.translate.instant("STUDENT_KALENDAR_LOCALE"));
+    this.addNastavneCjelineModel.KorisnikPromjena = ""//tria vidit koji je property 
+    this.addNastavneCjelineModel.KorisnikUnos = this.user.Ime + ' ' + this.user.Prezime
+    //user.username;
+
+    let nastavneCjeline = [...this.predmetNastavneCjeline];
+    nastavneCjeline.push(this.addNastavneCjelineModel);
+    this.predmetNastavneCjeline = nastavneCjeline;
+
     this.nastavneCjelineDodajNovuDialog = false;
     this.showSuccessEdit();
-    this.NastavneCjelineModel = {
-      imeNastavneCjeline: null,
-      korisnikUnosa: null,
-      datumUnosa: null,
-      korisnik: null,
-      zadnjaPromjena: null,
-      koristiSe: false
-    };
+    this.addNastavneCjelineModel = null;
   }
 
-  editNastavniMaterijali() { //triba ucinit put request za editanje podataka u bazi
+  openEditNastavnaCjelina() {
+    this.editNastavneCjelineModel = {
+        NazivPredmetNastavnaCjelina: this.selectedNastavnaCjelina.NazivPredmetNastavnaCjelina,
+        KoristiSeDaNe: this.selectedNastavnaCjelina.KoristiSeDaNe,
+        KorisnikPromjena: null,
+        KorisnikUnos: null,
+        DatumUnosa: null,
+        DatumZadnjePromjene: null
+    };
+
+    this.nastavneCjelineEditDialog = true;
+  }
+
+  editNastavnuCjelinu() { //triba ucinit put request za editanje podataka u bazi
+    console.log(this.editNastavneCjelineModel.NazivPredmetNastavnaCjelina)
+    if (this.addNastavneCjelineModel.NazivPredmetNastavnaCjelina == null || 
+        this.editNastavneCjelineModel.NazivPredmetNastavnaCjelina.length == 0) {
+        //Mozda dodati neku poruku
+        return;
+    }
+    this.predmetNastavneCjeline[this.selectedNastavnaCjelinaIndex].NazivPredmetNastavnaCjelina = 
+    this.editNastavneCjelineModel.NazivPredmetNastavnaCjelina;
+    
+    this.predmetNastavneCjeline[this.selectedNastavnaCjelinaIndex].KoristiSeDaNe = 
+    this.editNastavneCjelineModel.KoristiSeDaNe;
+
+    this.predmetNastavneCjeline[this.selectedNastavnaCjelinaIndex].DatumZadnjePromjene = 
+    new Date().toLocaleDateString(this.translate.instant("STUDENT_KALENDAR_LOCALE"));
+
+    this.predmetNastavneCjeline[this.selectedNastavnaCjelinaIndex].KorisnikPromjena = 
+    this.user.Ime + " " + this.user.Prezime; //promjenit
+   
     this.nastavneCjelineEditDialog = false;
     this.showSuccessEdit();
   }
 
+  openNastavneCjelineDodajNovuDialog() {
+    this.addNastavneCjelineModel = {
+        NazivPredmetNastavnaCjelina: null,
+        KorisnikUnos: null,
+        KorisnikPromjena: null,
+        DatumUnosa: null,
+        DatumZadnjePromjene: null,
+        KoristiSeDaNe: false
+    };
+    this.nastavneCjelineDodajNovuDialog = true
+  }
+
+  deleteSelectedNastavnaCjelina() {
+    let index = this.selectedNastavnaCjelinaIndex;   
+    this.predmetNastavneCjeline = this.predmetNastavneCjeline.filter((val, i) => i != index); 
+    this.showSuccessDeleteNastavneCjeline();
+  }
+
   closeNastavneCjelineEditNovuDialog() {
+    this.editNastavneCjelineModel = null;
     this.nastavneCjelineEditDialog = false;
   }
 
@@ -511,7 +614,7 @@ export class ProfesorPredmetComponent implements OnInit {
     this.StudentEditDialog = true;
   }
 
-  onRowSelect(event) {
+  onRowSelectStudent(event) {
     this.selectedStudentIndex = event.index;
   }
 
@@ -552,8 +655,8 @@ export class ProfesorPredmetComponent implements OnInit {
     this.setProsjekOcjena();
   }
 
-  podTipPredavanjaRowSelection() {
-    let params = {
+  podTipPredavanjaRowSelection() { //Poziv servisa za renderanje grupa za nastavu
+      let params = {
       PkPredmet: this.route.snapshot.paramMap.get('PkPredmet'),
       PkStudij: this.route.snapshot.paramMap.get('PkStudij'),
       PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
@@ -564,4 +667,20 @@ export class ProfesorPredmetComponent implements OnInit {
       console.log(data);
     })
   }
+
+  grupeZaNastavuRowSelection() { //Poziv servisa za renderanje studenata raspoređenih po grupama
+    let params = {
+        PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
+        PkSkolskaGodinaStudijGrupaZaNastavu: this.selectedGrupeZaNastavu.PkSkolskaGodinaStudijGrupaZaNastavu
+    };
+
+    this.profesorService.getStudentiRasporedeniPoGrupama(params).subscribe((data) => {
+      console.log(data);
+    })
+  }
+
+  onRowSelectNastavnaCjelina(event) {
+    this.selectedNastavnaCjelinaIndex = event.index;
+  }
+
 }
