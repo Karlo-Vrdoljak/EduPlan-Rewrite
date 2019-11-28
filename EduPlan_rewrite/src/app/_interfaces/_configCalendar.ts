@@ -369,6 +369,32 @@ export class CalendarConfig {
                 return satnice.includes(e.RbrSatnice)
             });
            }
+
+           mergeBloksatStudente(currentData, newData) {
+                let tempData = currentData.concat(newData);
+                const uniqueList = tempData.reduce((array,item) => {
+                    if(!array.includes(item)) {
+                        array.push(item);
+                    }
+                    return array;
+                }, []);
+                return uniqueList;
+           }
+           /**
+            * 
+            * @param array Array of objects that needs to be grouped by one key
+            * @param group string name of the prop within the object 
+            */
+           groupByOneKey(array:any[], group:string) {
+            return Object.values(Array.from(array).reduce((r: any, e: any) => {
+                        var key = e[group];
+                        if (!r[key]) {
+                            r[key] = e;
+                        }
+                        return r;
+                    }, {})
+                );
+           }
            
            
        }
