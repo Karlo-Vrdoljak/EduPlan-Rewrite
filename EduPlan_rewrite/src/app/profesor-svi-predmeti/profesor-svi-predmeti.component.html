@@ -103,7 +103,7 @@
 
                 <tr>
                     <td class="dataContent">
-                        <b><a routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}"
+                        <b><a routerLink="/vPredmet/{{rowData.PkSkolskaGodinaStudijPredmetKatedra}}/{{rowData.PkPredmet}}/{{rowData.PkStudij}}"
                                 style="font-size: 0.9em; font-style: italic;">
                                 <span
                                     *ngIf="selectedLang == 'hr'; else englishOutputStudijNazivSmall">{{rowData.StudijNaziv}}</span>

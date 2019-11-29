@@ -3,8 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Config } from "../config";
 import { catchError, retry } from "rxjs/operators";
 import { AppService } from "./app.service";
-import { DatePipe } from '@angular/common'
-import { isString } from 'util';
+import { DateTime } from "luxon";
 import { TranslateService } from "@ngx-translate/core";
 import { ProfesorService } from './profesori.service';
 
@@ -82,8 +81,11 @@ export class OpciService {
 
         data.forEach(element => {
           Object.keys(element).map(function (key) {
-            if(!isNaN(Date.parse(element[key])) && isString(element[key])){
-              element[key] = new Date(element[key]).toLocaleDateString(locale)
+            if (DateTime.fromISO(element[key]).invalid) {
+                return;
+            }
+            else {
+                element[key] = new Date(element[key]).toLocaleDateString(locale);
             }
           });
         });

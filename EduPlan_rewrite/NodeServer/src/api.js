@@ -312,5 +312,45 @@ router.get("/getStudentiRasporedeniPoGrupama", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+//Post req za dodavanje nove nastavnecjeline u bazu
+router.post("/dodajNastavnaCjelina", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spPredmetNastavnaCjelina_Insert",conn);
+
+    request.addParameter("PkPredmet", TYPES.Int, req.body.params.PkPredmet);
+    request.addParameter("NazivPredmetNastavnaCjelina", TYPES.VarChar, req.body.params.NazivPredmetNastavnaCjelina);
+    request.addParameter("KoristiSeDaNe", TYPES.Bit, req.body.params.KoristiSeDaNe);
+    request.addParameter("PkUsera", TYPES.Int, req.body.params.PkUsera);
+
+
+    db.execStoredProc(request, conn, res, "{}");
+});
+
+//Delete req za brisanje nastavne cjeline iz baze
+router.delete("/izbrisiNastavnaCjelina", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spPredmetNastavnaCjelina_Delete", conn);
+    
+    request.addParameter("PkPredmetNastavnaCjelina", TYPES.Int, req.query.PkPredmetNastavnaCjelina);
+    request.addParameter("PkUsera", TYPES.Int, req.query.PkUsera);
+
+    
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+//Put req za update nastavne cjeline iz baze
+router.put("/promjeniNastavnaCjelina", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spPredmetNastavnaCjelina_Update", conn);
+    
+    request.addParameter("PkPredmetNastavnaCjelina", TYPES.Int, req.body.params.PkPredmetNastavnaCjelina);
+    request.addParameter("PkPredmet", TYPES.Int, req.body.params.PkPredmet);
+    request.addParameter("NazivPredmetNastavnaCjelina", TYPES.VarChar, req.body.params.NazivPredmetNastavnaCjelina);
+    request.addParameter("KoristiSeDaNe", TYPES.Bit, req.body.params.KoristiSeDaNe);
+    request.addParameter("PkUsera", TYPES.Int, req.body.params.PkUsera);
+    
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 
 module.exports = router;
