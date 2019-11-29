@@ -298,7 +298,14 @@ router.get('/getGrupeZaNastavu', function (req, res) {
     request.addParameter("PkPodTipPredavanja", TYPES.Int, req.query.PkPodTipPredavanja);
 
     db.execStoredProc(request, conn, res, "{}");
-}); 
+});
+
+router.get('/SveSatnicePoRednomBroju', function (req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spSveSatnicePoRednomBroju_Select", conn); 
+
+    db.execStoredProc(request, conn, res, "{}");
+});
 
 //dohvat podataka o nastavnim cjelinama na odredenom predmetu 
 router.get("/getStudentiRasporedeniPoGrupama", function(req, res) {

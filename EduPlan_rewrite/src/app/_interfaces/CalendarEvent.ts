@@ -13,6 +13,8 @@ export interface CalendarEvent {
     color?;
     extendedProps?: {
         Datum;
+        DatumVrijemeOd;
+        DatumVrijemeDo;
         PkNastavaPlan;
         PkNastavaRealizacija;
         PredmetNaziv;
