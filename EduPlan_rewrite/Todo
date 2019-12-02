@@ -1,2 +1,32 @@
 
-☐ Nac il insertat u bazu da se mogu testirat Grupe za nastavu
+☐ put api za edit ocjena studenta 
+☐ post api za dodavanje nastavne cjelina --done
+☐ put api za izmjenu nastavne cjeline --done
+☐ delete api za brisanje nastavne cjeline --done
+☐ pristutnost studenata
+☐ procedura za editiranje ocjene
+☐ dovest sve profesore na predmetu i napravit combo box
+☐ Bug s input required kod dodavanje nove nastavne cjeline
+☐ Kopirat iz semestralnog u razvojnu (spPredmetNastavneCjeline)
+☐ grupe za nastavu testirati
+☐ popraviti bug kod formatiranja datuma --done
+☐ bug s pkUsera i pkNastavnika (Nikola colnam i nikola mandic)
+☐ excel export svih studenata na predmetu
+☐ prisutnost studenata na predmetu, dodati botun i prikazati prisutnost (za tu godinu ili do oznacenog datuma???)
+☐ excel export prisustva
+☐ U side bar profesora dodat navigacija za osobne dokumente
+☐ Kod osobnih dkumenata izlist svih uz mogucnosti downloada
+☐ omoguciti upload osobnog dokumenta (opis, naziv, oznaka dokumenta(unos omoguciti kao masku s / za laksu pretragu)
+☐ dodati globalni search za pretrazivanej dokumenata
+☐ u kartici predmeta dodati tab za nastavne materjale
+☐ izlist svih nastavnih materijala vezanih za taj predmet
+☐ omoguciti download materijala 
+☐ omoguciti upload materijala (naziv, opis, oznaka dokumenta(maska kao i kod osobnih dokumenata), vidljiv studentima)
+☐ delete osobnih dokumenata
+☐ delete nastavnih mateirjala
+☐ kod studenta dodati izlist svih materijala za taj predmet koji su vidiljivi studentu
+☐ dodati u navigaciju i implementirati financijska zaduzenja (vec postoje triba i hsamo prikazati)
+☐ uciniti sve responzivnim i multijezicnim
+☐ provjeriti u tablicama gdje se sve nalaze EN_nazivi i implementriati ih ovisno o odabiru jezika
+☐ Swipe za mobilne verzije kod grupa za nastavu provjeriti - ne radi i nezz jel najbolji izbor
+

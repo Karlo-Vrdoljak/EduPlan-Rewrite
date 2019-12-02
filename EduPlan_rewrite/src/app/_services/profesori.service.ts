@@ -173,29 +173,41 @@ export class ProfesorService {
             );
     }
     /**
-     * 
+     *
      * @Opis Realizira nastavu koja se odvila tocno po planu
      * @Param PkNastavaPlan, PkNastavnikSuradnik, PkUsera, PrisutniStudenti: [{..},{..},...]
      */
     postNastavaRealizacijaPlana(data) {
-        return this.http.post(this.config.API_URL + "NastavaRealizacijaPlana", {
-            params: data
-        }).pipe(
-            retry(this.config.APIRetryCount),
-            catchError(this.appService.handleError("ProfesorService.postNastavaRealizacijaPlana"))
+        return this.http
+            .post(this.config.API_URL + "NastavaRealizacijaPlana", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.postNastavaRealizacijaPlana"
+                    )
+                )
             );
-        }
+    }
     /**
      * @Opis Ponistava realizaciju nastave
      * @param data PkNastavaRealizacija, PkUsera
      * @returns []
      */
     deleteNastavaRealizacija(data) {
-        return this.http.delete(this.config.API_URL + "NastavaRealizacijaPlana", {
-            params: data
-        }).pipe(
-            retry(this.config.APIRetryCount),
-            catchError(this.appService.handleError("ProfesorService.deleteNastavaRealizacijaPlana"))
+        return this.http
+            .delete(this.config.API_URL + "NastavaRealizacijaPlana", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.deleteNastavaRealizacijaPlana"
+                    )
+                )
             );
     }
     /*
@@ -238,7 +250,7 @@ export class ProfesorService {
 
     /*
      *  Select svih stuenata raspoređenh po grupama za nastavu.
-     *  Params: 
+     *  Params:
      *  Returns: Niz od  jednog ili više objekata
      */
     getStudentiRasporedeniPoGrupama(data) {
@@ -251,6 +263,67 @@ export class ProfesorService {
                 catchError(
                     this.appService.handleError(
                         "ProfesorService.getStudentiRasporedeniPoGrupama"
+                    )
+                )
+            );
+    }
+
+    /**
+     *
+     * Opis: Inserta novu nastavnu cjelinu
+     * Param: PkPredmet: int, NazivPredmetNastavnaCjelina: string, KoristiSeDaNe: bool, PkUsera: int
+     */
+    postNastavnaCjelina(data) {
+        return this.http
+            .post(this.config.API_URL + "dodajNastavnaCjelina", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.postNastavnaCjelina"
+                    )
+                )
+            );
+    }
+    /**
+     *
+     * Opis: Brise nastavnu cjelinu
+     * param: pkPredmetNastavnaCjelina: int, PkUsera: int
+     *
+     */
+    deleteNastavnaCjelina(data) {
+        return this.http
+            .delete(this.config.API_URL + "izbrisiNastavnaCjelina", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.deleteNastavnaCjelina"
+                    )
+                )
+            );
+    }
+    /**
+     *
+     * Opis: Updatea nastavnu cjelinu
+     * param: PkPredmetNastavnaCjelina: int, PkPredmet: int, NazivPredmetNastavnaCjelina: string
+     * KoristiSeDaNe: bit, PkUsera: int
+     *
+     */
+    updateNastavnaCjelina(data) {
+        return this.http
+            .put(this.config.API_URL + "promjeniNastavnaCjelina", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.updateNastavnaCjelina"
                     )
                 )
             );

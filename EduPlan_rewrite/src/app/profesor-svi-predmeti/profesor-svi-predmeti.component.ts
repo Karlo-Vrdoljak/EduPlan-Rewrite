@@ -1,3 +1,19 @@
+/************************************************************************************************************************************************************
+ ** File
+ ** Name      :      profesor-svi-predmeti
+ ** DESC      :      Izlist svih predmeta vezanih za logiranog profesora grupirani po pkPredmeta 
+                     (isti predmet može biti na više studija, pa se vodi kao drukčiji predmet),
+                     omogučena navigacija do odabranog predmeta na studiju
+ **
+ ** Author    :      Filip Bikić
+ ** Date      :      29.11.2019.
+ *************************************************************************************************************************************************************
+ ** Change history :
+ *************************************************************************************************************************************************************
+ ** Date:                   Author:                    Description :
+ **------------             ------------- -------------------------------------
+ **
+ *************************************************************************************************************************************************************/
 import { Component, OnInit } from '@angular/core';
 import { ProfesorService } from '../_services/profesori.service';
 import { HttpErrorResponse } from '@angular/common/http';
