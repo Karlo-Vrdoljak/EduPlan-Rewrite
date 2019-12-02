@@ -2700,6 +2700,12 @@
   "PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJNEPOLOZENIH": "Broj nepoloženih",
   "PROFESOR_KALENDAR_BLOKSAT":"Blok-sat",
   "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_SUCCESS":"Uspješno ste realizirali nastavu!",
-  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_SUCCESS":"Uspješno ste uklonili realizaciju!"
+  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_SUCCESS":"Uspješno ste uklonili realizaciju!",
+  "PROFESOR_KALENDAR_COMBOBOX_PRISUTAN":"Broj prisutnih studenata",
+  "PROFESOR_KALENDAR_COMBOBOX_ZABRISANJE":"Broj studenata odabran za brisanje",
+  "PROFESOR_KALENDAR_COMBOBOX_ODABRANO":"Broj odabranih studenata",
+  "PROFESOR_KALENDAR_COMBOBOX_BROJ":"Broj studenata",
+  "PROFESOR_KALENDAR_MSG_STUDENI_WARNING":"Neki od odabranih studenata ne slušaju ovaj predmet!"
+
 
 }

@@ -122,7 +122,17 @@ export class StudentiService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("CalendarService.getPredmetStudenti"))
+                catchError(this.appService.handleError("StudentiService.getPredmetStudenti"))
+            );
+    }
+    getStudentiKalendarComboBox(data) {
+        return this.http
+            .get(this.config.API_URL + "StudentiKalendarComboBox", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("StudentiService.getStudentiKalendarComboBox"))
             );
     }
 }
