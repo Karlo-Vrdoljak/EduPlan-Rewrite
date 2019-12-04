@@ -101,6 +101,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button> -->
                             </h1>
                             <p-table #dt [value]="studentiNaPredmetu" [columns]="colsStudenti" selectionMode="single"
                                 [scrollable]="true" scrollHeight="45vh" [(selection)]="selectedStudent"
@@ -213,7 +214,7 @@
                                         </td>
                                     </tr>
                                 </ng-template>
-
+                                <!-- <button type="button" pButton icon="pi pi-file-excel" iconPos="left" label="EXCEL" (click)="exportExcel()" style="margin-right: 0.5em;" class="ui-button-success"></button> -->
                             </p-table>
                         </div>
                     </ng-container>
@@ -277,7 +278,8 @@
 
                             <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjeline"
                                 selectionMode="single" [scrollable]="true" scrollHeight="77vh"
-                                [(selection)]="selectedNastavnaCjelina" (onRowSelect)="onRowSelectNastavnaCjelina($event)">
+                                [(selection)]="selectedNastavnaCjelina"
+                                (onRowSelect)="onRowSelectNastavnaCjelina($event)">
 
                                 <ng-template pTemplate="colgroup" let-columns>
                                     <colgroup>
@@ -295,7 +297,7 @@
                                     </tr>
                                 </ng-template>
 
-                                <ng-template  pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
                                     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
                                         <td *ngFor="let col of columns" class="ui-resizable-column"
                                             style="text-align: center;">
@@ -316,501 +318,54 @@
                 </p-tabPanel>
 
                 <!-- GRUPE ZA NASTAVU -->
-                <p-tabPanel header="{{'VIEWS_APLIKACIJA_HOME_GRUPEZANASTAVU' | translate}}" leftIcon="fa fa-object-group">
+                <p-tabPanel header="{{'VIEWS_APLIKACIJA_HOME_GRUPEZANASTAVU' | translate}}"
+                    leftIcon="fa fa-object-group">
                     <ng-container>
-                        <div class="ui-g ui-fluid">
-                            <div class="ui-g-12 ui-lg-4">
-                                <p-table [value]="podtipoviPredavanja" [columns]="colsPodTipoviPredavanja"
-                                    selectionMode="single" [(selection)]="selectedPodTipPredavanja" (onRowSelect)="podTipPredavanjaRowSelection()">
-                                    <ng-template pTemplate="caption">
-                                        {{'KOPIRANJEPLANA_KOPIRANJESTUDIJ_PODTIPNASTAVE' | translate}}
-                                    </ng-template>
-
-                                    <ng-template pTemplate="header" let-columns>
-                                        <tr>
-                                            <th *ngFor="let col of columns" [pSortableColumn]="col.field"
-                                                pResizableColumn style="text-align: center;">
-                                                {{col.header}}
-                                                <p-sortIcon [field]="col.field"></p-sortIcon>
-                                            </th>
-                                        </tr>
-                                    </ng-template>
-
-                                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                                        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                                            <td *ngFor="let col of columns" class="ui-resizable-column"
-                                                style="text-align: center;">
-                                                {{rowData[col.field]}}
-                                            </td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
-                            </div>
-
-                            <div class="ui-g-12 ui-lg-4" *ngIf="selectedPodTipPredavanja">
-                                <p-table [value]="grupeZaNastavu" [columns]="colsGrupeZaNastavu" selectionMode="single"
-                                    [(selection)]="selectedGrupeZaNastavu" (onRowSelect)="grupeZaNastavuRowSelection()">
-                                    <ng-template pTemplate="caption">
-                                        {{'VIEWS_KATALOZI_PREDMET_GRUPEZANASTAVU' | translate}}
-                                    </ng-template>
-
-                                    <ng-template pTemplate="header" let-columns>
-                                        <tr>
-                                            <th *ngFor="let col of columns" [pSortableColumn]="col.field"
-                                                pResizableColumn style="text-align: center;">
-                                                {{col.header}}
-                                                <p-sortIcon [field]="col.field"></p-sortIcon>
-                                            </th>
-                                        </tr>
-                                    </ng-template>
-
-                                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                        <tr>
-                                            <td *ngFor="let col of columns" class="ui-resizable-column"
-                                                style="text-align: center;">
-                                                {{rowData[col.field]}}
-                                            </td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
-                            </div>
-
-                            <div class="ui-g-12 ui-lg-4" *ngIf="selectedGrupeZaNastavu">
-                                <p-table [value]="studentiRasporedeniPoGrupama" [columns]="colsStudentiRasporedeniPoGrupama">
-                                    <ng-template pTemplate="caption">
-                                        {{'GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDENTI_PO_GRUPAMA'   | translate}}
-                                    </ng-template>
-
-                                    <ng-template pTemplate="header" let-columns>
-                                        <tr>
-                                            <th *ngFor="let col of columns" [pSortableColumn]="col.field"
-                                                pResizableColumn style="text-align: center;">
-                                                {{col.header}}
-                                                <p-sortIcon [field]="col.field"></p-sortIcon>
-                                            </th>
-                                        </tr>
-                                    </ng-template>
-
-                                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                        <tr>
-                                            <td *ngFor="let col of columns" class="ui-resizable-column"
-                                                style="text-align: center;">
-                                                {{rowData[col.field]}}
-                                            </td>
-                                        </tr>
-                                    </ng-template>
-                                </p-table>
-                            </div>
-                        </div>
-                    </ng-container>
-                </p-tabPanel>
-            </p-tabView>
-        </div>
-    </div>
-</div>
-
- <div class="smallMedium" *ngIf="predmetOsnovniPodaci && studentiNaPredmetu && predmetNastavneCjeline; else loader"
-    style="margin-left: -1em; margin-right: -1em;" hidden>
-    <div class="ui-g ui-fluid">
-        <p-toast position="bottom-center"></p-toast>
-        <div class="ui-g-12">
-            <div class="card card-w-title ">
-                <h1 *ngIf="selectedLang == 'hr'; else englishOutput">{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
-                    {{predmetOsnovniPodaci.KaticaStudij}}
-                    <div class="actionsContainer" style="float: right; font-size: 0.8em;">
-                        <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"></button>
-                        <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
-                    </div>
-                </h1>
-              <!--  OSNOVNI PODACI -->
-                <p-panel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}" [toggleable]="true"
-                    [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
-                    toggler="header">
-                    <ng-container>
-                        <div class="ui-g form-group">
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}
-                                <br><input type="text" [ngModel]="predmetOsnovniPodaci.Katedra" pInputText disabled />
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}<br><input type="text"
-                                    [ngModel]="predmetOsnovniPodaci.StudijskaGodina" pInputText disabled />
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}<br><input type="text"
-                                    [ngModel]="predmetOsnovniPodaci.Semestar" pInputText disabled="true">
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate}}<br><input type="text"
-                                    [ngModel]="predmetOsnovniPodaci.voditeljPredmeta" pInputText disabled>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'KATALOZI_AKADEMSKISTUPANJ_ISVUOZNAKA' | translate}}<br><input type="text"
-                                    [ngModel]="predmetOsnovniPodaci.ISVUoznaka" pInputText disabled>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_ECTS' | translate}}<br><input type="text"
-                                    [ngModel]="predmetOsnovniPodaci.EctsBodovi" pInputText disabled>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<br>
-                                <div class="ui-inputgroup">
-                                    <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.PocetakTurnusa"
-                                        disabled="true">
-                                    <span class="ui-inputgroup-addon" style="padding-top:0.1em;"><i
-                                            class="fa fa-calendar" style="padding-right:0.2em;"></i></span>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<br>
-                                <div class="ui-inputgroup">
-                                    <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.KrajTurnusa"
-                                        disabled="true">
-                                    <span class="ui-inputgroup-addon" style="padding-top:0.1em;"><i
-                                            class="fa fa-calendar" style="padding-right:0.2em;"></i></span>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-6">
-                                <p-checkbox label="{{'VIEWS_KATALOZI_PREDMET_ULAZIUPROSJEK' | translate}}" binary="true"
-                                    [ngModel]="predmetOsnovniPodaci.ulaziUprosjek" disabled="true">
-                                </p-checkbox>
-                            </div>
-                        </div>
-                    </ng-container>
-                </p-panel>
-                <br>
-                
-                <!--POPIS STUDENATA-->
-                <p-panel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" [toggleable]="true"
-                    [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
-                    toggler="header">
-                    <ng-container>
-                        <ng-container>
-                            <p-accordion>
-                                <p-accordionTab header="{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_REKAPITULACIJA' | translate}}">
-                                    <div class="ui-g form-group">
-                                        <div class="ui-g-12 ui-sm-12 ui-md-4">
-                                            {{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}<br><input
-                                                type="text" [ngModel]="ukupanBrojStudenata" pInputText disabled>
-                                        </div>
-                                        <div class="ui-g-12 ui-sm-12 ui-md-4">
-                                            {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJOSLOBODENIHSTUDENATA' | translate}}<br><input
-                                                type="text" [ngModel]="brojOslobodenihStudenata" pInputText
-                                                disabled="true">
-                                        </div>
-                                        <div class="ui-g-12 ui-sm-12 ui-md-4">
-                                            <span>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_POSTOTAKPROLAZNOSTI' | translate}}</span>
-                                            <br>
-                                            <div class="ui-inputgroup" style="height: 2em;">
-                                                <input type="text" [ngModel]="prolaznost" pInputText disabled>
-                                                <span class="ui-inputgroup-addon" style="padding-top: 0.32em;">%</span>
-                                            </div>
-                                        </div>
-                                        <div class="ui-g-12 ui-sm-12 ui-md-4">
-                                            {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_PROSJEKOCJENA' | translate}}<br><input
-                                                type="text" [ngModel]="prosjekOcjena" pInputText disabled="true">
-                                        </div>
-                                        <div class="ui-g-12 ui-sm-12 ui-md-4">
-                                            {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJPOLOZENIH' | translate}}<br><input
-                                                type="text" [ngModel]="brojPolozenih" pInputText disabled="true">
-                                        </div>
-                                        <div class="ui-g-12 ui-sm-12 ui-md-4">
-                                            {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJNEPOLOZENIH' | translate}}<br><input
-                                                type="text" [ngModel]="brojNepolozenih" pInputText disabled="true">
-                                        </div>
-                                    </div>
-                                </p-accordionTab>
-                            </p-accordion>
-                        </ng-container> <br>
-                        <p-table [value]="studentiNaPredmetu" [columns]="colsStudentiSmall" selectionMode="single"
-                            [scrollable]="true" scrollHeight="50vh"  (onRowSelect)="onRowSelectStudent($event)"
-                            [(selection)]="selectedStudent" dataKey="PkStudentnaVisokomUcilistuPredmet">
-
-                            <ng-template pTemplate="colgroup" let-columns>
-                                <colgroup>
-                                    <col *ngFor="let col of columns" [style.width]="col.width">
-                                </colgroup>
-                            </ng-template>
-
-                            <ng-template pTemplate="header" let-columns>
-                                <tr>
-                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
-                                        style="text-align: center;">
-                                        {{col.header}}
-                                        <p-sortIcon [field]="col.field"></p-sortIcon>
-                                    </th>
-                                </tr>
-                            </ng-template>
-
-                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-rowIndex="rowIndex" let-columns="columns">
-                                <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                                    <td width="15%" class="ui-resizable-column">
-                                        <a href="#" [pRowToggler]="rowData">
-                                            <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                                                style="font-size: 1.5em; margin-left: -0.4em;"></i>
-                                        </a>
-                                    </td>
-                                    <td *ngFor="let col of columns" class="ui-resizable-column"
-                                        style="text-align: center;">
-                                        {{rowData[col.field]}}
-                                    </td>
-                                </tr>
-                            </ng-template>
-
-                            <ng-template class="smallRowExoansion" pTemplate="rowexpansion" let-rowData let-columns="columns">
-                                <tr>
-                                    <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
-                                        <div class="card card-w-title">
-                                            <h1 style="text-align: center;">
-                                                {{'PROFESOR_PREDMET_OPSIRNIJE' | translate}}
-                                            </h1>
-                                            <div class="ui-g">
-                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
-                                                    <div class="ui-g">
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'VIEWS_KATALOZI_STUDIJ_NAZIV' | translate}}:
-                                                            </b>
-                                                            <span *ngIf="selectedLang == 'hr'; else englishOutputNaziv">
-                                                                {{rowData.studijNaziv_HR}} </span>
-                                                            <ng-template #englishOutputNaziv> {{rowData.studijNaziv_EN}}
-                                                            </ng-template>
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_STATUS_UPISANOG_PREDMETA' | translate}}:
-                                                            </b>
-                                                            {{rowData.statusUpisanogPredmeta}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}:
-                                                            </b>
-                                                            {{rowData.Semestar}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PROFESOR_PREDMET_NACINUPISAPREDMETA' | translate}}:
-                                                            </b>
-                                                            {{rowData.nacinUpisaPredmeta}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}:
-                                                            </b>
-                                                            {{rowData.StudijskaGodina}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OSLOBODEN' | translate}}:
-                                                            </b>
-                                                            <span
-                                                                [style.color]="rowData.osloboden == true ? 'green' : 'red' "><i
-                                                                    [ngClass]="rowData.osloboden == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
-                                                    <div class="ui-g">
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate}}:
-                                                            </b>
-                                                            {{rowData.DatumPrijaveIspita}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_DATUM_ROKA' | translate}}:
-                                                            </b>
-                                                            {{rowData.DatumRoka}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_OCJENA' | translate}}:
-                                                            </b>
-                                                            {{rowData.ocjena}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate}}:
-                                                            </b>
-                                                            {{rowData.ocjenjivac}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_ULAZI_U_PROSJEK' | translate}}:
-                                                            </b>
-                                                            <span
-                                                                [style.color]="rowData.ulaziUprosjek == true ? 'green' : 'red' ">
-                                                                <i
-                                                                    [ngClass]="rowData.ulaziUprosjek == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
-                                                            </span>
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_ULAZI_U_STJECANJE_KVALIFIKACIJE' | translate}}:
-                                                            </b>
-                                                            <span
-                                                                [style.color]="rowData.UlaziUstjecanjeKvalifikacije == true ? 'green' : 'red' "><i
-                                                                    [ngClass]="rowData.UlaziUstjecanjeKvalifikacije == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
-                                                            </span>
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_POLOZEN' | translate}}:
-                                                            </b>
-                                                            <span
-                                                                [style.color]="rowData.polozen == true ? 'green' : 'red' "><i
-                                                                    [ngClass]="rowData.polozen == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
-                                                            </span>
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'PREDMET_BDPREDMETSTUDENTI_DATUM_ISPITA' | translate}}:
-                                                            </b>
-                                                            {{rowData.DatumIspita}}
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-
-                        </p-table>
-                    </ng-container>
-                </p-panel>
-                <br>
-                
-                <!--NASTAVNE CJELINE-->
-                <p-panel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" [toggleable]="true"
-                    [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down"
-                    toggler="header">
-                    <ng-container>
-                        <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjelineSmall"
-                            selectionMode="single" [scrollable]="true" dataKey="PkPredmetNastavnaCjelina"
-                            [(selection)]="selectedNastavnaCjelina" rowExpandMode="single" (onRowSelect)="onRowSelectNastavnaCjelina($event)">
-                            <ng-template pTemplate="colgroup" let-columns>
-                                <colgroup>
-                                    <col *ngFor="let col of columns" [style.width]="col.width">
-                                </colgroup>
-                            </ng-template>
-
-                            <ng-template pTemplate="header" let-columns>
-                                <tr>
-                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
-                                        style="text-align: center;">
-                                        {{col.header}}
-                                        <p-sortIcon [field]="col.field"></p-sortIcon>
-                                    </th>
-                                </tr>
-                            </ng-template>
-
-                            <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns" let-rowIndex="rowIndex">
-                                <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                                    <td width="15%">
-                                        <a href="#" [pRowToggler]="rowData">
-                                            <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                                                style="font-size: 1.5em; margin-left: -0.5em;"></i>
-                                        </a>
-                                    </td>
-                                    <td *ngFor="let col of columns" class="ui-resizable-column"
-                                        style="text-align: center;">
-                                        {{rowData[col.field]}}
-                                    </td>
-                                </tr>
-                            </ng-template>
-
-                            <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
-                                <tr>
-                                    <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
-                                        <div class="card card-w-title">
-                                            <h1 style="text-align: center;">
-                                                {{'PROFESOR_PREDMET_OPSIRNIJENASTAVNECJELINE' | translate}}
-                                            </h1>
-                                            <div class="ui-g">
-                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
-                                                    <div class="ui-g">
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'SERVICES_GENERALSERVICE_KORISNIKUNOSA' | translate}}:
-                                                            </b>
-                                                            {{rowData.KorisnikUnos}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'SERVICES_GENERALSERVICE_DATUMUNOSA' | translate}}:
-                                                            </b>
-                                                            {{rowData.DatumUnosa}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRAZAKLJUCAVANJE_KORISNIKPROMJENE' | translate}}:
-                                                            </b>
-                                                            {{rowData.KorisnikPromjena}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
-                                                    <div class="ui-g">
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'SERVICES_GENERALSERVICE_ZADNJAPROMJENA' | translate}}:
-                                                            </b>
-                                                            {{rowData.DatumZadnjePromjene}}
-                                                        </div>
-
-                                                        <div class="ui-g-12">
-                                                            <b>
-                                                                {{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}:
-                                                            </b>
-                                                            <span
-                                                                [style.color]="rowData.KoristiSeDaNe == true ? 'green' : 'red' "><i
-                                                                    [ngClass]="rowData.KoristiSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </ng-template>
-
-                        </p-table>
-                    </ng-container>
-                </p-panel>
-                <br>
-
-                <!--GRUPE ZA NASTAVU-->
-                 <p-panel header="{{'VIEWS_APLIKACIJA_HOME_GRUPEZANASTAVU' | translate}}" [toggleable]="true"
-                    [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
-                        <!-- <div class="ui-g ui-fluid">
-                            <div class="swiperContainer">
-                                <swiper [config]="swiperConfig">
-                                    <div class="swiper-slide"> aaaaa
-                                         <p-table [value]="podtipoviPredavanja" [columns]="colsPodTipoviPredavanja"
-                                        selectionMode="single" [(selection)]="selectedPodTipPredavanja" (onRowSelect)="podTipPredavanjaRowSelection()">
+                        <div class="card card-w-title">
+                            <h1 style="padding: 0.875em 0">
+                                <span *ngIf="selectedLang == 'hr'; else englishOutput">
+                                    {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                    {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                </span>
+                            </h1>
+                            <div class="ui-g ui-fluid">
+                                <div class="ui-g-12 ui-lg-4">
+                                    <p-table [value]="podtipoviPredavanja" [columns]="colsPodTipoviPredavanja"
+                                        selectionMode="single" [(selection)]="selectedPodTipPredavanja"
+                                        (onRowSelect)="getGrupeZaNastavu()" (onRowUnselect)="resetGrupeZaNastavu()">
                                         <ng-template pTemplate="caption">
                                             {{'KOPIRANJEPLANA_KOPIRANJESTUDIJ_PODTIPNASTAVE' | translate}}
+                                        </ng-template>
+
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th *ngFor="let col of columns" [pSortableColumn]="col.field"
+                                                    style="text-align: center;">
+                                                    {{col.header}}
+                                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+
+                                        <ng-template pTemplate="body" let-rowData let-columns="columns"
+                                            let-rowIndex="rowIndex">
+                                            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                                                <td *ngFor="let col of columns" class="ui-resizable-column"
+                                                    style="text-align: center;">
+                                                    {{rowData[col.field]}}
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+
+                                <div class="ui-g-12 ui-lg-4" *ngIf="grupeZaNastavu">
+                                    <p-table [value]="grupeZaNastavu" [columns]="colsGrupeZaNastavu"
+                                        selectionMode="single" [(selection)]="selectedGrupeZaNastavu"
+                                        (onRowSelect)="getStudentiRaporedeniPoGrupama();"
+                                        (onRowUnselect)="resetStudentiRasporedeniPoGrupama()">
+                                        <ng-template pTemplate="caption">
+                                            {{'VIEWS_KATALOZI_PREDMET_GRUPEZANASTAVU' | translate}}
                                         </ng-template>
 
                                         <ng-template pTemplate="header" let-columns>
@@ -823,7 +378,8 @@
                                             </tr>
                                         </ng-template>
 
-                                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                        <ng-template pTemplate="body" let-rowData let-columns="columns"
+                                            let-rowIndex="rowIndex">
                                             <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
                                                 <td *ngFor="let col of columns" class="ui-resizable-column"
                                                     style="text-align: center;">
@@ -831,12 +387,536 @@
                                                 </td>
                                             </tr>
                                         </ng-template>
-                                        </p-table> 
+                                    </p-table>
+                                </div>
+
+                                <div class="ui-g-12 ui-lg-4" *ngIf="grupeZaNastavu && studentiRasporedeniPoGrupama">
+                                    <p-table [value]="studentiRasporedeniPoGrupama"
+                                        [columns]="colsStudentiRasporedeniPoGrupama">
+                                        <ng-template pTemplate="caption">
+                                            {{'GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDENTI_PO_GRUPAMA'   | translate}}
+                                        </ng-template>
+
+                                        <ng-template pTemplate="header" let-columns>
+                                            <tr>
+                                                <th *ngFor="let col of columns" [pSortableColumn]="col.field"
+                                                    style="text-align: center;">
+                                                    {{col.header}}
+                                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+
+                                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                            <tr>
+                                                <td *ngFor="let col of columns" class="ui-resizable-column"
+                                                    style="text-align: center;">
+                                                    {{rowData[col.field]}}
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </p-tabPanel>
+
+                <!--NASTAVNI MATERIJALI-->
+                <p-tabPanel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNIMATERIJALI' | translate}}"
+                    leftIcon="fa fa-file-text">
+                    <ng-container>
+                        <div class="card card-w-title">
+                            <h1 style="padding: 0.875em 0">
+                                <span *ngIf="selectedLang == 'hr'; else englishOutput">
+                                    {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                    {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                </span>
+                                <div class="actionsContainer" style="float: right;">
+                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                        #menuNastavniMaterijali [popup]="true" [model]="actionItemsNastavniMaterijli">
+                                    </p-menu>
+                                    <button type="button" pButton icon="fa fa-fw fa-list"
+                                        label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
+                                        (click)="menuNastavniMaterijali.toggle($event)"></button>
+                                </div>
+                            </h1>
+
+                            <p-table [value]="predmetNastavniMaterijali" [columns]="colsNastavniMaterijali"
+                                selectionMode="single" [scrollable]="true" scrollHeight="77vh"
+                                [(selection)]="selectedNastavniMaterijali">
+
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
+                                            style="text-align: center;">
+                                            {{col.header}}
+                                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                                    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                                        <td *ngFor="let col of columns" class="ui-resizable-column"
+                                            style="text-align: center;">
+                                            
+                                            <span *ngIf="isPng(rowData[col.field]); else checkBool">
+                                                <img [src]="rowData[col.field]" [title]="showFileTypeTitle(rowData[col.field])">
+                                            </span>
+
+                                            <ng-template #checkBool>
+                                                <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                                                    <span
+                                                        [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                                            [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                                                </span>
+                                            </ng-template>
+
+                                            <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+
+                            </p-table>
+
+                        </div>
+                    </ng-container>
+                </p-tabPanel>
+
+            </p-tabView>
+        </div>
+    </div>
+</div>
+
+<div class="smallMedium" *ngIf="predmetOsnovniPodaci && studentiNaPredmetu && predmetNastavneCjeline; else loader"
+    style="margin: auto;">
+    <header>
+        <h3 *ngIf="selectedLang == 'hr'; else englishOutput">{{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+            {{predmetOsnovniPodaci.KaticaStudij}}
+            <div class="actionsContainer" style="float: right; font-size: 0.8em;">
+                <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"
+                    style="width: 2em; height: 1.75em;"></button>
+                <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
+            </div>
+        </h3>
+        <hr style="color: aliceblue;">
+    </header>
+    <p-toast position="bottom-center"></p-toast>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-panel header="{{'VIEWS_KATALOZI_PREDMET_OSNOVNIPODACI' | translate}}" [toggleable]="true"
+                [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
+                <ng-container>
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRATIPPREDAVANJA_KATEDRA' | translate}}
+                            <br><input type="text" [ngModel]="predmetOsnovniPodaci.Katedra" pInputText disabled />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}<br><input type="text"
+                                [ngModel]="predmetOsnovniPodaci.StudijskaGodina" pInputText disabled />
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}<br><input type="text"
+                                [ngModel]="predmetOsnovniPodaci.Semestar" pInputText disabled="true">
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_KATALOZI_PREDMET_VODITELJPREDMETA' | translate}}<br><input type="text"
+                                [ngModel]="predmetOsnovniPodaci.voditeljPredmeta" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'KATALOZI_AKADEMSKISTUPANJ_ISVUOZNAKA' | translate}}<br><input type="text"
+                                [ngModel]="predmetOsnovniPodaci.ISVUoznaka" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_KATALOZI_PREDMET_ECTS' | translate}}<br><input type="text"
+                                [ngModel]="predmetOsnovniPodaci.EctsBodovi" pInputText disabled>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_KATALOZI_PREDMET_POCETAKTURNUSA' | translate}}<br>
+                            <div class="ui-inputgroup">
+                                <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.PocetakTurnusa"
+                                    disabled="true">
+                                <span class="ui-inputgroup-addon" style="padding-top:0.1em;"><i class="fa fa-calendar"
+                                        style="padding-right:0.2em;"></i></span>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            {{'VIEWS_KATALOZI_PREDMET_KRAJTURNUSA' | translate}}<br>
+                            <div class="ui-inputgroup">
+                                <input type="text" pInputText [ngModel]="predmetOsnovniPodaci.KrajTurnusa"
+                                    disabled="true">
+                                <span class="ui-inputgroup-addon" style="padding-top:0.1em;"><i class="fa fa-calendar"
+                                        style="padding-right:0.2em;"></i></span>
+                            </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <p-checkbox label="{{'VIEWS_KATALOZI_PREDMET_ULAZIUPROSJEK' | translate}}" binary="true"
+                                [ngModel]="predmetOsnovniPodaci.ulaziUprosjek" disabled="true">
+                            </p-checkbox>
+                        </div>
+                    </div>
+                </ng-container>
+            </p-panel> <br>
+
+            <p-panel header="{{'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" [toggleable]="true" [collapsed]="true"
+                expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
+                <ng-container>
+                    <ng-container>
+                        <p-accordion>
+                            <p-accordionTab
+                                header="{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_REKAPITULACIJA' | translate}}">
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_BROJSTUDENATA' | translate}}<br><input
+                                            type="text" [ngModel]="ukupanBrojStudenata" pInputText disabled>
                                     </div>
-                                    
-                                    <div class="swiper-slide"> aaa
-                                         <p-table [value]="grupeZaNastavu" [columns]="colsGrupeZaNastavu" selectionMode="single"
-                                    [(selection)]="selectedGrupeZaNastavu" (onRowSelect)="grupeZaNastavuRowSelection()">
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJOSLOBODENIHSTUDENATA' | translate}}<br><input
+                                            type="text" [ngModel]="brojOslobodenihStudenata" pInputText disabled="true">
+                                    </div>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        <span>{{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_POSTOTAKPROLAZNOSTI' | translate}}</span>
+                                        <br>
+                                        <div class="ui-inputgroup" style="height: 2em;">
+                                            <input type="text" [ngModel]="prolaznost" pInputText disabled>
+                                            <span class="ui-inputgroup-addon" style="padding-top: 0.32em;">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_PROSJEKOCJENA' | translate}}<br><input
+                                            type="text" [ngModel]="prosjekOcjena" pInputText disabled="true">
+                                    </div>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJPOLOZENIH' | translate}}<br><input
+                                            type="text" [ngModel]="brojPolozenih" pInputText disabled="true">
+                                    </div>
+                                    <div class="ui-g-12 ui-sm-12 ui-md-4">
+                                        {{'PROFESOR_SVIPREDMETI_PREDMET_STUDENTI_BROJNEPOLOZENIH' | translate}}<br><input
+                                            type="text" [ngModel]="brojNepolozenih" pInputText disabled="true">
+                                    </div>
+                                </div>
+                            </p-accordionTab>
+                        </p-accordion>
+                    </ng-container> <br>
+                    <p-table [value]="studentiNaPredmetu" [columns]="colsStudentiSmall" selectionMode="single"
+                        [scrollable]="true" scrollHeight="50vh" (onRowSelect)="onRowSelectStudent($event)"
+                        [(selection)]="selectedStudent" dataKey="PkStudentnaVisokomUcilistuPredmet">
+
+                        <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                                <col *ngFor="let col of columns" [style.width]="col.width">
+                            </colgroup>
+                        </ng-template>
+
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
+                                    style="text-align: center;">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-rowIndex="rowIndex"
+                            let-columns="columns">
+                            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                                <td width="15%" class="ui-resizable-column">
+                                    <a href="#" [pRowToggler]="rowData">
+                                        <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                            style="font-size: 1.7em; margin-left: -0.3em;"></i>
+                                    </a>
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template class="smallRowExoansion" pTemplate="rowexpansion" let-rowData
+                            let-columns="columns">
+                            <tr>
+                                <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                                    <div class="card card-w-title">
+                                        <h1 style="text-align: center;">
+                                            {{'PROFESOR_PREDMET_OPSIRNIJE' | translate}}
+                                        </h1>
+                                        <div class="ui-g">
+                                            <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                <div class="ui-g">
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'VIEWS_KATALOZI_STUDIJ_NAZIV' | translate}}:
+                                                        </b>
+                                                        <span *ngIf="selectedLang == 'hr'; else englishOutputNaziv">
+                                                            {{rowData.studijNaziv_HR}} </span>
+                                                        <ng-template #englishOutputNaziv> {{rowData.studijNaziv_EN}}
+                                                        </ng-template>
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_STATUS_UPISANOG_PREDMETA' | translate}}:
+                                                        </b>
+                                                        {{rowData.statusUpisanogPredmeta}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'VIEWS_KATALOZI_PREDMET_SEMESTAR' | translate}}:
+                                                        </b>
+                                                        {{rowData.Semestar}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PROFESOR_PREDMET_NACINUPISAPREDMETA' | translate}}:
+                                                        </b>
+                                                        {{rowData.nacinUpisaPredmeta}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'VIEWS_KATALOZI_PREDMET_STUDIJSKAGODINA' | translate}}:
+                                                        </b>
+                                                        {{rowData.StudijskaGodina}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'KATALOZI_NASTAVNIKSURADNIKPREDMETI_OSLOBODEN' | translate}}:
+                                                        </b>
+                                                        <span
+                                                            [style.color]="rowData.osloboden == true ? 'green' : 'red' "><i
+                                                                [ngClass]="rowData.osloboden == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                <div class="ui-g">
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_DATUM_PRIJAVE_ISPITA' | translate}}:
+                                                        </b>
+                                                        {{rowData.DatumPrijaveIspita}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_DATUM_ROKA' | translate}}:
+                                                        </b>
+                                                        {{rowData.DatumRoka}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_OCJENA' | translate}}:
+                                                        </b>
+                                                        {{rowData.ocjena}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate}}:
+                                                        </b>
+                                                        {{rowData.ocjenjivac}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_ULAZI_U_PROSJEK' | translate}}:
+                                                        </b>
+                                                        <span
+                                                            [style.color]="rowData.ulaziUprosjek == true ? 'green' : 'red' ">
+                                                            <i
+                                                                [ngClass]="rowData.ulaziUprosjek == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_ULAZI_U_STJECANJE_KVALIFIKACIJE' | translate}}:
+                                                        </b>
+                                                        <span
+                                                            [style.color]="rowData.UlaziUstjecanjeKvalifikacije == true ? 'green' : 'red' "><i
+                                                                [ngClass]="rowData.UlaziUstjecanjeKvalifikacije == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_POLOZEN' | translate}}:
+                                                        </b>
+                                                        <span
+                                                            [style.color]="rowData.polozen == true ? 'green' : 'red' "><i
+                                                                [ngClass]="rowData.polozen == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_BDPREDMETSTUDENTI_DATUM_ISPITA' | translate}}:
+                                                        </b>
+                                                        {{rowData.DatumIspita}}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                    </p-table>
+                </ng-container>
+            </p-panel> <br>
+
+            <p-panel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE' | translate}}" [toggleable]="true"
+                [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
+                <ng-container>
+                    <p-table [value]="predmetNastavneCjeline" [columns]="colsNastavneCjelineSmall"
+                        selectionMode="single" [scrollable]="true" dataKey="PkPredmetNastavnaCjelina"
+                        [(selection)]="selectedNastavnaCjelina" rowExpandMode="single"
+                        (onRowSelect)="onRowSelectNastavnaCjelina($event)">
+                        <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                                <col *ngFor="let col of columns" [style.width]="col.width">
+                            </colgroup>
+                        </ng-template>
+
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
+                                    style="text-align: center;">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns"
+                            let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                                <td width="15%">
+                                    <a href="#" [pRowToggler]="rowData">
+                                        <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                            style="font-size: 1.7em; margin-left: -0.3em;"></i>
+                                    </a>
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                            <tr>
+                                <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                                    <div class="card card-w-title">
+                                        <h1 style="text-align: center;">
+                                            {{'PROFESOR_PREDMET_OPSIRNIJENASTAVNECJELINE' | translate}}
+                                        </h1>
+                                        <div class="ui-g">
+                                            <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                <div class="ui-g">
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'SERVICES_GENERALSERVICE_KORISNIKUNOSA' | translate}}:
+                                                        </b>
+                                                        {{rowData.KorisnikUnos}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'SERVICES_GENERALSERVICE_DATUMUNOSA' | translate}}:
+                                                        </b>
+                                                        {{rowData.DatumUnosa}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'NASTAVA_SKOLSKAGODINASTUDIJPREDMETKATEDRAZAKLJUCAVANJE_KORISNIKPROMJENE' | translate}}:
+                                                        </b>
+                                                        {{rowData.KorisnikPromjena}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                <div class="ui-g">
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'SERVICES_GENERALSERVICE_ZADNJAPROMJENA' | translate}}:
+                                                        </b>
+                                                        {{rowData.DatumZadnjePromjene}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}:
+                                                        </b>
+                                                        <span
+                                                            [style.color]="rowData.KoristiSeDaNe == true ? 'green' : 'red' "><i
+                                                                [ngClass]="rowData.KoristiSeDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                    </p-table>
+                </ng-container>
+            </p-panel> <br>
+
+            <p-panel header="{{'VIEWS_APLIKACIJA_HOME_GRUPEZANASTAVU' | translate}}" [toggleable]="true"
+                [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
+                <ng-container>
+                    <div class="swiperContainer">
+                        <swiper [config]="swiperConfig">
+                            <div class="ui-g-12">
+                                <p-table class="nastavneCjelineTable" [value]="podtipoviPredavanja"
+                                    [columns]="colsPodTipoviPredavanja" selectionMode="single"
+                                    [(selection)]="selectedPodTipPredavanja" (onRowSelect)="getGrupeZaNastavu()"
+                                    (onRowUnselect)="resetGrupeZaNastavu()">
+                                    <ng-template pTemplate="caption">
+                                        {{'KOPIRANJEPLANA_KOPIRANJESTUDIJ_PODTIPNASTAVE' | translate}}
+                                    </ng-template>
+
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th *ngFor="let col of columns" [pSortableColumn]="col.field"
+                                                style="text-align: center;">
+                                                {{col.header}}
+                                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="body" let-rowData let-columns="columns"
+                                        let-rowIndex="rowIndex">
+                                        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                                            <td *ngFor="let col of columns" class="ui-resizable-column"
+                                                style="text-align: center;">
+                                                {{rowData[col.field]}}
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                            <div class="ui-g-12">
+                                <p-table class="nastavneCjelineTable" [value]="grupeZaNastavu"
+                                    [columns]="colsGrupeZaNastavu" selectionMode="single"
+                                    [(selection)]="selectedGrupeZaNastavu"
+                                    (onRowSelect)="getStudentiRaporedeniPoGrupama()"
+                                    (onRowUnselect)="resetStudentiRasporedeniPoGrupama()">
                                     <ng-template pTemplate="caption">
                                         {{'VIEWS_KATALOZI_PREDMET_GRUPEZANASTAVU' | translate}}
                                     </ng-template>
@@ -859,11 +939,11 @@
                                             </td>
                                         </tr>
                                     </ng-template>
-                                        </p-table> 
-                                    </div>
-
-                                    <div class="swiper-slide"> aaa
-                                         <p-table [value]="studentiRasporedeniPoGrupama" [columns]="colsStudentiRasporedeniPoGrupama">
+                                </p-table>
+                            </div>
+                            <div class="ui-g-12">
+                                <p-table class="nastavneCjelineTable" [value]="studentiRasporedeniPoGrupama"
+                                    [columns]="colsStudentiRasporedeniPoGrupama">
                                     <ng-template pTemplate="caption">
                                         {{'GRUPEZANASTAVU_GRUPAZANASTAVUSTUDENTSTUDIJ_STUDENTI_PO_GRUPAMA'   | translate}}
                                     </ng-template>
@@ -886,17 +966,18 @@
                                             </td>
                                         </tr>
                                     </ng-template>
-                                        </p-table> 
-                                    </div>
-                                </swiper>
-                                <div class="swiper-pagination"></div>
+                                </p-table>
                             </div>
-                        </div> -->
-                </p-panel>
-            </div>
+                        </swiper>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </ng-container>
+            </p-panel> <br>
+
+
         </div>
     </div>
-</div> 
+</div>
 
 <p-dialog *ngIf="addNastavneCjelineModel" header="{{'PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA' | translate}}"
     [(visible)]="nastavneCjelineDodajNovuDialog" [modal]="true" [responsive]="true"
@@ -905,8 +986,8 @@
         <div class="ui-g ui-fluid form-group">
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <input class="addCjelina" type="text" size="100"  pInputText
-                     [(ngModel)]="addNastavneCjelineModel.NazivPredmetNastavnaCjelina" required> 
+                    <input class="addCjelina" type="text" size="100" pInputText
+                        [(ngModel)]="addNastavneCjelineModel.NazivPredmetNastavnaCjelina" required>
                     <label>{{'KATALOZI_NOVINASTAVNIKSURADNIKNASTAVNECJELINE' | translate}}</label>
                 </span>
             </div>
@@ -919,38 +1000,40 @@
         </div>
     </div>
     <p-footer>
-            <button type="button" pButton icon="fa fa-check" (click)="dodajNovuNastavnuCjelinu()" [disabled]="!addNastavneCjelineModel.NazivPredmetNastavnaCjelina"
-            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_SPREMI' | translate}}" class="ui-button-success"></button> 
+        <button type="button" pButton icon="fa fa-check" (click)="dodajNovuNastavnuCjelinu()"
+            [disabled]="!addNastavneCjelineModel.NazivPredmetNastavnaCjelina"
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_SPREMI' | translate}}" class="ui-button-success"></button>
 
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeNastavneCjelineDodajNovuDialog()"
             label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
-    </p-footer>      
+    </p-footer>
 </p-dialog>
 
-<p-dialog  *ngIf="editNastavneCjelineModel" header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITENASTAVNUCJELINU' | translate}}"
+<p-dialog *ngIf="editNastavneCjelineModel"
+    header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITENASTAVNUCJELINU' | translate}}"
     [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true"
     [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
     <div>
         <div class="ui-g ui-fluid form-group">
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <input #checkPristine="ngModel" type="text" size="100" [(ngModel)]="editNastavneCjelineModel.NazivPredmetNastavnaCjelina" 
-                    pInputText required>
+                    <input class="addCjelina" #checkPristine="ngModel" type="text" size="100"
+                        [(ngModel)]="editNastavneCjelineModel.NazivPredmetNastavnaCjelina" pInputText required>
                     <label>{{'KATALOZI_NOVINASTAVNIKSURADNIKNASTAVNECJELINE' | translate}}</label>
                 </span>
             </div>
             <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
                     <p-checkbox label="{{'KATALOZI_PREDMETNASTAVNACJELINA_KORISTISE' | translate}}"
-                        [(ngModel)]="editNastavneCjelineModel.KoristiSeDaNe" binary="true">
+                        [(ngModel)]="editNastavneCjelineModel.KoristiSeDaNe" #checkPristine="ngModel" binary="true">
                     </p-checkbox>
                 </span>
             </div>
         </div>
     </div>
     <p-footer>
-        <button type="button" pButton icon="fa fa-check" (click)="editNastavnuCjelinu()" 
-            label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}" class="ui-button-success" 
+        <button type="button" pButton icon="fa fa-check" (click)="editNastavnuCjelinu()"
+            label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}" class="ui-button-success"
             [disabled]="!editNastavneCjelineModel.NazivPredmetNastavnaCjelina || checkPristine.pristine"></button>
 
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeNastavneCjelineEditNovuDialog()"
@@ -959,9 +1042,10 @@
 
 </p-dialog>
 
-<p-dialog *ngIf="selectedStudent && editStudentModel" header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITEPODATKEOSTUDENTU' | translate}}"
-    [(visible)]="StudentEditDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}"
-    [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+<p-dialog *ngIf="selectedStudent && editStudentModel"
+    header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITEPODATKEOSTUDENTU' | translate}}" [(visible)]="StudentEditDialog"
+    [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100"
+    [baseZIndex]="10000">
     <div>
         <div class="ui-g ui-fluid form-group">
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" style="padding: 10px;">
@@ -987,9 +1071,9 @@
             </div>
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
-                    <input type="text" size="30" pKeyFilter="alpha" [(ngModel)]="editStudentModel.ocjenjivacEdit"
-                        [disabled]="ocjenaOcjenjivacDisabled" pInputText>
-                    <label>{{'PREDMET_BDPREDMETSTUDENTI_OCJENJIVAC' | translate}}</label>
+                    <p-dropdown [options]="profesoriNaPredmetu" [(ngModel)]="editStudentModel.ocjenjivacEdit"
+                        optionLabel="NazivOsobe" [disabled]="OcjenjivacDisabled" (onChange)="onDropdownChange();">
+                    </p-dropdown>
                 </span>
             </div>
             <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4" style="padding: 10px;">

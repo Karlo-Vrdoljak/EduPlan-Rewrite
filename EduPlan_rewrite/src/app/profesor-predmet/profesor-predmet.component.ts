@@ -28,6 +28,7 @@ import { MessageService } from 'primeng/api';
 import { LanguageHandler } from '../app.languageHandler';
 import { editStudentModal } from '../_interfaces/EditStudent';
 import { NastavneCjelineModel } from '../_interfaces/NastavneCjelineModel';
+import { nastavniMaterijaliDummy } from '../_interfaces/nastavniMaterijali'
 
 @Component({
     selector: "app-profesor-predmet",
@@ -53,10 +54,11 @@ export class ProfesorPredmetComponent implements OnInit {
     editStudentModel: editStudentModal;
     minOcjena: number = this.appVariables.minOcjena;
     maxOcjena: number = this.appVariables.maxOcjena;
-    ocjenaOcjenjivacDisabled: boolean = false;
+    ocjenaDisabled: boolean = false;
     saveButtonDisabled: boolean = true;
     enableOcjenaEdit: number = this.appVariables.editOcjenaEnabled;
     selectedStudentIndex: number;
+    profesoriNaPredmetu: any; 
 
     //Nastavne cjeline
     predmetNastavneCjeline: any;
@@ -70,24 +72,69 @@ export class ProfesorPredmetComponent implements OnInit {
     selectedNastavnaCjelinaIndex: number;
 
     //Grupe za nastavu
-    podtipoviPredavanja: any;
-    grupeZaNastavu: any;
-    studentiRasporedeniPoGrupama: any;
+    podtipoviPredavanja: any = null;
+    grupeZaNastavu: any = null;
+    studentiRasporedeniPoGrupama: any = null;
     colsStudentiRasporedeniPoGrupama: any[];
     colsGrupeZaNastavu: any[];
     colsPodTipoviPredavanja: any[];
     selectedPodTipPredavanja: any = null;
     selectedGrupeZaNastavu: any = null;
 
+    //Nastavni materijali
+    predmetNastavniMaterijali: nastavniMaterijaliDummy[] = [{
+        akademskaGodina: '2018/2019',
+        opis: 'Novi file',
+        vidljivoStudentima: true,
+        nazivDokumenta: 'Dokument 1',
+        oznakaDokumenta: 'Predavanja/Materijali',
+        imgSrc: null,
+        izvorniNaziv: 'Dokument 1.pdf'
+    },
+    {
+        akademskaGodina: '2018/2019',
+        opis: 'Noviji file',
+        vidljivoStudentima: false,
+        nazivDokumenta: 'Dokument 2',
+        oznakaDokumenta: 'Predavanja/Materijali',
+        imgSrc: null,
+        izvorniNaziv: 'Dokument 2.xsl'
+
+    },
+    {
+        akademskaGodina: '2018/2019',
+        opis: 'Najnoviji file',
+        vidljivoStudentima: true,
+        nazivDokumenta: 'Dokument 3',
+        oznakaDokumenta: 'Predavanja/Materijali',
+        imgSrc: null,
+        izvorniNaziv: 'Dokument 3.docx'
+    }];
+
+    selectedNastavniMaterijali: any;
+    colsNastavniMaterijali: any[];
+
     //Botuni
     actionItemsSmall: MenuItem[];
     actionItemsNastavneCjeline: MenuItem[];
     actionItemsStudenti: MenuItem[];
+    actionItemsNastavniMaterijli: MenuItem[];
+
 
     //Opće
     rout: any = null;
     selectedLang: any;
     user: any;
+    swiperConfig: any = {
+        direction: 'horizontal',
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+        },
+        speed: 1200,
+        effect: 'slides'
+    };
+    //exportColumns: any;
 
     constructor(
         private route: ActivatedRoute,
@@ -96,17 +143,20 @@ export class ProfesorPredmetComponent implements OnInit {
         private translate: TranslateService,
         private messageService: MessageService,
         private langHandler: LanguageHandler,
-        private appVariables: AppVariables
-    ) {}
+        private appVariables: AppVariables,
+    ) { }
 
     ngOnInit() {
         const params = {
-            PkSkolskaGodinaStudijPredmetKatedra: this.route.snapshot.paramMap.get(
-                "PkSkolskaGodinaStudijPredmetKatedra"
-            ),
+            PkSkolskaGodinaStudijPredmetKatedra: this.route.snapshot.paramMap.get("PkSkolskaGodinaStudijPredmetKatedra"),
             PkPredmet: this.route.snapshot.paramMap.get("PkPredmet"), //7
             PkNastavnik: this.appVariables.PkNastavnikSuradnik
         };
+
+        const paramsForProfesoriNaPredmetu = {
+            PkPredmet: this.route.snapshot.paramMap.get("PkPredmet"),
+            PkSkolskaGodina: this.appVariables.PkSkolskaGodina
+        }
 
         this.selectedLang = this.langHandler.getCurrentLanguage();
 
@@ -118,7 +168,10 @@ export class ProfesorPredmetComponent implements OnInit {
                 "VIEWS_KATALOZI_PREDMET_NASTAVNECJELINE",
                 "KATALOZI_PREDMETNASTAVNACJELINA_DODAJNOVIZAPIS",
                 "NASTAVA_BDSKOLSKAGODINAPREDMETI_UREDI_ZAPIS",
-                "NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS"
+                "NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_DODAJDATOTEKU",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OBRISIDATOTEKU",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU"
             ])
             .subscribe(res => {
                 this.actionItemsSmall = [
@@ -209,6 +262,21 @@ export class ProfesorPredmetComponent implements OnInit {
                                 : this.showErrorZapisNijeOdabran()
                     }
                 ];
+
+                this.actionItemsNastavniMaterijli = [
+                    {
+                        label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_DODAJDATOTEKU,
+                        icon: "fa fa-plus",
+                    },
+                    {
+                        label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU,
+                        icon: "fa fa-download",
+                    },
+                    {
+                        label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OBRISIDATOTEKU,
+                        icon: "fa fa-trash-o",
+                    }
+                ]
             });
 
         // Poziv servisa za dohvacanje osnovnih podataka o predmetu
@@ -226,7 +294,7 @@ export class ProfesorPredmetComponent implements OnInit {
                     console.log("Server-side error occured.");
                 }
             },
-            () => {}
+            () => { }
         );
 
         // Poziv servisa za dohvacanje podataka o useru
@@ -241,9 +309,23 @@ export class ProfesorPredmetComponent implements OnInit {
                     console.log("Server-side error occured.");
                 }
             },
-            () => {}
+            () => { }
         );
 
+        //Poziv servisa za dohvacanje profesora na predmetu
+        this.profesorService.getProfesoriNaPredmetu(paramsForProfesoriNaPredmetu).subscribe(
+            data => {
+                this.profesoriNaPredmetu = data
+            },
+            (err: HttpErrorResponse) => {
+                if (err.error instanceof Error) {
+                    console.log("Client-side error occured.");
+                } else {
+                    console.log("Server-side error occured.");
+                }
+            },
+            () => { }
+        );
         // Poziv servisa za dohvacanje svih studenata koji slušaju zadani predmet
         this.translate
             .get([
@@ -329,7 +411,7 @@ export class ProfesorPredmetComponent implements OnInit {
                             console.log("Server-side error occured.");
                         }
                     },
-                    () => {}
+                    () => { }
                 );
             });
 
@@ -400,7 +482,7 @@ export class ProfesorPredmetComponent implements OnInit {
                                 console.log("Server-side error occured.");
                             }
                         },
-                        () => {}
+                        () => { }
                     );
             });
 
@@ -434,7 +516,7 @@ export class ProfesorPredmetComponent implements OnInit {
                             console.log("Server-side error occured.");
                         }
                     },
-                    () => {}
+                    () => { }
                 );
             });
 
@@ -460,8 +542,8 @@ export class ProfesorPredmetComponent implements OnInit {
         //Prijevod za studente raspoređene po grupama za nastavu
         this.translate
             .get([
-                "VIEWS_GRUPEZANASTAVUDIALOG_OZNAKAGRUPE",
-                "VIEWS_GRUPEZANASTAVUDIALOG_KAPACITET",
+                "VIEWS_APLIKACIJA_HOME_IME",
+                "VIEWS_APLIKACIJA_HOME_PREZIME",
                 "VIEWS_KATALOZI_PREDMET_SEMESTAR"
             ])
             .subscribe(res => {
@@ -480,8 +562,52 @@ export class ProfesorPredmetComponent implements OnInit {
                     }
                 ];
             });
+
+        //Prijevod za Nastavne materijale
+        this.translate
+            .get([
+                "PREDMET_PREDMETMATERIJALI_OPIS",
+                "NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA",
+                "PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA"
+            ])
+            .subscribe((res) => {
+                 for (let i = 0; i < this.predmetNastavniMaterijali.length; i++) {
+                     this.predmetNastavniMaterijali[i].imgSrc = this.opciService.extensionCellRenderer(this.predmetNastavniMaterijali[i].izvorniNaziv ? this.predmetNastavniMaterijali[i].izvorniNaziv : null); 
+                   }
+                
+                  this.colsNastavniMaterijali = [
+                    {
+                        field: "akademskaGodina",
+                        header: res.NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA
+                    },
+                    {
+                        field: "oznakaDokumenta",
+                        header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA
+                    },
+                    {
+                        field: "nazivDokumenta",
+                        header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA
+                    },
+                    {
+                        field: "opis",
+                        header: res.PREDMET_PREDMETMATERIJALI_OPIS
+                    },               
+                    {
+                        field: "vidljivoStudentima",
+                        header: res.PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA
+                    },
+                    {
+                        field: "imgSrc",
+                        header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA
+                    },
+                ];
+            })
     }
 
+  
     //Studenti na predmetu
     setUkupanBrojStudenata() {
         //Računa kolko ima studenata na odabranom predmetu
@@ -552,6 +678,7 @@ export class ProfesorPredmetComponent implements OnInit {
         //poziv funkcije klikom na botun spremi, funkcija mijenja podadke u tablici i okida put proceduru
         if (
             this.editStudentModel.ocjenaEdit == null &&
+            this.editStudentModel.ocjenjivacEdit == null &&
             this.editStudentModel.polozenOslobodenSelectedValue != "ostalo"
         ) {
             this.saveButtonDisabled = true;
@@ -568,7 +695,7 @@ export class ProfesorPredmetComponent implements OnInit {
         ].ocjena = this.editStudentModel.ocjenaEdit;
         this.studentiNaPredmetu[
             this.selectedStudentIndex
-        ].ocjenjivac = this.editStudentModel.ocjenjivacEdit;
+        ].ocjenjivac = this.editStudentModel.ocjenjivacEdit.NazivOsobe;
         if (this.editStudentModel.polozenOslobodenSelectedValue == "polozen") {
             this.studentiNaPredmetu[this.selectedStudentIndex].polozen = true;
             this.studentiNaPredmetu[
@@ -586,24 +713,36 @@ export class ProfesorPredmetComponent implements OnInit {
             ].osloboden = false;
         }
 
-        this.ocjenaOcjenjivacDisabled = false;
+        this.ocjenaDisabled = false;
         this.saveButtonDisabled = true;
 
         this.updateRekapitulacija();
         this.selectedStudent = null;
         this.StudentEditDialog = false;
         this.showSuccessEdit();
+
+       let params = {
+        PkStudentnaVisokomUcilistuPredmet: this.studentiNaPredmetu[this.selectedStudentIndex].PkStudentnaVisokomUcilistuPredmet,
+        PkOcjenjivac: this.editStudentModel.ocjenjivacEdit.PkNastavnikSuradnik,
+        PolozenDaNe: this.studentiNaPredmetu[this.selectedStudentIndex].polozen,
+        OslobodjenPolaganjaDaNe: this.studentiNaPredmetu[this.selectedStudentIndex].osloboden,
+        Ocjena: this.studentiNaPredmetu[this.selectedStudentIndex].ocjena
+        }
+
+        this.profesorService.updateStudentOcjena(params).subscribe();
     }
 
     closeStudentEditDialog() {
         this.StudentEditDialog = false;
-        this.ocjenaOcjenjivacDisabled = false;
+        this.ocjenaDisabled = false;
         this.saveButtonDisabled = true;
+        this.editStudentModel = null;
     }
 
     openStudentEditDialog() {
         //otvaranje edit dialoga i fillanje podacima
         let polozenOslobodenTempValue: any;
+        let defaultOcjenjivač = this.profesoriNaPredmetu.filter( ocjenjivac => ocjenjivac. PkNastavnikSuradnik === this.appVariables.PkNastavnikSuradnik)[0];
 
         if (
             this.selectedStudent.polozen == true &&
@@ -617,14 +756,14 @@ export class ProfesorPredmetComponent implements OnInit {
             polozenOslobodenTempValue = "osloboden";
         } else {
             polozenOslobodenTempValue = "ostalo";
-            this.ocjenaOcjenjivacDisabled = true;
+            this.ocjenaDisabled = true;
         }
 
         this.editStudentModel = {
             imeEdit: this.selectedStudent.ime,
             prezimeEdit: this.selectedStudent.prezime,
             ocjenaEdit: this.selectedStudent.ocjena,
-            ocjenjivacEdit: this.selectedStudent.ocjenjivac,
+            ocjenjivacEdit: defaultOcjenjivač,  
             polozenOslobodenSelectedValue: polozenOslobodenTempValue
         };
 
@@ -633,9 +772,9 @@ export class ProfesorPredmetComponent implements OnInit {
 
     resetAndDisableOcjenaOcjenjivac() {
         //klikom na radio botun 'ostalo'
+
         this.editStudentModel.ocjenaEdit = null;
-        this.editStudentModel.ocjenjivacEdit = null;
-        this.ocjenaOcjenjivacDisabled = true;
+        this.ocjenaDisabled = true;
         this.saveButtonDisabled = false;
     }
 
@@ -659,16 +798,17 @@ export class ProfesorPredmetComponent implements OnInit {
                     .firstChild
             )).value = this.minOcjena.toString();
         }
-
-        insertedValue != 0
+        
+        this.editStudentModel.ocjenaEdit != null 
             ? (this.saveButtonDisabled = false)
             : (this.saveButtonDisabled = true);
     }
 
     enableOcjenaOcjenjivac() {
         //klikom na radio botun 'polozen' ili 'osloboden'
-        this.ocjenaOcjenjivacDisabled = false;
-        this.editStudentModel.ocjenaEdit != null
+        this.ocjenaDisabled = false;
+        
+        this.editStudentModel.ocjenaEdit != null 
             ? (this.saveButtonDisabled = false)
             : (this.saveButtonDisabled = true);
     }
@@ -680,6 +820,33 @@ export class ProfesorPredmetComponent implements OnInit {
         this.setPostotakProlaznosti();
         this.setProsjekOcjena();
     }
+
+    onDropdownChange() { //enablea submit botun
+        if(this.editStudentModel.ocjenaEdit != null) {
+            this.saveButtonDisabled = false;
+        }
+
+    } 
+
+    // exportExcel() {
+    //     import("xlsx").then(xlsx => {
+    //         const worksheet = xlsx.utils.json_to_sheet(this.colsStudenti);
+    //         const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    //         const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+    //         this.saveAsExcelFile(excelBuffer, "primengTable");
+    //     });
+    // }
+
+    // saveAsExcelFile(buffer: any, fileName: string): void {
+    //     import("file-saver").then(FileSaver => {
+    //         let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    //         let EXCEL_EXTENSION = '.xlsx';
+    //         const data: Blob = new Blob([buffer], {
+    //             type: EXCEL_TYPE
+    //         });
+    //         FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    //     });
+    // }
 
     //Nastavne cjeline
 
@@ -740,12 +907,9 @@ export class ProfesorPredmetComponent implements OnInit {
         //triba ucinit put request za editanje podataka u bazi
 
         let params = {
-            PkPredmetNastavnaCjelina: this.predmetNastavneCjeline[
-                this.selectedNastavnaCjelinaIndex
-            ].PkPredmetNastavnaCjelina,
+            PkPredmetNastavnaCjelina: this.predmetNastavneCjeline[this.selectedNastavnaCjelinaIndex].PkPredmetNastavnaCjelina,
             PkPredmet: +this.route.snapshot.paramMap.get("PkPredmet"),
-            NazivPredmetNastavnaCjelina: this.editNastavneCjelineModel
-                .NazivPredmetNastavnaCjelina,
+            NazivPredmetNastavnaCjelina: this.editNastavneCjelineModel.NazivPredmetNastavnaCjelina,
             KoristiSeDaNe: this.editNastavneCjelineModel.KoristiSeDaNe,
             PkUsera: this.appVariables.PkUsera
         };
@@ -812,9 +976,9 @@ export class ProfesorPredmetComponent implements OnInit {
         this.selectedNastavnaCjelinaIndex = event.index;
     }
 
+
     //Grupe za nastavu
-    podTipPredavanjaRowSelection() {
-        //Poziv servisa za renderanje grupa za nastavu
+    getGrupeZaNastavu() { //Pokreće se prilikom odabira podTipa nastave
         let params = {
             PkPredmet: this.route.snapshot.paramMap.get("PkPredmet"),
             PkStudij: this.route.snapshot.paramMap.get("PkStudij"),
@@ -823,23 +987,48 @@ export class ProfesorPredmetComponent implements OnInit {
         };
 
         this.profesorService.getGrupeZaNastavu(params).subscribe(data => {
-            console.log(data);
+            this.grupeZaNastavu = data;
+            this.resetStudentiRasporedeniPoGrupama(); //resetiraj use studenti na null jer se minja podTip predavanaj tako i kolekcija svih studenata
         });
     }
 
-    grupeZaNastavuRowSelection() {
-        //Poziv servisa za renderanje studenata raspoređenih po grupama
+    resetGrupeZaNastavu() { //resetira  grupeZa nastavu na null nakon uselecta tipa podTipaPredavanja
+        this.grupeZaNastavu = null;
+        this.studentiRasporedeniPoGrupama = null;
+        this.selectedGrupeZaNastavu = null;
+    }
+
+    getStudentiRaporedeniPoGrupama() { //Pokreće se prilikom odabira grupe za nastavu
         let params = {
             PkSkolskaGodina: this.appVariables.PkSkolskaGodina,
-            PkSkolskaGodinaStudijGrupaZaNastavu: this.selectedGrupeZaNastavu
-                .PkSkolskaGodinaStudijGrupaZaNastavu
+            PkSkolskaGodinaStudijGrupaZaNastavu: this.selectedGrupeZaNastavu.PkSkolskaGodinaStudijGrupaZaNastavu
         };
 
         this.profesorService
             .getStudentiRasporedeniPoGrupama(params)
             .subscribe(data => {
-                console.log(data);
+                this.studentiRasporedeniPoGrupama = data;
             });
+    }
+
+    resetStudentiRasporedeniPoGrupama() {
+        this.studentiRasporedeniPoGrupama = null;
+        this.selectedGrupeZaNastavu = null;
+    }
+
+    //Nastavne cjeline
+    showFileTypeTitle(value: string) { //Prikazuje tip file-a na hover
+        return value.split('.')[0].split('/').pop();
+    }
+
+    isPng(value: string) { //provjerava da li je png
+        if (typeof value === "string") {
+            let checkPng = value.split('.'); 
+            if( checkPng[checkPng.length - 1] == 'png') {
+                return true;
+            }
+        }     
+        return false;
     }
 
     //Toast poruke
@@ -875,7 +1064,7 @@ export class ProfesorPredmetComponent implements OnInit {
                 });
             });
     }
-   
+
     showSuccessDeleteNastavneCjeline() {
         //Success poruka ukoliko se brisanje uspješno izvršilo
         this.translate
@@ -896,9 +1085,11 @@ export class ProfesorPredmetComponent implements OnInit {
 
     //opće
     isBoolean(val) {
+
         if (typeof val === "number") {
             return false;
         }
         return typeof val === "boolean";
     }
+
 }

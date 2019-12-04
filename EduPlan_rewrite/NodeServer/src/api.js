@@ -359,5 +359,30 @@ router.put("/promjeniNastavnaCjelina", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+// dohvat svih profesora na predmetu
+router.get("/getProfesoriNaPredmetu", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spPrikazNastavnikaSuradnikaPoPredmetu", conn);
+
+    request.addParameter("PkPredmet",TYPES.Int, req.query.PkPredmet);
+    request.addParameter("PkSkolskaGodina", TYPES.Int, req.query.PkSkolskaGodina);
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+//Put req za update ocjene iz baze 
+router.put("/promjenaOcjene", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spStudentOcjene_Update", conn);
+ 
+    request.addParameter("PkStudentnaVisokomUcilistuPredmet", TYPES.Int, req.params.PkStudentnaVisokomUcilistuPredmet);
+    request.addParameter("PkOcjenjivac", TYPES.Int, req.body.params.PkOcjenjivac);
+    request.addParameter("PolozenDaNe", TYPES.Bit, req.body.params.PolozenDaNe);
+    request.addParameter("OslobodjenPolaganjaDaNe", TYPES.Bit, req.body.params.OslobodjenPolaganjaDaNe);
+    request.addParameter("Ocjena", TYPES.Int, req.body.params.Ocjena);
+        
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 
 module.exports = router;

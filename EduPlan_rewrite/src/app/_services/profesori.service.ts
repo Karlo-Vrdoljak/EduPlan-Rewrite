@@ -328,4 +328,46 @@ export class ProfesorService {
                 )
             );
     }
+
+    /*
+     *  Select svih profesora rkoji predaju odabrani predmet.
+     *  Params: pkPredmet, pkSkolskaGodina
+     *  Returns: Niz od  jednog ili više objekata
+     */
+    getProfesoriNaPredmetu(data) {
+        return this.http
+            .get(this.config.API_URL + "getProfesoriNaPredmetu", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getProfesoriNaPredmetu"
+                    )
+                )
+            );
+    }
+
+      /**
+     *
+     * Opis: Updatea Ocjene studenta
+     * param: PkStudentnaVisokomUcilistuPredmet: int, PkOcjenjivac: int, PolozenDaNe: bit
+     * OslobodjenPolaganjaDaNe: bit, Ocjena: int
+     *
+     */
+    updateStudentOcjena(data) {
+        return this.http
+            .put(this.config.API_URL + "promjenaOcjene", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.updateStudentOcjena"
+                    )
+                )
+            );
+    }
 }
