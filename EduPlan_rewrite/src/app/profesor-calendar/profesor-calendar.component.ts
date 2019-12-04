@@ -87,7 +87,24 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         
     }
 
-    synchronizeCalendarEvents(isRealizacija = false) {
+    synchronizeCalendarEvents(isRealizacija = false, isRefresh = false) {
+
+        if(isRefresh) {
+            if(!this.events) {
+                this.messageService.add({
+                    severity: "warn",
+                    summary: this.translate.instant("STUDENT_STUDENTOSOBNIPODACI_IZMJENA_ERROR"),
+                    detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH_ERROR")
+                });
+                return;
+            } else {
+                this.messageService.add({
+                    severity: "info",
+                    summary: this.translate.instant("STUDENT_BDSTUDENTPODACINASTUDIJU_PROMJENA_SUCCESS"),
+                    detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH")
+                });
+            }
+        }
         this.calendarConfig.passedDate = this.rangeDates;
 
         this.params.DatumOd = this.calendarConfig.formatDate(
@@ -96,7 +113,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         this.params.DatumDo = this.calendarConfig.formatDate(
             this.rangeDates[1]
         );
-
+            
         this.profesorSerivce
             .getNastavnikRaspored(this.params)
             .subscribe(data => {
@@ -104,6 +121,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                     data
                 );
                 this.calendar.removeAllEventSources();
+                this.events = events;
 
                 this.calendar.addEventSource(events);
                 this.calendar.rerenderEvents();
@@ -149,11 +167,12 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             // console.log("ZA_API",this.studentiRealizacija);
             let params = {
                 PkNastavaPlan: this.eventDetalji.PkNastavaPlan,
-                PkNastavnikSuradnik: this.eventDetalji.PkNastavnikSuradnik,
+                PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
                 PkUsera: this.appVariables.PkUsera,
                 PrisutniStudenti: this.studentiRealizacija
             };
-            // console.log(this.prisutniStudenti);
+            // console.log(params);
+            
             this.profesorSerivce
                 .postNastavaRealizacijaPlana(params)
                 .subscribe(data => {
@@ -195,6 +214,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         }
     }
     ngOnInit() {
+        // console.log(this.calendarConfig.passedDate);
+        
         // console.log(this.appVariables.PkSkolskaGodina);
         if (screen.width <= 600) {
             this.router.navigate(["/vProfesorAgenda", "sm"]);
@@ -245,6 +266,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                             this.apiData
                         );
                         // console.log(this.events);
+                        
+                        
                         var calendarEl = document.getElementById("calendar");
                         this.calendar = new Calendar(calendarEl, {
                             plugins: [
@@ -252,12 +275,12 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                 timeGridPlugin,
                                 interactionPlugin
                             ],
-                            defaultDate: this.calendarConfig.getDateTimeCurrent(),
+                            defaultDate: this.calendarConfig.selectedDate || this.calendarConfig.getDateTimeCurrent(),
                             //aspectRatio: 2.8,
                             navLinks: true,
                             locales: allLocales,
                             selectable: true,
-                            defaultView: "timeGridWeek",
+                            defaultView: this.calendarConfig.selectedView || "timeGridWeek",
                             locale: res.STUDENT_KALENDAR_LOCALE,
                             height: "auto",
                             contentHeight:
@@ -317,7 +340,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                                                 if(!this.eventDetalji) {
                                                                     this.hasBloksat = true;
                                                                     this.makeStudentList();
-                                                                    this.eventDetalji = this.generateEventDetails(arg,start,end);
+                                                                    this.eventDetalji = this.calendarConfig.generateEventDetails(arg,start,end, this.prisutniStudenti.length);
                                                                 }
                                                             }
                                                         });
@@ -343,7 +366,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                                         this.resolvedPromisesCount = 0;
                                                         if(!this.eventDetalji) {
                                                             this.makeStudentList();
-                                                            this.eventDetalji = this.generateEventDetails(arg,start,end);
+                                                            this.eventDetalji = this.calendarConfig.generateEventDetails(arg,start,end,this.prisutniStudenti.length);
                                                             if (this.eventsBloksat.length > 0) {
                                                                 this.hasBloksat = true;
                                                             }
@@ -352,7 +375,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                                 } else {
                                                     
                                                     this.prisutniStudenti = this.apiStudenti;
-                                                    this.eventDetalji = this.generateEventDetails(arg,start,end);
+                                                    this.eventDetalji = this.calendarConfig.generateEventDetails(arg,start,end,this.prisutniStudenti.length);
                                                     this.prisutniStudenti = this.prisutniStudenti
                                                         .sort((a,b) => {
                                                         return a.Prezime.toLowerCase() > b.Prezime.toLowerCase() ? 1 : a.Prezime.toLowerCase() === b.Prezime.toLowerCase() ? (a.Ime.toLowerCase() > b.Ime.toLowerCase() ? 1 : -1 ) : -1
@@ -429,6 +452,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                             arg.event.extendedProps.StudijNazivKratica
                                         ) +
                                         `</span>` +
+                                        `<br>` +
+                                            arg.event.extendedProps.NastavnikSuradnikNaziv +
                                         this.parseEducard(
                                             arg.event.extendedProps.Prisutan
                                         ) +
@@ -524,9 +549,15 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                 this.monthButton = false;
                                 this.weekButton = false;
                                 this.dayButton = false;
+                            },
+                            datesRender: arg => {
+
+                                this.calendarConfig.passedDate = this.rangeDates;
+                                this.calendarConfig.selectedView = arg.view.type;
+                                this.calendarConfig.selectedDate = arg.view.calendar.getDate().toISOString();
+                                
                             }
                         });
-                        this.calendar.render();
 
                         if (!this.calendarConfig.passedDate) {
                             this.rangeDates = [
@@ -536,6 +567,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                         } else {
                             this.rangeDates = this.calendarConfig.passedDate;
                         }
+                        this.calendar.render();
+
                     });
             });
     }
@@ -655,46 +688,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     isBoolean(val) {
         return [0, 1, true, false].includes(val);
     }
-    generateEventDetails(arg,start,end) {
-        return {
-            PkNastavaRealizacija:
-                arg.event.extendedProps.PkNastavaRealizacija,
-            PkNastavaPlan:
-                arg.event.extendedProps.PkNastavaPlan,
-            PkNastavnikSuradnik:
-                arg.event.extendedProps.PkNastavnikSuradnik,
-            eventId: arg.event.id,
-            PredmetNaziv:
-                arg.event.extendedProps.PredmetNaziv,
-            PodTipPredavanjaNaziv:
-                arg.event.extendedProps.PodTipPredavanjaNaziv,
-            PredmetKratica:
-                arg.event.extendedProps.PredmetKratica,
-            SifraPredavaonice:
-                arg.event.extendedProps.SifraPredavaonice,
-            Realizirano:
-                arg.event.extendedProps.Realizirano,
-            StudijNaziv: this.calendarConfig.listBoxStudiji(
-                arg.event.extendedProps.StudijNaziv
-            ),
-            KraticaStudija: this.calendarConfig.listBoxStudiji( 
-                arg.event.extendedProps.StudijNazivKratica
-            ),
-            KraticaStudijaProvjera: arg.event.extendedProps.StudijNazivKratica.split(',').map((e: string) => {
-                return e.trim();
-            }),
-            start: start,
-            end: end,
-            termin: start + "-" + end,
-            Prisutan:
-                arg.event.extendedProps.Prisutan,
-            Prisutnost:
-                this.prisutniStudenti.length > 0
-                    ? this.prisutniStudenti
-                        .length
-                    : null
-        };
-    }
+
     /**
      * 
      * @param arg svi propovi događaja

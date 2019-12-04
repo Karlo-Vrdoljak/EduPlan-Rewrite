@@ -2705,7 +2705,12 @@
   "PROFESOR_KALENDAR_COMBOBOX_ZABRISANJE":"Number of selected students for deletion",
   "PROFESOR_KALENDAR_COMBOBOX_ODABRANO":"Number of selected students",
   "PROFESOR_KALENDAR_COMBOBOX_BROJ":"Number of students",
-  "PROFESOR_KALENDAR_MSG_STUDENI_WARNING":"Some of the selected students are not enrolled in this subject!"
+  "PROFESOR_KALENDAR_MSG_STUDENI_WARNING":"Some of the selected students are not enrolled in this subject!",
+  "PROFESOR_KALENDAR_MSG_REFRESH":"Synchronization successful",
+  "PROFESOR_KALENDAR_SUBMIT":"Submit",
+  "PROFESOR_KALENDAR_MSG_REFRESH_ERROR": "Choose an associate/educator!",
+  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_NEMA_PRAVA":"You do not have the necessary rights!"
+
 
 
 

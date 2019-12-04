@@ -11,7 +11,8 @@ export class CalendarConfig {
            DatumOd: string; // = "2017-10-10";
            DatumDo: string; // = "2019-10-30";
            DefaultRasponDatuma: number = 365;
-           RealizacijaOpacity: any;
+           selectedView:string = null;
+           selectedDate:string = null;
 
            constructor() {
                if(this.passedDate) {
@@ -19,7 +20,6 @@ export class CalendarConfig {
                    this.DatumDo = this.passedDate[1].toISOString();
                }
                this.setupDefaultDateTime();
-               this.RealizacijaOpacity = { fUll: "1", reduced: "0.6" };
            }
 
            /**
@@ -136,17 +136,6 @@ export class CalendarConfig {
            private setupDefaultDateTime() {
                this.DatumOd = this.getDateTimeCurrent(-1 * this.DefaultRasponDatuma);
                this.DatumDo = this.getDateTimeCurrent(this.DefaultRasponDatuma);
-           }
-
-           /**
-            * @returns string: "1" ili "0.5" ovisno o realizaciji jeli true ili false.
-            * @Namjena kartica Agenda i Kalendar, mjenja opacity pozadine
-            * @param realziranoDaNe boolean
-            */
-           public checkRealizacijaDaNe(realziranoDaNe) {
-               return realziranoDaNe
-                   ? this.RealizacijaOpacity.fUll
-                   : this.RealizacijaOpacity.reduced;
            }
 
            /**
@@ -416,4 +405,38 @@ export class CalendarConfig {
                     }, {})
                 );
            }
+
+           generateEventDetails(arg,start,end,prisutniStudentiLength) {
+            return {
+                PkNastavaRealizacija:
+                    arg.event.extendedProps.PkNastavaRealizacija,
+                PkNastavaPlan:
+                    arg.event.extendedProps.PkNastavaPlan,
+                PkNastavnikSuradnik:
+                    arg.event.extendedProps.PkNastavnikSuradnik,
+                eventId: arg.event.id,
+                PredmetNaziv:
+                    arg.event.extendedProps.PredmetNaziv,
+                PodTipPredavanjaNaziv:
+                    arg.event.extendedProps.PodTipPredavanjaNaziv,
+                PredmetKratica:
+                    arg.event.extendedProps.PredmetKratica,
+                SifraPredavaonice:
+                    arg.event.extendedProps.SifraPredavaonice,
+                Realizirano:
+                    arg.event.extendedProps.Realizirano,
+                StudijNaziv: this.listBoxStudiji( arg.event.extendedProps.StudijNaziv ),
+                KraticaStudija: this.listBoxStudiji(  arg.event.extendedProps.StudijNazivKratica ),
+                KraticaStudijaProvjera: arg.event.extendedProps.StudijNazivKratica.split(',').map((e: string) => {
+                    return e.trim();
+                }),
+                start: start,
+                end: end,
+                termin: start + "-" + end,
+                Prisutan:
+                    arg.event.extendedProps.Prisutan,
+                Prisutnost:
+                    prisutniStudentiLength > 0 ? prisutniStudentiLength : null
+            };
+        }
        }

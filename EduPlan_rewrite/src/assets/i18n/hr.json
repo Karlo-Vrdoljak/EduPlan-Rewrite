@@ -2705,7 +2705,11 @@
   "PROFESOR_KALENDAR_COMBOBOX_ZABRISANJE":"Broj studenata odabran za brisanje",
   "PROFESOR_KALENDAR_COMBOBOX_ODABRANO":"Broj odabranih studenata",
   "PROFESOR_KALENDAR_COMBOBOX_BROJ":"Broj studenata",
-  "PROFESOR_KALENDAR_MSG_STUDENI_WARNING":"Neki od odabranih studenata ne slušaju ovaj predmet!"
+  "PROFESOR_KALENDAR_MSG_STUDENI_WARNING":"Neki od odabranih studenata ne slušaju ovaj predmet!",
+  "PROFESOR_KALENDAR_MSG_REFRESH":"Ažuriranje uspješno",
+  "PROFESOR_KALENDAR_SUBMIT":"Spremi",
+  "PROFESOR_KALENDAR_MSG_REFRESH_ERROR": "Odaberite nastavnika/suradnika!",
+  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_NEMA_PRAVA":"Ne posjedujete potrebna prava!"
 
 
 }

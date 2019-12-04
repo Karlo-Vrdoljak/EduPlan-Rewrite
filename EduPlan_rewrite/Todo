@@ -30,3 +30,5 @@
 ☐ provjeriti u tablicama gdje se sve nalaze EN_nazivi i implementriati ih ovisno o odabiru jezika
 ☐ Swipe za mobilne verzije kod grupa za nastavu provjeriti - ne radi i nezz jel najbolji izbor
 
+Karlo:
+    ☐ @critical Realizacija tuđih satnica po planu NE radi! Errora iz db nema, clientskih errora nema.
