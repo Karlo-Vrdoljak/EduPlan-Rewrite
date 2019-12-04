@@ -318,6 +318,15 @@ router.get("/getStudentiRasporedeniPoGrupama", function(req, res) {
 
     db.execStoredProc(request, conn, res, "{}");
 }); 
+// dohvat studenata za comboBox u kalendaru za realizaciju
+router.get('/StudentiKalendarComboBox', function (req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spStudenti_Select", conn); 
+
+    request.addParameter("PkSkolskaGodina",TYPES.Int, req.query.PkSkolskaGodina);
+
+    db.execStoredProc(request, conn, res, "{}");
+});
 
 //Post req za dodavanje nove nastavnecjeline u bazu
 router.post("/dodajNastavnaCjelina", function(req, res) {

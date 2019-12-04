@@ -282,6 +282,27 @@ export class CalendarConfig {
                    }
                ];
            }
+           
+           setupColsComboBoxStudenti(prijevod) {
+            return [
+                {
+                    field: "JMBAG",
+                    header: prijevod.KATALOZI_NASTAVNIKSURADNIKPREDMETI_JMBAG
+                },
+                {
+                    field: "Ime",
+                    header: prijevod.PREDMET_BDPREDMETSTUDENTI_IME
+                },
+                {
+                    field: "Prezime",
+                    header: prijevod.PREDMET_BDPREDMETSTUDENTI_PREZIME
+                },
+                {
+                    field: "StudijNazivKratica",
+                    header: prijevod.PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA
+                }
+            ];
+           }
            setupKalendarAgendaLegenda(prijevod) {
                return [
                    {
@@ -395,6 +416,4 @@ export class CalendarConfig {
                     }, {})
                 );
            }
-           
-           
        }
