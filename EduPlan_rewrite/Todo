@@ -1,14 +1,12 @@
-
 ☐ put api za edit ocjena studenta 
 ☐ post api za dodavanje nastavne cjelina --done
 ☐ put api za izmjenu nastavne cjeline --done
 ☐ delete api za brisanje nastavne cjeline --done
-☐ pristutnost studenata
 ☐ procedura za editiranje ocjene
 ☐ dovest sve profesore na predmetu i napravit combo box
-☐ Bug s input required kod dodavanje nove nastavne cjeline
-☐ Kopirat iz semestralnog u razvojnu (spPredmetNastavneCjeline)
-☐ grupe za nastavu testirati
+☐ Bug s input required kod dodavanje nove nastavne cjeline --done
+☐ Kopirat iz semestralnog u razvojnu (spPredmetNastavneCjeline) --done
+☐ grupe za nastavu testirati --done
 ☐ popraviti bug kod formatiranja datuma --done
 ☐ bug s pkUsera i pkNastavnika (Nikola colnam i nikola mandic)
 ☐ excel export svih studenata na predmetu
@@ -28,7 +26,12 @@
 ☐ dodati u navigaciju i implementirati financijska zaduzenja (vec postoje triba i hsamo prikazati)
 ☐ uciniti sve responzivnim i multijezicnim
 ☐ provjeriti u tablicama gdje se sve nalaze EN_nazivi i implementriati ih ovisno o odabiru jezika
-☐ Swipe za mobilne verzije kod grupa za nastavu provjeriti - ne radi i nezz jel najbolji izbor
+☐ Swipe za mobilne verzije kod grupa za nastavu provjeriti --done
+☐ dodati globalni search za mobilne verzije
+☐ Bug kod mobilnog prikaza grup za nastavu, tablica grupe za nastavu se ne moze selectat
+☐ vizualni bug kod modalnog prozora edit student kad combo box izbaci opcije izgled se malo poremeti
+☐ Update ocjena procedura prima sve null ne znan zasto???
+☐ prisustvo studenata ne razumin proceduru i ima error???
 
 Karlo:
     ☐ @critical Realizacija tuđih satnica po planu NE radi! Errora iz db nema, clientskih errora nema.

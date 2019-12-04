@@ -7,9 +7,13 @@
         display: block;
     }
 
-    .card h1 {
-        font-size: 1.3em;
+     h3 {
+        font-size: 1em;
         padding: 0.3em;
+    }
+
+    .nastavneCjelineTable {
+        font-size: 0.8em;
     }
 
 }
@@ -28,12 +32,15 @@
         padding: 0em;
     }
 
+    .card {
+        font-size: 1.2em;
+    }
+
 }
 
 .addCjelina.ng-invalid {
-    border-color: #e96d66;
-     background-color: #f0d1d0;
-}
+    background-color: #f0d1d0;
+} 
 
 :host >>> .ui-menuitem-icon.fa.fa-plus.ng-star-inserted{
     color: green;
@@ -47,6 +54,10 @@
     color: #fc3503;
 }
 
+:host >>> .ui-menuitem-icon.fa.fa-download.ng-star-inserted{
+    color: #42d7f5;
+}
+
 :host >>>  .ui-state-disabled  {    
     opacity: 1.0;
 }
@@ -58,9 +69,6 @@ background-color: blue;}
     opacity: 1.0;
 }
 
-.card {
-    font-size: 1.2em;
-}
 
 :host >>> .ui-menu .ui-menuitem-link {
     font-size: 0.8em;
@@ -76,11 +84,15 @@ background-color: blue;}
 }
 
 :host >>> .ui-slidemenu-wrapper {
-    height: 143px !important;
+    height: 8.5em !important;
 }
 
 :host >>> .ui-slidemenu-content {
-    height: 175px !important;
+    height: 8.5em !important;
+}
+
+:host >>> .ui-slidemenu-rootlist {
+    width: 100% !important;
 }
 
 .ui-inputgroup {
@@ -108,6 +120,16 @@ span.ui-inputgroup-addon {
 
 .ui-button-success:disabled {
     opacity: 0.5;
+}
+
+:host >>> .swiper-wrapper {
+    padding-top: 2em;
+}
+
+:host >>> .swiper-pagination.swiper-pagination-bullets {
+    left: 0;
+    width: 100%;
+    top: 0;
 }
 
 

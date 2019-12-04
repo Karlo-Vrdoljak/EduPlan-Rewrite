@@ -115,4 +115,304 @@ export class OpciService {
             catchError(this.appService.handleError("OpciService.getSveSatnicePoRednomBroju"))
         );
     }
+    
+    /**
+     * @Opis PRIKAZ extenzija u tablici
+     */
+    public extensionCellRenderer(params) {
+
+        function checkAudioTypes(ext) {
+          const audioTypes = [
+            'aif',
+            'cda',
+            'mid',
+            'midi',
+            'mp3',
+            'mpa',
+            'ogg',
+            'wav',
+            'wma',
+            'wpl'
+          ];
+          return audioTypes.includes(ext);
+        }
+    
+        function checkCompressedTypes(ext) {
+          const compressedTypes = [
+            '7z',
+            'arj',
+            'deb',
+            'pkg',
+            'rar',
+            'rpm',
+            'z',
+            'zip'
+          ];
+          return compressedTypes.includes(ext);
+        }
+    
+        function checkDiscMediaTypes(ext) {
+          const discMediaTypes = [
+            'bin',
+            'dmg',
+            'iso',
+            'toast',
+            'vcd',
+          ];
+          return discMediaTypes.includes(ext);
+        }
+    
+        function checkDataDatabaseTypes(ext) {
+          const dataDatabaseTypes = [
+            'csv',
+            'dat',
+            'db',
+            'dbf',
+            'log',
+            'mdb',
+            'sav',
+            'sql',
+            'tar',
+            'xml'
+          ];
+          return dataDatabaseTypes.includes(ext);
+        }
+    
+        function checkExecutableTypes(ext) {
+          const executableTypes = [
+            'apk',
+            'bat',
+            'bin',
+            'cgi',
+            'pl',
+            'com',
+            'exe',
+            'gadget',
+            'jar',
+            'py',
+            'wsf'
+          ];
+          return executableTypes.includes(ext);
+        }
+    
+        function checkFontTypes(ext) {
+          const fontTypes = [
+            'fnt',
+            'fon',
+            'otf',
+            'ttf'
+          ];
+          return fontTypes.includes(ext);
+        }
+    
+        function checkImageTypes(ext) {
+          const ImageTypes = [
+            'ai',
+            'bmp',
+            'gif',
+            'ico',
+            'jpeg',
+            'jpg',
+            'png',
+            'ps',
+            'psd',
+            'svg',
+            'tif',
+            'tiff'
+          ];
+          return ImageTypes.includes(ext);
+        }
+    
+        function checkPresentationTypes(ext) {
+          const PresentationTypes = [
+            'key',
+            'odp',
+            'pps',
+            'ppt',
+            'pptx'
+          ];
+          return PresentationTypes.includes(ext);
+        }
+    
+        function checkProgrammingTypes(ext) {
+          const ProgrammingTypes = [
+            'c',
+            'class',
+            'cpp',
+            'cs',
+            'h',
+            'java',
+            'sh',
+            'swift',
+            'vb'
+          ];
+          return ProgrammingTypes.includes(ext);
+        }
+    
+        function checkSpreadsheetTypes(ext) {
+          const SpreadsheetTypes = [
+            'ods',
+            'xlr',
+            'xls',
+            'xlsx'
+          ];
+          return SpreadsheetTypes.includes(ext);
+        }
+    
+        function checkSystemTypes(ext) {
+          const SystemTypes = [
+            'bak',
+            'cab',
+            'cfg',
+            'cpl',
+            'cur',
+            'dll',
+            'dmp',
+            'drv',
+            'icns',
+            'ico',
+            'ini',
+            'lnk',
+            'msi',
+            'sys',
+            'tmp'
+          ];
+          return SystemTypes.includes(ext);
+        }
+    
+        function checkVideoTypes(ext) {
+          const VideoTypes = [
+            '3g2',
+            '3gp',
+            'avi',
+            'flv',
+            'h264',
+            'm4v',
+            'mkv',
+            'mov',
+            'mp4',
+            'mpg',
+            'mpeg',
+            'rm',
+            'swf',
+            'vob',
+            'wmv'
+          ];
+          return VideoTypes.includes(ext);
+        }
+    
+        function checkTextTypes(ext) {
+          const TextTypes = [
+            'doc',
+            'docx',
+            'odt',
+            'pdf',
+            'rtf',
+            'tex',
+            'txt',
+            'wks',
+            'wps',
+            'wpd'
+          ];
+          return TextTypes.includes(ext);
+        }
+    
+        let cellContent = '';
+        let imagePath;
+        let index;
+        let fileType;
+    
+        try {
+          let originalname;
+          // ako pozivam iz grida ima params.data, ako iz pregleda klasifikacije dobijem samo originalname
+          if (params && params.data) {
+            originalname = params.data.izvorniOriginalname ? params.data.izvorniOriginalname : params.data.name;
+          } else {
+            originalname = params;
+          }
+    
+          if (originalname) {
+            index = originalname.lastIndexOf('.');
+            fileType = (originalname.substring(index + 1, originalname.length)).toLowerCase();
+    
+            // najprije najucestalije
+            if (fileType === 'pdf') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'doc') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'docx') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'odt') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'txt') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'mp4') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'mpg' || fileType === 'mpeg') {
+              imagePath = 'assets/layout/images/fileExt/mpg.png';
+            } else if (fileType === 'xls') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'xlsx') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'ppt') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'jpeg' || fileType === 'jpg') {
+              imagePath = 'assets/layout/images/fileExt/jpg.png';
+            } else if (fileType === 'png') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'xml') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'mp3') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'wav') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+            } else if (fileType === 'wma') {
+              imagePath = 'assets/layout/images/fileExt/' + fileType + '.png';
+              // ako nije ni jedna od gore navedenih provjeravam postoji li u ostalim listama i stavljam opceniti img za svaku grupu
+            } else if (checkAudioTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/sound-file.png';
+            } else if (checkCompressedTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/zip.png';
+            } else if (checkDiscMediaTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/data-storage.png';
+            } else if (checkDataDatabaseTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/database.png';
+            } else if (checkExecutableTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/exe.png';
+            } else if (checkFontTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/font.png';
+            } else if (checkImageTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/pictures.png';
+            } else if (checkPresentationTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/presentation.png';
+            } else if (checkProgrammingTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/code.png';
+            } else if (checkSpreadsheetTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/spreadsheet.png';
+            } else if (checkSystemTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/system.png';
+            } else if (checkVideoTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/video-file.png';
+            } else if (checkTextTypes(fileType)) {
+              imagePath = 'assets/layout/images/fileExt/word.png';
+            } else {
+              imagePath = 'assets/layout/images/fileExt/file.png';
+            }
+    
+            cellContent += '<image src="' +
+              imagePath + '" title="' + fileType + '" style="margin-top: 6px"></a> &nbsp;';
+    
+          }
+    
+    
+        } catch (exception) {
+    
+        }
+    
+        if (params && params.data) {
+          return cellContent;
+        } else {
+          return imagePath ? imagePath : 'assets/layout/images/fileExt/file.png';
+        }
+      }
 }
