@@ -2715,7 +2715,18 @@
   "PROFESOR_KALENDAR_MSG_REFRESH":"Synchronization successful",
   "PROFESOR_KALENDAR_SUBMIT":"Submit",
   "PROFESOR_KALENDAR_MSG_REFRESH_ERROR": "Choose an associate/educator!",
-  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_NEMA_PRAVA":"You do not have the necessary rights!"
+  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_NEMA_PRAVA":"You do not have the necessary rights!",
+  "PROFESOR_KALENDAR_BUTTON_LABEL_IZMIJENI":"Edit period",
+  "PROFESOR_IZMJENA_TERMINA_WARNING": "Warning!",
+  "PROFESOR_IZMJENA_TERMINA_WARNING_LABEL": "In the selected classroom, the requested period is filled!\nPlease choose another",
+  "PROFESOR_IZMJENA_TERMINA_SUCCESS":"There are no conflicts!",
+  "PROFESOR_IZMJENA_TERMINA_SUCCESS_LABEL":"In the selected classroom it is possible to carry out the class for the requested term",
+  "PROFESOR_IZMJENA_TERMINA_RESET":"Undo changes",
+  "PROFESOR_IZMJENA_TERMINA_KONFLIKT":"Conflict of one or more concurrent periods",
+  "PROFESOR_IZMJENA_TERMINA_NOVI":"Your modification"
+
+
+
 
 
 

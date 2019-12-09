@@ -1,4 +1,4 @@
-import { GranicneSatnice } from './GranicneSatnice';
+import { Satnice,Predavaonica } from './Satnice';
 import { NastavnikSuradnik } from './NastavnikSuradnik';
 
 export class AppVariables {
@@ -23,6 +23,8 @@ export class AppVariables {
            maxOcjena: number;
            negativnaOcjena: number;
            ObaveznoOcitavanjeSvakiSatDaNe: number;
-           granicneSatnice:GranicneSatnice[];
+           granicneSatnice:Satnice[];
+           sveSatnice:Satnice[];
            constructor() {}
+           Predavaonice:Predavaonica[];
        }

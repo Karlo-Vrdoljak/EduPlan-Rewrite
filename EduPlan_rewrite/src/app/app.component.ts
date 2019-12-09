@@ -9,7 +9,7 @@ import { DocimilneVrijednosti } from './_interfaces/DocimilneVrijednosti';
 import { CalendarConfig } from './_interfaces/_configCalendar';
 import { LoginComponent } from 'src/assets/pages/login.component';
 import { OpciService } from './_services/opci.service';
-import { GranicneSatnice } from './_interfaces/GranicneSatnice';
+import { Satnice } from './_interfaces/Satnice';
 
 enum MenuOrientation {
     STATIC,
@@ -108,7 +108,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     setupSveSatnice() {
-        this.opciService.getSveSatnicePoRednomBroju().subscribe((data:GranicneSatnice[]) => {
+        this.opciService.getSveSatnicePoRednomBroju().subscribe((data:Satnice[]) => {
+            this.appVariables.sveSatnice = data;
             this.appVariables.granicneSatnice = [];
             this.appVariables.granicneSatnice.push(data[0]);
             this.appVariables.granicneSatnice.push(data[data.length -1]);

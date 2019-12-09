@@ -115,6 +115,12 @@ export class OpciService {
             catchError(this.appService.handleError("OpciService.getSveSatnicePoRednomBroju"))
         );
     }
+    getPredavaonice() {
+      return this.http.get(this.config.API_URL + "Predavaonice", {}).pipe(
+        retry(this.config.APIRetryCount),
+        catchError(this.appService.handleError("OpciService.getPredavaonice"))
+      );
+    }
     
     /**
      * @Opis PRIKAZ extenzija u tablici

@@ -69,3 +69,6 @@
     /* background-color: #dee0e3; */
     color: #35de38;
 }
+:host >>> .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 5px!important;
+}

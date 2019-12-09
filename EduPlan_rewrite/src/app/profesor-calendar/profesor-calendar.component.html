@@ -15,7 +15,7 @@
             
         </div>
     </div>
-    <p-toast [style]="{marginTop: '50px'}" position="top-right" [baseZIndex]="100000"></p-toast>
+    <p-toast [style]="{marginTop: '50px'}" position="bottom-left" [baseZIndex]="100000"></p-toast>
 
 </div>
 <!-- <hr style="color: #c2dfd5; padding-right: 10px;"><br/> -->
@@ -27,12 +27,24 @@
 <div id="calendar"></div>
 
 
-<p-dialog [blockScroll]="true" [closable]="false"  [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+<p-dialog  [blockScroll]="true" [closable]="false"  [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="1000">
     <div *ngIf="!eventDetalji && !prisutniStudenti">
         <p-progressBar mode="indeterminate"></p-progressBar>
     </div>
     <div class="ui-g ui-fluid form-group" *ngIf="eventDetalji && prisutniStudenti" style="padding-top:5px;">
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+        <div *ngIf="!eventDetalji.Realizirano" class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
+                <label for="detaljiTermin">{{ 'SERVICES_AP_SATNICA_SATNICA' | translate }}
+                    <!-- Termin -->
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="!eventDetalji.Realizirano" style="padding:0px 10px 10px 10px;">
+            <button (click)="openEditTerminDialog()" style="margin:10px 0px 0px 0px;" pButton type="button" [label]="'PROFESOR_KALENDAR_BUTTON_LABEL_IZMIJENI' | translate" icon="fa fa-fw fa-pencil" class="ui-button-primary"></button>      
+
+        </div>
+        <div *ngIf="eventDetalji.Realizirano" class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
             <span class="ui-float-label">
                 <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
                 <label for="detaljiTermin">{{ 'SERVICES_AP_SATNICA_SATNICA' | translate }}
@@ -280,5 +292,50 @@
         <button type="button" pButton icon="fa fa-fw fa-check" (click)="closeDialogComboBoxStudenti(true)" label="{{ 'NASTVA_UNOSREALIZACIJE_SPREMI' | translate}}" class="ui-button-success"></button>
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogComboBoxStudenti(false)" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
+</p-dialog>
+
+
+
+<p-dialog [blockScroll]="true" [closable]="false" [header]="'PROFESOR_KALENDAR_BUTTON_LABEL_IZMIJENI' | translate " [(visible)]="displayEditTerminDialog" [modal]="true" [responsive]="true" [style]="{width: '650px', minWidth: '300px'}" [positionTop]="20" [minY]="100" [baseZIndex]="15000">
+        <div *ngIf="!eventDetalji ||!appVariables.Predavaonice">
+            <p-progressBar mode="indeterminate"></p-progressBar>
+        </div>
+        <div *ngIf="eventDetalji && appVariables.Predavaonice && konfliktMaxDateInline">
+            <div class="ui-g ui-fluid" [style.display]="enableDatePick ? 'none': 'block'">
+                <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-3" style="margin-left: -0.5em;">
+                    <p-listbox (onChange)="renderEditCalendar()" [listStyle]="{'max-height':'240px'}" [options]="SatniceComboBox" [(ngModel)]="eventDetalji.Satnica"  optionLabel="VrijemeOd"></p-listbox>
+                    <button (click)="undoEditTerminDialog()" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_RESET' | translate" icon="fa fa-times" class="ui-button-secondary"></button>      
+                    
+                </div>
+                <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4">
+                    <p-listbox filter="filter" (onChange)="renderEditCalendar()" [listStyle]="{'max-height':'204px'}" [options]="appVariables.Predavaonice" [(ngModel)]="eventDetalji.Predavaonica"  optionLabel="PredavaonicaNaziv"></p-listbox>
+                </div>
+                <div class="ui-g-12 ui-sm-5 ui-md-5 ui-lg-5" >
+                    <p-calendar [(ngModel)]="eventDetalji.Datum" (onSelect)="renderEditCalendar()" [maxDate]="konfliktMaxDateInline" [inline]="true">
+                        <ng-template pTemplate="date" let-date>
+                            <span [ngStyle]="{backgroundColor: (konfliktMaxDateInline.getDate() >= date.day) || (konfliktMaxDateInline.getMonth() >= date.month) || (konfliktMaxDateInline.getFullYear() >= date.year)  ? '#6ec5ff' : 'inherit'}" style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+                        </ng-template>
+                    </p-calendar>
+                </div>
+            </div>
+            <div *ngIf="enableDatePick && calendarEditDogadajiKonflikt.length == 0">
+                    <p-progressBar mode="indeterminate"></p-progressBar>
+                </div>
+            <div class="ui-g ui-fluid" [style.display]="!enableDatePick && calendarEditDogadajiKonflikt ? 'none': 'block'">
+                <div class="ui-g-12">
+                    <p-scrollPanel [style]="{width: '100%', height: '300px', 'border': 'none'}">
+                        <button disabled style="width:50%;color:#f44336" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_KONFLIKT' | translate" icon="fa fa-circle" class="ui-button-secondary"></button>    
+                        <button disabled style="width:25%;color:#004e8a" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_NOVI' | translate" icon="fa fa-circle" class="ui-button-secondary"></button>      
+                        <button style="width:25%;" (click)="undoEditTerminDialog()" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_RESET' | translate" icon="fa fa-times" class="ui-button-secondary"></button>      
+                        <div id="terminCalendar"></div>
+                    </p-scrollPanel>
+                </div>
+            </div>
+        </div>
+        <p-footer *ngIf="eventDetalji && appVariables.Predavaonice">
+            <button *ngIf="!editTermin && enableDatePick" pButton icon="fa fa-fw fa-exclamation-circle" (click)="enableDatePick=false" label="{{ 'SERVICES_GENERALSERVICES_IZMIJENI' | translate}}" class="ui-button-danger"></button>
+            <button *ngIf="editTermin && enableDatePick" type="button" pButton icon="fa fa-fw fa-check" (click)="saveChangesEditTermin()" label="{{ 'NASTVA_UNOSREALIZACIJE_SPREMI' | translate}}" class="ui-button-success"></button>
+            <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeEditTerminDialog()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+        </p-footer>
 </p-dialog>
 

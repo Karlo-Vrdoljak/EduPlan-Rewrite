@@ -14,6 +14,8 @@
         </div>
     </div>
 </div>
+<p-toast [style]="{marginTop: '50px'}" position="bottom-left" [baseZIndex]="100000"></p-toast>
+
 
 <div *ngIf="!events">
     <p-progressBar mode="indeterminate"></p-progressBar>
@@ -22,12 +24,24 @@
 <div id="agenda"></div>
 
 
-<p-dialog  [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
-    <div *ngIf="!eventDetalji">
+<p-dialog  [blockScroll]="true" [closable]="false"  [header]="'KATALOZI_PREDMET_DETALJI' | translate " [(visible)]="displayEventDialog" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="1000">
+    <div *ngIf="!eventDetalji && !prisutniStudenti">
         <p-progressBar mode="indeterminate"></p-progressBar>
     </div>
-    <div class="ui-g ui-fluid form-group" *ngIf="eventDetalji" style="padding-top:5px;">
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+    <div class="ui-g ui-fluid form-group" *ngIf="eventDetalji && prisutniStudenti" style="padding-top:5px;">
+        <div *ngIf="!eventDetalji.Realizirano" class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <span class="ui-float-label">
+                <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
+                <label for="detaljiTermin">{{ 'SERVICES_AP_SATNICA_SATNICA' | translate }}
+                    <!-- Termin -->
+                </label>
+            </span>
+        </div>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="!eventDetalji.Realizirano" style="padding:0px 10px 10px 10px;">
+            <button (click)="openEditTerminDialog()" style="margin:10px 0px 0px 0px;" pButton type="button" [label]="'PROFESOR_KALENDAR_BUTTON_LABEL_IZMIJENI' | translate" icon="fa fa-fw fa-pencil" class="ui-button-primary"></button>      
+
+        </div>
+        <div *ngIf="eventDetalji.Realizirano" class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
             <span class="ui-float-label">
                 <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
                 <label for="detaljiTermin">{{ 'SERVICES_AP_SATNICA_SATNICA' | translate }}
@@ -58,13 +72,12 @@
                 </label>
             </span>
         </div>
-        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left: 10px;">
-                <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
-                <p-toggleButton (onChange)="handleRealizacija($event)" [onLabel]="'NASTAVA_AUTOMATSKAREALIZACIJA_REALIZIRANO' | translate" [offLabel]="'NASTAVA_NASTAVAREALIZACIJAGRUPNA_REALIZIRAJ' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano" [disabled]="eventDetalji.Realizirano"></p-toggleButton>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="appVariables.EducardAktivan" style="padding:5px 10px 10px 10px;">
+            {{ 'NASTVA_UNOSREALIZACIJE_OCITANEDUCARDOM' | translate }}
+            <p-triStateCheckbox disabled  [(ngModel)]="eventDetalji.Prisutan" ></p-triStateCheckbox>
         </div>
-        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding-left:10px;">
-                <!-- <p-inputSwitch id="detaljiRealizirano" [(ngModel)]="eventDetalji.Realizirano"></p-inputSwitch> -->
-                <p-toggleButton disabled [onLabel]="'KATALOZI_BDNASTAVNIKSURADNIKRASPORED_PRISUTAN' | translate" [offLabel]="'STUDENTCALENDAR_ODSUTAN' | translate" onIcon="fa fa-check" offIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Prisutan"></p-toggleButton>
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" *ngIf="appVariables.EducardAktivan" style="padding:0px 10px 10px 10px;">
+            <p-button style="width: 100%;" icon="fa fa-fw fa-rss" (click)="openStudentListDialog()" label="{{ 'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate}}" class="ui-button-primary"></p-button>
         </div>
         <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding:10px;">
             <span class="ui-float-label">
@@ -86,17 +99,17 @@
         
     </div>
 
-    <p-footer>
+    <p-footer *ngIf="eventDetalji">
 
-        <span *ngIf="appVariables.EducardAktivan">
-            <button type="button" pButton icon="fa fa-fw fa-rss" (click)="displayStudentiEventDialog=true" label="{{ 'NASTVA_UNOSREALIZACIJE_PRISUSTVOSTUDENATA' | translate}}" class="ui-button-success"></button>
-        </span>
+        <p-toggleButton (onChange)="handleRealizacija()" [onLabel]="'NASTVA_UNOSREALIZACIJE_UKLONIREALIZACIJU' | translate" [offLabel]="'NASTAVA_NASTAVAREALIZACIJAGRUPNA_REALIZIRAJ' | translate" offIcon="fa fa-check" onIcon="fa fa-exclamation-circle" iconPos="right" [(ngModel)]="eventDetalji.Realizirano"></p-toggleButton>
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogEvent()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
 
-<p-dialog [header]="'NASTVA_UNOSREALIZACIJE_PRISUSTVOSTUDENATA' | translate " [(visible)]="displayStudentiEventDialog" [modal]="true" [responsive]="true" [style]="{width: '650px', minWidth: '300px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
-    <div class="ui-g ui-fluid" *ngIf="prisutniStudenti && eventDetalji">
+
+
+<p-dialog [blockScroll]="true" [closable]="false" [header]="'NASTVA_UNOSREALIZACIJE_PRISUSTVOSTUDENATA' | translate " [(visible)]="displayStudentiEventDialog" [modal]="true" [responsive]="true" [style]="{width: '650px', minWidth: '300px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div class="ui-g ui-fluid" *ngIf="prisutniStudenti && eventDetalji && eventsBloksat">
         <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
             <span class="ui-float-label">
                 <input id="detaljiTermin" type="text" size="30" [ngModel]="eventDetalji.termin" pInputText disabled> 
@@ -112,7 +125,7 @@
                 </label>
             </span>
         </div>
-        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px 10px 5px 10px;">
             <span class="ui-float-label">
                 <input id="detaljiPodTipPredavanjaNaziv" type="text" size="30" [ngModel]="eventDetalji.PodTipPredavanjaNaziv" pInputText disabled> 
                 <label for="detaljiPodTipPredavanjaNaziv">{{ 'KATALOZI_PODTIPPREDAVANJA_PODTIPNASTAVE' | translate }}
@@ -120,7 +133,7 @@
                 </label>
             </span>
         </div>
-        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px 10px 5px 10px;">
             <span class="ui-float-label">
                 <input id="detaljiSifraPredavaonice" type="text" size="30" [ngModel]="eventDetalji.SifraPredavaonice" pInputText disabled> 
                 <label for="detaljiSifraPredavaonice">{{ 'GRUPEZANASTAVU_GRUPEZANASTAVUIZVJESTAJ_PREDAVAONICA' | translate }}
@@ -128,8 +141,20 @@
                 </label>
             </span>
         </div>
-        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;" *ngIf="prisutniStudenti && eventDetalji">
-            <p-table [value]="prisutniStudenti" [columns]="prisutnostStudenata" selectionMode="single" [scrollable]="true" scrollHeight="30vh" dataKey="JMBAG">
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding-left:0px 10px; opacity:0.5;"><hr/></div>
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 0px 10px;">
+            <p-toggleButton [disabled]="eventDetalji.Realizirano || (eventsBloksat.length == 0)" (click)="handleBloksatSwapData()" *ngIf="!appVariables.ObaveznoOcitavanjeSvakiSatDaNe" [style]="{'width':'25%', 'margin':'0px 5px 0px 0px'}" [onLabel]="'PROFESOR_KALENDAR_BLOKSAT' | translate" [offLabel]="'PROFESOR_KALENDAR_BLOKSAT' | translate" onIcon="fa fa-check" offIcon="fa fa-times" iconPos="left" [(ngModel)]="hasBloksat" ></p-toggleButton>
+            <button *ngIf="!eventDetalji.Realizirano" [disabled]="eventDetalji.Realizirano" (click)="handleDeleteStudentsClick()" style="width:35%; padding-left:5px; margin:0px 5px;" pButton type="button" [label]="'NASTVA_UNOSREALIZACIJE_UKLONIODABRANESTUDENTE' | translate" icon="fa fa-user-times" class="ui-button-danger"></button>    
+            <button *ngIf="!eventDetalji.Realizirano" [disabled]="eventDetalji.Realizirano" (click)="openDialogComboBoxStudenti()" style="width:25%; padding-left:5px; margin:0px 5px;" pButton type="button" [label]="'NASTVA_UNOSREALIZACIJE_DODAJSTUDENTE' | translate" icon="fa fa-user-plus" class="ui-button-success"></button>      
+        </div>
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 5px 10px;" *ngIf="prisutniStudenti && eventDetalji">
+            <p-table #dt [rows]="40" [paginator]="true" [value]="prisutniStudenti" [columns]="prisutnostStudenata" [(selection)]="studentiZaBrisanje"  [scrollable]="true" scrollHeight="35vh" dataKey="JMBAG">
+                <ng-template pTemplate="caption">
+                    <div style="text-align: left">        
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Filter..." (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
                 <ng-template pTemplate="colgroup" let-columns>
                     <colgroup>
                         <col *ngFor="let col of columns" [style.width]="col.width">
@@ -138,27 +163,44 @@
 
                 <ng-template pTemplate="header" let-columns>
                     <tr>
+                        <th style="width:7%;">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
                         <th *ngFor="let col of columns" pResizableColumn style="text-align: center;">
                             {{col.header}}
                         </th>
                     </tr>
                 </ng-template>
 
-                <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr [pSelectableRow]="rowData">
+                            <td [pSelectableRow]="rowData" style="width:7%;">
+                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                            </td>
                         <td *ngFor="let col of columns" class="ui-resizable-column"
                             style="text-align: center;">
-                            <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
-                                <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
-                                        [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                            <span (click)="!eventDetalji.Realizirano ? togglePrisutnost(rowData, col.field) : ''" *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                                <span class="hoverMe" [style.color]="rowData[col.field] == 0 ? 'green' : 'red' "><i
+                                       style="padding: 5px 50px 5px 30px;" [ngClass]="rowData[col.field] == 0 ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
                             </span>
                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
                         </td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="summary">
-                    <ng-container *ngIf="eventDetalji.Prisutnost; else fallback">
-                    Prisutno je {{ eventDetalji.Prisutnost }} studenata
+                    <ng-container *ngIf="eventDetalji && (prisutniStudenti.length != 0); else fallback">
+                        <div *ngIf="studentiZaBrisanje">
+                            <div *ngIf="studentiZaBrisanje.length > 0">
+                                {{ 'PROFESOR_KALENDAR_COMBOBOX_ZABRISANJE' | translate }} &bull;
+                                <span style="color: red;"> {{ studentiZaBrisanje.length }}</span> 
+                            </div>
+                            <div *ngIf="studentiZaBrisanje.length == 0">
+                                    <div *ngIf="prisutniStudenti.length > 0">
+                                        {{ 'PROFESOR_KALENDAR_COMBOBOX_PRISUTAN' | translate }}
+                                        &bull; {{ prisutniStudenti.length }} 
+                                    </div>
+                            </div>
+                        </div>
                     </ng-container>
                     <ng-template #fallback>
                         {{ 'NASTAVA_BDSKOLSKAGODINASTUDENTI_NEMA_PODATAKA' | translate}}                        
@@ -169,9 +211,129 @@
         </div>
         
     </div>
-    <p-footer>
+    <p-footer *ngIf="eventDetalji">
+        <button *ngIf="!eventDetalji.Realizirano" type="button" pButton icon="fa fa-fw fa-check" (click)="closeDialogPrisutnost()" label="{{ 'NASTVA_UNOSREALIZACIJE_SPREMI' | translate}}" class="ui-button-success"></button>
         <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogPrisutnost()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
+</p-dialog>
+
+
+<p-dialog [blockScroll]="true" [closable]="false" [header]="'VIEWS_KATALOZI_PREDMET_STUDENTI' | translate " [(visible)]="displayComboBoxStudenti" [modal]="true" [responsive]="true" [style]="{width: '650px', minWidth: '300px'}" [positionTop]="20" [minY]="100" [baseZIndex]="15000">
+    <div *ngIf="!comboBoxStudenti">
+        <p-progressBar mode="indeterminate"></p-progressBar>
+    </div>
+    <div *ngIf="comboBoxStudenti" class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 5px 10px;">
+            <p-table #cs [rows]="40" [paginator]="true" [value]="comboBoxStudenti" [columns]="colsComboBoxStudenti" [(selection)]="selectedComboBoxStudenti"  [scrollable]="true" scrollHeight="35vh" dataKey="JMBAG">
+                <ng-template pTemplate="caption">
+                    <div style="text-align: left">        
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="Filter..." (input)="cs.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                        <col *ngFor="let col of columns" [style.width]="col.width">
+                    </colgroup>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th style="width:7%;">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th *ngFor="let col of columns" pResizableColumn style="text-align: center;">
+                            {{col.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                            <td [pSelectableRow]="rowData" style="width:7%;">
+                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                            </td>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                        <ng-container *ngIf="comboBoxStudenti; else fallback">
+                            <div *ngIf="selectedComboBoxStudenti">
+                                <div *ngIf="selectedComboBoxStudenti.length > 0">
+                                    {{ 'PROFESOR_KALENDAR_COMBOBOX_ODABRANO' | translate }} &bull;
+                                    <span style="color: #004e8a;"> {{ selectedComboBoxStudenti.length }}</span> 
+                                </div>
+                                <div *ngIf="selectedComboBoxStudenti.length == 0">
+                                        <div *ngIf="comboBoxStudenti.length > 0">
+                                            {{ 'PROFESOR_KALENDAR_COMBOBOX_BROJ' | translate }}
+                                            &bull; {{ comboBoxStudenti.length }} 
+                                        </div>
+                                        <div *ngIf="comboBoxStudenti.length == 0">
+                                            {{ 'NASTAVA_BDSKOLSKAGODINASTUDENTI_NEMA_PODATAKA' | translate}}                        
+                                        </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-template #fallback>
+                            {{ 'NASTAVA_BDSKOLSKAGODINASTUDENTI_NEMA_PODATAKA' | translate}}                        
+                        </ng-template>
+                        
+                </ng-template>
+            </p-table>
+        </div>
+        
+    </div>
+    <p-footer *ngIf="comboBoxStudenti">
+        <button type="button" pButton icon="fa fa-fw fa-check" (click)="closeDialogComboBoxStudenti(true)" label="{{ 'NASTVA_UNOSREALIZACIJE_SPREMI' | translate}}" class="ui-button-success"></button>
+        <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeDialogComboBoxStudenti(false)" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+
+
+
+<p-dialog [blockScroll]="true" [closable]="false" [header]="'PROFESOR_KALENDAR_BUTTON_LABEL_IZMIJENI' | translate " [(visible)]="displayEditTerminDialog" [modal]="true" [responsive]="true" [style]="{width: '650px', minWidth: '300px'}" [positionTop]="20" [minY]="100" [baseZIndex]="15000">
+        <div *ngIf="!eventDetalji ||!appVariables.Predavaonice">
+            <p-progressBar mode="indeterminate"></p-progressBar>
+        </div>
+        <div *ngIf="eventDetalji && appVariables.Predavaonice && konfliktMaxDateInline">
+            <div class="ui-g ui-fluid" [style.display]="enableDatePick ? 'none': 'block'">
+                <div class="ui-g-12 ui-sm-3 ui-md-3 ui-lg-3" style="margin-left: -0.5em;">
+                    <p-listbox (onChange)="renderEditCalendar()" [listStyle]="{'max-height':'240px'}" [options]="SatniceComboBox" [(ngModel)]="eventDetalji.Satnica"  optionLabel="VrijemeOd"></p-listbox>
+                    <button (click)="undoEditTerminDialog()" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_RESET' | translate" icon="fa fa-times" class="ui-button-secondary"></button>      
+                    
+                </div>
+                <div class="ui-g-12 ui-sm-4 ui-md-4 ui-lg-4">
+                    <p-listbox filter="filter" (onChange)="renderEditCalendar()" [listStyle]="{'max-height':'204px'}" [options]="appVariables.Predavaonice" [(ngModel)]="eventDetalji.Predavaonica"  optionLabel="PredavaonicaNaziv"></p-listbox>
+                </div>
+                <div class="ui-g-12 ui-sm-5 ui-md-5 ui-lg-5" >
+                    <p-calendar [(ngModel)]="eventDetalji.Datum" (onSelect)="renderEditCalendar()" [maxDate]="konfliktMaxDateInline" [inline]="true">
+                        <ng-template pTemplate="date" let-date>
+                            <span [ngStyle]="{backgroundColor: (konfliktMaxDateInline.getDate() >= date.day) || (konfliktMaxDateInline.getMonth() >= date.month) || (konfliktMaxDateInline.getFullYear() >= date.year)  ? '#6ec5ff' : 'inherit'}" style="border-radius:50%;padding: .25em;width: 1.75em; height:1.75em; display:block;">{{date.day}}</span>
+                        </ng-template>
+                    </p-calendar>
+                </div>
+            </div>
+            <div *ngIf="enableDatePick && calendarEditDogadajiKonflikt.length == 0">
+                    <p-progressBar mode="indeterminate"></p-progressBar>
+                </div>
+            <div class="ui-g ui-fluid" [style.display]="!enableDatePick && calendarEditDogadajiKonflikt ? 'none': 'block'">
+                <div class="ui-g-12">
+                    <p-scrollPanel [style]="{width: '100%', height: '300px', 'border': 'none'}">
+                        <button disabled style="width:50%;color:#f44336" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_KONFLIKT' | translate" icon="fa fa-circle" class="ui-button-secondary"></button>    
+                        <button disabled style="width:25%;color:#004e8a" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_NOVI' | translate" icon="fa fa-circle" class="ui-button-secondary"></button>      
+                        <button style="width:25%;" (click)="undoEditTerminDialog()" pButton type="button" [label]="'PROFESOR_IZMJENA_TERMINA_RESET' | translate" icon="fa fa-times" class="ui-button-secondary"></button>      
+                        <div id="terminCalendar"></div>
+                    </p-scrollPanel>
+                </div>
+            </div>
+        </div>
+        <p-footer *ngIf="eventDetalji && appVariables.Predavaonice">
+            <button *ngIf="!editTermin && enableDatePick" pButton icon="fa fa-fw fa-exclamation-circle" (click)="enableDatePick=false" label="{{ 'SERVICES_GENERALSERVICES_IZMIJENI' | translate}}" class="ui-button-danger"></button>
+            <button *ngIf="editTermin && enableDatePick" type="button" pButton icon="fa fa-fw fa-check" (click)="saveChangesEditTermin()" label="{{ 'NASTVA_UNOSREALIZACIJE_SPREMI' | translate}}" class="ui-button-success"></button>
+            <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeEditTerminDialog()" label="{{ 'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
+        </p-footer>
 </p-dialog>
 
 

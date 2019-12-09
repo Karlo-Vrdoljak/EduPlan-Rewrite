@@ -1,6 +1,6 @@
 export interface CalendarEvent {
-    id;
-    groupId;
+    id?;
+    groupId?;
     title: string;
     start;
     end;
@@ -11,6 +11,7 @@ export interface CalendarEvent {
     // backgroundColor?;
     // textColor?;
     color?;
+    rendering?;
     extendedProps?: {
         Datum;
         DatumVrijemeOd;

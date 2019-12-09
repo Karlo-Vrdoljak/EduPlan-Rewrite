@@ -2715,6 +2715,16 @@
   "PROFESOR_KALENDAR_MSG_REFRESH":"Ažuriranje uspješno",
   "PROFESOR_KALENDAR_SUBMIT":"Spremi",
   "PROFESOR_KALENDAR_MSG_REFRESH_ERROR": "Odaberite nastavnika/suradnika!",
-  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_NEMA_PRAVA":"Ne posjedujete potrebna prava!"
+  "PROFESOR_KALENDAR_MSG_DETAIL_REALIZACIJA_REMOVE_NEMA_PRAVA":"Ne posjedujete potrebna prava!",
+  "PROFESOR_KALENDAR_BUTTON_LABEL_IZMIJENI":"Izmijeni termin",
+  "PROFESOR_IZMJENA_TERMINA_WARNING": "Upozorenje!",
+  "PROFESOR_IZMJENA_TERMINA_WARNING_LABEL": "U odabranoj predavaonici traženi termin je popunjen!\nMolimo vas odaberite drugi",
+  "PROFESOR_IZMJENA_TERMINA_SUCCESS":"Nema konflikta!",
+  "PROFESOR_IZMJENA_TERMINA_SUCCESS_LABEL":"U odabranoj predavaonici je moguće realiziranje nastave za traženi termin",
+  "PROFESOR_IZMJENA_TERMINA_RESET":"Poništi promjene",
+  "PROFESOR_IZMJENA_TERMINA_KONFLIKT":"Konflikt jednog ili više istodobnih termina",
+  "PROFESOR_IZMJENA_TERMINA_NOVI":"Vaša izmjena"
 
+ 
+  
 }
