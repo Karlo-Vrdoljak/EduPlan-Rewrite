@@ -2723,7 +2723,14 @@
   "PROFESOR_IZMJENA_TERMINA_SUCCESS_LABEL":"In the selected classroom it is possible to carry out the class for the requested term",
   "PROFESOR_IZMJENA_TERMINA_RESET":"Undo changes",
   "PROFESOR_IZMJENA_TERMINA_KONFLIKT":"Conflict of one or more concurrent periods",
-  "PROFESOR_IZMJENA_TERMINA_NOVI":"Your modification"
+  "PROFESOR_IZMJENA_TERMINA_NOVI":"Your modification",
+  "PROFESOR_KALENDAR_UKLONI": "Remove",
+  "PROFESOR_KALENDAR_DODAJ": "Add",
+  "PROFESOR_IZMJENA_TERMINA_KONFLIKT_MOBITEL":"Conflict",
+  "PROFESOR_IZMJENA_TERMINA_NOVI_MOBITEL":"Edited",
+  "PROFESOR_IZMJENA_TERMINA_RESET_MOBITEL":"Undo",
+  "PROFESOR_KALENDAR_AGENDA":"Agenda"
+
 
 
 

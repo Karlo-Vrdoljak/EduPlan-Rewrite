@@ -6,7 +6,6 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import allLocales from "@fullcalendar/core/locales-all";
 import interactionPlugin from "@fullcalendar/interaction";
 import { TranslateService } from "@ngx-translate/core";
-import { LanguageHandler } from "../app.languageHandler";
 import { StudentiService } from "../_services/studenti.service";
 import { AppVariables } from "../_interfaces/_configAppVariables";
 import { CalendarConfig } from "../_interfaces/_configCalendar";
@@ -42,7 +41,8 @@ export class ProfesorAgendaComponent implements OnInit {
     displayEditTerminDialog:boolean = false;
     enableDatePick:boolean = false;
     editTermin:boolean = false;
-    
+    loading:boolean = false;
+
     eventDetalji: any;
     prisutniStudenti: any[];
     bloksatPrisutniStudenti: any[];
@@ -244,6 +244,7 @@ export class ProfesorAgendaComponent implements OnInit {
         this.params.DatumDo = this.calendarConfig.formatDate(
             this.rangeDates[1]
         );
+        this.loading = true;
             
         this.profesorSerivce
             .getNastavnikRaspored(this.params)
@@ -256,8 +257,27 @@ export class ProfesorAgendaComponent implements OnInit {
 
                 this.calendar.addEventSource(events);
                 this.calendar.rerenderEvents();
-                if (!isRealizacija) {
+                if (!isRealizacija && isRefresh == false) {
                     this.calendar.gotoDate(this.rangeDates[0]);
+                }
+            }, error => {console.log(error);
+            }, () => {
+                this.loading = false;
+                if(isRefresh) {
+                    if(!this.events) {
+                        this.messageService.add({
+                            severity: "warn",
+                            summary: this.translate.instant("STUDENT_STUDENTOSOBNIPODACI_IZMJENA_ERROR"),
+                            detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH_ERROR")
+                        });
+                        return;
+                    } else {
+                        this.messageService.add({
+                            severity: "info",
+                            summary: this.translate.instant("STUDENT_BDSTUDENTPODACINASTUDIJU_PROMJENA_SUCCESS"),
+                            detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH")
+                        });
+                    }
                 }
             });
     }
@@ -640,12 +660,11 @@ export class ProfesorAgendaComponent implements OnInit {
                                 buttonText: this.translations.STUDENT_KALENDAR_MJESEC
                             }
                         },
-
                         height: "auto",
                         contentHeight: screen.height - 337 - 57.25,
                         header: {
                             left: "prev,next",
-                            center: "today",
+                            center: "title",
                             right: "listWeek,listMonth"
                         },
                         events: this.events,

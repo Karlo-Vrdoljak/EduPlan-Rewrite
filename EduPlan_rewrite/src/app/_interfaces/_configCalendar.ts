@@ -76,6 +76,10 @@ export class CalendarConfig {
                return screenWidth >= 1280 ? true : false;
            }
 
+           getDeviceWidth() {
+               return screen.width;
+           }
+
            public parseTitleLargeDevice(event?, data?: string[]) {
                return data.join("\n").trim();
            }
@@ -318,27 +322,23 @@ export class CalendarConfig {
                return [
                    {
                        field: "JMBAG",
-                       header: prijevod.KATALOZI_NASTAVNIKSURADNIKPREDMETI_JMBAG
+                       header: prijevod.KATALOZI_NASTAVNIKSURADNIKPREDMETI_JMBAG,
                    },
                    {
                        field: "Ime",
-                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_IME
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_IME,
                    },
                    {
                        field: "Prezime",
-                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_PREZIME
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_PREZIME,
                    },
                    {
                        field: "StudijNazivKratica",
-                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA,
                    },
-                //    {
-                //        field: "Prisutan",
-                //        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
-                //    },
                    {
                         field: "ProfesorIskljucioDaNe",
-                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
+                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN,
                    }
                ];
            }

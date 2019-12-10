@@ -35,7 +35,7 @@ export class AppMenuProfesorKalendarComponent implements OnInit {
     ngOnInit() {
         this.onTranslateChange();
         var result = this.translate
-            .get(["VIEWS_KATALOZI_PREDMET_MOJRASPORED", "STUDENT_KALENDAR_MOJAAGENDA", "PROFESOR_KALENDAR_RASPORED"])
+            .get(["VIEWS_KATALOZI_PREDMET_MOJRASPORED", "STUDENT_KALENDAR_MOJAAGENDA", "PROFESOR_KALENDAR_RASPORED","PROFESOR_KALENDAR_AGENDA"])
             .toPromise()
             .then(res => {
                 this.model = [
@@ -46,13 +46,18 @@ export class AppMenuProfesorKalendarComponent implements OnInit {
                     },
                     {
                         label: res.STUDENT_KALENDAR_MOJAAGENDA,
-                        icon: "fa fa-clipboard",
+                        icon: "fa fa-list-alt",
                         routerLink: ["/vProfesorAgenda"]
                     },
                     {
                         label: res.PROFESOR_KALENDAR_RASPORED,
                         icon: "fa fa-calendar-o",
                         routerLink: ["/vPregledProfesorKalendar"]
+                    },
+                    {
+                        label: res.PROFESOR_KALENDAR_AGENDA,
+                        icon: "fa fa-list",
+                        routerLink: ["/vPregledProfesorAgenda"]
                     }
                 ];
             });
@@ -63,20 +68,25 @@ export class AppMenuProfesorKalendarComponent implements OnInit {
         this.translate.onLangChange.subscribe((eventKalendar:LangChangeEvent)=> {
             this.model = [
                 {
-                    label: this.translate.instant("VIEWS_KATALOZI_PREDMET_MOJRASPORED"),
-                    icon: "fa fa-calendar",
-                    routerLink: ["/vProfesorKalendar"]
-                },
-                {
-                    label: this.translate.instant("STUDENT_KALENDAR_MOJAAGENDA"),
-                    icon: "fa fa-clipboard",
-                    routerLink: ["/vProfesorAgenda"]
-                },
-                {
-                    label: this.translate.instant("PROFESOR_KALENDAR_RASPORED"),
-                    icon: "fa fa-clipboard",
-                    routerLink: ["/vPregledProfesorKalendar"]
-                }
+                        label: this.translate.instant("VIEWS_KATALOZI_PREDMET_MOJRASPORED"),
+                        icon: "fa fa-calendar",
+                        routerLink: ["/vProfesorKalendar"]
+                    },
+                    {
+                        label: this.translate.instant("STUDENT_KALENDAR_MOJAAGENDA"),
+                        icon: "fa fa-list-alt",
+                        routerLink: ["/vProfesorAgenda"]
+                    },
+                    {
+                        label: this.translate.instant("PROFESOR_KALENDAR_RASPORED"),
+                        icon: "fa fa-calendar-o",
+                        routerLink: ["/vPregledProfesorKalendar"]
+                    },
+                    {
+                        label: this.translate.instant("PROFESOR_KALENDAR_AGENDA"),
+                        icon: "fa fa-list",
+                        routerLink: ["/vPregledProfesorAgenda"]
+                    }
             ];
             
         });

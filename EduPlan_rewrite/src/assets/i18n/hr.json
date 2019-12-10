@@ -2723,7 +2723,15 @@
   "PROFESOR_IZMJENA_TERMINA_SUCCESS_LABEL":"U odabranoj predavaonici je moguće realiziranje nastave za traženi termin",
   "PROFESOR_IZMJENA_TERMINA_RESET":"Poništi promjene",
   "PROFESOR_IZMJENA_TERMINA_KONFLIKT":"Konflikt jednog ili više istodobnih termina",
-  "PROFESOR_IZMJENA_TERMINA_NOVI":"Vaša izmjena"
+  "PROFESOR_IZMJENA_TERMINA_NOVI":"Vaša izmjena",
+  "PROFESOR_KALENDAR_UKLONI": "Ukloni",
+  "PROFESOR_KALENDAR_DODAJ": "Dodaj",
+  "PROFESOR_IZMJENA_TERMINA_KONFLIKT_MOBITEL":"Konflikt termina",
+  "PROFESOR_IZMJENA_TERMINA_NOVI_MOBITEL":"Izmjena",
+  "PROFESOR_IZMJENA_TERMINA_RESET_MOBITEL":"Poništi",
+  "PROFESOR_KALENDAR_AGENDA":"Agenda"
+
+
 
  
   

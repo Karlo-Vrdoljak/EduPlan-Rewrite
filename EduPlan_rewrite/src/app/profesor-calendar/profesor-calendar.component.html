@@ -20,6 +20,9 @@
 </div>
 <!-- <hr style="color: #c2dfd5; padding-right: 10px;"><br/> -->
 
+<div *ngIf="loading" style="padding: 1em;">
+    <p-progressBar mode="indeterminate"></p-progressBar>
+</div> 
 <div *ngIf="!events">
     <p-progressBar mode="indeterminate"></p-progressBar>
 </div> 

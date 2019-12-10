@@ -54,6 +54,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     displayEditTerminDialog:boolean = false;
     enableDatePick:boolean = false;
     editTermin:boolean = false;
+    loading:boolean = false;
+
     
     eventDetalji: any;
     prisutniStudenti: any[];
@@ -123,10 +125,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                       this.calendarConfig.getColors().Realizirano +
                       `; font-size:1.3em;"></i>
             </span>`
-                : // `<span class="fc-title" style="float:right; `+ (this.monthButton? `padding-right:1.2em;` : `` )+` padding-top:0.2em;">
-                  //     <i class="fa fa-rss" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; font-size:1.3em;"></i>
-                  // </span>`
-                  ``;
+                : ``;
         }
         return "";
     }
@@ -159,8 +158,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                   (this.monthButton ? ` padding-right:0.75em;` : ``) +
                   (this.weekButton ? ` padding-top:0.3em;` : ``) +
                   ` font-size:1.5em; "></span>`
-            : // : `<span class="fa fa-times" style="color:` + this.calendarConfig.getColors().NijeRealizirano + `; float:right; `+ (this.monthButton? ` padding-right:0.75em;` : `` ) + ` font-size:1.5em; "></span>`;
-              ``;
+            : ``;
     }
 
     /**
@@ -182,6 +180,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             .join(" ")
             .trim();
     }
+
     /**
      * @Opis SLuži za upućivanje korisnika gdje postoje konflikti u satnici za DATUM => SATNICU => PREDAVAONICU
      */
@@ -287,22 +286,6 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
     /***********************************************************************************************************/
     synchronizeCalendarEvents(isRealizacija = false, isRefresh = false) {
 
-        if(isRefresh) {
-            if(!this.events) {
-                this.messageService.add({
-                    severity: "warn",
-                    summary: this.translate.instant("STUDENT_STUDENTOSOBNIPODACI_IZMJENA_ERROR"),
-                    detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH_ERROR")
-                });
-                return;
-            } else {
-                this.messageService.add({
-                    severity: "info",
-                    summary: this.translate.instant("STUDENT_BDSTUDENTPODACINASTUDIJU_PROMJENA_SUCCESS"),
-                    detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH")
-                });
-            }
-        }
         this.calendarConfig.passedDate = this.rangeDates;
 
         this.params.DatumOd = this.calendarConfig.formatDate(
@@ -311,6 +294,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         this.params.DatumDo = this.calendarConfig.formatDate(
             this.rangeDates[1]
         );
+        this.loading = true;
             
         this.profesorSerivce
             .getNastavnikRaspored(this.params)
@@ -323,8 +307,27 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
 
                 this.calendar.addEventSource(events);
                 this.calendar.rerenderEvents();
-                if (!isRealizacija) {
+                if (!isRealizacija && isRefresh == false) {
                     this.calendar.gotoDate(this.rangeDates[0]);
+                }
+            }, error => {console.log(error);
+            }, () => {
+                this.loading = false;
+                if(isRefresh) {
+                    if(!this.events) {
+                        this.messageService.add({
+                            severity: "warn",
+                            summary: this.translate.instant("STUDENT_STUDENTOSOBNIPODACI_IZMJENA_ERROR"),
+                            detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH_ERROR")
+                        });
+                        return;
+                    } else {
+                        this.messageService.add({
+                            severity: "info",
+                            summary: this.translate.instant("STUDENT_BDSTUDENTPODACINASTUDIJU_PROMJENA_SUCCESS"),
+                            detail: this.translate.instant("PROFESOR_KALENDAR_MSG_REFRESH")
+                        });
+                    }
                 }
             });
     }
@@ -393,7 +396,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
             
             this.selectedComboBoxStudenti = this.selectedComboBoxStudenti.filter(e => {
                 return this.eventDetalji.KraticaStudijaProvjera.includes(e.StudijNazivKratica)
-            })
+            });
             if (length != this.selectedComboBoxStudenti.length) {
                 this.messageService.add({
                     severity: "warn",
@@ -528,9 +531,11 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         studenti[this.prisutniStudenti.indexOf(rowData)] = editedStudent;
         this.prisutniStudenti = studenti;
     }
+
     isBoolean(val) {
         return [0, 1, true, false].includes(val);
     }
+
     /***********************************************************************************************************
     *           METODE ZA MANIPULACIJU STUDENATA - END
     /***********************************************************************************************************/
@@ -640,9 +645,6 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         this.SatniceComboBox = this.appVariables.sveSatnice.filter((e:Satnice) => {
             if(e.PkSatnica <=20 ) { return e; }
         });
-        // console.log(this.calendarConfig.passedDate);
-        
-        // console.log(this.appVariables.PkSkolskaGodina);
         if (screen.width <= 600) {
             this.router.navigate(["/vProfesorAgenda", "sm"]);
         }
@@ -723,7 +725,6 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                     PkPredavaonica:
                                         arg.event.extendedProps.PkPredavaonica
                                 };
-                                // console.log("INIT PARAMS",parameters);
                                 this.opciService
                                     .getPrikazDogadajaNaDatum(parameters)
                                     .subscribe((data: any[]) => {
@@ -745,11 +746,8 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                                     .getStudentPrisutnostNaNastavi(params)
                                                     .subscribe((data:any[]) => {
                                                             this.resolvedPromisesCount ++;
-                                                            // console.log("bloksatPrijeMergea",this.bloksatPrisutniStudenti);
                                                             this.bloksatPrisutniStudenti = this.bloksatPrisutniStudenti.concat(data);
                                                             
-                                                            // console.log("bloksatNakonMergea",this.bloksatPrisutniStudenti);
-                                                            // console.log("BLOKSAT_EVENT",self);
                                                             
                                                         },(err) => {console.log(err);
                                                         },() => {
@@ -787,7 +785,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                                         this.resolvedPromisesCount = 0;
                                                         if(!this.eventDetalji) {
                                                             this.makeStudentList();
-                                                            this.eventDetalji = this.calendarConfig.generateEventDetails(arg,start,end,this.prisutniStudenti.length,);
+                                                            this.eventDetalji = this.calendarConfig.generateEventDetails(arg,start,end,this.prisutniStudenti.length);
                                                             if (this.eventsBloksat.length > 0) {
                                                                 this.hasBloksat = true;
                                                             }
@@ -796,7 +794,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
                                                 } else {
                                                     
                                                     this.prisutniStudenti = this.apiStudenti;
-                                                    this.eventDetalji = this.calendarConfig.generateEventDetails(arg,start,end,this.prisutniStudenti.length,);
+                                                    this.eventDetalji = this.calendarConfig.generateEventDetails(arg,start,end,this.prisutniStudenti.length);
                                                     this.prisutniStudenti = this.prisutniStudenti
                                                         .sort((a,b) => {
                                                         return a.Prezime.toLowerCase() > b.Prezime.toLowerCase() ? 1 : a.Prezime.toLowerCase() === b.Prezime.toLowerCase() ? (a.Ime.toLowerCase() > b.Ime.toLowerCase() ? 1 : -1 ) : -1
@@ -1047,6 +1045,7 @@ export class ProfesorCalendarComponent implements OnInit, AfterViewInit {
         }
     }
     
+
     openEditTerminDialog() {
         if (!this.konfliktMaxDateInline) {
             this.konfliktMaxDateInline = new Date();

@@ -57,3 +57,6 @@
 :host >>> .ui-widget:disabled {
     opacity: 1;
 }
+:host >>> .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 5px!important;
+}
