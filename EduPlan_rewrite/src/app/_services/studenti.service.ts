@@ -122,7 +122,20 @@ export class StudentiService {
             })
             .pipe(
                 retry(this.config.APIRetryCount),
-                catchError(this.appService.handleError("StudentiService.getPredmetStudenti"))
+                catchError(this.appService.handleError("StudentiService.getStudentPrisutnostNaNastavi"))
+            );
+    }
+    /**
+     * @Opis Vraca sliku, otimbrane studente koji slusaju taj predmet, neprisutni su oni koje je prof izbacio
+     */
+    getStudentPrisutnostNaNastaviZaTermin(data) {
+        return this.http
+            .get(this.config.API_URL + "StudentPrisutnostNaNastaviZaTermin", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("StudentiService.getStudentPrisutnostNaNastaviZaTermin"))
             );
     }
     getStudentiKalendarComboBox(data) {

@@ -38,3 +38,75 @@
     color: #35de38;
 }
 
+@media only screen and (max-width: 700px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 1.2em;
+        margin: 0em 0.5em 0em 0.5em;
+    }
+}
+@media only screen and (max-width: 400px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 0.9em;
+        margin: 0em 0.5em 0em 0.5em;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 0.8em;
+        margin: 0;
+    }
+}
+@media only screen and (min-width: 701px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 1.5em;
+        margin: 0;
+    }
+}
+@media only screen and (min-width: 800px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 1.75em;
+        margin: 0;
+    }
+}
+:host >>> .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 5px!important;
+}
+
+@media only screen and (max-width: 400px) {
+    .paddingSmall5 {
+        padding: 10px 2px 5px 2px;
+    }
+    .crtaSmall {
+        padding:0px 2px; opacity:0.5;
+    }
+    .paddingSmall0_2 {
+        padding: 0px 2px;
+    }
+    .filterSmall {
+        width:85%;
+    }
+    .paddingSmall5_0 {
+        padding: 5px 0px;
+    }
+}
+@media only screen and (min-width: 399px) {
+    .paddingLarge10 {
+        padding: 10px;
+    }
+    .paddingLarge10_10_5_10 {
+        padding: 10px 10px 5px 10px;
+    }
+    .paddingLarge0_10 {
+        padding: 0px 10px;
+    }
+    .paddingLarge5_10 {
+        padding: 5px 10px;
+    }
+    .crtaLarge {
+        padding:0px 10px; opacity:0.5;
+    }
+    .filterLarge {
+        width:auto;
+    }
+}

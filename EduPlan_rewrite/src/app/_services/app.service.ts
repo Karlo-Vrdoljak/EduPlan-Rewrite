@@ -52,4 +52,23 @@ export class AppService {
       );
     };
   }
+  prepareErrorForToast(error:string) {
+    if(!error) {
+      return null;
+    }
+    let errorList = error.split('#')
+    if (this.translate.instant('STUDENT_KALENDAR_LOCALE') == 'hr' ) {
+      console.error(error);
+      return errorList.filter((e,i) => i!=1).map(e => {
+        if(e.includes('-')) {
+          return e.split('-')[1].trim();
+        } else {
+          return e;
+        }
+      }).map(e => !isNaN(+e)? 'Kod: ' + e : e).join('\n');
+    } else {
+      console.error(error);
+      return errorList[2].split('-').map(e => e.trim()).map(e => !isNaN(+e)? 'Code: ' + e : e).join('\n');
+    }
+  }
 }

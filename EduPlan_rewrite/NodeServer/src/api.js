@@ -191,6 +191,20 @@ router.get("/StudentPrisutnostNaNastavi", function (req, res) {
     db.execStoredProc(request, conn, res, "{}");
 });
 
+
+// Dohvaca sve otibrane studente za odredeni termin {Datum, PkSatnica, PkPredavaonica}
+router.get("/StudentPrisutnostNaNastaviZaTermin", function(req, res) {
+
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spStudentPrisutnostNaNastaviZaTermin_Select", conn); 
+    
+    request.addParameter("PkPredavaonica", TYPES.Int, req.query.PkPredavaonica);
+    request.addParameter("PkSatnica", TYPES.Int, req.query.PkSatnica);
+    request.addParameter("Datum", TYPES.NVarChar, req.query.Datum);
+
+    db.execStoredProc(request, conn, res, "{}");
+});
+
 // dohvat svih nastavnika suradnika
 router.get("/NastavnikSuradnikSvi", function (req, res) {
     var conn = db.createConnection();
@@ -256,6 +270,9 @@ router.post("/NastavaRealizacijaPlana", function (req, res) {
     request.addParameter("PkNastavaPlan", TYPES.Int, req.body.params.PkNastavaPlan);
     request.addParameter("PkNastavnikSuradnik", TYPES.Int, req.body.params.PkNastavnikSuradnik);
     request.addParameter("PkUsera", TYPES.Int, req.body.params.PkUsera);
+    request.addParameter("PkPredavaonica", TYPES.Int, req.body.params.PkPredavaonica);
+    request.addParameter("Datum", TYPES.NVarChar, req.body.params.Datum);
+    request.addParameter("PkSatnica", TYPES.Int, req.body.params.PkSatnica);
 
     request.addParameter('PrisutniStudenti', TYPES.TVP, table);
 
@@ -699,5 +716,14 @@ router.put("/putProfesorOsobniDokumenti", function (req, res) {
  
     db.execStoredProc(request, conn, res, "{}");
 });
+
+// dohvat svih predavaonica
+router.get("/Predavaonice", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spPredavaonica_Select", conn);
+    
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
 
 module.exports = router;

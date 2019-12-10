@@ -30,9 +30,9 @@ import { ProfesorObavijestiComponent } from './profesor-obavijesti/profesor-obav
 import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-svi-predmeti.component';
 import { ProfesorOsobniPodaciComponent } from './profesor-osobni-podaci/profesor-osobni-podaci.component';
 import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.component';
-import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component'
 import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/profesor-osobni-dokumenti.component'
-
+import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component';
+import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
 
 export const routes: Routes = [
            { path: "", redirectTo: "/login", pathMatch: "full" },
@@ -68,8 +68,10 @@ export const routes: Routes = [
            { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent },
            { path: "vPredmet/:PkSkolskaGodinaStudijPredmetKatedra/:PkPredmet/:PkStudij", component: ProfesorPredmetComponent },
            { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent },
-           { path: "vOsobniDokumenti", component: ProfesorOsobniDokumentiComponent }   
-
+           { path: "vOsobniDokumenti", component: ProfesorOsobniDokumentiComponent }   ,
+           { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent } ,
+           { path: "vPregledProfesorAgenda/:isRedirect", component: ProfesorPregledAgendiComponent },
+           { path: "vPregledProfesorAgenda", component: ProfesorPregledAgendiComponent },
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'});

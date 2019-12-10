@@ -1,0 +1,112 @@
+
+:host >>> .ui-state-disabled {
+    opacity: 1;
+}
+.clearPadding {
+    padding:0em!important;
+    padding-bottom: 0.5em!important;
+}
+
+:host >>> .ui-widget:disabled { 
+    opacity: 1;
+}
+:host >>> .menuCss  {
+    background-color: #f1f3f5;
+}
+:host >>> .menuCss ul li:nth-child(1) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #004e8a;
+}
+:host >>> .menuCss ul li:nth-child(2) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #4caf50;
+}
+:host >>> .menuCss ul li:nth-child(3) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #ff9800;
+}
+:host >>> .menuCss ul li:nth-child(4) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #f44336;
+}
+:host >>> .menuCss ul li:nth-child(5) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #35de38;
+}
+:host >>> .menuCss ul li:nth-child(6) a:nth-child(1) {
+    /* background-color: #dee0e3; */
+    color: #35de38;
+}
+
+@media only screen and (max-width: 700px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 1.2em;
+        margin: 0em 0.5em 0em 0.5em;
+    }
+}
+@media only screen and (max-width: 400px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 0.9em;
+        margin: 0em 0.5em 0em 0.5em;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 0.8em;
+        margin: 0;
+    }
+}
+@media only screen and (min-width: 701px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 1.5em;
+        margin: 0;
+    }
+}
+@media only screen and (min-width: 800px) {
+    :host >>> .fc-toolbar h2 {
+        font-size: 1.75em;
+        margin: 0;
+    }
+}
+:host >>> .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 5px!important;
+}
+
+@media only screen and (max-width: 400px) {
+    .paddingSmall5 {
+        padding: 10px 2px 5px 2px;
+    }
+    .crtaSmall {
+        padding:0px 2px; opacity:0.5;
+    }
+    .paddingSmall0_2 {
+        padding: 0px 2px;
+    }
+    .filterSmall {
+        width:85%;
+    }
+    .paddingSmall5_0 {
+        padding: 5px 0px;
+    }
+}
+@media only screen and (min-width: 399px) {
+    .paddingLarge10 {
+        padding: 10px;
+    }
+    .paddingLarge10_10_5_10 {
+        padding: 10px 10px 5px 10px;
+    }
+    .paddingLarge0_10 {
+        padding: 0px 10px;
+    }
+    .paddingLarge5_10 {
+        padding: 5px 10px;
+    }
+    .crtaLarge {
+        padding:0px 10px; opacity:0.5;
+    }
+    .filterLarge {
+        width:auto;
+    }
+}

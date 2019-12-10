@@ -2,6 +2,7 @@ import { EventColor } from "./ColorEventEnum";
 import { CalendarEvent } from "./CalendarEvent";
 import { TranslateService } from '@ngx-translate/core';
 import { ProfesorService } from '../_services/profesori.service';
+import { Satnice } from './Satnice';
 
 
 
@@ -11,7 +12,8 @@ export class CalendarConfig {
            DatumOd: string; // = "2017-10-10";
            DatumDo: string; // = "2019-10-30";
            DefaultRasponDatuma: number = 365;
-           RealizacijaOpacity: any;
+           selectedView:string = null;
+           selectedDate:string = null;
 
            constructor() {
                if(this.passedDate) {
@@ -19,7 +21,6 @@ export class CalendarConfig {
                    this.DatumDo = this.passedDate[1].toISOString();
                }
                this.setupDefaultDateTime();
-               this.RealizacijaOpacity = { fUll: "1", reduced: "0.6" };
            }
 
            /**
@@ -75,6 +76,10 @@ export class CalendarConfig {
                return screenWidth >= 1280 ? true : false;
            }
 
+           getDeviceWidth() {
+               return screen.width;
+           }
+
            public parseTitleLargeDevice(event?, data?: string[]) {
                return data.join("\n").trim();
            }
@@ -114,7 +119,7 @@ export class CalendarConfig {
             * @param date vraca string datum 'YYYY-MM-hh-mm'
             */
            public formatDate(date: Date): string {
-               return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+               return  date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2)
            }
            /**
             *
@@ -137,16 +142,116 @@ export class CalendarConfig {
                this.DatumOd = this.getDateTimeCurrent(-1 * this.DefaultRasponDatuma);
                this.DatumDo = this.getDateTimeCurrent(this.DefaultRasponDatuma);
            }
-
            /**
-            * @returns string: "1" ili "0.5" ovisno o realizaciji jeli true ili false.
-            * @Namjena kartica Agenda i Kalendar, mjenja opacity pozadine
-            * @param realziranoDaNe boolean
+            * 
+            * @param apiData Native api data for events
+            * @param events return array of formatted events
             */
-           public checkRealizacijaDaNe(realziranoDaNe) {
-               return realziranoDaNe
-                   ? this.RealizacijaOpacity.fUll
-                   : this.RealizacijaOpacity.reduced;
+           formatCalendarEventsProfesor(apiData,events = []) {
+            apiData.forEach((e: any) => {
+                let event: CalendarEvent = {
+                    id: e.PkNastavaPlan,
+                    groupId: e.BrojSkupine,
+                    title: e.SifraPredavaonice,
+                    start: e.DatumVrijemeOd,
+                    end: e.DatumVrijemeDo,
+                    allDay: false,
+                 //    backgroundColor: EventColor.Background,
+                 //    borderColor: this.chooseColor(e.PodTipPredavanjaNaziv),
+                 //    textColor: EventColor.Dark,
+                    color: this.chooseColor(e.PodTipPredavanjaNaziv),
+                    extendedProps: {
+                        Datum: e.Datum || null,
+                        DatumVrijemeOd: e.DatumVrijemeOd || null,
+                        DatumVrijemeDo: e.DatumVrijemeDo || null,
+                        PkNastavaRealizacija: e.PkNastavaRealizacija || null,
+                        NastavnikSuradnikNaziv: e.NastavnikSuradnikNaziv || null,
+                        PkNastavnikSuradnik: e.PkNastavnikSuradnik || null,
+                        NastavnikSuradnikInicijali: e.NastavnikSuradnikInicijali || null,
+                        PkNastavaPlan: e.PkNastavaPlan || null,
+                        PredmetNaziv: e.PredmetNaziv || null,
+                        PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
+                        PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
+                        PkTipPredavanje: e.PkTipPredavanje || null, //TRIBA SVE ZAMINIT CA SA DONJIN
+                        PkPodTipPredavanja: e.PkPodTipPredavanja ||null,
+                        PredmetKratica: e.PredmetKratica || null,
+                        SifraPredavaonice: e.SifraPredavaonice || null,
+                        Realizirano: e.Realizirano || null,
+                        PkPredmet: e.PkPredmet || null,
+                        PkStudij: e.PkStudij || null,
+                        StudijNaziv: e.StudijNaziv || null,
+                        StudijNazivKratica: e.StudijNazivKratica || null,
+                        Prisutan: e.Prisutan || 0,
+                        ProfesorIskljucioDaNe: e.ProfesorIskljucioDaNe || 0,
+                        PkPredavaonica: e.PkPredavaonica || 0,
+                        PkSatnica: e.PkSatnica || 0,
+                        PkGrupaZaNastavu: e.PkGrupaZaNastavu || 0,
+                    }
+                };
+                events.push(event);
+            });
+            return events;
+           }
+
+           formatCalendarEditTerminNewEvent(apiData) {
+                let event: CalendarEvent = {
+                    title: null,
+                    allDay: false,
+                    start: apiData.start,
+                    end: apiData.end,
+                    color: apiData.color,
+                    rendering: 'background'
+
+                }
+                return event;
+            }
+
+           formatCalendarEditTermin(apiData,events = []) {
+               
+            apiData.forEach((e: any) => {
+                let event: CalendarEvent = {
+                    id: e.PkNastavaPlan || null,
+                    groupId: e.BrojSkupine || null,
+                    title: e.SifraPredavaonice || null,
+                    start: e.DatumVrijemeOd,
+                    end: e.DatumVrijemeDo,
+                    allDay: false,
+                    rendering: 'background',
+                    color: e.color ? e.color : '#ff3112',
+                 //    backgroundColor: EventColor.Background,
+                 //    borderColor: this.chooseColor(e.PodTipPredavanjaNaziv),
+                 //    textColor: EventColor.Dark,
+                    extendedProps: {
+                        Datum: e.Datum || null,
+                        DatumVrijemeOd: e.DatumVrijemeOd || null,
+                        DatumVrijemeDo: e.DatumVrijemeDo || null,
+                        PkNastavaRealizacija: e.PkNastavaRealizacija || null,
+                        NastavnikSuradnikNaziv: e.NastavnikSuradnikNaziv || null,
+                        PkNastavnikSuradnik: e.PkNastavnikSuradnik || null,
+                        NastavnikSuradnikInicijali: e.NastavnikSuradnikInicijali || null,
+                        PkNastavaPlan: e.PkNastavaPlan || null,
+                        PredmetNaziv: e.PredmetNaziv || null,
+                        PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
+                        PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
+                        PkTipPredavanje: e.PkTipPredavanje || null, //TRIBA SVE ZAMINIT CA SA DONJIN
+                        PkPodTipPredavanja: e.PkPodTipPredavanja ||null,
+                        PredmetKratica: e.PredmetKratica || null,
+                        SifraPredavaonice: e.SifraPredavaonice || null,
+                        Realizirano: e.Realizirano || null,
+                        PkPredmet: e.PkPredmet || null,
+                        PkStudij: e.PkStudij || null,
+                        StudijNaziv: e.StudijNaziv || null,
+                        StudijNazivKratica: e.StudijNazivKratica || null,
+                        Prisutan: e.Prisutan || 0,
+                        ProfesorIskljucioDaNe: e.ProfesorIskljucioDaNe || 0,
+                        PkPredavaonica: e.PkPredavaonica || 0,
+                        PkSatnica: e.PkSatnica || 0,
+                        PkGrupaZaNastavu: e.PkGrupaZaNastavu || 0,
+                    }
+                };
+                events.push(event);
+            });
+            return events;
            }
 
            /**
@@ -186,48 +291,7 @@ export class CalendarConfig {
                    }, {})
                );
 
-               filtered.forEach((e: any) => {
-                   let event: CalendarEvent = {
-                       id: e.PkNastavaPlan,
-                       groupId: e.BrojSkupine,
-                       title: e.SifraPredavaonice,
-                       start: e.DatumVrijemeOd,
-                       end: e.DatumVrijemeDo,
-                       allDay: false,
-                    //    backgroundColor: EventColor.Background,
-                    //    borderColor: this.chooseColor(e.PodTipPredavanjaNaziv),
-                    //    textColor: EventColor.Dark,
-                       color: this.chooseColor(e.PodTipPredavanjaNaziv),
-                       extendedProps: {
-                           Datum: e.Datum || null,
-                           DatumVrijemeOd: e.DatumVrijemeOd || null,
-                           DatumVrijemeDo: e.DatumVrijemeDo || null,
-                           PkNastavaRealizacija: e.PkNastavaRealizacija || null,
-                           NastavnikSuradnikNaziv: e.NastavnikSuradnikNaziv || null,
-                           PkNastavnikSuradnik: e.PkNastavnikSuradnik || null,
-                           NastavnikSuradnikInicijali: e.NastavnikSuradnikInicijali || null,
-                           PkNastavaPlan: e.PkNastavaPlan || null,
-                           PredmetNaziv: e.PredmetNaziv || null,
-                           PodTipPredavanjaNaziv: e.PodTipPredavanjaNaziv || null,
-                           PodTipPredavanjaSifra: e.PodTipPredavanjaSifra || null,
-                           PkTipPredavanje: e.PkTipPredavanje || null, //TRIBA SVE ZAMINIT CA SA DONJIN
-                           PkPodTipPredavanja: e.PkPodTipPredavanja ||null,
-                           PredmetKratica: e.PredmetKratica || null,
-                           SifraPredavaonice: e.SifraPredavaonice || null,
-                           Realizirano: e.Realizirano || null,
-                           PkPredmet: e.PkPredmet || null,
-                           PkStudij: e.PkStudij || null,
-                           StudijNaziv: e.StudijNaziv || null,
-                           StudijNazivKratica: e.StudijNazivKratica || null,
-                           Prisutan: e.Prisutan || 0,
-                           ProfesorIskljucioDaNe: e.ProfesorIskljucioDaNe || 0,
-                           PkPredavaonica: e.PkPredavaonica || 0,
-                           PkSatnica: e.PkSatnica || 0,
-                           PkGrupaZaNastavu: e.PkGrupaZaNastavu || 0,
-                       }
-                   };
-                   events.push(event);
-               });
+               this.formatCalendarEventsProfesor(filtered,events)
 
                return events;
            }
@@ -258,27 +322,23 @@ export class CalendarConfig {
                return [
                    {
                        field: "JMBAG",
-                       header: prijevod.KATALOZI_NASTAVNIKSURADNIKPREDMETI_JMBAG
+                       header: prijevod.KATALOZI_NASTAVNIKSURADNIKPREDMETI_JMBAG,
                    },
                    {
                        field: "Ime",
-                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_IME
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_IME,
                    },
                    {
                        field: "Prezime",
-                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_PREZIME
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_PREZIME,
                    },
                    {
                        field: "StudijNazivKratica",
-                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA
+                       header: prijevod.PREDMET_BDPREDMETSTUDENTI_KRATICA_STUDIJA,
                    },
-                //    {
-                //        field: "Prisutan",
-                //        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
-                //    },
                    {
                         field: "ProfesorIskljucioDaNe",
-                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN
+                        header: prijevod.PREDMET_BDPREDMETSTUDENTI_PRISUTAN,
                    }
                ];
            }
@@ -330,15 +390,6 @@ export class CalendarConfig {
                        icon: "fa fa-circle"
                    }
                ];
-           }
-
-           calculatePrisutnost(studenti) {
-               let prisutan = studenti
-                   .map(e => e.Prisutan)
-                   .reduce((res, val) => {
-                       return res + val;
-                   });
-               return ((prisutan / studenti.length) * 100).toFixed(2);
            }
 
            generateBloksatEvents(data, clickedEvent, maxRbrSatnice) {
@@ -416,4 +467,57 @@ export class CalendarConfig {
                     }, {})
                 );
            }
+
+           generateEventDetails(arg,start:string,end:string,prisutniStudentiLength = 0) {
+            
+            return {
+                PkSatnica:
+                    arg.event.extendedProps.PkSatnica,
+                DatumVrijemeOd:
+                    arg.event.extendedProps.DatumVrijemeOd,
+                DatumVrijemeDo:
+                    arg.event.extendedProps.DatumVrijemeDo,
+                PkPredmet:
+                    arg.event.extendedProps.PkPredmet,
+                PkPredavaonica:
+                    arg.event.extendedProps.PkPredavaonica,
+                PkPodTipPredavanja:
+                    arg.event.extendedProps.PkPodTipPredavanja,
+                PkGrupaZaNastavu:
+                    arg.event.extendedProps.PkGrupaZaNastavu,
+                PkNastavaRealizacija:
+                    arg.event.extendedProps.PkNastavaRealizacija,
+                PkNastavaPlan:
+                    arg.event.extendedProps.PkNastavaPlan,
+                PkNastavnikSuradnik:
+                    arg.event.extendedProps.PkNastavnikSuradnik,
+                eventId: arg.event.id,
+                PredmetNaziv:
+                    arg.event.extendedProps.PredmetNaziv,
+                PodTipPredavanjaNaziv:
+                    arg.event.extendedProps.PodTipPredavanjaNaziv,
+                PredmetKratica:
+                    arg.event.extendedProps.PredmetKratica,
+                SifraPredavaonice:
+                    arg.event.extendedProps.SifraPredavaonice,
+                Realizirano:
+                    arg.event.extendedProps.Realizirano,
+                StudijNaziv: this.listBoxStudiji( arg.event.extendedProps.StudijNaziv ),
+                KraticaStudija: this.listBoxStudiji(  arg.event.extendedProps.StudijNazivKratica ),
+                KraticaStudijaProvjera: arg.event.extendedProps.StudijNazivKratica.split(',').map((e: string) => {
+                    return e.trim();
+                }),
+                start: start,
+                end: end,
+                termin: start + '-' + end,
+                DatumString: arg.event.extendedProps.Datum,
+                Datum: new Date(arg.event.extendedProps.Datum),
+                Satnica: null,
+                Predavaonica: null,
+                Prisutan:
+                    arg.event.extendedProps.Prisutan,
+                Prisutnost:
+                    prisutniStudentiLength > 0 ? prisutniStudentiLength : null
+            };
+        }
        }
