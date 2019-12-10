@@ -415,4 +415,15 @@ export class OpciService {
           return imagePath ? imagePath : 'assets/layout/images/fileExt/file.png';
         }
       }
+    
+    /**
+     * @Opis upload Dokumenta
+     */
+      uploadDataDokumenti(data, fd) {
+        return this.http.post(this.config.API_URL + 'fileUpload', fd, { params: { data: JSON.stringify(data) } })   
+          .pipe(   
+            retry(0), // retry failan request APIRetryCount puta    
+            catchError(this.appService.handleError('OpciService.uploadDataDokumenti'))    
+          );    
+      }
 }

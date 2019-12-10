@@ -1,0 +1,157 @@
+<p-toast position="top-center"></p-toast>
+
+<div class="largeMedium" *ngIf="predmetOsobniDokumenti; else loader">
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <p-table #searchOsobniDokumenti [value]="predmetOsobniDokumenti" [columns]="colsOsobniDokumenti"
+                selectionMode="single" [scrollable]="true" scrollHeight="60vh" [(selection)]="selectedOsobniDokumenti"
+                (onRowSelect)="onRowSelectOsobniDokumenti($event)" (onRowUnselect)="onRowUnselectOsobniDokumenti()">
+
+                <!-- <ng-template pTemplate="colgroup" let-columns>
+                    <colgroup>
+                        <col *ngFor="let col of columns" [style.width]="col.width">
+                    </colgroup>
+                </ng-template> -->
+
+                <ng-template pTemplate="caption">
+                    <span class="ui-g ui-fluid">
+                        <span class="ui-g-12">
+                            <span class="ui-g-12 ui-lg-6">
+                                <i class="fa fa-search"></i>
+                                <input type="text" pInputText size="60" placeholder="Global filter"
+                                    (input)="searchOsobniDokumenti.filterGlobal($event.target.value, 'contains')"
+                                    style="width: 70%;">
+                            </span>
+
+                            <span class="ui-g-12 ui-lg-6">
+                                <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                    #menuOsobniDokumenti [popup]="true" [model]="actionItemsOsobniDokumenti"></p-menu>
+                                <button type="button" pButton icon="fa fa-fw fa-list"
+                                    label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
+                                    (click)="menuOsobniDokumenti.toggle($event)"
+                                    style="width: 30%; float: right;"></button>
+                            </span>
+                        </span>
+                    </span>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns style="font-size: small;">
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="text-align: center;"
+                            pResizableColumn>
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                        <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+
+                            <span *ngIf="isPng(rowData[col.field]); else textOutput">
+                                <img [src]="rowData[col.field]" [title]="showFileTypeTitle(rowData[col.field])">
+                            </span>
+
+                            <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog *ngIf="osobniDokumentiModel" [closable]="false"
+    header="{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_DODAJNASTAVNEMATERIJALE' | translate}}"
+    [(visible)]="osobniDokumentiUploadDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div>
+        <div class="ui-g ui-fluid form-group">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" pattern="[a-zA-Z0-9]+/.+"
+                        title="Please include '/' to match expected pattern or leave it empty"
+                        [(ngModel)]="osobniDokumentiModel.OznakaDokumenta" #checkValidPattern="ngModel"
+                        (focus)="showOsobniDokumentiPlaceholder()" (blur)="removeOsobniDokumentiPlaceholder()"
+                        [placeholder]="osobniDokumentiPlaceholder" pInputText>
+                    <label>{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" [(ngModel)]="osobniDokumentiModel.Opis" pInputText>
+                    <label>{{'PREDMET_PREDMETMATERIJALI_OPIS' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-fileUpload
+                        chooseLabel="{{ 'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_ODABERI' | translate }}"
+                        #fileUpload maxFileSize="100000000" customUpload="true" (onSelect)="onSelect($event,fileUpload)"
+                        (onRemove)="clearDatoteka(fileUpload)" [showUploadButton]="false" [showCancelButton]="false">
+                    </p-fileUpload>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-check" label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}"
+            class="ui-button-success" (click)="uploadOsobniDokumenti($event, fileUpload)"
+            [disabled]="!odabranaDatoteka || checkValidPattern.invalid"></button>
+
+        <button type="button" pButton icon="fa fa-fw fa-times"
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"
+            (click)="closeUploadOsobniDokumenti()"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog *ngIf="osobniDokumentiModel && selectedOsobniDokumenti" [closable]="false"
+    header="{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UREDITENASTAVNEMATERIJALE' | translate}}"
+    [(visible)]="osobniDokumentiEditDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div>
+        <div class="ui-g ui-fluid form-group">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" pattern="[a-zA-Z0-9]+/.+"
+                        title="Please include '/' to match expected pattern or leave it empty"
+                        [(ngModel)]="osobniDokumentiModel.OznakaDokumenta" #checkValidPattern="ngModel"
+                        (focus)="showOsobniDokumentiPlaceholder()" (blur)="removeOsobniDokumentiPlaceholder()"
+                        [placeholder]="osobniDokumentiPlaceholder" #checkPristineOznakaDokumenta="ngModel"
+                        pInputText>
+                    <label>{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" [(ngModel)]="osobniDokumentiModel.Opis" #checkPristineOpis="ngModel" pInputText>
+                    <label>{{'PREDMET_PREDMETMATERIJALI_OPIS' | translate}}</label>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-check" label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}"
+            class="ui-button-success" (click)="editOsobniDokumenti()"
+            [disabled]="checkValidPattern.invalid ||  (checkPristineOpis.pristine && checkPristineOznakaDokumenta.pristine)"></button>
+
+        <button type="button" pButton icon="fa fa-fw fa-times"
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"
+            (click)="closeEditOsobniDokumenti()"></button>
+    </p-footer>
+</p-dialog>
+
+<div *ngIf="prikaziDatotekuOsobniDokumenti">
+    <app-file-preview [data]="selectedOsobniDokumenti"></app-file-preview>
+</div> 
+
+<ng-template #loader>
+    <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>
+
+<ng-template #englishOutput>
+    {{predmetOsnovniPodaci.NazivPredmeta_EN}} &bull;
+    {{predmetOsnovniPodaci.NazivStudija_EN}}
+</ng-template>

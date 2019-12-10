@@ -427,29 +427,50 @@
                     leftIcon="fa fa-file-text">
                     <ng-container>
                         <div class="card card-w-title">
-                            <h1 style="padding: 0.875em 0">
-                                <span *ngIf="selectedLang == 'hr'; else englishOutput">
-                                    {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
-                                    {{predmetOsnovniPodaci.NazivStudija_HR}}
-                                </span>
-                                <div class="actionsContainer" style="float: right;">
-                                    <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
-                                        #menuNastavniMaterijali [popup]="true" [model]="actionItemsNastavniMaterijli">
-                                    </p-menu>
-                                    <button type="button" pButton icon="fa fa-fw fa-list"
-                                        label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
-                                        (click)="menuNastavniMaterijali.toggle($event)"></button>
+                            <h1>
+                                <div class="ui-g ui-fluid">
+                                    <div class="ui-g-12">
+                                        <div class="ui-g-12 ui-lg-4" *ngIf="selectedLang == 'hr'; else englishOutput">
+                                            {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
+                                            {{predmetOsnovniPodaci.NazivStudija_HR}}
+                                        </div>
+                                        <div class="ui-g-12 ui-lg-4">
+                                            <div style="margin-left: 2em;">
+                                                <i class="fa fa-search"></i>
+                                                <input type="text" pInputText size="30" placeholder="Global Filter"
+                                                    (input)="predmetMaterijaliSearch.filterGlobal($event.target.value, 'contains')"
+                                                    style="width:20em;">
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-lg-4">
+                                            <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                                #menuNastavniMaterijali [popup]="true"
+                                                [model]="actionItemsNastavniMaterijli"></p-menu>
+                                            <button type="button" pButton icon="fa fa-fw fa-list"
+                                                label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
+                                                (click)="menuNastavniMaterijali.toggle($event)"
+                                                style="width: 30%; float: right;"></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </h1>
 
-                            <p-table [value]="predmetNastavniMaterijali" [columns]="colsNastavniMaterijali"
-                                selectionMode="single" [scrollable]="true" scrollHeight="77vh"
-                                [(selection)]="selectedNastavniMaterijali">
+                            <p-table #predmetMaterijaliSearch [value]="predmetNastavniMaterijali"
+                                [columns]="colsNastavniMaterijali" selectionMode="single" [scrollable]="true"
+                                scrollHeight="60vh" [(selection)]="selectedNastavniMaterijali"
+                                (onRowSelect)="onRowSelectNastavniMaterijali($event)"
+                                (onRowUnselect)="onRowUnselectNastavniMaterijali()">
 
-                                <ng-template pTemplate="header" let-columns>
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns" [style.width]="col.width">
+                                    </colgroup>
+                                </ng-template>
+
+                                <ng-template pTemplate="header" let-columns style="font-size: small;">
                                     <tr>
-                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
-                                            style="text-align: center;">
+                                        <th *ngFor="let col of columns" [pSortableColumn]="col.field"
+                                            style="text-align: center;" pResizableColumn>
                                             {{col.header}}
                                             <p-sortIcon [field]="col.field"></p-sortIcon>
                                         </th>
@@ -460,9 +481,10 @@
                                     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
                                         <td *ngFor="let col of columns" class="ui-resizable-column"
                                             style="text-align: center;">
-                                            
+
                                             <span *ngIf="isPng(rowData[col.field]); else checkBool">
-                                                <img [src]="rowData[col.field]" [title]="showFileTypeTitle(rowData[col.field])">
+                                                <img [src]="rowData[col.field]"
+                                                    [title]="showFileTypeTitle(rowData[col.field])">
                                             </span>
 
                                             <ng-template #checkBool>
@@ -931,8 +953,9 @@
                                         </tr>
                                     </ng-template>
 
-                                    <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                        <tr>
+                                    <ng-template pTemplate="body" let-rowData let-columns="columns"
+                                        let-rowIndex="rowIndex">
+                                        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
                                             <td *ngFor="let col of columns" class="ui-resizable-column"
                                                 style="text-align: center;">
                                                 {{rowData[col.field]}}
@@ -974,13 +997,132 @@
                 </ng-container>
             </p-panel> <br>
 
+            <p-panel header="{{'VIEWS_KATALOZI_PREDMET_NASTAVNIMATERIJALI' | translate}}" [toggleable]="true"
+                [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
+                <ng-container>
+                    <p-table #searchNastavniMaterijaliSmall [value]="predmetNastavniMaterijali"
+                        [columns]="colsNastavniMaterijaliSmall" selectionMode="single" [scrollable]="true"
+                        dataKey="PkMaterijaliUNastavi" [(selection)]="selectedNastavniMaterijali" rowExpandMode="single"
+                        (onRowSelect)="onRowSelectNastavniMaterijali($event)"
+                        (onRowUnselect)="onRowUnselectNastavniMaterijali()">
 
+                        <ng-template pTemplate="caption">
+                            <i class="fa fa-search"></i>
+                            <input type="text" pInputText size="60"
+                                placeholder="{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UNESITENAZIV' | translate}}"
+                                (input)="searchNastavniMaterijaliSmall.filterGlobal($event.target.value, 'contains')"
+                                style="width: 70%;">
+                            <!-- <span style="margin-left: 2em;">
+                                <button pButton type="button" class="previwSmallButton" (onClick)="openPreview()"> 
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                               </span> -->
+
+                        </ng-template>
+
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
+                                    style="text-align: center;">
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns"
+                            let-rowIndex="rowIndex">
+                            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                                <td width="15%">
+                                    <a href="#" [pRowToggler]="rowData">
+                                        <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                            style="font-size: 1.7em; margin-left: -0.3em;"></i>
+                                    </a>
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                                    {{rowData[col.field]}}
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                            <tr>
+                                <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
+                                    <div class="card card-w-title">
+                                        <h1 style="text-align: center;">
+                                            {{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OPSIRNIJE' | translate}}
+                                        </h1>
+                                        <div class="ui-g">
+                                            <div class="ui-lg-6 ui-md-6 ui-sm-12">
+                                                <div class="ui-g">
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA' | translate}}:
+                                                        </b>
+                                                        {{rowData.AkademskaGodina}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA' | translate}}:
+                                                        </b>
+                                                        {{rowData.OznakaDokumenta}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_PREDMETMATERIJALI_OPIS' | translate}}:
+                                                        </b>
+                                                        {{rowData.Opis}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ui-g">
+                                                <div class="ui-lg-6 ui-md-6 ui-sm-12">
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA' | translate}}:
+                                                        </b>
+                                                        <span
+                                                            [style.color]="rowData.VidljivStudentimaDaNe == true ? 'green' : 'red' "><i
+                                                                [ngClass]="rowData.VidljivStudentimaDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA' | translate}}:
+                                                        </b>
+                                                        {{rowData.size}}
+                                                    </div>
+
+                                                    <div class="ui-g-12">
+                                                        <b>
+                                                            {{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA' | translate}}:
+                                                        </b>
+                                                        <span>
+                                                            <img [src]="rowData.imgSrc"
+                                                                [title]="showFileTypeTitle(rowData.imgSrc)">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </ng-container>
+
+            </p-panel>
         </div>
     </div>
 </div>
 
 <p-dialog *ngIf="addNastavneCjelineModel" header="{{'PROFESOR_NASATVNECJELINE_NOVANASTAVNACJELINA' | translate}}"
-    [(visible)]="nastavneCjelineDodajNovuDialog" [modal]="true" [responsive]="true"
+    [(visible)]="nastavneCjelineDodajNovuDialog" [modal]="true" [responsive]="true" [closable]="false"
     [style]="{width: '500px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
     <div>
         <div class="ui-g ui-fluid form-group">
@@ -1009,7 +1151,7 @@
     </p-footer>
 </p-dialog>
 
-<p-dialog *ngIf="editNastavneCjelineModel"
+<p-dialog *ngIf="editNastavneCjelineModel" [closable]="false"
     header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITENASTAVNUCJELINU' | translate}}"
     [(visible)]="nastavneCjelineEditDialog" [modal]="true" [responsive]="true"
     [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
@@ -1042,7 +1184,7 @@
 
 </p-dialog>
 
-<p-dialog *ngIf="selectedStudent && editStudentModel"
+<p-dialog *ngIf="selectedStudent && editStudentModel" [closable]="false"
     header="{{'PROFESOR_SVIPREDMETI_PREDMET_UREDITEPODATKEOSTUDENTU' | translate}}" [(visible)]="StudentEditDialog"
     [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100"
     [baseZIndex]="10000">
@@ -1111,6 +1253,124 @@
             label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"></button>
     </p-footer>
 </p-dialog>
+
+<p-dialog *ngIf="PredmetNastavniMaterijaliModel" [closable]="false"
+    header="{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_DODAJNASTAVNEMATERIJALE' | translate}}"
+    [(visible)]="nastavniMaterijaliUploadDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div>
+        <div class="ui-g ui-fluid form-group">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" pattern="[a-zA-Z0-9]+/.+"
+                        title="Please include '/' to match expected pattern or leave it empty"
+                        [(ngModel)]="PredmetNastavniMaterijaliModel.OznakaDokumenta" #checkValidPattern="ngModel"
+                        (focus)="showNastavniMaterijliPlaceholder()" (blur)="removeNastavniMaterijliPlaceholder()"
+                        [placeholder]="nastavniMaterijaliPlaceholder" pInputText>
+                    <label>{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" [(ngModel)]="PredmetNastavniMaterijaliModel.Opis" pInputText>
+                    <label>{{'PREDMET_PREDMETMATERIJALI_OPIS' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-dropdown [options]="akademskeGodine" [(ngModel)]="PredmetNastavniMaterijaliModel.AkademskaGodina"
+                        optionLabel="SkolskaGodinaNaziv">
+                    </p-dropdown>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-checkbox label="{{'PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA' | translate}}"
+                        [(ngModel)]="PredmetNastavniMaterijaliModel.VidljivoStudentimaDaNe" binary="true">
+                    </p-checkbox>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-fileUpload
+                        chooseLabel="{{ 'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_ODABERI' | translate }}"
+                        #fileUpload maxFileSize="100000000" customUpload="true" (onSelect)="onSelect($event,fileUpload)"
+                        (onRemove)="clearDatoteka(fileUpload)" [showUploadButton]="false" [showCancelButton]="false">
+                        <!--styleClass="uploadDatoteke"-->
+
+                        <!-- <ng-template pTemplate="toolbar">
+
+                            <p-button styleClass="clearBotunDatoteka" icon="pi pi-refresh"
+                                (onClick)="clearDatoteka(fileUpload)">
+
+                            </p-button>
+
+                        </ng-template> -->
+
+                    </p-fileUpload>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-check" label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}"
+            class="ui-button-success" (click)="uploadNastavneMaterijale($event, fileUpload)"
+            [disabled]="!odabranaDatoteka || checkValidPattern.invalid"></button>
+
+        <button type="button" pButton icon="fa fa-fw fa-times"
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"
+            (click)="closeUploadNastavneMaterijale()"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog *ngIf="PredmetNastavniMaterijaliModel && selectedNastavniMaterijali" [closable]="false"
+    header="{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UREDITENASTAVNEMATERIJALE' | translate}}"
+    [(visible)]="nastavniMaterijaliEditDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
+    <div>
+        <div class="ui-g ui-fluid form-group">
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" pattern="[a-zA-Z0-9]+/.+"
+                        title="Please include '/' to match expected pattern or leave it empty"
+                        [(ngModel)]="PredmetNastavniMaterijaliModel.OznakaDokumenta" #checkValidPattern="ngModel"
+                        (focus)="showNastavniMaterijliPlaceholder()" (blur)="removeNastavniMaterijliPlaceholder()"
+                        [placeholder]="nastavniMaterijaliPlaceholder" #checkPristineOznakaDokumenta="ngModel"
+                        pInputText>
+                    <label>{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <input type="text" [(ngModel)]="PredmetNastavniMaterijaliModel.Opis" #checkPristineOpis="ngModel"
+                        pInputText>
+                    <label>{{'PREDMET_PREDMETMATERIJALI_OPIS' | translate}}</label>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-checkbox label="{{'PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA' | translate}}"
+                        [(ngModel)]="PredmetNastavniMaterijaliModel.VidljivoStudentimaDaNe" binary="true"
+                        #checkPristineVidljivo="ngModel">
+                    </p-checkbox>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-check" label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}"
+            class="ui-button-success" (click)="editNastavniMaterijali()"
+            [disabled]="checkValidPattern.invalid ||  (checkPristineOpis.pristine && checkPristineVidljivo.pristine && checkPristineOznakaDokumenta.pristine)"></button>
+
+        <button type="button" pButton icon="fa fa-fw fa-times"
+            label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"
+            (click)="closeEditNastavniMaterijali()"></button>
+    </p-footer>
+</p-dialog>
+
+<div *ngIf="prikaziDatoteku">
+    <app-file-preview [data]="selectedNastavniMaterijali"></app-file-preview>
+</div>
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>

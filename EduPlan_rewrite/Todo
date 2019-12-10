@@ -1,9 +1,9 @@
-☐ put api za edit ocjena studenta 
+☐ put api za edit ocjena studenta --done
 ☐ post api za dodavanje nastavne cjelina --done
 ☐ put api za izmjenu nastavne cjeline --done
 ☐ delete api za brisanje nastavne cjeline --done
-☐ procedura za editiranje ocjene
-☐ dovest sve profesore na predmetu i napravit combo box
+☐ procedura za editiranje ocjene --done
+☐ dovest sve profesore na predmetu i napravit combo box --done
 ☐ Bug s input required kod dodavanje nove nastavne cjeline --done
 ☐ Kopirat iz semestralnog u razvojnu (spPredmetNastavneCjeline) --done
 ☐ grupe za nastavu testirati --done
@@ -16,10 +16,10 @@
 ☐ Kod osobnih dkumenata izlist svih uz mogucnosti downloada
 ☐ omoguciti upload osobnog dokumenta (opis, naziv, oznaka dokumenta(unos omoguciti kao masku s / za laksu pretragu)
 ☐ dodati globalni search za pretrazivanej dokumenata
-☐ u kartici predmeta dodati tab za nastavne materjale
-☐ izlist svih nastavnih materijala vezanih za taj predmet
-☐ omoguciti download materijala 
-☐ omoguciti upload materijala (naziv, opis, oznaka dokumenta(maska kao i kod osobnih dokumenata), vidljiv studentima)
+☐ u kartici predmeta dodati tab za nastavne materjale --done
+☐ izlist svih nastavnih materijala vezanih za taj predmet --done
+☐ omoguciti download materijala -done
+☐ omoguciti upload materijala (naziv, opis, oznaka dokumenta(maska kao i kod osobnih dokumenata), vidljiv studentima) --done
 ☐ delete osobnih dokumenata
 ☐ delete nastavnih mateirjala
 ☐ kod studenta dodati izlist svih materijala za taj predmet koji su vidiljivi studentu
@@ -28,8 +28,9 @@
 ☐ provjeriti u tablicama gdje se sve nalaze EN_nazivi i implementriati ih ovisno o odabiru jezika
 ☐ Swipe za mobilne verzije kod grupa za nastavu provjeriti --done
 ☐ dodati globalni search za mobilne verzije
-☐ Bug kod mobilnog prikaza grup za nastavu, tablica grupe za nastavu se ne moze selectat
+☐ Bug kod mobilnog prikaza grup za nastavu, tablica grupe za nastavu se ne moze selectat --done
 ☐ vizualni bug kod modalnog prozora edit student kad combo box izbaci opcije izgled se malo poremeti
-☐ Update ocjena procedura prima sve null ne znan zasto???
 ☐ prisustvo studenata ne razumin proceduru i ima error???
+☐ pregled dokumenta nije responzivan, triba to popravit
+☐ error kod pregleda dokumenta kod osobnih dokumenata
 

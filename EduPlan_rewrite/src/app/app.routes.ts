@@ -31,6 +31,7 @@ import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-s
 import { ProfesorOsobniPodaciComponent } from './profesor-osobni-podaci/profesor-osobni-podaci.component';
 import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.component';
 import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component'
+import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/profesor-osobni-dokumenti.component'
 
 
 export const routes: Routes = [
@@ -66,7 +67,8 @@ export const routes: Routes = [
            { path: "vProfesorOsobniPodaci", component: ProfesorOsobniPodaciComponent },
            { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent },
            { path: "vPredmet/:PkSkolskaGodinaStudijPredmetKatedra/:PkPredmet/:PkStudij", component: ProfesorPredmetComponent },
-           { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent }   
+           { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent },
+           { path: "vOsobniDokumenti", component: ProfesorOsobniDokumentiComponent }   
 
        ];
 
