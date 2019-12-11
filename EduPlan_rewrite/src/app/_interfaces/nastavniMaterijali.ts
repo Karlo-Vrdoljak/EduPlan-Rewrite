@@ -1,9 +1,10 @@
 export interface nastavniMaterijaliDummy {
-    akademskaGodina: string;
-    opis: string;
-    vidljivoStudentima: boolean;
-    nazivDokumenta: string;
-    oznakaDokumenta: string;
+    AkademskaGodina: any;
+    Opis: string;
+    VidljivoStudentimaDaNe: boolean;
+    NazivDokumenta: string;
+    OznakaDokumenta: string;
     imgSrc: string;
-    izvorniNaziv: string;
+    IzvorniNaziv: string;
+    size: number;
 }

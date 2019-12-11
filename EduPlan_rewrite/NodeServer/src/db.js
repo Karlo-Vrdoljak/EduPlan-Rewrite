@@ -286,10 +286,107 @@ function execStoredProcNoJSONLocalResults(dbRequest, connection, req, res, callb
   });
   connection.on('connect', function (err) {
       if (err) {
-          logger.log('error in db.execStoredProcPredmetLocal.connection.on:', err);
+          // logger.log('error in db.execStoredProcPredmetLocal.connection.on:', err);
           console.log('error connect');
       }
       connection.callProcedure(request);
+  });
+};
+
+function execStoredProcFromNodeNoPooler(query, connection, output, callback) {
+
+  var request = query,
+
+    greska = [],
+
+    outputvalue = [],
+
+    outputParams = {},
+
+    dbResultObj = [],
+
+    resultRowCount = 0,
+
+    empty = true;
+
+
+
+  request.on('doneProc', function (rowCount, more, returnStatus, rows) {
+
+    if (greska.length > 0) {
+
+      // output = 'NOK';
+
+      output = greska[0];
+
+      callback(output, outputParams, dbResultObj);
+
+    }
+
+    if (empty && greska.length == 0) {
+
+      //output.write(defaultContent);
+
+      output = 'OK';
+
+      callback(output, outputParams, dbResultObj);
+
+    }
+
+  });
+
+
+
+  request.on('row', function (columns) {
+
+    var rowObject = {};
+
+    columns.forEach(function (column) {
+
+      rowObject[column.metadata.colName] = column.value;
+
+    });
+
+    dbResultObj.push(rowObject);
+
+  });
+
+
+
+  connection.on('errorMessage', function (err) {
+
+    console.log('errorMessage');
+
+    console.log('err', err)
+
+    if (err) {
+
+      greska.push(err);
+
+    }
+
+  });
+
+
+
+  request.on('returnValue', function (parameterName, value, metadata) {
+
+    outputParams[parameterName] = value;
+
+  });
+
+
+
+  connection.on('connect', function (err) {
+
+    if (err) {
+
+      console.log(err);
+
+    }
+
+    connection.callProcedure(request);
+
   });
 };
 
@@ -301,3 +398,4 @@ module.exports.stream = stream;
 module.exports.execStoredProc = execStoredProc;
 module.exports.execStoredProcFromNode = execStoredProcFromNode;
 module.exports.execStoredProcNoJSONLocalResults = execStoredProcNoJSONLocalResults;
+module.exports.execStoredProcFromNodeNoPooler = execStoredProcFromNodeNoPooler;

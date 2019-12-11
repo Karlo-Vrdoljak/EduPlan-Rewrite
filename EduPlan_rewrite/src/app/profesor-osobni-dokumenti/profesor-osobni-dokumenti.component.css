@@ -1,0 +1,49 @@
+:host >>>.ng-trigger {
+    top: 45% !important;
+    left: 84% !important;
+}
+
+:host >>> .ui-menuitem-icon.fa.fa-plus.ng-star-inserted{
+    color: green;
+}
+
+:host >>> .ui-menuitem-icon.fa.fa-pencil.ng-star-inserted{
+    color: #8c8c81;
+}
+
+:host >>> .ui-menuitem-icon.fa.fa-trash-o.ng-star-inserted{
+    color: #fc3503;
+}
+
+:host >>> .ui-menuitem-icon.fa.fa-download.ng-star-inserted{
+    color: #3271a8;
+}
+
+:host >>>  .ui-state-disabled  {    
+    opacity: 1.0;
+}
+
+:host >>> .ui-toast-message-error {
+background-color: blue;}
+
+:host >>> .ui-widget:disabled {
+    opacity: 1.0;
+}
+
+
+:host >>> .ui-menu .ui-menuitem-link:hover {
+    color: #6ec5ff;
+}
+
+
+:host >>> #ui-tabpanel-1 > div:nth-child(1) > h1:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+    padding: 0em;
+}
+
+.ui-button-success:disabled {
+    opacity: 0.5;
+}
+
+
+
+

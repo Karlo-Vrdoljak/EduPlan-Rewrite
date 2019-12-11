@@ -82,7 +82,7 @@ import { VirtualScrollerModule } from "primeng/virtualscroller";
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient } from "@angular/common/http";
-import { MessageService } from "primeng/api";
+import { MessageService, DialogService, DynamicDialogConfig } from "primeng/api";
 
 import { AppComponent } from "./app.component";
 import {
@@ -146,9 +146,13 @@ import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/
 import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
 import { CookieService } from 'ngx-cookie-service';
 import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijali/student-nastavni-materijali.component';
+import { FilePreviewComponent } from './file-preview/file-preview.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/profesor-osobni-dokumenti.component';
 
 @NgModule({
     imports: [
+        PdfViewerModule,
         ReactiveFormsModule,
         SwiperModule,
         BrowserModule,
@@ -278,6 +282,8 @@ import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijal
         ProfesorPregledKalendaraComponent,
         ProfesorPregledAgendiComponent,
         StudentNastavniMaterijaliComponent,
+        FilePreviewComponent,
+        ProfesorOsobniDokumentiComponent,
     ],
     providers: [
         { provide: {LocationStrategy, SWIPER_CONFIG },
@@ -301,7 +307,10 @@ import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijal
         CalendarConfig,
         LoginComponent,
         DatePipe,
-        CookieService
+        CookieService,
+        DialogService,
+        DynamicDialogConfig,
+        FilePreviewComponent
     ],
     bootstrap: [AppComponent]
 })

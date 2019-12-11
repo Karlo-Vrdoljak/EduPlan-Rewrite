@@ -1,0 +1,61 @@
+/* ::ng-deep .pdfPreviewLargeDialogCustomClass.ui-dialog {
+    height: calc(100% - 0.5px)!important;
+    width: calc(80% - 0.5px)!important;
+    max-width:1000px;
+}
+
+::ng-deep .pdfPreviewLargeDialogCustomClass.ui-dialog-content.ui-widget-content {
+    height: 100%;
+}
+
+::ng-deep .pdfPreviewLargeDialogCustomClass.ui-dialog .ui-dialog-titlebar {
+    font-size: large;
+    font-variant: small-caps;
+    font-family: sans-serif;
+}
+
+::ng-deep .pdfPreviewLargeDialogCustomClass.ui-dialog .ui-dialog-content {
+    max-height: 100%;
+    min-height: 100%;
+    padding:0;
+}
+
+:host ::ng-deep .buttonPovecanjePregleda button.ui-button-warning.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only {
+    width: 20px!important;
+    height: 18px!important;
+     padding: 2px 5px;
+    margin: 3px;
+    border-radius: 0;
+}
+
+.fileViewerContentInner {
+    overflow: auto;
+}
+*/
+:host >>> .ui-dialog-content {
+    height: 600px;
+    width: 300px;
+}
+
+
+/* .sliderContainer{
+    margin-right: 5px;
+    height: 0px;
+    padding: 9px;
+    padding-bottom: 11px;
+    border-radius: 3px;
+}  */
+
+/* :host >>> .pdfViewer {
+    height: 100%;
+}
+
+:host >>> .page {
+    height: 100%;
+    width: 100%;
+}
+
+:host >>> #page1 {
+    height: 100%;
+    width: 50%;
+} */

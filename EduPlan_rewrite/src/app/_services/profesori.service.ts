@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Config } from "../config";
 import { catchError, retry } from "rxjs/operators";
 import { AppService } from "./app.service";
+import { LanguageHandler } from '../app.languageHandler';
+
 
 @Injectable({
     providedIn: "root"
@@ -10,7 +12,9 @@ import { AppService } from "./app.service";
 export class ProfesorService {
     config: Config;
 
-    constructor(private http: HttpClient, private appService: AppService) {
+    constructor(private http: HttpClient
+        , private appService: AppService
+        , private langHandler: LanguageHandler) {
         this.config = new Config();
     }
 
@@ -349,13 +353,13 @@ export class ProfesorService {
             );
     }
 
-      /**
-     *
-     * Opis: Updatea Ocjene studenta
-     * param: PkStudentnaVisokomUcilistuPredmet: int, PkOcjenjivac: int, PolozenDaNe: bit
-     * OslobodjenPolaganjaDaNe: bit, Ocjena: int
-     *
-     */
+    /**
+   *
+   * Opis: Updatea Ocjene studenta
+   * param: PkStudentnaVisokomUcilistuPredmet: int, PkOcjenjivac: int, PolozenDaNe: bit
+   * OslobodjenPolaganjaDaNe: bit, Ocjena: int
+   *
+   */
     updateStudentOcjena(data) {
         return this.http
             .put(this.config.API_URL + "promjenaOcjene", {
@@ -366,6 +370,121 @@ export class ProfesorService {
                 catchError(
                     this.appService.handleError(
                         "ProfesorService.updateStudentOcjena"
+                    )
+                )
+            );
+    }
+
+    /**
+     *
+     * Opis: Select svih nastavnih materijala po predmetu
+     * param: PkPredmet: int
+     *
+     */
+    getNastavniMaterijali(data) {
+        return this.http
+            .get(this.config.API_URL + "getProfesorNastavniMaterijali", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getNastavniMaterijali"
+                    )
+                )
+            );
+    }
+
+    /**
+     *
+     * Opis: Edit nastavnog materijala
+     * param: PkMaterijaliUNastavi: int
+     *
+     */
+    editNastavniMaterijali(data) {
+        return this.http
+            .put(this.config.API_URL + "putProfesorNastavniMaterijali", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.editNastavniMaterijali"
+                    )
+                )
+            );
+    }
+
+    /**
+     *
+     * Opis: Download nastavnih materijala
+     * param: dokumentObject: object
+     *
+     */
+    preuzmiDatoteku(dokumentObject) {
+        window.location.assign(this.config.API_URL + 'fileDownload?originalname=' + dokumentObject.izvorniOriginalName + '&path=' + dokumentObject.izvorniPath + '&language=' + this.langHandler.getCurrentLanguage());
+    }
+
+    /**
+     *
+     * Opis: Delete nastavnih materijala
+     * param: PkDokument: int
+     *
+     */
+    deleteDatoteku(data) {
+        return this.http
+            .put(this.config.API_URL + "deleteProfesorNastavniMaterijali", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.deleteDatoteku"
+                    )
+                )
+            );
+    }
+
+    /**
+     *
+     * Opis: Select svih osobnih dokumenata po profesoru
+     * param: PkNastavnikSuradnik: int
+     *
+     */
+    getOsobniDokumenti(data) {
+        return this.http
+            .get(this.config.API_URL + "getProfesorOsobniDokumenti", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getOsobniDokumenti"
+                    )
+                )
+            );
+    }
+
+     /**
+     *
+     * Opis: Edit osobnih dokumenata
+     * param: PkOsobniDokumentiNS: int, PkUseraPromjena: int, Opis: string, OznakaDokumenta: string
+     *
+     */
+    editOsobniDokumenti(data) {
+        return this.http
+            .put(this.config.API_URL + "putProfesorOsobniDokumenti", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.editOsobniDokumenti"
                     )
                 )
             );

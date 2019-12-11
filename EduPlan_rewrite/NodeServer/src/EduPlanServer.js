@@ -1,7 +1,10 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     appConfig = require('./appConfig.js'),
-    app = require('express')();
+    app = require('express')(),
+    tools = require('./tools.js');
+
+tools.pripremiFoldere();
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

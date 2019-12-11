@@ -28,7 +28,8 @@ import { MessageService } from 'primeng/api';
 import { LanguageHandler } from '../app.languageHandler';
 import { editStudentModal } from '../_interfaces/EditStudent';
 import { NastavneCjelineModel } from '../_interfaces/NastavneCjelineModel';
-import { nastavniMaterijaliDummy } from '../_interfaces/nastavniMaterijali'
+import { nastavniMaterijaliDummy } from '../_interfaces/nastavniMaterijali';
+
 
 @Component({
     selector: "app-profesor-predmet",
@@ -58,7 +59,7 @@ export class ProfesorPredmetComponent implements OnInit {
     saveButtonDisabled: boolean = true;
     enableOcjenaEdit: number = this.appVariables.editOcjenaEnabled;
     selectedStudentIndex: number;
-    profesoriNaPredmetu: any; 
+    profesoriNaPredmetu: any;
 
     //Nastavne cjeline
     predmetNastavneCjeline: any;
@@ -82,44 +83,55 @@ export class ProfesorPredmetComponent implements OnInit {
     selectedGrupeZaNastavu: any = null;
 
     //Nastavni materijali
-    predmetNastavniMaterijali: nastavniMaterijaliDummy[] = [{
-        akademskaGodina: '2018/2019',
-        opis: 'Novi file',
-        vidljivoStudentima: true,
-        nazivDokumenta: 'Dokument 1',
-        oznakaDokumenta: 'Predavanja/Materijali',
-        imgSrc: null,
-        izvorniNaziv: 'Dokument 1.pdf'
-    },
-    {
-        akademskaGodina: '2018/2019',
-        opis: 'Noviji file',
-        vidljivoStudentima: false,
-        nazivDokumenta: 'Dokument 2',
-        oznakaDokumenta: 'Predavanja/Materijali',
-        imgSrc: null,
-        izvorniNaziv: 'Dokument 2.xsl'
+    // predmetNastavniMaterijali: nastavniMaterijaliDummy[] = [{
+    //     akademskaGodina: '2018/2019',
+    //     opis: 'Novi file',
+    //     vidljivoStudentima: true,
+    //     nazivDokumenta: 'Dokument 1',
+    //     oznakaDokumenta: 'Predavanja/Materijali',
+    //     imgSrc: null,
+    //     izvorniNaziv: 'Dokument 1.pdf'
+    // },
+    // {
+    //     akademskaGodina: '2018/2019',
+    //     opis: 'Noviji file',
+    //     vidljivoStudentima: false,
+    //     nazivDokumenta: 'Dokument 2',
+    //     oznakaDokumenta: 'Predavanja/Materijali',
+    //     imgSrc: null,
+    //     izvorniNaziv: 'Dokument 2.xsl'
 
-    },
-    {
-        akademskaGodina: '2018/2019',
-        opis: 'Najnoviji file',
-        vidljivoStudentima: true,
-        nazivDokumenta: 'Dokument 3',
-        oznakaDokumenta: 'Predavanja/Materijali',
-        imgSrc: null,
-        izvorniNaziv: 'Dokument 3.docx'
-    }];
-
+    // },
+    // {
+    //     akademskaGodina: '2018/2019',
+    //     opis: 'Najnoviji file',
+    //     vidljivoStudentima: true,
+    //     nazivDokumenta: 'Dokument 3',
+    //     oznakaDokumenta: 'Predavanja/Materijali',
+    //     imgSrc: null,
+    //     izvorniNaziv: 'Dokument 3.docx'
+    // }];
+    predmetNastavniMaterijali: any;
+    PredmetNastavniMaterijaliModel: nastavniMaterijaliDummy;
+    nastavniMaterijaliUploadDialog: boolean = false;
+    akademskeGodine: any;
     selectedNastavniMaterijali: any;
+    selectedNastavniMaterijaliIndex: number;
     colsNastavniMaterijali: any[];
+    nastavniMaterijaliPlaceholder: string = '';
+    myUploaderObservable: any;
+    dodanaDatoteka: any;
+    odabranaDatoteka: any;
+    nastavniMaterijaliEditDialog: boolean = false;
+    colsNastavniMaterijaliSmall: any[];
+    prikaziDatoteku: boolean = false;
+
 
     //Botuni
     actionItemsSmall: MenuItem[];
     actionItemsNastavneCjeline: MenuItem[];
     actionItemsStudenti: MenuItem[];
     actionItemsNastavniMaterijli: MenuItem[];
-
 
     //Opće
     rout: any = null;
@@ -158,6 +170,9 @@ export class ProfesorPredmetComponent implements OnInit {
             PkSkolskaGodina: this.appVariables.PkSkolskaGodina
         }
 
+        //Dohvat ak.godina za combo box kod dodavanja nastavnih materijala
+        this.opciService.getAkademskeGodine().subscribe(data => this.akademskeGodine = data);
+
         this.selectedLang = this.langHandler.getCurrentLanguage();
 
         // prijevod i inicijalizacija za botune s crud operacijama
@@ -171,7 +186,10 @@ export class ProfesorPredmetComponent implements OnInit {
                 "NASTAVA_BDSKOLSKAGODINAPREDMETI_OBRISI_ZAPIS",
                 "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_DODAJDATOTEKU",
                 "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OBRISIDATOTEKU",
-                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU"
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UREDITENASTAVNEMATERIJALE",
+                "VIEWS_KATALOZI_PREDMET_NASTAVNIMATERIJALI",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREGLEDDOKUMENTA"
             ])
             .subscribe(res => {
                 this.actionItemsSmall = [
@@ -216,6 +234,45 @@ export class ProfesorPredmetComponent implements OnInit {
                                     this.selectedNastavnaCjelina
                                         ? this.deleteSelectedNastavnaCjelina()
                                         : this.showErrorZapisNijeOdabran()
+                            }
+                        ]
+                    },
+                    {
+                        label: res.VIEWS_KATALOZI_PREDMET_NASTAVNIMATERIJALI,
+                        items: [
+                            {
+                                label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_DODAJDATOTEKU,
+                                icon: "fa fa-plus",
+                                command: () =>
+                                    this.openUploadNastavniMaterijali()
+                            },
+                            {
+                                label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU,
+                                icon: "fa fa-download",
+                                command: () => this.selectedNastavniMaterijali
+                                    ? this.downloadNastavniMaterijali()
+                                    : this.showErrorZapisNijeOdabran()
+                            },
+                            {
+                                label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UREDITENASTAVNEMATERIJALE,
+                                icon: "fa fa-pencil",
+                                command: () => this.selectedNastavniMaterijali
+                                    ? this.openEditNastavniMaterijali()
+                                    : this.showErrorZapisNijeOdabran()
+                            },
+                            {
+                                label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OBRISIDATOTEKU,
+                                icon: "fa fa-trash-o",
+                                command: () => this.selectedNastavniMaterijali
+                                    ? this.deleteNastavniMaterijali()
+                                    : this.showErrorZapisNijeOdabran()
+                            },
+                            {
+                                label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREGLEDDOKUMENTA,
+                                icon: "fa fa-eye",
+                                command: () => this.selectedNastavniMaterijali
+                                    ? this.openPreview()
+                                    : this.showErrorZapisNijeOdabran()
                             }
                         ]
                     },
@@ -267,17 +324,53 @@ export class ProfesorPredmetComponent implements OnInit {
                     {
                         label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_DODAJDATOTEKU,
                         icon: "fa fa-plus",
+                        command: () => this.openUploadNastavniMaterijali()
                     },
                     {
                         label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU,
                         icon: "fa fa-download",
+                        command: () => this.selectedNastavniMaterijali
+                            ? this.downloadNastavniMaterijali()
+                            : this.showErrorZapisNijeOdabran()
                     },
                     {
                         label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OBRISIDATOTEKU,
                         icon: "fa fa-trash-o",
+                        command: () => this.selectedNastavniMaterijali
+                            ? this.deleteNastavniMaterijali()
+                            : this.showErrorZapisNijeOdabran()
+                    },
+                    {
+                        label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UREDITENASTAVNEMATERIJALE,
+                        icon: "fa fa-pencil",
+                        command: () => this.selectedNastavniMaterijali
+                            ? this.openEditNastavniMaterijali()
+                            : this.showErrorZapisNijeOdabran()
+                    },
+                    {
+                        label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREGLEDDOKUMENTA,
+                        icon: "fa fa-eye",
+                        command: () => this.selectedNastavniMaterijali
+                            ? this.openPreview()
+                            : this.showErrorZapisNijeOdabran()
                     }
-                ]
+                ];
             });
+
+        // Poziv servisa za dohvacanje podataka o useru
+        this.profesorService.getNastavnik(params).subscribe(
+            data => {
+                this.user = data[0];
+            },
+            (err: HttpErrorResponse) => {
+                if (err.error instanceof Error) {
+                    console.log("Client-side error occured.");
+                } else {
+                    console.log("Server-side error occured.");
+                }
+            },
+            () => { }
+        );
 
         // Poziv servisa za dohvacanje osnovnih podataka o predmetu
         this.profesorService.getPredmetOsnovniPodaci(params).subscribe(
@@ -326,6 +419,7 @@ export class ProfesorPredmetComponent implements OnInit {
             },
             () => { }
         );
+
         // Poziv servisa za dohvacanje svih studenata koji slušaju zadani predmet
         this.translate
             .get([
@@ -563,7 +657,7 @@ export class ProfesorPredmetComponent implements OnInit {
                 ];
             });
 
-        //Prijevod za Nastavne materijale
+        //Poziv servisa za dohvat svih nastavnih materijala po predmetu
         this.translate
             .get([
                 "PREDMET_PREDMETMATERIJALI_OPIS",
@@ -571,43 +665,83 @@ export class ProfesorPredmetComponent implements OnInit {
                 "PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA",
                 "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA",
                 "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA",
-                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA"
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA"
             ])
             .subscribe((res) => {
-                 for (let i = 0; i < this.predmetNastavniMaterijali.length; i++) {
-                     this.predmetNastavniMaterijali[i].imgSrc = this.opciService.extensionCellRenderer(this.predmetNastavniMaterijali[i].izvorniNaziv ? this.predmetNastavniMaterijali[i].izvorniNaziv : null); 
-                   }
-                
-                  this.colsNastavniMaterijali = [
+                this.profesorService.getNastavniMaterijali(
                     {
-                        field: "akademskaGodina",
-                        header: res.NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA
+                        PkPredmet: this.route.snapshot.paramMap.get("PkPredmet")
+                    }).subscribe(data => {
+                        this.predmetNastavniMaterijali = data;
+                        this.predmetNastavniMaterijali = this.predmetNastavniMaterijali.filter((e) => { return e.IzbrisanDaNe == 0 })
+
+                        for (let i = 0; i < this.predmetNastavniMaterijali.length; i++) {
+                            this.predmetNastavniMaterijali[i].imgSrc = this.opciService.extensionCellRenderer(this.predmetNastavniMaterijali[i].izvorniOriginalName ? this.predmetNastavniMaterijali[i].izvorniOriginalName : null);
+                            this.predmetNastavniMaterijali[i].VidljivStudentimaDaNe = this.predmetNastavniMaterijali[i].VidljivStudentimaDaNe == 1 ? true : false;
+                            this.predmetNastavniMaterijali[i].NazivDokumenta = this.predmetNastavniMaterijali[i].NazivDokumenta.split('.')[0];
+                            this.predmetNastavniMaterijali[i].size = (this.predmetNastavniMaterijali[i].size / 1000000).toFixed(2);
+                        }
+
+                        this.colsNastavniMaterijali = [
+                            {
+                                field: "AkademskaGodina",
+                                header: res.NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA,
+                                width: '7%'
+                            },
+                            {
+                                field: "OznakaDokumenta",
+                                header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA,
+                                width: '20%'
+                            },
+                            {
+                                field: "NazivDokumenta",
+                                header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA,
+                                width: '20%'
+                            },
+                            {
+                                field: "Opis",
+                                header: res.PREDMET_PREDMETMATERIJALI_OPIS,
+                                width: '25%'
+                            },
+                            {
+                                field: "VidljivStudentimaDaNe",
+                                header: res.PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA,
+                                width: '10%'
+                            },
+                            {
+                                field: "imgSrc",
+                                header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA,
+                                width: '10%'
+                            },
+                            {
+                                field: "size",
+                                header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA,
+                                width: '8%'
+                            }
+                        ];
+
+
+                        this.colsNastavniMaterijaliSmall = [
+                            {
+                                field: "NazivDokumenta",
+                                header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA
+                            }
+                        ];
                     },
-                    {
-                        field: "oznakaDokumenta",
-                        header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA
-                    },
-                    {
-                        field: "nazivDokumenta",
-                        header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA
-                    },
-                    {
-                        field: "opis",
-                        header: res.PREDMET_PREDMETMATERIJALI_OPIS
-                    },               
-                    {
-                        field: "vidljivoStudentima",
-                        header: res.PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA
-                    },
-                    {
-                        field: "imgSrc",
-                        header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA
-                    },
-                ];
-            })
+                        (err: HttpErrorResponse) => {
+                            if (err.error instanceof Error) {
+                                console.log("Client-side error occured.");
+                            } else {
+                                console.log("Server-side error occured.");
+                            }
+                        },
+                        () => { }
+                    );
+            });
     }
 
-  
+
     //Studenti na predmetu
     setUkupanBrojStudenata() {
         //Računa kolko ima studenata na odabranom predmetu
@@ -721,12 +855,13 @@ export class ProfesorPredmetComponent implements OnInit {
         this.StudentEditDialog = false;
         this.showSuccessEdit();
 
-       let params = {
-        PkStudentnaVisokomUcilistuPredmet: this.studentiNaPredmetu[this.selectedStudentIndex].PkStudentnaVisokomUcilistuPredmet,
-        PkOcjenjivac: this.editStudentModel.ocjenjivacEdit.PkNastavnikSuradnik,
-        PolozenDaNe: this.studentiNaPredmetu[this.selectedStudentIndex].polozen,
-        OslobodjenPolaganjaDaNe: this.studentiNaPredmetu[this.selectedStudentIndex].osloboden,
-        Ocjena: this.studentiNaPredmetu[this.selectedStudentIndex].ocjena
+        let params = {
+            PkStudentnaVisokomUcilistuPredmet: this.studentiNaPredmetu[this.selectedStudentIndex].PkStudentnaVisokomUcilistuPredmet,
+            PkOcjenjivac: this.editStudentModel.ocjenjivacEdit.PkNastavnikSuradnik,
+            PolozenDaNe: this.studentiNaPredmetu[this.selectedStudentIndex].polozen,
+            OslobodjenPolaganjaDaNe: this.studentiNaPredmetu[this.selectedStudentIndex].osloboden,
+            Ocjena: this.studentiNaPredmetu[this.selectedStudentIndex].ocjena,
+            PkUsera: this.appVariables.PkUsera
         }
 
         this.profesorService.updateStudentOcjena(params).subscribe();
@@ -742,7 +877,7 @@ export class ProfesorPredmetComponent implements OnInit {
     openStudentEditDialog() {
         //otvaranje edit dialoga i fillanje podacima
         let polozenOslobodenTempValue: any;
-        let defaultOcjenjivač = this.profesoriNaPredmetu.filter( ocjenjivac => ocjenjivac. PkNastavnikSuradnik === this.appVariables.PkNastavnikSuradnik)[0];
+        let defaultOcjenjivač = this.profesoriNaPredmetu.filter(ocjenjivac => ocjenjivac.PkNastavnikSuradnik === this.appVariables.PkNastavnikSuradnik)[0];
 
         if (
             this.selectedStudent.polozen == true &&
@@ -763,7 +898,7 @@ export class ProfesorPredmetComponent implements OnInit {
             imeEdit: this.selectedStudent.ime,
             prezimeEdit: this.selectedStudent.prezime,
             ocjenaEdit: this.selectedStudent.ocjena,
-            ocjenjivacEdit: defaultOcjenjivač,  
+            ocjenjivacEdit: defaultOcjenjivač,
             polozenOslobodenSelectedValue: polozenOslobodenTempValue
         };
 
@@ -798,8 +933,8 @@ export class ProfesorPredmetComponent implements OnInit {
                     .firstChild
             )).value = this.minOcjena.toString();
         }
-        
-        this.editStudentModel.ocjenaEdit != null 
+
+        this.editStudentModel.ocjenaEdit != null
             ? (this.saveButtonDisabled = false)
             : (this.saveButtonDisabled = true);
     }
@@ -807,8 +942,8 @@ export class ProfesorPredmetComponent implements OnInit {
     enableOcjenaOcjenjivac() {
         //klikom na radio botun 'polozen' ili 'osloboden'
         this.ocjenaDisabled = false;
-        
-        this.editStudentModel.ocjenaEdit != null 
+
+        this.editStudentModel.ocjenaEdit != null
             ? (this.saveButtonDisabled = false)
             : (this.saveButtonDisabled = true);
     }
@@ -822,11 +957,11 @@ export class ProfesorPredmetComponent implements OnInit {
     }
 
     onDropdownChange() { //enablea submit botun
-        if(this.editStudentModel.ocjenaEdit != null) {
+        if (this.editStudentModel.ocjenaEdit != null) {
             this.saveButtonDisabled = false;
         }
 
-    } 
+    }
 
     // exportExcel() {
     //     import("xlsx").then(xlsx => {
@@ -848,8 +983,9 @@ export class ProfesorPredmetComponent implements OnInit {
     //     });
     // }
 
-    //Nastavne cjeline
 
+
+    //Nastavne cjeline
     closeNastavneCjelineDodajNovuDialog() {
         this.nastavneCjelineDodajNovuDialog = false;
         this.addNastavneCjelineModel = null;
@@ -904,8 +1040,6 @@ export class ProfesorPredmetComponent implements OnInit {
     }
 
     editNastavnuCjelinu() {
-        //triba ucinit put request za editanje podataka u bazi
-
         let params = {
             PkPredmetNastavnaCjelina: this.predmetNastavneCjeline[this.selectedNastavnaCjelinaIndex].PkPredmetNastavnaCjelina,
             PkPredmet: +this.route.snapshot.paramMap.get("PkPredmet"),
@@ -1016,19 +1150,277 @@ export class ProfesorPredmetComponent implements OnInit {
         this.selectedGrupeZaNastavu = null;
     }
 
-    //Nastavne cjeline
+    //Nastavni materijali
     showFileTypeTitle(value: string) { //Prikazuje tip file-a na hover
         return value.split('.')[0].split('/').pop();
     }
 
     isPng(value: string) { //provjerava da li je png
         if (typeof value === "string") {
-            let checkPng = value.split('.'); 
-            if( checkPng[checkPng.length - 1] == 'png') {
+            let checkPng = value.split('.');
+            if (checkPng[checkPng.length - 1] == 'png') {
                 return true;
             }
-        }     
+        }
         return false;
+    }
+
+    downloadNastavniMaterijali() {
+        this.profesorService.preuzmiDatoteku(this.selectedNastavniMaterijali);
+    }
+
+    deleteNastavniMaterijali() {
+        let index = this.selectedNastavniMaterijaliIndex;
+
+        this.profesorService.deleteDatoteku(
+            {PkDokument: this.selectedNastavniMaterijali.PkDokument}
+            ).subscribe((res) => {
+                this.predmetNastavniMaterijali = this.predmetNastavniMaterijali.filter(
+                    (val, i) => i != index
+                );
+                this.showSuccessDeleteNastavneCjeline();
+        },
+            (err: HttpErrorResponse) => {
+                if (err.error instanceof Error) {
+                    console.log("Client-side error occured.");
+                } else {
+                    console.log("Server-side error occured.");
+                }
+            },
+            () => {
+                this.selectedNastavniMaterijali = null;
+                this.nastavniMaterijaliEditDialog = false;
+                this.selectedNastavniMaterijaliIndex = null;
+            }
+        );
+    }
+
+    editNastavniMaterijali() {
+        let params = {
+            PkMaterijaliUNastavi: this.predmetNastavniMaterijali[this.selectedNastavniMaterijaliIndex].PkMaterijaliUNastavi,
+            PkUseraPromjena: this.appVariables.PkUsera,
+            Opis: this.PredmetNastavniMaterijaliModel.Opis,
+            VidljivStudentimaDaNe: this.PredmetNastavniMaterijaliModel.VidljivoStudentimaDaNe,
+            OznakaDokumenta: this.PredmetNastavniMaterijaliModel.OznakaDokumenta
+        };
+
+        this.profesorService.editNastavniMaterijali(params).subscribe((res) => {
+            this.predmetNastavniMaterijali[this.selectedNastavniMaterijaliIndex].Opis = this.PredmetNastavniMaterijaliModel.Opis;
+            this.predmetNastavniMaterijali[this.selectedNastavniMaterijaliIndex].VidljivStudentimaDaNe = this.PredmetNastavniMaterijaliModel.VidljivoStudentimaDaNe;
+            this.predmetNastavniMaterijali[this.selectedNastavniMaterijaliIndex].OznakaDokumenta = this.PredmetNastavniMaterijaliModel.OznakaDokumenta;
+        },
+            (err: HttpErrorResponse) => {
+                if (err.error instanceof Error) {
+                    console.log("Client-side error occured.");
+                } else {
+                    console.log("Server-side error occured.");
+                }
+            },
+            () => {
+                this.PredmetNastavniMaterijaliModel = null;
+                this.selectedNastavniMaterijali = null;
+                this.nastavniMaterijaliEditDialog = false;
+                this.selectedNastavniMaterijaliIndex = null;
+            }
+        );
+
+    }
+
+    openUploadNastavniMaterijali() {
+        this.PredmetNastavniMaterijaliModel = <nastavniMaterijaliDummy>{ AkademskaGodina: this.akademskeGodine[0] }
+        this.nastavniMaterijaliUploadDialog = true;
+    }
+
+    closeUploadNastavneMaterijale() {
+
+        this.PredmetNastavniMaterijaliModel = null;
+        this.nastavniMaterijaliUploadDialog = false;
+        this.odabranaDatoteka = null;
+        this.dodanaDatoteka = null;
+        this.selectedNastavniMaterijaliIndex = null;
+    }
+
+    uploadNastavneMaterijale(event, fileUpload) {
+
+        if (fileUpload.files.length > 0) {
+
+            // iteriramo upload datoteke
+
+            // za sada je onemogucen multiple u htmlu
+
+            for (let i = 0, file; file = fileUpload.files[i]; i++) {
+
+                const fd = new FormData();
+
+                fd.append('file', file);
+
+                let vidljivStudentima: number;
+                let skolskaGodinaNaziv: string;
+
+                skolskaGodinaNaziv = this.PredmetNastavniMaterijaliModel.AkademskaGodina.SkolskaGodinaNaziv;
+                this.PredmetNastavniMaterijaliModel.VidljivoStudentimaDaNe === true ? vidljivStudentima = 1 : vidljivStudentima = 0;
+
+                let nastavniMaterijaliTemp = { //Postavljanje privremene varijable za prikaz dodanog materijala bez refresha
+                    AkademskaGodina: skolskaGodinaNaziv,
+                    OznakaDokumenta: this.PredmetNastavniMaterijaliModel.OznakaDokumenta,
+                    NazivDokumenta: file.name.split('.')[0],
+                    Opis: this.PredmetNastavniMaterijaliModel.Opis,
+                    VidljivStudentimaDaNe: this.PredmetNastavniMaterijaliModel.VidljivoStudentimaDaNe,
+                    imgSrc: this.opciService.extensionCellRenderer(file.name ? file.name : null),
+                    size: (file.size / 1000000).toFixed(2),
+                }
+
+                this.opciService.uploadDataDokumenti({
+                    PkNastavnikSuradnik: this.appVariables.PkNastavnikSuradnik,
+                    PkUsera: this.appVariables.PkUsera,
+                    PkKategorijaDokumenta: 2, //Nastavni materijal
+                    PkPredmet: this.route.snapshot.paramMap.get("PkPredmet"),
+                    akademskaGodina: skolskaGodinaNaziv,
+                    opis: this.PredmetNastavniMaterijaliModel.Opis,
+                    vidljivoStudentima: vidljivStudentima,
+                    oznakaDokumenta: this.PredmetNastavniMaterijaliModel.OznakaDokumenta,
+
+                }, fd).subscribe(data => {
+                    this.dodanaDatoteka = data;
+
+                    // Dodavanje novog materijala bez refresha, ukoliko je insert u bazu uspješno završen
+                    let noviNastavniMaterijal = [...this.predmetNastavniMaterijali];
+                    noviNastavniMaterijal.push(nastavniMaterijaliTemp);
+                    this.predmetNastavniMaterijali = noviNastavniMaterijal;
+                    console.log(this.predmetNastavniMaterijali)
+                },
+
+                    (err: HttpErrorResponse) => {
+
+                        if (err.error instanceof Error) {
+
+                            console.log('Client-side error occured.');
+
+                            // this.AppServis.prikaziToast('error', null, err, this.globalVar.trajanjeErrAlert, err);
+
+                        } else {
+
+                            console.log('Server-side error occured.');
+
+                            // this.AppServis.prikaziToast('error', null, err, this.globalVar.trajanjeErrAlert, err);
+
+                        }
+                    },
+
+                    () => {
+                    });
+
+            }
+
+            fileUpload.clear();
+            this.dodanaDatoteka = null;
+            this.odabranaDatoteka = null;
+            this.PredmetNastavniMaterijaliModel = null;
+            this.nastavniMaterijaliUploadDialog = false;
+            this.selectedNastavniMaterijaliIndex = null;
+            this.showSuccessUploadNastavniMaterijali();
+        }
+
+    }
+
+    showNastavniMaterijliPlaceholder() {
+        this.nastavniMaterijaliPlaceholder = 'Ispiti/Primjeri';
+    }
+
+    removeNastavniMaterijliPlaceholder() {
+        this.nastavniMaterijaliPlaceholder = '';
+    }
+
+    onSelect(event, fileUpload) {   // eventi za upload datoteke
+
+        if (fileUpload.files.length > 1) {  // moze se samo jedna stavit
+
+            const temp = [];
+            temp.push(fileUpload.files[fileUpload.files.length - 1]);
+            fileUpload.files = temp;
+
+        }
+
+        this.odabranaDatoteka = fileUpload.files[0].name;
+        this.dodanaDatoteka = [];
+        //  this.odabranaDatotekaSVE = {};
+        //  this.autocompleteDatotekaText = '';
+
+
+
+        // const self = this;
+
+        // function viewFile() {
+
+        //   const originalFile = fileUpload.files[0];
+
+        //   const reader = new FileReader();
+
+        //   reader.readAsDataURL(originalFile);
+
+        //   reader.onload = () => {
+
+        //     self.odabranaDatotekaSVE = {
+
+        //       file: reader.result,
+
+        //       saKlijenta: true,
+
+        //       data: originalFile
+
+        //     };
+
+        //   };
+
+    }
+
+    clearDatoteka(fileUpload) {
+        // this.odabranaDatotekaSVE = {};
+        fileUpload.clear();
+        this.odabranaDatoteka = null;
+
+        //   this.odabranaDatoteka = this.currentDocumentNode.izvorniOriginalname;
+
+        //   this.dodanaDatoteka = [];
+
+        //   this.odabranaDatotekaSVE = Object.assign({}, this.currentDocumentNode);
+
+        //   this.autocompleteDatotekaText = '';
+
+    }
+
+    openEditNastavniMaterijali() {
+        this.PredmetNastavniMaterijaliModel = <nastavniMaterijaliDummy>{
+            OznakaDokumenta: this.selectedNastavniMaterijali.OznakaDokumenta,
+            Opis: this.selectedNastavniMaterijali.Opis,
+            VidljivoStudentimaDaNe: this.selectedNastavniMaterijali.VidljivStudentimaDaNe
+        };
+
+        this.nastavniMaterijaliEditDialog = true;
+
+    }
+
+    closeEditNastavniMaterijali() {
+        this.PredmetNastavniMaterijaliModel = null;
+        this.nastavniMaterijaliEditDialog = false;
+    }
+
+    onRowSelectNastavniMaterijali(event) {
+        this.selectedNastavniMaterijaliIndex = event.index
+    }
+
+    onRowUnselectNastavniMaterijali() {
+        this.selectedNastavniMaterijaliIndex = null;
+        this.selectedNastavniMaterijali = null;
+    }
+
+    openPreview() {
+        this.prikaziDatoteku = true;
+    }
+
+    onClosePreview() {
+
+        this.prikaziDatoteku = false;
     }
 
     //Toast poruke
@@ -1079,6 +1471,23 @@ export class ProfesorPredmetComponent implements OnInit {
                         res.KOPIRANJEPLANA_KOPIRANJEPLANAPROMJENANSTAVNIK_PROMJENAUSPJESNA,
                     detail:
                         res.KATALOZI_BDNASTAVNIKSURADNIKPOVIJESNIPODACI_USPJESNOOBRISANO
+                });
+            });
+    }
+
+    showSuccessUploadNastavniMaterijali() {
+        this.translate
+            .get([
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UPLOADDATOTEKUUSPJESNO",
+                "KOPIRANJEPLANA_KOPIRANJEPLANAPROMJENANSTAVNIK_PROMJENAUSPJESNA"
+            ])
+            .subscribe(res => {
+                this.messageService.add({
+                    severity: "success",
+                    summary:
+                        res.KOPIRANJEPLANA_KOPIRANJEPLANAPROMJENANSTAVNIK_PROMJENAUSPJESNA,
+                    detail:
+                        res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UPLOADDATOTEKUUSPJESNO
                 });
             });
     }

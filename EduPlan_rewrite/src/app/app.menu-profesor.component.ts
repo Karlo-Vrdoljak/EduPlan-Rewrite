@@ -59,7 +59,8 @@ export class AppMenuProfesorComponent implements OnInit {
             .get([
                 "VIEWS_APLIKACIJA_HOME_OSOBNIPODACI",
                 "STUDENT_SVI_PREDMETI_POPIS",
-                "STUDENT_OBAVIJESTI_OBAVIJESTI"
+                "STUDENT_OBAVIJESTI_OBAVIJESTI",
+                "PROFESOR_OSOBNIDOKUMENTI_OSOBNIDOKUMENTI"
             ])
             .toPromise()
             .then(res => {
@@ -78,6 +79,11 @@ export class AppMenuProfesorComponent implements OnInit {
                         label: res.STUDENT_OBAVIJESTI_OBAVIJESTI, //"Obavijesti",
                         icon: "fa fa-bullseye",
                         routerLink: ["/vProfesorObavijesti"]
+                    },
+                    {
+                        label: res.PROFESOR_OSOBNIDOKUMENTI_OSOBNIDOKUMENTI, //"Osobni dokumenti",
+                        icon: "fa fa-file",
+                        routerLink: ["/vOsobniDokumenti"]
                     }
                 ];
             });

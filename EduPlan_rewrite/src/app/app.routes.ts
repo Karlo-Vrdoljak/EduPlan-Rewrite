@@ -30,6 +30,7 @@ import { ProfesorObavijestiComponent } from './profesor-obavijesti/profesor-obav
 import { ProfesorSviPredmetiComponent } from './profesor-svi-predmeti/profesor-svi-predmeti.component';
 import { ProfesorOsobniPodaciComponent } from './profesor-osobni-podaci/profesor-osobni-podaci.component';
 import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.component';
+import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/profesor-osobni-dokumenti.component'
 import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component';
 import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
 import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijali/student-nastavni-materijali.component'
@@ -67,11 +68,12 @@ export const routes: Routes = [
            { path: "vProfesorOsobniPodaci", component: ProfesorOsobniPodaciComponent },
            { path: "vProfesorPredmeti", component: ProfesorSviPredmetiComponent },
            { path: "vPredmet/:PkSkolskaGodinaStudijPredmetKatedra/:PkPredmet/:PkStudij", component: ProfesorPredmetComponent },
+           { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent },
+           { path: "vOsobniDokumenti", component: ProfesorOsobniDokumentiComponent }   ,
            { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent } ,
            { path: "vPregledProfesorAgenda/:isRedirect", component: ProfesorPregledAgendiComponent },
            { path: "vPregledProfesorAgenda", component: ProfesorPregledAgendiComponent },
            { path: "vStudentNastavniMaterijali/:PkPredmet", component: StudentNastavniMaterijaliComponent },
-
 
        ];
 
