@@ -145,6 +145,7 @@ import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.co
 import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component';
 import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
 import { CookieService } from 'ngx-cookie-service';
+import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijali/student-nastavni-materijali.component';
 import { FilePreviewComponent } from './file-preview/file-preview.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/profesor-osobni-dokumenti.component';
@@ -280,6 +281,7 @@ import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/pr
         ProfesorPredmetComponent,
         ProfesorPregledKalendaraComponent,
         ProfesorPregledAgendiComponent,
+        StudentNastavniMaterijaliComponent,
         FilePreviewComponent,
         ProfesorOsobniDokumentiComponent,
     ],

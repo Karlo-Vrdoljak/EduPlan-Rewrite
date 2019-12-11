@@ -33,10 +33,12 @@ import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.co
 import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/profesor-osobni-dokumenti.component'
 import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component';
 import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
+import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijali/student-nastavni-materijali.component'
 
 export const routes: Routes = [
            { path: "", redirectTo: "/login", pathMatch: "full" },
            { path: "login", component: LoginComponent },
+           { path: "login/:token", component: LoginComponent },
            { path: "sample", component: SampleDemoComponent },
            { path: "forms", component: FormsDemoComponent },
            { path: "data", component: DataDemoComponent },
@@ -72,6 +74,8 @@ export const routes: Routes = [
            { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent } ,
            { path: "vPregledProfesorAgenda/:isRedirect", component: ProfesorPregledAgendiComponent },
            { path: "vPregledProfesorAgenda", component: ProfesorPregledAgendiComponent },
+           { path: "vStudentNastavniMaterijali/:PkPredmet", component: StudentNastavniMaterijaliComponent },
+
        ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'});

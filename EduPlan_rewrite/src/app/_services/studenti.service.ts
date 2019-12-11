@@ -148,4 +148,19 @@ export class StudentiService {
                 catchError(this.appService.handleError("StudentiService.getStudentiKalendarComboBox"))
             );
     }
+
+    /**
+     * @Opis Vraca sve nastavne materijale za predmet
+     * @PkPredmet
+     */
+    getPredmetNastavniMaterijali(data) {
+        return this.http
+            .get(this.config.API_URL + "StudentPrikazNastavniMaterijali", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(this.appService.handleError("StudentiService.getPredmetNastavniMaterijali"))
+            );
+    }
 }
