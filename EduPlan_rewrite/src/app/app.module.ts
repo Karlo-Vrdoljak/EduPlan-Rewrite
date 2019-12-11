@@ -145,6 +145,7 @@ import { ProfesorPredmetComponent } from './profesor-predmet/profesor-predmet.co
 import { ProfesorPregledKalendaraComponent } from './profesor-pregled-kalendara/profesor-pregled-kalendara.component';
 import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profesor-pregled-agendi.component';
 import { CookieService } from 'ngx-cookie-service';
+import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijali/student-nastavni-materijali.component';
 
 @NgModule({
     imports: [
@@ -276,6 +277,7 @@ import { CookieService } from 'ngx-cookie-service';
         ProfesorPredmetComponent,
         ProfesorPregledKalendaraComponent,
         ProfesorPregledAgendiComponent,
+        StudentNastavniMaterijaliComponent,
     ],
     providers: [
         { provide: {LocationStrategy, SWIPER_CONFIG },

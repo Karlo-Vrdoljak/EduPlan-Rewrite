@@ -165,10 +165,20 @@ router.get("/DohvatDomicilnihVrijednostiEduCard", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
-//dohvat podataka o nastavnim cjelinama na odredenom predmetu 
+//dohvat podataka o nastavnim cjelinama na odredenom predmetu za profesora
 router.get("/PrikazNastavnihCjelina", function(req, res) {
     var conn = db.createConnection();
     var request = db.createRequest( "PregledKartice.spPredmetNastavneCjeline_select", conn); 
+
+    request.addParameter("PkPredmet", TYPES.Int, req.query.PkPredmet);
+
+    db.execStoredProc(request, conn, res, "{}");
+}); 
+
+//dohvat podataka o nastavnim cjelinama na odredenom predmetu za studenta
+router.get("/StudentPrikazNastavniMaterijali", function(req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest( "PregledKartice.spStudentNastavniMaterijali_Select", conn); 
 
     request.addParameter("PkPredmet", TYPES.Int, req.query.PkPredmet);
 
