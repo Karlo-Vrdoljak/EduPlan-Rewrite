@@ -38,6 +38,7 @@ import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijal
 export const routes: Routes = [
            { path: "", redirectTo: "/login", pathMatch: "full" },
            { path: "login", component: LoginComponent },
+           { path: "login/:token", component: LoginComponent },
            { path: "sample", component: SampleDemoComponent },
            { path: "forms", component: FormsDemoComponent },
            { path: "data", component: DataDemoComponent },

@@ -1,5 +1,5 @@
 import {Component, AfterViewInit, OnDestroy, Renderer2, OnInit, Inject} from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
 import { LOCAL_STORAGE, WebStorageService } from "angular-webstorage-service";
 import { LanguageHandler } from './app.languageHandler';
@@ -60,16 +60,34 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         public renderer: Renderer2,
         public router: Router,
+        public route: ActivatedRoute,
         private translate: TranslateService,
         @Inject(LOCAL_STORAGE) private storage: WebStorageService,
         private languageHandler: LanguageHandler,
         private appVariables: AppVariables,
-        private opciService: OpciService
+        private opciService: OpciService,
     ) {}
 
     ngOnInit(): void {
         // Dummy podaci
         this.emailSend = this.appVariables.emailSend;
+
+        let removeToken = 1;
+        console.log(window.location);
+        const urlString = window.location.href;
+        const index = window.location.href.indexOf('token');
+        const params = new URLSearchParams(urlString.substring(index));
+        let auth = {};
+        params.forEach((value,key) => {
+            auth[key] = value;
+        })
+        if (removeToken == 1) {
+            this.storage.remove("token");
+            this.storage.remove("auth");
+        }
+        if(auth != null) {
+            this.storage.set("auth",auth);
+        }
 
         const lang = this.languageHandler.setDefaultLanguage().getCurrentLanguage();
         this.translate.use(lang);
