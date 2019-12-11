@@ -283,6 +283,9 @@ import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/pr
         FilePreviewComponent,
         ProfesorOsobniDokumentiComponent,
     ],
+    entryComponents: [
+        FilePreviewComponent
+    ],
     providers: [
         { provide: {LocationStrategy, SWIPER_CONFIG },
           useClass: HashLocationStrategy   
@@ -307,9 +310,8 @@ import { ProfesorOsobniDokumentiComponent } from './profesor-osobni-dokumenti/pr
         DatePipe,
         CookieService,
         DialogService,
-        DynamicDialogConfig,
-        FilePreviewComponent
-    ],
+        DynamicDialogConfig
+        ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

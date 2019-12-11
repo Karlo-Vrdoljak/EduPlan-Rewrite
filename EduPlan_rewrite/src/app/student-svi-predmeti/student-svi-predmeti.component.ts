@@ -59,6 +59,7 @@ export class StudentSviPredmetiComponent implements OnInit {
                     .getStudentNaVisokomUcilistuPredmet(params)
                     .subscribe(
                         data => {
+                            console.log(data)
                             this.studentData = this.opciService.formatDates(data);
                             this.cols = [
                                 // 7, 25, 8,15,8,8,16,7

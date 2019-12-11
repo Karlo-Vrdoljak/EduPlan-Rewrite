@@ -32,10 +32,10 @@
     overflow: auto;
 }
 */
-:host >>> .ui-dialog-content {
+/* :host >>> .ui-dialog-content {
     height: 600px;
-    width: 300px;
-}
+    width: 70%;
+} */
 
 
 /* .sliderContainer{

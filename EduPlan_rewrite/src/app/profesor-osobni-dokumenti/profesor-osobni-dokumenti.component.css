@@ -1,7 +1,7 @@
-:host >>>.ng-trigger {
+/* :host >>>.ng-trigger {
     top: 45% !important;
     left: 84% !important;
-}
+} */
 
 :host >>> .ui-menuitem-icon.fa.fa-plus.ng-star-inserted{
     color: green;
@@ -19,7 +19,14 @@
     color: #3271a8;
 }
 
-:host >>>  .ui-state-disabled  {    
+:host >>> .actionContainerMenu .ng-trigger {
+    top: 15% !important;
+    left: 84.2% !important;
+}
+
+
+
+/* :host >>>  .ui-state-disabled  {    
     opacity: 1.0;
 }
 
@@ -42,7 +49,7 @@ background-color: blue;}
 
 .ui-button-success:disabled {
     opacity: 0.5;
-}
+} */
 
 
 

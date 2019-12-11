@@ -283,7 +283,6 @@ export class ProfesorOsobniDokumentiComponent implements OnInit {
   }
 
   onClosePreview() {
-
     this.prikaziDatotekuOsobniDokumenti = false;
   }
 

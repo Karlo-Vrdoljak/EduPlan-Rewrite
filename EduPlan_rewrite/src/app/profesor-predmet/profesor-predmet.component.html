@@ -1283,11 +1283,18 @@
                     </p-dropdown>
                 </span>
             </div>
-            <div class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-6" style="padding: 10px;">
+            <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
                 <span class="ui-float-label">
                     <p-checkbox label="{{'PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA' | translate}}"
                         [(ngModel)]="PredmetNastavniMaterijaliModel.VidljivoStudentimaDaNe" binary="true">
                     </p-checkbox>
+                </span>
+            </div>
+            <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
+                <span class="ui-float-label">
+                    <p-multiSelect [options]="predmetiPripadajuceGrupe" [(ngModel)]="selectedPredmetiZaUpload"
+                        optionLabel="multipleChoiceLabel" (onChange)="onMultiSelectChange()">          
+                    </p-multiSelect>
                 </span>
             </div>
             <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" style="padding: 10px;">
@@ -1315,7 +1322,7 @@
     <p-footer>
         <button type="button" pButton icon="fa fa-check" label="{{'KATALOZI_NASTAVNIKSURADNIK_UREDI' | translate}}"
             class="ui-button-success" (click)="uploadNastavneMaterijale($event, fileUpload)"
-            [disabled]="!odabranaDatoteka || checkValidPattern.invalid"></button>
+            [disabled]="!odabranaDatoteka || checkValidPattern.invalid || !selectedPredmetiZaUpload"></button>
 
         <button type="button" pButton icon="fa fa-fw fa-times"
             label="{{'KATALOZI_PREDMETNASTAVNACJELINA_ZATVORI' | translate}}" class="ui-button-secondary"
@@ -1368,9 +1375,12 @@
     </p-footer>
 </p-dialog>
 
-<div *ngIf="prikaziDatoteku">
-    <app-file-preview [data]="selectedNastavniMaterijali"></app-file-preview>
-</div>
+<p-dialog [(visible)]="prikaziDatoteku"  [modal]="true" [responsive]="true"
+    [style]="{width: '600px'}" [positionTop]="20" [minY]="100"  [baseZIndex]="10000" (onHide)="onHideDialog()">
+    <div *ngIf="prikaziDatoteku" style="height: 600px; width: 100%;">
+        <app-file-preview [data]="selectedNastavniMaterijali"></app-file-preview>
+    </div>
+</p-dialog>
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>

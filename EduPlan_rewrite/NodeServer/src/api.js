@@ -725,5 +725,15 @@ router.get("/Predavaonice", function(req, res) {
     db.execStoredProc(request, conn, res, "{}");
 }); 
 
+// dohvat svih predmeta po pripadajućoj grupi predmeta
+router.get("/getPredmetiUGrupiPredmeta", function (req, res) {
+    var conn = db.createConnection();
+    var request = db.createRequest("PregledKartice.spGrupaPredmetaPredmeti", conn);
+
+    request.addParameter("PkPredmet", TYPES.Int, req.query.PkPredmet);
+
+    db.execStoredProc(request, conn, res, "{}");
+});
+
 
 module.exports = router;
