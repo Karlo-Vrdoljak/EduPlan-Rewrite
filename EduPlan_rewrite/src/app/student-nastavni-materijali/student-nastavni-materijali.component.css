@@ -1,0 +1,32 @@
+
+
+@media only screen and (min-width: 750px) {
+    .largeMedium {
+        display:block;
+    }
+    .smallDevice {
+        display:none;
+    }   
+    .card h1 {
+        padding: unset;
+    }
+    
+    :host >>> .ui-menuitem-icon.fa.fa-download.ng-star-inserted{
+        color: #3271a8;
+    }
+    
+    :host >>> .ui-menu .ui-menuitem-link:hover {
+        color: #6ec5ff;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .largeMedium {
+        display:none;
+    }
+    .smallDevice {
+        display:block;
+        font-size:1.3em;
+        line-height: 1.35em;
+    }
+}
