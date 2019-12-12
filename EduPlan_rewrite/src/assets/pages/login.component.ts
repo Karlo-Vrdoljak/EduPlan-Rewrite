@@ -27,25 +27,7 @@ export class LoginComponent implements OnInit {
 
     setUserConfig() {
 
-       const params = {
-            pkUsera: this.appVariables.PkUsera
-        };
-
-        this.opciService.getKorisnikPodaci(params).subscribe((data) => {
-            data[0].PkStudent ? this.appVariables.PkStudent = data[0].PkStudent : this.appVariables.PkStudent = null;
-            data[0].PkNastavnikSuradnik ? this.appVariables.PkNastavnikSuradnik =data[0].PkNastavnikSuradnik : this.appVariables.PkNastavnikSuradnik = null; //Provjera da li je rijeć o profesoru ili studentu i postavljanje na null onoga ko nije u pitanju
-            this.router.navigate([
-                this.appVariables.PkStudent? "/vStudentObavijesti" : "/vProfesorObavijesti"
-            ]);
-        },
-
-        (err: HttpErrorResponse) => {
-            if (err.error instanceof Error) {
-                console.log('Client-side error occured.');
-            } else {
-                console.log('Server-side error occured.');
-            }
-        }, () => { });
+       
       
         
     }

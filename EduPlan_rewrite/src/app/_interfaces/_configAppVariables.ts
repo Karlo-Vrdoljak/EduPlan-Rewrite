@@ -14,6 +14,7 @@ export class AppVariables {
                subject: null,
                text: null
            };
+           removeToken:boolean = false; //set True za uvik reset token
            domicilneVrijednosti: any;
            EducardAktivan: number;
            //    NazivDomicilneVrijednosti: string;
@@ -27,4 +28,8 @@ export class AppVariables {
            sveSatnice:Satnice[];
            constructor() {}
            Predavaonice:Predavaonica[];
+           authData:any;
+           redirectLoginUrl = "http://localhost:8080/App/";
+           tokenType:string;
        }
+       

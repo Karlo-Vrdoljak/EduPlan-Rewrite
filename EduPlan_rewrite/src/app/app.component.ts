@@ -10,6 +10,7 @@ import { CalendarConfig } from './_interfaces/_configCalendar';
 import { LoginComponent } from 'src/assets/pages/login.component';
 import { OpciService } from './_services/opci.service';
 import { Satnice } from './_interfaces/Satnice';
+import { HttpErrorResponse } from '@angular/common/http';
 
 enum MenuOrientation {
     STATIC,
@@ -72,29 +73,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         // Dummy podaci
         this.emailSend = this.appVariables.emailSend;
 
-        let removeToken = 1;
-        console.log(window.location);
-        const urlString = window.location.href;
-        const index = window.location.href.indexOf('token');
-        const params = new URLSearchParams(urlString.substring(index));
-        let auth = {};
-        params.forEach((value,key) => {
-            auth[key] = value;
-        })
-        if (removeToken == 1) {
-            this.storage.remove("token");
-            this.storage.remove("auth");
-        }
-        if(auth != null) {
-            this.storage.set("auth",auth);
-        }
+        this.configureAuthToken();
+
+        this.setupLoggedInUser();
 
         const lang = this.languageHandler.setDefaultLanguage().getCurrentLanguage();
         this.translate.use(lang);
-
-        if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null) {
-            this.router.navigate(["/login"]);
-        }
 
         this.setupCalendarOrientationEvent();
 
@@ -123,6 +107,63 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             this.sidebarClick = false;
             this.menuButtonClick = false;
         });
+    }
+
+    configureAuthToken() {
+        let auth = { };
+        const urlString = window.location.href;
+        const index = window.location.href.indexOf('token');
+        
+        if( index != -1) {
+            const params = new URLSearchParams(urlString.substring(index));
+            
+            params.forEach((value,key) => {
+                auth[key] = value;
+            });
+        }
+        
+        if (this.appVariables.removeToken && index == -1) {
+            // this.storage.remove("token");
+            this.storage.remove("auth");
+        }
+        if(Object.entries(auth).length === 0 && auth.constructor === Object) {
+            console.log("Error token");
+            
+        } else {
+            this.storage.set("auth",auth);
+        }
+    }
+
+    setupLoggedInUser() {
+
+        
+        this.appVariables.authData = this.storage.get("auth");
+        this.appVariables.tokenType = this.appVariables.authData.tokenType;
+        this.appVariables.PkUsera = this.appVariables.authData.PkUsera;
+        const params = {
+            pkUsera: this.appVariables.PkUsera
+        };
+
+        this.opciService.getKorisnikPodaci(params).subscribe((data) => {
+            data[0].PkStudent ? this.appVariables.PkStudent = data[0].PkStudent : this.appVariables.PkStudent = null;
+            data[0].PkNastavnikSuradnik ? this.appVariables.PkNastavnikSuradnik =data[0].PkNastavnikSuradnik : this.appVariables.PkNastavnikSuradnik = null; //Provjera da li je rijeć o profesoru ili studentu i postavljanje na null onoga ko nije u pitanju
+            if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null) {
+                // this.router.navigate(["/login"]);
+                window.location.replace(this.appVariables.redirectLoginUrl);
+            }
+            if ( this.appVariables.PkNastavnikSuradnik && this.appVariables.tokenType == 'stoken') {
+                window.location.replace(this.appVariables.redirectLoginUrl);
+            }
+            if( this.appVariables.PkStudent && this.appVariables.tokenType == 'ptoken') {
+                window.location.replace(this.appVariables.redirectLoginUrl);
+            }
+            }, err => { window.location.replace(this.appVariables.redirectLoginUrl);
+            }, () => {
+                this.router.navigate([
+                    this.appVariables.PkStudent? "/vStudentObavijesti" : "/vProfesorObavijesti"
+                ]); 
+            }
+        );
     }
 
     setupSveSatnice() {
@@ -275,6 +316,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.topbarItemClick = true;
 
         event.preventDefault();
+    }
+    handleLogout() {
+        this.storage.remove("auth");
+        window.location.replace(this.appVariables.redirectLoginUrl);
     }
 
     onTopbarSubItemClick(event) {

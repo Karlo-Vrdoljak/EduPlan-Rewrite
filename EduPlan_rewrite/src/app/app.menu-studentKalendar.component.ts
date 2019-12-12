@@ -58,12 +58,12 @@ export class AppMenuKalendarComponent implements OnInit {
         this.translate.onLangChange.subscribe((eventKalendar:LangChangeEvent)=> {
             this.model = [
                 {
-                    label: this.translate.instant("VIEWS_KATALOZI_PREDMET_RASPORED"),
+                    label: this.translate.instant("VIEWS_KATALOZI_PREDMET_MOJRASPORED"),
                     icon: "fa fa-calendar",
                     routerLink: ["/vStudentKalendar"]
                 },
                 {
-                    label: this.translate.instant("STUDENT_KALENDAR_AGENDA"),
+                    label: this.translate.instant("STUDENT_KALENDAR_MOJAAGENDA"),
                     icon: "fa fa-clipboard",
                     routerLink: ["/vStudentAgenda"]
                 }

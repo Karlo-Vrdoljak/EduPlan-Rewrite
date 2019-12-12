@@ -1,3 +1,4 @@
+import { AppComponent } from './app.component';
 import { Routes, RouterModule} from '@angular/router';
 import { ModuleWithProviders} from '@angular/core';
 import { DashboardDemoComponent} from './demo/view/dashboarddemo.component';
@@ -36,9 +37,8 @@ import { ProfesorPregledAgendiComponent } from './profesor-pregled-agendi/profes
 import { StudentNastavniMaterijaliComponent } from './student-nastavni-materijali/student-nastavni-materijali.component'
 
 export const routes: Routes = [
-           { path: "", redirectTo: "/login", pathMatch: "full" },
-           { path: "login", component: LoginComponent },
-           { path: "login/:token", component: LoginComponent },
+           { path: "", component: AppComponent },
+        //    { path: "login/:token", component: LoginComponent },
            { path: "sample", component: SampleDemoComponent },
            { path: "forms", component: FormsDemoComponent },
            { path: "data", component: DataDemoComponent },
