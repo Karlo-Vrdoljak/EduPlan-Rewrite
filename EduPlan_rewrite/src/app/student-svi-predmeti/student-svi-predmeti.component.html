@@ -1,11 +1,25 @@
 <div class="card largeMedium" style="padding: 10px!important;">
     <div *ngIf="studentData; else loader">
-        <p-table #dt [columns]="cols" [value]="studentData" selectionMode="single" [scrollable]="true"
-            scrollHeight="77vh" dataKey="PredmetKratica" [resizableColumns]="true">
+        <p-table #dt [columns]="cols" [value]="studentData"  [scrollable]="true"
+            scrollHeight="calc(100vh - 250px)" dataKey="PredmetKratica">
             <ng-template pTemplate="caption">
-                <div class="captionContainer" style="text-align: center">
-                    <span>{{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
-                    </span>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-lg-4 ui-md-4">
+                        </div>
+                        <div class="ui-g-12 ui-lg-4 ui-md-4">
+                            <span style="font-size: 1.3em;">
+                                {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-lg-4 ui-md-4">
+                            <span style="float: right;">
+                                <i class="fa fa-search"></i>
+                                <input type="text" pInputText size="30" placeholder="Search..."
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="width: 90%">
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </ng-template>
             <ng-template pTemplate="colgroup" let-columns>
@@ -16,31 +30,36 @@
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <th pResizableColumn>
-                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                        <input type="text" pInputText size="30" placeholder="Filter..."
-                            (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:10.5em;">
+                    <th>
+
                     </th>
-                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
-                        style="text-align: center;">
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="text-align: center;">
                         {{col.header}}
                         <p-sortIcon [field]="col.field"></p-sortIcon>
                     </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
-                <tr [pSelectableRow]="rowData">
+                <tr>
                     <td class="ui-resizable-column">
-
-                        <a href="#" [pRowToggler]="rowData">
-                            <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                                style="font-size: 2.5em; padding: 0em 0.1em;"></i>
-                        </a>
-                        <span title="{{'VIEWS_APLIKACIJA_HOME_NASTAVNIMATERIJALI' | translate}}">
-                            <a routerLink="/vStudentNastavniMaterijali/{{rowData.PredmetNaziv}}/{{rowData.StudijNaziv}}/{{rowData.PkPredmet}}" style="padding-left: 5em;">
-                                <i class="fa fa-book" style="font-size: 2.5em; vertical-align: sub; color: #858585;"></i>
-                            </a>
-                        </span>
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12">
+                                <div class="ui-g-12 ui-lg-6 ui-md-6">
+                                    <a href="#" [pRowToggler]="rowData">
+                                        <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                            style="font-size: 2em; float: left; margin-left: -0.3em;"></i>
+                                    </a>
+                                </div>
+                                <div class="ui-g-12 ui-lg-6 ui-md-6"
+                                    title="{{'VIEWS_APLIKACIJA_HOME_NASTAVNIMATERIJALI' | translate}}">
+                                    <a
+                                        routerLink="/vStudentNastavniMaterijali/{{rowData.PredmetNaziv}}/{{rowData.StudijNaziv}}/{{rowData.PkPredmet}}">
+                                        <i class="fa fa-book"
+                                            style="font-size: 2em; color: #858585; float: right; margin-left: -0.3em;"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
                         <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
@@ -164,35 +183,49 @@
 
 <div class="card smallDevice" style="padding: 10px!important;">
     <div *ngIf="studentData; else loader">
-        <p-table [columns]="colsSmall" [value]="studentData" selectionMode="single" [scrollable]="true"
-            dataKey="PredmetKratica" [resizableColumns]="true" rowExpandMode="single">
+        <p-table #dt [columns]="colsSmall" [value]="studentData" [scrollable]="true"
+            dataKey="PredmetKratica"  rowExpandMode="single">
             <ng-template pTemplate="caption">
-                <!--Podaci o predmetima-->
-                {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
-            </ng-template>
-            <ng-template pTemplate="colgroup" let-columns>
-                <colgroup>
-                    <col *ngFor="let col of columns">
-                </colgroup>
-                <!--[style.width]="col.width"-->
+                <div style="font-size: 0.9em;">
+                    {{ 'STUDENT_NOVISTUDENTPREDMETI_PODACI_O_PREDMETIMA' | translate }}
+                </div>
+                <div>
+                    <input type="text" pInputText size="30" placeholder="Search..."
+                        (input)="dt.filterGlobal($event.target.value, 'contains')" style="width: 80%">
+                </div>
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <!--<th width="15%"  pResizableColumn></th>-->
                     <th *ngFor="let col of columns" colspan="2" [pSortableColumn]="col.field" pResizableColumn
-                        style="text-align: center;">
+                        style="text-align: center; font-size: 0.8em;">
                         {{col.header}}
                         <p-sortIcon [field]="col.field"></p-sortIcon>
                     </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
-                <tr [pSelectableRow]="rowData">
-                    <td width="20%" class="ui-resizable-column">
-                        <a href="#" [pRowToggler]="rowData">
-                            <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                                style="font-size: 2em; margin-left: -0.2em;"></i>
-                        </a>
+                <tr>
+                    <td width="15%" class="ui-resizable-column">
+                        <div class="ui-g ui-fluid">
+                            <div class="iconsSmallWrapper ui-g-12">
+                                <div class="iconsSmallWrapper ui-g-12 ui-sm-12" style="text-align: center;">
+                                    <a href="#" [pRowToggler]="rowData">
+                                        <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
+                                            style="font-size: 1.5em;"></i>
+                                    </a>
+                                </div>
+                                <div class="iconsSmallWrapper ui-g-12 ui-sm-12" style="text-align: center;"
+                                    title="{{'VIEWS_APLIKACIJA_HOME_NASTAVNIMATERIJALI' | translate}}">
+                                    <a
+                                        routerLink="/vStudentNastavniMaterijali/{{rowData.PredmetNaziv}}/{{rowData.StudijNaziv}}/{{rowData.PkPredmet}}">
+                                        <i class="fa fa-book" style="font-size: 1.3em; 
+                                        color: #858585; ">
+                                        </i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
                         {{rowData[col.field]}}
