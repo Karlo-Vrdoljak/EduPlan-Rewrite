@@ -7,6 +7,8 @@ import { MessageService, MenuItem } from "primeng/api";
 import { LanguageHandler } from "../app.languageHandler";
 import { AppVariables } from "../_interfaces/_configAppVariables";
 import { StudentiService } from "../_services/studenti.service";
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: "app-student-nastavni-materijali",
@@ -23,6 +25,10 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
   colsNastavniMaterijali: { field: string; header: any; }[];
   selectedNastavniMaterijalIndex: any;
   selectedNastavniMaterijali: any;
+  predmetOsnovniPodaci: any;
+  predmetNaziv: string = this.route.snapshot.paramMap.get("PredmetNaziv");
+  studijNaziv: string = this.route.snapshot.paramMap.get("StudijNaziv");
+
 
 
   constructor(
@@ -32,7 +38,8 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
     private translate: TranslateService,
     private messageService: MessageService,
     private langHandler: LanguageHandler,
-    private appVariables: AppVariables
+    private appVariables: AppVariables,
+    private profesorService: ProfesorService
   ) { }
 
   ngOnInit() {
@@ -43,6 +50,30 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
     this.selectedLang = this.langHandler.getCurrentLanguage();
     
     this.translate
+            .get([
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREGLEDDOKUMENTA"
+            ])
+            .subscribe(res => {
+              this.actionItemsNastavniMaterijli = [
+                {
+                    label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREUZMIDATOTEKU,
+                    icon: "fa fa-download",
+                    command: () => this.selectedNastavniMaterijali
+                        ? this.downloadNastavniMaterijali()
+                        : this.showErrorZapisNijeOdabran()
+                },
+                {
+                    label: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_PREGLEDDOKUMENTA,
+                    icon: "fa fa-eye",
+                    command: () => this.selectedNastavniMaterijali
+                        ? this.openPreview()
+                        : this.showErrorZapisNijeOdabran()
+                }
+            ];
+            })
+
+    this.translate //dohvat podataka za nastavne materijale po predmetu
       .get([
         "PREDMET_PREDMETMATERIJALI_OPIS",
         "NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA",
@@ -82,11 +113,9 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
         () => {
           this.studentService.getPredmetNastavniMaterijali(this.params).subscribe((data) => {
             this.predmetNastavniMaterijali = data;
-            console.log( this.predmetNastavniMaterijali)
             this.predmetNastavniMaterijali = this.predmetNastavniMaterijali.filter(e => [1, true].includes(e.VidljivStudentimaDaNe)).filter(e => {
               return [0, false].includes(e.IzbrisanDaNe);
             })
-            console.log(this.predmetNastavniMaterijali)
           },
             error => { console.error(error) },
             () => {
