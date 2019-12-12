@@ -70,20 +70,25 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
         // Dummy podaci
+
         this.emailSend = this.appVariables.emailSend;
+        let params = null;
+        let auth = null;
 
         let removeToken = 1;
+
         console.log(window.location);
         const urlString = window.location.href;
         const index = window.location.href.indexOf('token');
-        const params = new URLSearchParams(urlString.substring(index));
-        let auth = {};
-        params.forEach((value,key) => {
-            auth[key] = value;
-        })
+        if ( index != -1) {
+            params = new URLSearchParams(urlString.substring(index));
+            params.forEach((value,key) => {
+                auth[key] = value;
+            })
+        }
         if (removeToken == 1) {
-            this.storage.remove("token");
             this.storage.remove("auth");
+            // this.storage.remove("token");
         }
         if(auth != null) {
             this.storage.set("auth",auth);
