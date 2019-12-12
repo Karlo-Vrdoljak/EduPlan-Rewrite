@@ -71,11 +71,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
         // Dummy podaci
+
         this.emailSend = this.appVariables.emailSend;
+        let params = null;
+        let auth = null;
 
         this.configureAuthToken();
 
         this.setupLoggedInUser();
+
 
         const lang = this.languageHandler.setDefaultLanguage().getCurrentLanguage();
         this.translate.use(lang);
