@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PDFDocumentProxy, PdfViewerModule  } from 'ng2-pdf-viewer';
 import { Config } from '../config';
 import { LanguageHandler } from '../app.languageHandler';
-import { ProfesorPredmetComponent } from '../profesor-predmet/profesor-predmet.component'
+// import { ProfesorPredmetComponent } from '../profesor-predmet/profesor-predmet.component'
 
 
 @Component({
@@ -46,8 +46,7 @@ export class FilePreviewComponent implements OnInit {
     public dialogService: DialogService, // Varijabla koja služi za servis dijalog
     public translate: TranslateService,  //Varijabla koja služi za prijevod
     public config: DynamicDialogConfig,
-    public langHandler: LanguageHandler,
-    public profPredmet: ProfesorPredmetComponent) {
+    public langHandler: LanguageHandler) {
     this.konfig = new Config();
     this.loaded = false;
   }
@@ -90,9 +89,9 @@ export class FilePreviewComponent implements OnInit {
     }
   }
   
-  onHideDialog() {
-    this.profPredmet.onClosePreview();
-  }
+  // onHideDialog() {
+  //   this.profPredmet.onClosePreview();
+  // }
   
   _saKlijenta() {
     this.loaded = false;

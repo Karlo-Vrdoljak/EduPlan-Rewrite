@@ -74,7 +74,7 @@ export const routes: Routes = [
            { path: "vPregledProfesorKalendar", component: ProfesorPregledKalendaraComponent } ,
            { path: "vPregledProfesorAgenda/:isRedirect", component: ProfesorPregledAgendiComponent },
            { path: "vPregledProfesorAgenda", component: ProfesorPregledAgendiComponent },
-           { path: "vStudentNastavniMaterijali/:PkPredmet", component: StudentNastavniMaterijaliComponent },
+           { path: "vStudentNastavniMaterijali/:PredmetNaziv/:StudijNaziv/:PkPredmet", component: StudentNastavniMaterijaliComponent },
 
        ];
 

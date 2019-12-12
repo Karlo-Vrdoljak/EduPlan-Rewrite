@@ -1,64 +1,115 @@
-<ng-container>
-    <div class="card card-w-title">
-        <!-- <h1 style="padding: 0.875em 0"> -->
-            <!-- <span *ngIf="selectedLang == 'hr'; else englishOutput">
-                {{predmetOsnovniPodaci.NazivPredmeta_HR}} &bull;
-                {{predmetOsnovniPodaci.NazivStudija_HR}}
-            </span> -->
-            <!-- <div class="actionsContainer" style="float: right;">
-                <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
-                    #menuNastavneCjeline [popup]="true" [model]="actionItemsNastavneCjeline">
-                </p-menu>
-                <button type="button" pButton icon="fa fa-fw fa-list"
-                    label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
-                    (click)="menuNastavneCjeline.toggle($event)"></button>
-            </div> -->
-        <!-- </h1> -->
-        <div *ngIf="!predmetNastavniMaterijali || !colsNastavniMaterijali" style="padding: 1em;">
-            <p-progressBar mode="indeterminate"></p-progressBar>
-        </div> 
-        <p-table *ngIf="predmetNastavniMaterijali && colsNastavniMaterijali" [value]="predmetNastavniMaterijali" [columns]="colsNastavniMaterijali"
-            selectionMode="single" [scrollable]="true" scrollHeight="77vh"
-            [(selection)]="selectedNastavniMaterijal"
-            (onRowSelect)="onRowSelectNastavniMaterijali($event)">
+     <ng-container>
+         <div class="card card-w-title">
+             <h1>
+                 <div class="ui-g ui-fluid">
+                     <div class="ui-g-12">
+                         <a routerLink="/vStudentSviPredmeti" [title]="'PROFESOR-PREDMET_NATRAG' | translate">
+                             <img src="../../assets/layout/images/left.svg" alt="Go back"
+                                 style="height: 2.5em; width: 3em;">
+                         </a>
+                         <div class="ui-g-12 ui-lg-4">
+                                {{predmetNaziv}} &bull;
+                                {{studijNaziv}}
+                            </div>
+                         <div class="ui-g-12 ui-lg-4">
+                             <div style="margin-left: 2em;">
+                                 <i class="fa fa-search"></i>
+                                 <input type="text" pInputText size="30" placeholder="Global Filter"
+                                     (input)="predmetMaterijaliSearch.filterGlobal($event.target.value, 'contains')"
+                                     style="width:20em;">
+                             </div>
+                         </div>
+                         <div class="ui-g-12 ui-lg-4">
+                             <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                 #menuNastavniMaterijali [popup]="true" [model]="actionItemsNastavniMaterijali">
+                             </p-menu>
+                             <button type="button" pButton icon="fa fa-fw fa-list"
+                                 label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
+                                 (click)="menuNastavniMaterijali.toggle($event)"
+                                 style="width: 30%; float: right;"></button>
+                         </div>
+                     </div>
+                 </div>
+             </h1>
 
-            <ng-template pTemplate="colgroup" let-columns>
-                <colgroup>
-                    <col *ngFor="let col of columns" [style.width]="col.width">
-                </colgroup>
-            </ng-template>
+             <p-table #predmetMaterijaliSearch [value]="predmetNastavniMaterijali" [columns]="colsNastavniMaterijali"
+                 selectionMode="single" [scrollable]="true" scrollHeight="60vh"
+                 [(selection)]="selectedNastavniMaterijali" (onRowSelect)="onRowSelectNastavniMaterijali($event)"
+                 (onRowUnselect)="onRowUnselectNastavniMaterijali()">
 
-            <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
-                        style="text-align: center;">
-                        {{col.header}}
-                        <p-sortIcon [field]="col.field"></p-sortIcon>
-                    </th>
-                </tr>
-            </ng-template>
+                 <!-- <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                            <col *ngFor="let col of columns" [style.width]="col.width">
+                        </colgroup>
+                    </ng-template> -->
 
-            <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-                <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                    <td *ngFor="let col of columns" class="ui-resizable-column"
-                        style="text-align: center;">
-                        <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
-                            <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
-                                    [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
-                        </span>
-                        <ng-template #textOutput>
-                          <ng-container *ngIf="col.field != 'imgSrc'; else imageOutput">
-                              {{rowData[col.field]}}
-                          </ng-container>
-                        </ng-template>
-                          <ng-template #imageOutput><img src="{{rowData[col.field]}}"></ng-template>
-                          
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
+                 <ng-template pTemplate="header" let-columns style="font-size: small;">
+                     <tr>
+                         <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="text-align: center;"
+                             pResizableColumn>
+                             {{col.header}}
+                             <p-sortIcon [field]="col.field"></p-sortIcon>
+                         </th>
+                     </tr>
+                 </ng-template>
+
+                 <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+                     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                         <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+
+                             <span *ngIf="isPng(rowData[col.field]); else textOutput">
+                                 <img [src]="rowData[col.field]" [title]="showFileTypeTitle(rowData[col.field])">
+                             </span>
+
+                             <ng-template #textOutput>{{rowData[col.field]}}</ng-template>
+                         </td>
+                     </tr>
+                 </ng-template>
+
+             </p-table>
+
+         </div>
+     </ng-container>
+     <!-- <div *ngIf="!predmetNastavniMaterijali || !colsNastavniMaterijali" style="padding: 1em;">
+        <p-progressBar mode="indeterminate"></p-progressBar>
     </div>
+    <p-table *ngIf="predmetNastavniMaterijali && colsNastavniMaterijali" [value]="predmetNastavniMaterijali"
+        [columns]="colsNastavniMaterijali" selectionMode="single" [scrollable]="true" scrollHeight="77vh"
+        [(selection)]="selectedNastavniMaterijal" (onRowSelect)="onRowSelectNastavniMaterijali($event)">
 
-</ng-container>
+        <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+                <col *ngFor="let col of columns" [style.width]="col.width">
+            </colgroup>
+        </ng-template>
 
-<span style="opacity:0;">.</span>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
+                    style="text-align: center;">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+                <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
+                    <span *ngIf="isBoolean(rowData[col.field]); else textOutput">
+                        <span [style.color]="rowData[col.field] == true ? 'green' : 'red' "><i
+                                [ngClass]="rowData[col.field] == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i></span>
+                    </span>
+                    <ng-template #textOutput>
+                        <ng-container *ngIf="col.field != 'imgSrc'; else imageOutput">
+                            {{rowData[col.field]}}
+                        </ng-container>
+                    </ng-template>
+                    <ng-template #imageOutput><img src="{{rowData[col.field]}}"></ng-template>
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <span style="opacity:0;">.</span> -->

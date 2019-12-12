@@ -24,7 +24,7 @@
                             </span>
 
                             <span class="ui-g-12 ui-lg-6">
-                                <p-menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+                                <p-menu class="actionContainerMenu" [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
                                     #menuOsobniDokumenti [popup]="true" [model]="actionItemsOsobniDokumenti"></p-menu>
                                 <button type="button" pButton icon="fa fa-fw fa-list"
                                     label="{{'PROFESOR_NASTAVNECJELINE_DOSTUPNEAKCIJE' | translate}}"
@@ -143,9 +143,12 @@
     </p-footer>
 </p-dialog>
 
-<div *ngIf="prikaziDatotekuOsobniDokumenti">
-    <app-file-preview [data]="selectedOsobniDokumenti"></app-file-preview>
-</div> 
+<p-dialog [(visible)]="prikaziDatotekuOsobniDokumenti"  [modal]="true" [responsive]="true"
+    [style]="{width: '600px'}" [positionTop]="20" [minY]="100"  [baseZIndex]="10000" (onHide)="onClosePreview()">
+    <div *ngIf="prikaziDatotekuOsobniDokumenti" style="height: 600px; width: 100%;">
+        <app-file-preview [data]="selectedOsobniDokumenti"></app-file-preview>
+    </div>
+</p-dialog>
 
 <ng-template #loader>
     <p-progressBar mode="indeterminate"></p-progressBar>

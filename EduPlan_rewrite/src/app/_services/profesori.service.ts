@@ -489,4 +489,26 @@ export class ProfesorService {
                 )
             );
     }
+
+    
+    /**
+     *
+     * Opis: Select svih predmeta za pripadajuću grupu predmeta
+     * param: PkPredmet: int
+     *
+     */
+    getPredmetiUGrupiPredmeta(data) {
+        return this.http
+            .get(this.config.API_URL + "getPredmetiUGrupiPredmeta", {
+                params: data
+            })
+            .pipe(
+                retry(this.config.APIRetryCount),
+                catchError(
+                    this.appService.handleError(
+                        "ProfesorService.getPredmetiUGrupiPredmeta"
+                    )
+                )
+            );
+    }
 }
