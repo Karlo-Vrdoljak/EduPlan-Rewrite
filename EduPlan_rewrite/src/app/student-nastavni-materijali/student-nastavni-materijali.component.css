@@ -14,9 +14,17 @@
     :host >>> .ui-menuitem-icon.fa.fa-download.ng-star-inserted{
         color: #3271a8;
     }
+
+    :host >>> .ui-menuitem-icon.fa.fa-eye.ng-star-inserted{
+        color:  #6ec5ff;
+    }
     
     :host >>> .ui-menu .ui-menuitem-link:hover {
         color: #6ec5ff;
+    }
+
+    .tableHeaderLarge {
+        font-size: 0.9em;
     }
 }
 
@@ -28,4 +36,21 @@
         display:block;
         font-size:1.3em;
     }
+
+    .tableHeaderSmall {
+        border: none !important;
+        text-align: center !important;
+        font-size: 1em !important;
+    }    
+    
+    .tableBodySmall {
+        border: none !important;
+    }
+
 }
+
+.toastWrapper {
+    white-space: pre-wrap;
+
+}
+

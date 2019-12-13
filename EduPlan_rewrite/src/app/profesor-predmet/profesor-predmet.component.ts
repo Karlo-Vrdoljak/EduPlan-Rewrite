@@ -99,7 +99,7 @@ export class ProfesorPredmetComponent implements OnInit {
     prikaziDatoteku: boolean = false;
     predmetiPripadajuceGrupe: any;
     selectedPredmetiZaUpload: any;
-
+    selectedNastavniMterijaliNaziv: string;
     //Botuni
     actionItemsSmall: MenuItem[];
     actionItemsNastavneCjeline: MenuItem[];
@@ -1415,11 +1415,12 @@ export class ProfesorPredmetComponent implements OnInit {
     }
 
     openPreview() {
+        this.selectedNastavniMterijaliNaziv = this.selectedNastavniMaterijali.NazivDokumenta.split('.')[0];
         this.prikaziDatoteku = true;
     }
 
     onClosePreview() {
-
+        this.selectedNastavniMterijaliNaziv = null;
         this.prikaziDatoteku = false;
     }
 

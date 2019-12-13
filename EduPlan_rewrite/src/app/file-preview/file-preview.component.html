@@ -25,7 +25,7 @@
 
     <div id="fileViewerContentInnerPdf" class="fileViewerContentInner">
         <pdf-viewer *ngIf="type == 'application/pdf'  && loaded" [src]="pdfSrc" [render-text]="false"
-            style="display: block;" [original-size]="false" [fit-to-page]="false" [autoresize]="true" [zoom]="zoom"
+            style="display: block; max-width: 100%" [original-size]="false" [fit-to-page]="false" [autoresize]="true" 
             [show-all]="prikaziSve" (after-load-complete)="afterLoadComplete($event)">
         </pdf-viewer>
 

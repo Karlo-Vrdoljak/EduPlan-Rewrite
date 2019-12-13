@@ -1375,7 +1375,7 @@
     </p-footer>
 </p-dialog>
 
-<p-dialog [(visible)]="prikaziDatoteku"  [modal]="true" [responsive]="true"
+<p-dialog [header]="selectedNastavniMterijaliNaziv" [(visible)]="prikaziDatoteku"  [modal]="true" [responsive]="true"
     [style]="{width: '600px'}" [positionTop]="20" [minY]="100"  [baseZIndex]="10000" (onHide)="onHideDialog()">
     <div *ngIf="prikaziDatoteku" style="height: 600px; width: 100%;">
         <app-file-preview [data]="selectedNastavniMaterijali"></app-file-preview>

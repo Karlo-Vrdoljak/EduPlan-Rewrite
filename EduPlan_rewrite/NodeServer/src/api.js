@@ -654,22 +654,22 @@ router.get('/fileDownload2Object', function (req, res) {
  
     fs.exists(filePath, function (exists) {
         if (exists) {
-            if (checkMimeTypeSupported(mimetype)) {
+            // if (checkMimeTypeSupported(mimetype)) {
                 // posaljimo datoteku browseru
                 res.setHeader('Content-type', mimetype);
                 fs.readFile(filePath, function (err, data) {
                     res.send(data);
                 });
 
-            } else {
-                //  ako ne podrzavamo type
-                res.setHeader('Content-type', 'application/pdf');
-                fs.readFile(appConfig.uploadPath + 'NepodrzaniTip.pdf', function (err, data) {
-                    res.send(data);
+            // } else {
+            //     //  ako ne podrzavamo type
+            //     res.setHeader('Content-type', 'application/pdf');
+            //     fs.readFile(appConfig.uploadPath + 'NepodrzaniTip.pdf', function (err, data) {
+            //         res.send(data);
 
-                });
+            //     });
 
-            }
+            // }
         } else {
             //  ako nema datoteke, pošaljimo obavijest
             res.setHeader('Content-type', 'application/pdf');

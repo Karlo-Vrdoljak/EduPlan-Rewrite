@@ -21,7 +21,7 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
         PkPredmet: null
     };
     predmetNastavniMaterijali: any;
-    colsNastavniMaterijali: { field: string; header: any }[];
+    colsNastavniMaterijali: { field: string; header: any, width: string }[];
     colsNastavniMaterijaliSmall: { field: string; header: any }[];
     selectedNastavniMaterijalIndex: any;
     selectedNastavniMaterijali: any;
@@ -30,6 +30,9 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
     studijNaziv: string = this.route.snapshot.paramMap.get("StudijNaziv");
     actionItemsNastavniMaterijali: MenuItem[];
     prikaziDatoteku: boolean = false;
+    selectedNastavniMterijaliNaziv: string;
+    pdfRuta: string;
+
 
     constructor(
         private route: ActivatedRoute,
@@ -95,40 +98,46 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
                         {
                             field: "NazivDokumenta",
                             header: this.translations
-                                .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA
+                                .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA,
+                            width: '23%'
                         },
                         {
                             field: "AkademskaGodina",
                             header: this.translations
-                                .NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA
+                                .NASTAVA_GRUPAPREDMETA_AKADEMSKAGODINA,
+                            width: '10%'
                         },
                         {
                             field: "OznakaDokumenta",
                             header: this.translations
-                                .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA
+                                .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA,
+                            width: '21%'
                         },
                         {
                             field: "Opis",
                             header: this.translations
-                                .PREDMET_PREDMETMATERIJALI_OPIS
+                                .PREDMET_PREDMETMATERIJALI_OPIS,
+                            width: '24%'
                         },
                         {
                             field: "imgSrc",
                             header: this.translations
-                                .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA
+                                .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA,
+                            width: '12%'
                         },
                         {
                             field: "size",
-                            header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA
+                            header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA,
+                            width: '10%'
                         }
                     ];
-                    
+
                     this.colsNastavniMaterijaliSmall = [
                         {
                             field: "NazivDokumenta",
-                            header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA
-                        }
-                    ];
+                            header: this.translations
+                                .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA
+                        }];
                 },
                 err => {
                     console.error(err);
@@ -217,11 +226,48 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
             });
     }
 
+    showErrorNepodrzaniTip() {
+        this.translate
+            .get([
+                "PROFESORPREDMET_ERRORMESSAGE",
+                "STUDENT_NASTAVNIMATERIJALI_NEPODRZANITIP"
+            ])
+            .subscribe(res => {
+                this.messageService.add({
+                    severity: "error",
+                    summary: res.PROFESORPREDMET_ERRORMESSAGE,
+                    detail: res.STUDENT_NASTAVNIMATERIJALI_NEPODRZANITIP
+                });
+            })
+    }
+
     openPreview() {
-        this.prikaziDatoteku = true;
+        if (!['pdf','jpg','jpeg'].includes(this.selectedNastavniMaterijali.izvorniOriginalName.split('.')[1])) {
+            this.showErrorNepodrzaniTip();
+            return;
+        }
+        else {
+            this.selectedNastavniMterijaliNaziv = this.selectedNastavniMaterijali.NazivDokumenta.split('.')[0];
+            this.prikaziDatoteku = true;
+        }
+
     }
 
     onClosePreview() {
+        this.selectedNastavniMterijaliNaziv = null;
         this.prikaziDatoteku = false;
     }
+
+    onClickDownloadFile() {
+        this.selectedNastavniMaterijali
+        ? this.downloadNastavniMaterijali()
+        : this.showErrorZapisNijeOdabran()
+    }
+    
+    onClickPreviewFile() {
+        this.selectedNastavniMaterijali
+        ? this.openPreview()
+        : this.showErrorZapisNijeOdabran()
+    }
+
 }

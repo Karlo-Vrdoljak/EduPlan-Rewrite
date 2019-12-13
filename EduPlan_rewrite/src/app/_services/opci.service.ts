@@ -432,4 +432,5 @@ export class OpciService {
             catchError(this.appService.handleError('OpciService.uploadDataDokumenti'))    
           );    
       }
+
 }

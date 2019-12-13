@@ -23,7 +23,7 @@ export class FilePreviewComponent implements OnInit {
   @Input() data;
   datoteka;
 
-  zoom = 1;
+
   zoomSlider = 100;
 
   konfig: Config;
