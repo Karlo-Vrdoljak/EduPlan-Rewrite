@@ -22,6 +22,7 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
     };
     predmetNastavniMaterijali: any;
     colsNastavniMaterijali: { field: string; header: any }[];
+    colsNastavniMaterijaliSmall: { field: string; header: any }[];
     selectedNastavniMaterijalIndex: any;
     selectedNastavniMaterijali: any;
     predmetOsnovniPodaci: any;
@@ -83,11 +84,13 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
                 "PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA",
                 "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA",
                 "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_OZNAKADOKUMENTA",
-                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA"
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA",
+                "PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA"
             ])
             .subscribe(
                 res => {
                     this.translations = res;
+                    
                     this.colsNastavniMaterijali = [
                         {
                             field: "NazivDokumenta",
@@ -113,6 +116,17 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
                             field: "imgSrc",
                             header: this.translations
                                 .PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_TIPDOKUMENTA
+                        },
+                        {
+                            field: "size",
+                            header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA
+                        }
+                    ];
+                    
+                    this.colsNastavniMaterijaliSmall = [
+                        {
+                            field: "NazivDokumenta",
+                            header: res.PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_NAZIVDOKUMENTA
                         }
                     ];
                 },
@@ -146,7 +160,9 @@ export class StudentNastavniMaterijaliComponent implements OnInit {
                                         this.predmetNastavniMaterijali[i].izvorniOriginalName? this.predmetNastavniMaterijali[i].izvorniOriginalName: null
                                     );
                                     this.predmetNastavniMaterijali[i].NazivDokumenta = this.predmetNastavniMaterijali[i].NazivDokumenta.split('.')[0];
-                                }
+                                    this.predmetNastavniMaterijali[i].size = (this.predmetNastavniMaterijali[i].size / 1000000).toFixed(2);
+
+                                }   
                             }
                         );
                 }

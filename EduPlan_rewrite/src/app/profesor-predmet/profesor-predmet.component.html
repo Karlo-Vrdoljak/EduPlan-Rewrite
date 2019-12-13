@@ -1001,7 +1001,7 @@
                 [collapsed]="true" expandIcon="fa fa-thumbs-o-up" collapseIcon="fa fa-thumbs-o-down" toggler="header">
                 <ng-container>
                     <p-table #searchNastavniMaterijaliSmall [value]="predmetNastavniMaterijali"
-                        [columns]="colsNastavniMaterijaliSmall" selectionMode="single" [scrollable]="true"
+                        [columns]="colsNastavniMaterijaliSmall" selectionMode="single" 
                         dataKey="PkMaterijaliUNastavi" [(selection)]="selectedNastavniMaterijali" rowExpandMode="single"
                         (onRowSelect)="onRowSelectNastavniMaterijali($event)"
                         (onRowUnselect)="onRowUnselectNastavniMaterijali()">

@@ -76,7 +76,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         let params = null;
         let auth = null;
 
-        this.configureAuthToken();
+        // this.configureAuthToken();
 
         this.setupLoggedInUser();
 
@@ -140,10 +140,12 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     setupLoggedInUser() {
 
+        if (!this.appVariables.loginBackDoor){
+            this.appVariables.authData = this.storage.get("auth");
+            this.appVariables.tokenType = this.appVariables.authData.tokenType;
+            this.appVariables.PkUsera = this.appVariables.authData.PkUsera;
+        }
         
-        this.appVariables.authData = this.storage.get("auth");
-        this.appVariables.tokenType = this.appVariables.authData.tokenType;
-        this.appVariables.PkUsera = this.appVariables.authData.PkUsera;
         const params = {
             pkUsera: this.appVariables.PkUsera
         };
@@ -151,17 +153,19 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.opciService.getKorisnikPodaci(params).subscribe((data) => {
             data[0].PkStudent ? this.appVariables.PkStudent = data[0].PkStudent : this.appVariables.PkStudent = null;
             data[0].PkNastavnikSuradnik ? this.appVariables.PkNastavnikSuradnik =data[0].PkNastavnikSuradnik : this.appVariables.PkNastavnikSuradnik = null; //Provjera da li je rijeć o profesoru ili studentu i postavljanje na null onoga ko nije u pitanju
-            if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null) {
-                // this.router.navigate(["/login"]);
-                window.location.replace(this.appVariables.redirectLoginUrl);
+            if(!this.appVariables.loginBackDoor) {
+                if (this.appVariables.PkStudent == null && this.appVariables.PkNastavnikSuradnik == null) {
+                    // this.router.navigate(["/login"]);
+                    window.location.replace(this.appVariables.redirectLoginUrl);
+                }
+                if ( this.appVariables.PkNastavnikSuradnik && this.appVariables.tokenType == 'stoken') {
+                    window.location.replace(this.appVariables.redirectLoginUrl);
+                }
+                if( this.appVariables.PkStudent && this.appVariables.tokenType == 'ptoken') {
+                    window.location.replace(this.appVariables.redirectLoginUrl);
+                }
             }
-            if ( this.appVariables.PkNastavnikSuradnik && this.appVariables.tokenType == 'stoken') {
-                window.location.replace(this.appVariables.redirectLoginUrl);
-            }
-            if( this.appVariables.PkStudent && this.appVariables.tokenType == 'ptoken') {
-                window.location.replace(this.appVariables.redirectLoginUrl);
-            }
-            }, err => { window.location.replace(this.appVariables.redirectLoginUrl);
+            }, err => { if ( !this.appVariables.loginBackDoor ) { window.location.replace(this.appVariables.redirectLoginUrl); }
             }, () => {
                 this.router.navigate([
                     this.appVariables.PkStudent? "/vStudentObavijesti" : "/vProfesorObavijesti"

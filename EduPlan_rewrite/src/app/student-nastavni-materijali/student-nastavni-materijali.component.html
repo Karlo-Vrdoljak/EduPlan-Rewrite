@@ -39,12 +39,6 @@
                 [(selection)]="selectedNastavniMaterijali" (onRowSelect)="onRowSelectNastavniMaterijali($event)"
                 (onRowUnselect)="onRowUnselectNastavniMaterijali()">
 
-                <!-- <ng-template pTemplate="colgroup" let-columns>
-                        <colgroup>
-                            <col *ngFor="let col of columns" [style.width]="col.width">
-                        </colgroup>
-                    </ng-template> -->
-
                 <ng-template pTemplate="header" let-columns style="font-size: small;">
                     <tr>
                         <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="text-align: center;"
@@ -74,23 +68,41 @@
     </ng-container>
 </div>
 
-<div class="smallDevice"  *ngIf="predmetNastavniMaterijali; else loader">
-        <ng-container>
-                <p-table #predmetMaterijaliSearch  [value]="predmetNastavniMaterijali" [columns]="colsNastavniMaterijaliSmall"
-                selectionMode="single" [scrollable]="true"  [(selection)]="selectedNastavniMaterijali" 
-                (onRowSelect)="onRowSelectNastavniMaterijali($event)" (onRowUnselect)="onRowUnselectNastavniMaterijali()">
+<div class="smallDevice" *ngIf="predmetNastavniMaterijali; else loader">
+    <p-toast position="bottom-center"></p-toast>
+
+    <header>
+        <h3>{{predmetNaziv}} &bull; {{studijNaziv}}
+            <!-- <div class="actionsContainer" style="float: right; font-size: 0.8em;">
+                <button #btn type="button" pButton icon="pi pi-bars" (click)="menu.toggle($event)"
+                    style="width: 2em; height: 1.75em;"></button>
+                <p-slideMenu #menu [model]="actionItemsSmall" [popup]="true"></p-slideMenu>
+            </div> -->
+        </h3>
+        <hr style="color: aliceblue;">
+    </header>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <ng-container>
+                <p-table #searchNastavniMaterijaliSmall [value]="predmetNastavniMaterijali"
+                    [columns]="colsNastavniMaterijaliSmall" selectionMode="single" dataKey="PkMaterijaliUNastavi"
+                    [(selection)]="selectedNastavniMaterijali" rowExpandMode="single"
+                    (onRowSelect)="onRowSelectNastavniMaterijali($event)"
+                    (onRowUnselect)="onRowUnselectNastavniMaterijali()">
+
                     <ng-template pTemplate="caption">
                         <i class="fa fa-search"></i>
                         <input type="text" pInputText size="60"
                             placeholder="{{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_UNESITENAZIV' | translate}}"
-                            (input)="predmetMaterijaliSearch.filterGlobal($event.target.value, 'contains')"
+                            (input)="searchNastavniMaterijaliSmall.filterGlobal($event.target.value, 'contains')"
                             style="width: 70%;">
                     </ng-template>
 
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn
-                                style="text-align: center;">
+                            <th *ngFor="let col of columns"  colspan="2" [pSortableColumn]="col.field" pResizableColumn 
+                            style="text-align: center; font-size: 0.8em;"  >
                                 {{col.header}}
                                 <p-sortIcon [field]="col.field"></p-sortIcon>
                             </th>
@@ -100,10 +112,10 @@
                     <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns"
                         let-rowIndex="rowIndex">
                         <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-                            <td width="15%">
+                            <td>
                                 <a href="#" [pRowToggler]="rowData">
                                     <i [ngClass]="expanded ? 'pi pi-chevron-circle-down' : 'pi pi-chevron-circle-right'"
-                                        style="font-size: 1.7em; margin-left: -0.3em;"></i>
+                                        style="font-size: 1.5em;"></i>
                                 </a>
                             </td>
                             <td *ngFor="let col of columns" class="ui-resizable-column" style="text-align: center;">
@@ -149,16 +161,6 @@
 
                                                 <div class="ui-g-12">
                                                     <b>
-                                                        {{'PREDMET_PREDMETMATERIJALI_VIDLJIVO_STUDENTIMA' | translate}}:
-                                                    </b>
-                                                    <span
-                                                        [style.color]="rowData.VidljivStudentimaDaNe == true ? 'green' : 'red' "><i
-                                                            [ngClass]="rowData.VidljivStudentimaDaNe == true ? 'fa fa-fw fa-check' : 'fa fa-fw  fa-times'"></i>
-                                                    </span>
-                                                </div>
-
-                                                <div class="ui-g-12">
-                                                    <b>
                                                         {{'PROFESOR_SVIPREDMETI_PREDMET_NASTAVNIMATERIJALI_VELICINA' | translate}}:
                                                     </b>
                                                     {{rowData.size}}
@@ -182,6 +184,9 @@
                     </ng-template>
                 </p-table>
             </ng-container>
+
+        </div>
+    </div>
 </div>
 
 <ng-template #loader>

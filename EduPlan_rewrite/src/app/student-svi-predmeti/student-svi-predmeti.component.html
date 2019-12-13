@@ -194,9 +194,10 @@
                         (input)="dt.filterGlobal($event.target.value, 'contains')" style="width: 80%">
                 </div>
             </ng-template>
+            
             <ng-template pTemplate="header" let-columns>
                 <tr>
-                    <!--<th width="15%"  pResizableColumn></th>-->
+                    <!-- <th width="10%"  pResizableColumn></th> -->
                     <th *ngFor="let col of columns" colspan="2" [pSortableColumn]="col.field" pResizableColumn
                         style="text-align: center; font-size: 0.8em;">
                         {{col.header}}
@@ -204,6 +205,7 @@
                     </th>
                 </tr>
             </ng-template>
+            
             <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
                 <tr>
                     <td width="15%" class="ui-resizable-column">
@@ -232,6 +234,7 @@
                     </td>
                 </tr>
             </ng-template>
+            
             <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
                 <tr>
                     <td [attr.colspan]="columns.length + 1" class="ui-resizable-column">
