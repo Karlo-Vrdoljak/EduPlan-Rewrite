@@ -75,8 +75,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.emailSend = this.appVariables.emailSend;
         let params = null;
         let auth = null;
-
-        // this.configureAuthToken();
+        if (!this.appVariables.loginBackDoor) {
+            this.configureAuthToken();
+        	}
 
         this.setupLoggedInUser();
 

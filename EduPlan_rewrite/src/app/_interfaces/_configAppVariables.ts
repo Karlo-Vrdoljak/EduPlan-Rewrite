@@ -31,6 +31,6 @@ export class AppVariables {
            authData:any;
            redirectLoginUrl = "http://localhost:8080/App/";
            tokenType:string;
-           loginBackDoor = true;
+           loginBackDoor = false;
        }
        
