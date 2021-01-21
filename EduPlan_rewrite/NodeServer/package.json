@@ -38,7 +38,7 @@
         "python": "0.0.4",
         "read-chunk": "*",
         "request": "^2.88.0",
-        "socket.io": "^2.2.0",
+        "socket.io": "^2.4.0",
         "tedious": "*",
         "tedious-connection-pool": "*",
         "underscore": "*",
